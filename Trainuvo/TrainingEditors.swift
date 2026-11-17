@@ -255,50 +255,72 @@ struct TrainingEditor: View {
         NavigationStack {
             Form {
                 Section {
-                    Text(exercise.name).font(.headline)
-                    DatePicker("Datum", selection: $date, in: ...Date(), displayedComponents: .date)
+                    DatePicker(selection: $date, in: ...Date(), displayedComponents: .date) {
+                        Text(exercise.name)
+                            .font(.headline)
+                            .lineLimit(1)
+                    }
+                    .accessibilityLabel("Trainingsdatum für \(exercise.name)")
                 }
-                ForEach($groups) { $group in
-                    Section {
-                        HStack {
-                            TextField("Sätze × Wiederholungen", text: $group.prescription)
+                Section {
+                    ForEach($groups) { $group in
+                        HStack(spacing: 4) {
+                            Button {
+                                workingID = group.id
+                            } label: {
+                                Image(systemName: workingID == group.id ? "target" : "circle")
+                                    .foregroundStyle(workingID == group.id ? Color.teal : Color.secondary)
+                                    .frame(width: 44, height: 44)
+                            }
+                            .accessibilityLabel("Als Arbeitsgewicht wählen")
+                            .accessibilityValue(workingID == group.id ? "Ausgewählt" : "Nicht ausgewählt")
+
+                            TextField("Sätze", text: $group.prescription)
                                 .focused($inputFocused)
+                                .accessibilityLabel("Sätze und Wiederholungen")
+                                .frame(minWidth: 60)
+
                             Menu {
                                 ForEach(TrainingFormat.prescriptions, id: \.self) { preset in
                                     Button(preset) { group.prescription = preset }
                                 }
+                                if groups.count > 1 {
+                                    Divider()
+                                    Button("Satzgruppe entfernen", systemImage: "trash", role: .destructive) {
+                                        removeGroup(group.id)
+                                    }
+                                }
                             } label: {
-                                Label("Vorauswahl", systemImage: "list.bullet")
-                                    .labelStyle(.iconOnly)
+                                Image(systemName: "chevron.down.circle")
+                                    .frame(width: 44, height: 44)
                             }
-                        }
-                        HStack {
+                            .accessibilityLabel("Satzauswahl und Aktionen")
+
                             TextField("Gewicht", text: $group.weight)
                                 .keyboardType(.decimalPad)
                                 .focused($inputFocused)
-                            Text("kg").foregroundStyle(.secondary)
+                                .multilineTextAlignment(.trailing)
+                                .monospacedDigit()
+                                .frame(minWidth: 60, idealWidth: 80, maxWidth: 100)
+                                .accessibilityLabel("Gewicht in Kilogramm")
+                            Text("kg")
+                                .foregroundStyle(.secondary)
                         }
-                        Button {
-                            workingID = group.id
-                        } label: {
-                            Label(
-                                workingID == group.id ? "Arbeitsgewicht" : "Als Arbeitsgewicht wählen",
-                                systemImage: workingID == group.id ? "checkmark.circle.fill" : "circle"
-                            )
+                        .buttonStyle(.borderless)
+                        .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 12))
+                        .swipeActions {
+                            if groups.count > 1 {
+                                Button("Entfernen", role: .destructive) { removeGroup(group.id) }
+                            }
                         }
-                        if groups.count > 1 {
-                            Button("Satzgruppe entfernen", role: .destructive) { removeGroup(group.id) }
-                        }
-                    } header: {
-                        Text("Satzgruppe \((groups.firstIndex(where: { $0.id == group.id }) ?? 0) + 1)")
                     }
-                }
-                Section {
                     Button("Satzgruppe hinzufügen", systemImage: "plus.circle") {
                         groups.append(SetGroupDraft(prescription: "1 × 5"))
                     }
+                } header: {
+                    Text("Sätze und Gewichte")
                 } footer: {
-                    Text("Eine Satzgruppe als Arbeitsgewicht markieren. Diese bestimmt den Zielfortschritt. Sätze frei eingeben, zum Beispiel 1 × 5 oder 5/5/4. Gewichte ab 0 kg sind möglich.")
+                    Text("Zielscheibe = Arbeitsgewicht. Satzauswahl und Entfernen über den Pfeil.")
                 }
             }
             .navigationTitle(entry == nil ? "Training erfassen" : "Training bearbeiten")

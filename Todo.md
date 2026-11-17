@@ -10,6 +10,13 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t10 – Vier Satzgruppen kompakt erfassen (0.3.1)
+
+- Vier Satzgruppen bei Standardtextgröße im iPhone-15-Hochformat gemeinsam anzeigen.
+- Je Gruppe eine Zeile mit Arbeitsgewicht-Markierung, Satztext, Vorauswahl und kg-Eingabe. Übungsname und Datum in einer Zeile.
+- Entfernen über das Satzmenü oder Wischgeste.
+- Xcode-Build und Sichtprüfung mit vier Gruppen, geöffneter/geschlossener Tastatur, langen Satztexten und großer Textgröße ausstehend.
+
 ### t08 – Übungen auf der Startseite sortieren (0.3.0)
 
 - Über „Sortieren“ neben „Deine Ziele“ die Reihenfolge per Griff ändern und speichern.
