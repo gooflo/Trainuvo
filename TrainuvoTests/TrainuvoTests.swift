@@ -42,6 +42,7 @@ struct TrainuvoTests {
         let exercise = Exercise(name: "Bankdrücken", targetWeight: 100)
         context.insert(exercise)
         let training = TrainingEntry(date: Date(), exercise: exercise)
+        training.effort = .easy
         context.insert(training)
         let group = SetGroup(position: 0, prescription: "3 × 5", weight: 60, isWorking: true)
         context.insert(group)
@@ -58,6 +59,8 @@ struct TrainuvoTests {
         #expect(saved.entries.count == 1)
         #expect(saved.latestEntry?.groups.count == 1)
         #expect(saved.progress == 0.6)
+        #expect(saved.latestEntry?.effort == .easy)
+        #expect(saved.latestEntry?.effortRawValue == "easy")
         #expect(saved.sortedSetTemplates.map(\.prescription) == ["1 × 3"])
         #expect(saved.latestEntry?.sortedGroups.first?.prescription == "3 × 5")
 
@@ -115,5 +118,47 @@ struct TrainuvoTests {
         try context.save()
         let renamedReader = ModelContext(container)
         #expect(try renamedReader.fetch(descriptor).map(\.id) == [deadlift.id, bench.id])
+    }
+
+    @Test func effortUsesAllFourSymbolsAndCanBeCleared() {
+        #expect(TrainingEffort.allCases.map(\.symbol) == ["--", "-", "o", "+"])
+        let exercise = Exercise(name: "Kreuzheben", targetWeight: 130)
+        let training = TrainingEntry(date: Date(), exercise: exercise)
+        #expect(training.effort == nil)
+        #expect(training.effortRawValue == nil)
+        for effort in TrainingEffort.allCases {
+            training.effort = effort
+            #expect(training.effort == effort)
+            #expect(training.effortRawValue == effort.rawValue)
+        }
+        training.effort = nil
+        #expect(training.effortRawValue == nil)
+        training.effortRawValue = "future-value"
+        #expect(training.effort == nil)
+    }
+
+    @Test func clearingEffortIsPersisted() throws {
+        let schema = Schema([Item.self, Exercise.self, TrainingEntry.self, SetGroup.self, ExerciseSetTemplate.self])
+        let container = try ModelContainer(
+            for: schema,
+            configurations: [ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)]
+        )
+        let context = ModelContext(container)
+        let exercise = Exercise(name: "Bankdrücken", targetWeight: 100)
+        context.insert(exercise)
+        let training = TrainingEntry(date: Date(), exercise: exercise)
+        training.effort = .veryHard
+        context.insert(training)
+        try context.save()
+
+        let reader = ModelContext(container)
+        let saved = try #require(reader.fetch(FetchDescriptor<TrainingEntry>()).first)
+        #expect(saved.effort?.symbol == "--")
+        saved.effort = nil
+        try reader.save()
+        let refreshedReader = ModelContext(container)
+        let cleared = try #require(refreshedReader.fetch(FetchDescriptor<TrainingEntry>()).first)
+        #expect(cleared.effort == nil)
+        #expect(cleared.effortRawValue == nil)
     }
 }

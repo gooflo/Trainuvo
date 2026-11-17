@@ -58,6 +58,7 @@ final class TrainingEntry {
     var id: UUID = UUID()
     var date: Date = Date()
     var createdAt: Date = Date()
+    var effortRawValue: String?
     var exercise: Exercise?
     @Relationship(deleteRule: .cascade, inverse: \SetGroup.entry)
     var groups: [SetGroup] = []
@@ -69,6 +70,11 @@ final class TrainingEntry {
 
     var sortedGroups: [SetGroup] { groups.sorted { $0.position < $1.position } }
     var workingWeight: Double? { sortedGroups.first(where: \.isWorking)?.weight }
+
+    var effort: TrainingEffort? {
+        get { effortRawValue.flatMap(TrainingEffort.init(rawValue:)) }
+        set { effortRawValue = newValue?.rawValue }
+    }
 }
 
 @Model
@@ -104,4 +110,33 @@ enum TrainingFormat {
               value >= 0, value <= 100_000 else { return nil }
         return value
     }
+}
+
+enum TrainingEffort: String, CaseIterable, Identifiable {
+    case veryHard
+    case hard
+    case okay
+    case easy
+
+    var id: String { rawValue }
+
+    var symbol: String {
+        switch self {
+        case .veryHard: "--"
+        case .hard: "-"
+        case .okay: "o"
+        case .easy: "+"
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .veryHard: "Sehr schwer"
+        case .hard: "Schwer"
+        case .okay: "OK"
+        case .easy: "Leicht – Steigerung möglich"
+        }
+    }
+
+    var selectionTitle: String { "\(symbol) \(title)" }
 }

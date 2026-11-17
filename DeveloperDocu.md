@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.3.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.4.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -25,7 +25,7 @@ Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInte
 
 - Exercise speichert UUID, Name, optionales Zielgewicht und sortOrder (Int, Standardwert 0). Namen werden beim Speichern getrimmt und ohne Beachtung von Groß-/Kleinschreibung und Akzenten auf Duplikate geprüft.
 - ExerciseSetTemplate speichert UUID, Reihenfolge, Satztext und Arbeitsgewicht-Markierung. Exercise hält diese Vorlagen als separate Cascade-Beziehung mit inverser Übungsbeziehung. Die Vorlage enthält keine Gewichte.
-- TrainingEntry speichert UUID, Trainingsdatum, Anlegedatum und Übungsbeziehung. Das Datum kann bis heute gewählt werden. Es wird einschließlich Uhrzeit gespeichert.
+- TrainingEntry speichert UUID, Trainingsdatum, Anlegedatum, Übungsbeziehung und das optionale String-Feld effortRawValue. TrainingEffort bietet die stabilen Werte veryHard, hard, okay und easy mit den Symbolen --, -, o und +. Der berechnete Zugriff effort bildet den String auf das Enum ab. Fehlende oder unbekannte Werte werden als unbewertet dargestellt. Das Datum kann bis heute gewählt werden. Es wird einschließlich Uhrzeit gespeichert.
 - SetGroup speichert UUID, Reihenfolge, freien Satztext, Gewicht in kg und die Markierung als Arbeitsgewicht.
 - Exercise → TrainingEntry und TrainingEntry → SetGroup sind Beziehungen mit Cascade-Löschung und inversen Elternbeziehungen.
 - Genau eine Satzgruppe muss als Arbeitsgewicht markiert sein. Das Entfernen der markierten Gruppe markiert die erste verbleibende Gruppe.
@@ -67,6 +67,14 @@ TrainingEditor zeigt Übungsname und DatePicker in einer gemeinsamen Form-Zeile.
 
 Vier Gruppen sollen bei Standardtextgröße auf dem iPhone 15 im Hochformat gemeinsam sichtbar sein. Sichtprüfung mit offener und geschlossener Tastatur, längeren Freitexten, vorausgefüllten Standardsätzen und großer Textgröße ist ausstehend. Bei großer Textgröße bleibt die Form scrollbar. Speichern, Vorlagenübernahme und Datenmodell verwenden die vorhandene Logik.
 
+## Bewertung des Arbeitsgewichts
+
+TrainingEditor hält eine optionale TrainingEffort-Auswahl als lokalen Entwurf. Neue Trainings beginnen mit nil, auch bei Übernahme von Standardsätzen oder des letzten Trainings. Beim Bearbeiten wird die gespeicherte Auswahl geladen. Das Menü bietet Nicht bewertet zum Entfernen sowie alle vier ausgeschriebenen Bewertungen. Speichern schreibt die Auswahl zusammen mit den übrigen Trainingsdaten.
+
+TrainingSummary zeigt das Symbol ausschließlich bei der markierten Arbeitsgruppe. Alle Zeilen reservieren eine 26 pt breite Bewertungsspalte, die mit der Bedienungshilfen-Textgröße skaliert. Nicht angezeigte Bewertungen sind für VoiceOver ausgeblendet. VoiceOver spricht die ausgeschriebene Bewertung. Dies gilt für Verlauf und Startseiten-Zusammenfassung.
+
+0.4.0 ergänzt effortRawValue als optionales Feld ohne Pflichtwert. Vorhandene Einträge beginnen ohne Bewertung. Das Store-Update muss auf dem Mac über einer Installation mit gespeicherten Trainings geprüft werden.
+
 ## Tests auf dem Mac
 
 Automatisierte Tests mit **⌘ U** ausführen. TrainuvoTests prüft deutsche und englische Gewichtseingaben, das Arbeitsgewicht des letzten Trainings und SwiftData-Beziehungen einschließlich Cascade-Löschung in einem In-Memory-Store.
@@ -102,6 +110,14 @@ In der Entwicklungsumgebung des Assistenten sind Xcode und Swift nicht installie
 4. Im Verlauf mehrere Gruppen mit 50, 70, 100 und 102,5 kg anzeigen. Nur das Arbeitsgewicht erhält links das Zielscheiben-Symbol, alle Gewichte müssen rechtsbündig stehen. Auch die Zusammenfassung auf der Startseite prüfen.
 5. Auf iPhone 15 und iPad sowie mit großer Textgröße prüfen. Xcode-Build, automatisierte Swift-Tests und Gerätetest sind ausstehend.
 
+## Abnahme der Bewertung in 0.4.0
+
+1. Über die vorhandene Installation aktualisieren. Trainings, Gewichte und Zielfortschritt müssen erhalten bleiben. Ältere Einträge dürfen kein Bewertungssymbol erhalten.
+2. Ein Training mit vier Gruppen erfassen. Alle vier Bewertungen nacheinander auswählen und die Symbolzuordnung prüfen. Mit + speichern und im Verlauf sowie beim letzten Trainingstag kontrollieren. Nur die Arbeitsgruppe erhält +.
+3. Ein weiteres Training für dieselbe Übung öffnen. Die Bewertung muss Nicht bewertet sein. Abbrechen, anschließend den bewerteten Eintrag bearbeiten. + muss erhalten bleiben.
+4. Auf -- ändern, speichern, App neu starten und prüfen. Danach über Nicht bewertet entfernen und prüfen. Abbrechen einer Bewertungsänderung darf den gespeicherten Wert nicht ändern.
+5. Mit unterschiedlichen Gewichten sowie offener und geschlossener Tastatur auf iPhone 15 prüfen, ob die vier Gruppen weiterhin kompakt dargestellt werden. Große Textgröße und VoiceOver prüfen.
+
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.3.1` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.4.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.

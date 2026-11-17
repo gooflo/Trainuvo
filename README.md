@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining und zeigt den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.3.1 – Vorabversion**
+**Interner Entwicklungsstand: 0.4.0 – Vorabversion**
 
 ## Funktionen
 
@@ -10,7 +10,7 @@ Trainuvo dokumentiert Krafttraining und zeigt den Fortschritt gegenüber persön
 - Zielkarten auf der Startseite in einer selbst festgelegten Reihenfolge anzeigen.
 - Trainings pro Übung erfassen, nachtragen, bearbeiten und löschen.
 - Mehrere Satzgruppen mit unterschiedlichen Gewichten erfassen. Die Vorauswahl bietet 1 × 3, 1 × 5, 3 × 5, 3 × 3 und 5 × 3. Freitext ist möglich.
-- Eine Satzgruppe pro Training als Arbeitsgewicht markieren.
+- Eine Satzgruppe pro Training als Arbeitsgewicht markieren und die Anstrengung optional bewerten.
 - Kompakte Zielkarten mit Zielgewicht, erreichtem Arbeitsgewicht und letztem Trainingsdatum in einer Zeile. Vier Übungsziele sollen bei Standardtextgröße auf einen iPhone-15-Bildschirm im Hochformat passen.
 - Startseite mit Zielfortschritt pro Übung und allen Einträgen des letzten Trainingstags.
 - Trainingsverlauf pro Übung. Neue Trainings übernehmen die Standardsätze mit leeren Gewichtsfeldern. Ohne Standardsätze dient das letzte Training als Vorschlag.
@@ -27,6 +27,15 @@ Die App ist für iPhone und iPad ausgelegt. Das vorhandene Xcode-Projekt setzt i
 Beim Anlegen oder Bearbeiten einer Übung unter **Standardsätze in Trainingsreihenfolge** die gewünschten Gruppen hinterlegen, etwa **1 × 5, 1 × 5, 3 × 5, 1 × 5**. Mit den Pfeilen die Reihenfolge ändern und eine Gruppe als Arbeitsgewicht markieren. Beim neuen Training sind diese Gruppen bereits angelegt, und du ergänzt die kg. Die Gruppen können für das einzelne Training angepasst werden. Änderungen an den Standardsätzen beeinflussen künftige Erfassungen. Bestehende Trainings behalten ihre Satzgruppen und Gewichte.
 
 Die Trainingserfassung zeigt jede Satzgruppe in einer kompakten Zeile mit Arbeitsgewicht-Markierung, Satztext, Satzauswahl und Gewicht in kg. Vier Gruppen sollen auf dem iPhone 15 im Hochformat bei Standardtextgröße gemeinsam sichtbar sein. Datum und Übungsname teilen sich eine Zeile. Über den Pfeil stehen Vorauswahlen und Entfernen bereit. Eine Gruppe kann auch durch Wischen nach links entfernt werden. Tippe auf Kreis bzw. Zielscheibe, um die Arbeitsgruppe zu wählen.
+
+Unter den Satzgruppen lässt sich das Arbeitsgewicht optional bewerten. Die Auswahl zeigt Symbol und Bedeutung, im Verlauf und auf der Startseite steht das Symbol links vor dem Arbeitsgewicht. Ein neues Training beginnt mit **Nicht bewertet**. Die Bewertung kann im Verlauf nachgetragen, geändert oder entfernt werden.
+
+| Bewertung | Symbol |
+|---|---|
+| Sehr schwer | `--` |
+| Schwer | `-` |
+| OK | `o` |
+| Leicht, Steigerung möglich | `+` |
 
 Für ein Training beispielsweise drei Satzgruppen erfassen:
 

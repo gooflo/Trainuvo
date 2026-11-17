@@ -10,6 +10,14 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t11 – Anstrengung des Arbeitsgewichts bewerten (0.4.0)
+
+- Pro Training optional -- (sehr schwer), - (schwer), o (OK) oder + (leicht, Steigerung möglich) auswählen.
+- Unter den Satzgruppen Symbol und Bedeutung im Menü anbieten. Jedes neue Training beginnt ohne Bewertung.
+- Im Verlauf und in der Startseiten-Zusammenfassung nur beim Arbeitsgewicht das Symbol links vor dem Gewicht anzeigen. Symbolplatz reservieren, sodass Gewichte ausgerichtet bleiben.
+- Bewertung nachtragen, ändern und entfernen können.
+- Xcode-Build, Swift-Tests, Update mit bestehenden Daten und Sichtprüfung mit vier Satzgruppen auf dem iPhone 15 ausstehend.
+
 ### t10 – Vier Satzgruppen kompakt erfassen (0.3.1)
 
 - Vier Satzgruppen bei Standardtextgröße im iPhone-15-Hochformat gemeinsam anzeigen.

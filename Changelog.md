@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0 – Anstrengung beim Arbeitsgewicht
+
+- Optionale Bewertung pro Training ergänzt: -- Sehr schwer, - Schwer, o OK und + Leicht – Steigerung möglich.
+- Kompakte Menüauswahl unter den Satzgruppen. Neue Trainings beginnen ohne Bewertung, bestehende Bewertungen lassen sich bearbeiten und entfernen.
+- Bewertungssymbol links vor dem Arbeitsgewicht im Verlauf und in der Startseiten-Zusammenfassung. Feste, mit der Textgröße skalierende Symbolspalte erhält die Ausrichtung der Gewichte.
+- Trainingsmodell additiv um ein optionales Bewertungsfeld erweitert. Bestehende Einträge bleiben zunächst unbewertet.
+- Hilfe, Dokumentation und Tests aktualisiert. Xcode-Build, Swift-Tests, Update-Test und Sichtprüfung auf dem Mac ausstehend.
+
 ## 0.3.1 – Kompakte Trainingserfassung
 
 - Jede Satzgruppe zeigt Arbeitsgewicht-Markierung, Satztext, Vorauswahl und kg-Eingabe in einer Zeile.

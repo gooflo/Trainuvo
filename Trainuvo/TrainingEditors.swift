@@ -213,12 +213,14 @@ struct TrainingEditor: View {
     @State private var date: Date
     @State private var groups: [SetGroupDraft]
     @State private var workingID: UUID
+    @State private var effort: TrainingEffort?
     @State private var errorMessage: String?
     @FocusState private var inputFocused: Bool
 
     init(exercise: Exercise, entry: TrainingEntry? = nil) {
         self.exercise = exercise
         self.entry = entry
+        _effort = State(initialValue: entry?.effort)
         _date = State(initialValue: entry?.date ?? Date())
         let initial: [SetGroupDraft]
         let selectedWorkingID: UUID?
@@ -314,6 +316,13 @@ struct TrainingEditor: View {
                             }
                         }
                     }
+                    Picker("Arbeitsgewicht war …", selection: $effort) {
+                        Text("Nicht bewertet").tag(Optional<TrainingEffort>.none)
+                        ForEach(TrainingEffort.allCases) { value in
+                            Text(value.selectionTitle).tag(Optional(value))
+                        }
+                    }
+                    .pickerStyle(.menu)
                     Button("Satzgruppe hinzufügen", systemImage: "plus.circle") {
                         groups.append(SetGroupDraft(prescription: "1 × 5"))
                     }
@@ -372,6 +381,7 @@ struct TrainingEditor: View {
             modelContext.insert(group)
             training.groups.append(group)
         }
+        training.effort = effort
         do {
             try modelContext.save()
             dismiss()

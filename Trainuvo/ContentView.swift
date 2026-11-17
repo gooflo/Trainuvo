@@ -149,6 +149,7 @@ private struct GoalCard: View {
 
 struct TrainingSummary: View {
     let entry: TrainingEntry
+    @ScaledMetric(relativeTo: .subheadline) private var effortColumnWidth: CGFloat = 26
 
     var body: some View {
         ForEach(entry.sortedGroups) { group in
@@ -161,6 +162,11 @@ struct TrainingSummary: View {
                     .opacity(group.isWorking ? 1 : 0)
                     .accessibilityLabel("Arbeitsgewicht")
                     .accessibilityHidden(!group.isWorking)
+                Text(group.isWorking ? entry.effort?.symbol ?? "" : "")
+                    .font(.system(.subheadline, design: .monospaced).weight(.semibold))
+                    .frame(width: effortColumnWidth)
+                    .accessibilityLabel(entry.effort?.title ?? "")
+                    .accessibilityHidden(!group.isWorking || entry.effort == nil)
                 Text(TrainingFormat.weight(group.weight))
                     .fontWeight(.medium)
                     .monospacedDigit()
@@ -281,7 +287,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.3.1"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.4.0"
     }
 
     var body: some View {
@@ -301,6 +307,10 @@ private struct HelpView: View {
                     Text("Die Erfassung zeigt jede Satzgruppe in einer Zeile: Arbeitsgewicht-Markierung, Sätze, Satzauswahl und kg. Tippe auf die Zielscheibe bzw. den Kreis, um die Arbeitsgruppe zu wählen. Über den Pfeil kannst du die Vorauswahl öffnen oder eine Gruppe entfernen. Entfernen geht auch durch Wischen nach links.")
                     Text("Jede Satzgruppe enthält Sätze und Wiederholungen sowie ein Gewicht. Wähle 1 × 3, 1 × 5, 3 × 5, 3 × 3 oder 5 × 3 oder gib eigenen Text wie 1 × 5 oder 5/5/4 ein.")
                     Text("Erfasse zum Beispiel 1 × 5 mit 50 kg, 1 × 5 mit 70 kg und 3 × 5 mit 100 kg. Markiere genau eine Gruppe als Arbeitsgewicht. Sie bestimmt den Zielfortschritt. Im Verlauf steht das Zielscheiben-Symbol links neben dem Arbeitsgewicht. Die Gewichte sind rechtsbündig untereinander angeordnet.")
+                }
+                Section("Anstrengung beim Arbeitsgewicht") {
+                    Text("Unter den Satzgruppen kannst du optional wählen, wie das Arbeitsgewicht war: -- Sehr schwer, - Schwer, o OK oder + Leicht – Steigerung möglich. Im Verlauf und beim letzten Trainingstag steht das Symbol links vor dem Arbeitsgewicht.")
+                    Text("Jedes neue Training beginnt mit „Nicht bewertet“. Beim Bearbeiten kannst du die Bewertung nachtragen, ändern oder über „Nicht bewertet“ entfernen.")
                 }
                 Section("Fortschritt und Verlauf") {
                     Text("Die Zielkarten zeigen Zielgewicht, erreichtes Arbeitsgewicht und Datum des letzten Trainings gemeinsam in einer Zeile. Prozentwert und Balken zeigen den Fortschritt. Ein grünes Häkchen markiert erreichte Ziele.")
