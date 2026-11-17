@@ -342,7 +342,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.5.0"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.5.1"
     }
 
     var body: some View {
@@ -380,7 +380,7 @@ private struct HelpView: View {
                     Text("Beim Erfassen ist heute vorausgewählt. Du kannst ältere Trainings nachtragen. Beim neuen Training werden die hinterlegten Standardsätze mit leeren Gewichtsfeldern übernommen. Ohne Standardsätze dient das letzte Training als Vorschlag. Tippe im Verlauf auf einen Eintrag zum Bearbeiten oder wische zum Löschen nach links.")
                 }
                 Section("Einstellungen und Beispieldaten") {
-                    Text("Über das Zahnrad öffnest du die Einstellungen. „Beispieldaten anlegen“ ergänzt Press, Kniebeuge, Bankdrücken und Kreuzheben mit Standardsätzen und je einem Training vom 17.11.2026. Die jeweils letzte Gruppe ist das Arbeitsgewicht. Gleichnamige Übungen werden wiederverwendet und identische Beispieltrainings übersprungen.")
+                    Text("Über das Zahnrad öffnest du die Einstellungen. „Beispieldaten anlegen“ ergänzt Press, Kniebeuge, Bankdrücken und Kreuzheben mit Standardsätzen und je einem Training vom 14. und 17.11.2026. Am 14.11. liegen die Arbeitsgewichte jeweils 2 kg niedriger. Die jeweils letzte Gruppe ist das Arbeitsgewicht. Gleichnamige Übungen werden wiederverwendet und identische Beispieltrainings übersprungen.")
                     Text("„Alles löschen“ entfernt nach ausdrücklicher Bestätigung alle Übungen, Trainings und Standardsätze auf diesem Gerät.")
                 }
                 Section("Datenspeicherung") {

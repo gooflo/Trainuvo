@@ -10,6 +10,13 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t15 – Zweiter Beispieltrainingstag am 14.11.2026 (0.5.1)
+
+- Je Übung ein weiteres Training mit 2 kg weniger beim Arbeitsgewicht ergänzen: Press 50, Kniebeuge 88, Bankdrücken 83, Kreuzheben 98 kg.
+- Gleiche Satztexte und Aufwärmgewichte wie am 17.11.2026 verwenden.
+- Bestehende Beispieldaten über erneuten Import um den fehlenden Tag ergänzen.
+- Xcode-Build, Swift-Tests und Sichtprüfung ausstehend.
+
 ### t12 – Trainingstage kompakt zusammenfassen (0.5.0)
 
 - Alle Trainings auf der Startseite nach Kalendertag bündeln, neueste Tage zuerst.

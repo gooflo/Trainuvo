@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1 – Zweiter Beispieltrainingstag
+
+- Beispieltrainings vom 14.11.2026 ergänzt. Die Arbeitsgewichte liegen jeweils 2 kg unter denen vom 17.11.2026: Press 50 kg, Kniebeuge 88 kg, Bankdrücken 83 kg, Kreuzheben 98 kg.
+- Erneuter Beispieldatenimport ergänzt den fehlenden Tag und überspringt identische vorhandene Einträge.
+- Hilfe, Dokumentation und Importtests aktualisiert. Xcode-Build, Swift-Tests und Sichtprüfung auf dem Mac ausstehend.
+
 ## 0.5.0 – Trainingstage und Einstellungen
 
 - Startseite nach Trainingstag zusammengefasst. Pro Trainingseintrag eine kompakte Zeile mit Übung, Arbeits-Satzgruppe, Gewicht und optionaler Bewertung.

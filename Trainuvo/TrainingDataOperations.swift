@@ -23,9 +23,6 @@ enum TrainingDataOperations {
     static func createExamples(in context: ModelContext) throws -> ExampleResult {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = .current
-        guard let date = calendar.date(from: DateComponents(year: 2026, month: 11, day: 17, hour: 12)) else {
-            throw DataError.invalidExampleDate
-        }
         let examples = [
             ExampleExercise(name: "Press", target: 40, groups: [("1 × 5", 40), ("1 × 5", 52)]),
             ExampleExercise(name: "Kniebeuge", target: 100, groups: [("1 × 5", 52), ("3 × 5", 90)]),
@@ -61,29 +58,36 @@ enum TrainingDataOperations {
                     }
                 }
 
-                let alreadyExists = exercise.entries.contains { entry in
-                    guard calendar.isDate(entry.date, inSameDayAs: date) else { return false }
-                    let groups = entry.sortedGroups
-                    return groups.count == example.groups.count &&
-                        zip(groups, example.groups).allSatisfy { actual, expected in
-                            actual.prescription == expected.0 && actual.weight == expected.1
-                        }
-                }
-                if alreadyExists { continue }
+                for day in [(number: 17, reduction: 0.0), (number: 14, reduction: 2.0)] {
+                    guard let date = calendar.date(from: DateComponents(year: 2026, month: 11, day: day.number, hour: 12)) else {
+                        throw DataError.invalidExampleDate
+                    }
+                    var trainingGroups = example.groups
+                    trainingGroups[trainingGroups.count - 1].1 -= day.reduction
+                    let alreadyExists = exercise.entries.contains { entry in
+                        guard calendar.isDate(entry.date, inSameDayAs: date) else { return false }
+                        let groups = entry.sortedGroups
+                        return groups.count == trainingGroups.count &&
+                            zip(groups, trainingGroups).allSatisfy { actual, expected in
+                                actual.prescription == expected.0 && actual.weight == expected.1
+                            }
+                    }
+                    if alreadyExists { continue }
 
-                let training = TrainingEntry(date: date, exercise: exercise)
-                context.insert(training)
-                for (position, group) in example.groups.enumerated() {
-                    let set = SetGroup(
-                        position: position,
-                        prescription: group.0,
-                        weight: group.1,
-                        isWorking: position == example.groups.count - 1
-                    )
-                    context.insert(set)
-                    training.groups.append(set)
+                    let training = TrainingEntry(date: date, exercise: exercise)
+                    context.insert(training)
+                    for (position, group) in trainingGroups.enumerated() {
+                        let set = SetGroup(
+                            position: position,
+                            prescription: group.0,
+                            weight: group.1,
+                            isWorking: position == trainingGroups.count - 1
+                        )
+                        context.insert(set)
+                        training.groups.append(set)
+                    }
+                    result.trainingsCreated += 1
                 }
-                result.trainingsCreated += 1
             }
             try context.save()
             return result

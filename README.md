@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining und zeigt den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.5.0 – Vorabversion**
+**Interner Entwicklungsstand: 0.5.1 – Vorabversion**
 
 ## Funktionen
 
@@ -60,14 +60,23 @@ Satztexte dürfen frei formuliert werden, etwa **5/5/4**. Sie werden unveränder
 
 Über das Zahnrad die Einstellungen öffnen. **Alles löschen** entfernt nach ausdrücklicher Bestätigung sämtliche lokalen Übungen, Trainings und Standardsätze.
 
-**Beispieldaten anlegen** ergänzt folgende Daten mit je einem Training vom **17.11.2026**. Die letzte Gruppe ist jeweils als Arbeitsgewicht markiert, die Bewertung ist leer.
+**Beispieldaten anlegen** ergänzt folgende Daten mit je einem Training vom **14.11.2026** und **17.11.2026**. Die letzte Gruppe ist jeweils als Arbeitsgewicht markiert, die Bewertung ist leer.
 
-| Übung | Ziel | Standardsatzgruppen | Trainingsgewichte |
+| Übung | Ziel | Standardsatzgruppen | Trainingsgewichte 17.11. |
 |---|---|---|---|
 | Press | 40 kg | 1 × 5, 1 × 5 | 40, 52 kg |
 | Kniebeuge | 100 kg | 1 × 5, 3 × 5 | 52, 90 kg |
 | Bankdrücken | 80 kg | 1 × 5, 3 × 3 | 50, 85 kg |
 | Kreuzheben | 130 kg | 1 × 5, 1 × 5, 3 × 5 | 50, 70, 100 kg |
+
+Am **14.11.2026** sind nur die Arbeitsgewichte um jeweils 2 kg reduziert. Die Aufwärmgruppen verwenden die oben angegebenen Gewichte.
+
+| Übung | Arbeitsgewicht 14.11. |
+|---|---|
+| Press | 50 kg |
+| Kniebeuge | 88 kg |
+| Bankdrücken | 83 kg |
+| Kreuzheben | 98 kg |
 
 Gleichnamige Übungen werden wiederverwendet. Vorhandene Ziele und vorhandene Standardsätze werden beibehalten. Leere Standardsätze werden ergänzt. Identische Beispieltrainings am angegebenen Datum werden beim erneuten Aufruf übersprungen.
 

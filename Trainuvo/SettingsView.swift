@@ -12,7 +12,7 @@ struct SettingsView: View {
                 Section {
                     Button("Beispieldaten anlegen", systemImage: "dumbbell") { createExamples() }
                 } footer: {
-                    Text("Vier Übungen mit Standardsätzen und Trainings vom 17.11.2026. Gleichnamige Übungen werden wiederverwendet, fehlende Beispieltrainings ergänzt.")
+                    Text("Vier Übungen mit Standardsätzen und Trainings vom 14. und 17.11.2026. Gleichnamige Übungen werden wiederverwendet, fehlende Beispieltrainings ergänzt.")
                 }
                 Section {
                     Button("Alles löschen", systemImage: "trash", role: .destructive) {

@@ -214,7 +214,7 @@ struct TrainuvoTests {
         let context = ModelContext(container)
         let result = try TrainingDataOperations.createExamples(in: context)
         #expect(result.exercisesCreated == 4)
-        #expect(result.trainingsCreated == 4)
+        #expect(result.trainingsCreated == 8)
         let again = try TrainingDataOperations.createExamples(in: context)
         #expect(again.exercisesCreated == 0)
         #expect(again.trainingsCreated == 0)
@@ -227,14 +227,14 @@ struct TrainuvoTests {
             ["1 × 5", "1 × 5"], ["1 × 5", "3 × 5"], ["1 × 5", "3 × 3"], ["1 × 5", "1 × 5", "3 × 5"]
         ])
         let trainings = try reader.fetch(FetchDescriptor<TrainingEntry>())
-        #expect(trainings.count == 4)
-        #expect(try reader.fetchCount(FetchDescriptor<SetGroup>()) == 9)
+        #expect(trainings.count == 8)
+        #expect(try reader.fetchCount(FetchDescriptor<SetGroup>()) == 18)
         #expect(trainings.allSatisfy { $0.effort == nil })
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = .current
         let days = TrainingDaySummary.grouped(trainings, calendar: calendar)
         let day = try #require(days.first)
-        #expect(days.count == 1)
+        #expect(days.count == 2)
         let dateParts = calendar.dateComponents([.year, .month, .day], from: day.date)
         #expect(dateParts.year == 2026)
         #expect(dateParts.month == 11)
@@ -242,6 +242,23 @@ struct TrainuvoTests {
         #expect(day.entries.map { $0.exercise?.name ?? "" } == ["Press", "Kniebeuge", "Bankdrücken", "Kreuzheben"])
         #expect(day.entries.compactMap(\.workingWeight) == [52, 90, 85, 100])
         #expect(day.entries.compactMap { $0.workingGroup?.prescription } == ["1 × 5", "3 × 5", "3 × 3", "3 × 5"])
+        let earlier = days[1]
+        #expect(calendar.component(.day, from: earlier.date) == 14)
+        #expect(earlier.entries.compactMap(\.workingWeight) == [50, 88, 83, 98])
+        #expect(earlier.entries.map { $0.sortedGroups.dropLast().map(\.weight) } == [
+            [40], [52], [50], [50, 70]
+        ])
+
+        // Simulate an installation that already has only the original November 17 examples.
+        for entry in try context.fetch(FetchDescriptor<TrainingEntry>()) {
+            if calendar.component(.day, from: entry.date) == 14 {
+                try entry.deleteKeepingExercise(in: context)
+            }
+        }
+        let supplemented = try TrainingDataOperations.createExamples(in: context)
+        #expect(supplemented.exercisesCreated == 0)
+        #expect(supplemented.trainingsCreated == 4)
+        #expect(try context.fetchCount(FetchDescriptor<TrainingEntry>()) == 8)
     }
 
     @Test func groupedDaysKeepSeparateEntriesAndUseLocalDayBoundaries() throws {
@@ -276,7 +293,7 @@ struct TrainuvoTests {
         try context.save()
         let result = try TrainingDataOperations.createExamples(in: context)
         #expect(result.exercisesCreated == 3)
-        #expect(result.trainingsCreated == 4)
+        #expect(result.trainingsCreated == 8)
         #expect(exercise.targetWeight == 55)
         #expect(exercise.sortedSetTemplates.map(\.prescription) == ["5 × 3"])
 
@@ -289,6 +306,6 @@ struct TrainuvoTests {
         #expect(try reader.fetchCount(FetchDescriptor<Item>()) == 0)
         let recreated = try TrainingDataOperations.createExamples(in: context)
         #expect(recreated.exercisesCreated == 4)
-        #expect(recreated.trainingsCreated == 4)
+        #expect(recreated.trainingsCreated == 8)
     }
 }

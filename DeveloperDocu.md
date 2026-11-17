@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.5.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.5.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -89,7 +89,7 @@ TrainingDaySummary.grouped verwendet Calendar.startOfDay mit dem lokalen Kalende
 
 ## Einstellungen und Beispieldaten
 
-SettingsView wird über das Zahnrad als Sheet geöffnet. TrainingDataOperations.createExamples legt die vier Übungsvorgaben aus der README an. Das Beispieldatum ist der 17.11.2026 um 12 Uhr in der lokalen Zeitzone im gregorianischen Kalender. Alle Satzgruppen werden in der angegebenen Reihenfolge angelegt, die letzte als Arbeitsgruppe. Neue Einträge sind unbewertet.
+SettingsView wird über das Zahnrad als Sheet geöffnet. TrainingDataOperations.createExamples legt die vier Übungsvorgaben aus der README an. Die Beispieldaten verwenden den 14.11.2026 und 17.11.2026, jeweils um 12 Uhr in der lokalen Zeitzone im gregorianischen Kalender. Alle Satzgruppen werden in der angegebenen Reihenfolge angelegt, die letzte als Arbeitsgruppe. Am 14.11. werden nur von der letzten Gruppe jeweils 2 kg abgezogen, sodass die Arbeitsgewichte 50, 88, 83 und 98 kg betragen. Neue Einträge sind unbewertet.
 
 Der Import verwendet gleichnamige Übungen ohne Beachtung von Groß-/Kleinschreibung und Akzenten wieder, erhält vorhandene Ziele und ergänzt Standardsätze nur bei leerem Bestand. Ein identischer Beispiel-Trainingseintrag wird anhand von Tag, geordnetem Satztext und Gewicht erkannt. Mehrfaches Importieren ergänzt fehlende Einträge. Der gesamte Import wird einmal gespeichert und bei Fehlern zurückgerollt.
 
@@ -149,6 +149,13 @@ In der Entwicklungsumgebung des Assistenten sind Xcode und Swift nicht installie
 7. Alles löschen zunächst abbrechen. Danach bestätigen und die leere Startseite kontrollieren. Beispieldaten erneut anlegen.
 8. Auf iPhone 15 mit vier Übungen, langer Beschriftung und großer Textgröße prüfen. Xcode-Build und Swift-Tests mit ⌘ U ausführen.
 
+## Abnahme des zweiten Beispieltags in 0.5.1
+
+1. Über eine Installation mit Beispielen vom 17.11.2026 aktualisieren. In den Einstellungen erneut Beispieldaten anlegen.
+2. Zwei Trainingstage mit je vier Zeilen prüfen. Am 14.11. müssen Press 50, Kniebeuge 88, Bankdrücken 83 und Kreuzheben 98 kg als Arbeitsgewicht stehen.
+3. Die Satztexte und Aufwärmgewichte beider Tage vergleichen. Erneut importieren und prüfen, dass keine identischen Duplikate entstehen.
+4. Xcode-Build, Swift-Tests und Sichtprüfung sind ausstehend.
+
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.5.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.5.1` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
