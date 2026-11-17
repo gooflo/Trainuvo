@@ -27,6 +27,11 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t23 – Blaue Akzentfarbe (0.6.3)
+
+- Bedienelemente, Fortschrittsanzeigen und Arbeitsgewicht-Markierungen auf Blau umstellen und AccentColor für helle/dunkle Darstellung hinterlegen.
+- Xcode-Build und Sichtprüfung ausstehend.
+
 ### t18 – Startseitenaktionen und direkte Trainingserfassung (0.6.0)
 
 - Zahnrad und Fragezeichen rechts oben anzeigen.

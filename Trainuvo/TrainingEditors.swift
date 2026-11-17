@@ -277,7 +277,7 @@ struct TrainingEditor: View {
                                 workingID = group.id
                             } label: {
                                 Image(systemName: workingID == group.id ? "target" : "circle")
-                                    .foregroundStyle(workingID == group.id ? Color.teal : Color.secondary)
+                                    .foregroundStyle(workingID == group.id ? Color.blue : Color.secondary)
                                     .frame(width: 44, height: 44)
                             }
                             .accessibilityLabel("Als Arbeitsgewicht wählen")

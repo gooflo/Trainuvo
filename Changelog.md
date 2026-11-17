@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.3 – Blaue Akzentfarbe
+
+- Bedienelemente, Fortschrittsanzeigen und Arbeitsgewicht-Markierungen auf Blau umgestellt.
+- AccentColor für helle und dunkle Darstellung mit Blau belegt und Farbvorgabe in den Projektregeln festgehalten.
+- Xcode-Build und Sichtprüfung auf dem Gerät ausstehend.
+
 ## 0.6.2 – Weitere Verbesserungen vorgemerkt
 
 - Eindeutige Übungsanzeige bei der Trainingserfassung mit Prio 1 in Todo.md aufgenommen.

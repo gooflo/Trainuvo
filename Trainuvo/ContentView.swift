@@ -123,7 +123,7 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showingExerciseOrder) { ExerciseOrderEditor(exercises: exercises) }
         }
-        .tint(.teal)
+        .tint(.blue)
     }
 }
 
@@ -157,7 +157,7 @@ private struct GoalCard: View {
             .frame(minHeight: 44)
             if let progress = exercise.progress {
                 ProgressView(value: min(progress, 1))
-                    .tint(progress >= 1 ? .green : .teal)
+                    .tint(progress >= 1 ? .green : .blue)
             }
             HStack(spacing: 8) {
                 Text("Ziel: \(exercise.targetWeight.map { TrainingFormat.weight($0) } ?? "–")")
@@ -226,7 +226,7 @@ struct TrainingSummary: View {
                 Text(group.prescription)
                 Spacer()
                 Image(systemName: "target")
-                    .foregroundStyle(.teal)
+                    .foregroundStyle(.blue)
                     .frame(width: 18)
                     .opacity(group.isWorking ? 1 : 0)
                     .accessibilityLabel("Arbeitsgewicht")
@@ -369,7 +369,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.6.2"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.6.3"
     }
 
     var body: some View {

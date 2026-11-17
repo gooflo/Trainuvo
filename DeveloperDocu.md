@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.6.2**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.6.3**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -56,6 +56,10 @@ ExerciseOrderEditor hält UUIDs als lokalen Reihenfolgeentwurf. Abbrechen änder
 ## Identifizierung in SwiftUI-Listen
 
 ForEach-Schleifen über Exercise, TrainingEntry und SetGroup verwenden explizit id: \.id mit der gespeicherten UUID. Dies umfasst Zielkarten, Tageszeilen, Trainingsverlauf, Satzgruppen und den Sortierdialog. Die Datenmodelle und ihre gespeicherten IDs werden dafür nicht geändert. TrainingDaySummary und lokale Eingabeentwürfe definieren ihre Identifiable-Konformität selbst.
+
+## Akzentfarbe
+
+Die primäre Akzentfarbe ist Blau. ContentView verwendet die Systemfarbe blue für den Tint, die Fortschrittsanzeigen und die Markierung des Arbeitsgewichts. TrainingEditor verwendet dieselbe Farbe für die gewählte Arbeitsgruppe. Das Asset AccentColor enthält zusätzlich blaue Farbwerte für helle und dunkle Darstellung. Die Sichtprüfung von Zielkarten, Schaltflächen, Menüs und Tastaturleiste auf dem Gerät ist ausstehend.
 
 ## Zielkarten auf der Startseite
 
@@ -176,4 +180,4 @@ Auf dem Gerät einen von zwei Einträgen einer Übung löschen, anschließend de
 
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.6.2` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.6.3` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
