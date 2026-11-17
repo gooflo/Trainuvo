@@ -1,32 +1,38 @@
-//
-//  TrainuvoApp.swift
-//  Trainuvo
-//
-//  Created by Florian Vogt on 17.11.26.
-//
-
 import SwiftUI
 import SwiftData
 
 @main
 struct TrainuvoApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+    private let container: ModelContainer?
+    private let startupError: String?
 
+    init() {
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            // Keep Item so data from the Xcode starter app remains readable.
+            let schema = Schema([Item.self, Exercise.self, TrainingEntry.self, SetGroup.self])
+            let configuration = ModelConfiguration(
+                schema: schema, isStoredInMemoryOnly: false, cloudKitDatabase: .none
+            )
+            container = try ModelContainer(for: schema, configurations: [configuration])
+            startupError = nil
         } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+            container = nil
+            startupError = error.localizedDescription
         }
-    }()
+    }
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if let container {
+                ContentView()
+                    .modelContainer(container)
+            } else {
+                ContentUnavailableView {
+                    Label("Daten konnten nicht geöffnet werden", systemImage: "externaldrive.badge.exclamationmark")
+                } description: {
+                    Text(startupError ?? "Bitte starte Trainuvo erneut.")
+                }
+            }
         }
-        .modelContainer(sharedModelContainer)
     }
 }
