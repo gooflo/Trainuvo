@@ -216,7 +216,12 @@ struct TrainingEditor: View {
     @State private var effort: TrainingEffort?
     @State private var errorMessage: String?
     @State private var showingDeleteConfirmation = false
-    @FocusState private var inputFocused: Bool
+    private enum Field: Hashable {
+        case prescription(UUID)
+        case weight(UUID)
+    }
+
+    @FocusState private var focusedField: Field?
 
     init(exercise: Exercise, entry: TrainingEntry? = nil) {
         self.exercise = exercise
@@ -279,7 +284,7 @@ struct TrainingEditor: View {
                             .accessibilityValue(workingID == group.id ? "Ausgewählt" : "Nicht ausgewählt")
 
                             TextField("Sätze", text: $group.prescription)
-                                .focused($inputFocused)
+                                .focused($focusedField, equals: .prescription(group.id))
                                 .accessibilityLabel("Sätze und Wiederholungen")
                                 .frame(minWidth: 60)
 
@@ -301,7 +306,7 @@ struct TrainingEditor: View {
 
                             TextField("Gewicht", text: $group.weight)
                                 .keyboardType(.decimalPad)
-                                .focused($inputFocused)
+                                .focused($focusedField, equals: .weight(group.id))
                                 .multilineTextAlignment(.trailing)
                                 .monospacedDigit()
                                 .frame(minWidth: 60, idealWidth: 80, maxWidth: 100)
@@ -335,7 +340,7 @@ struct TrainingEditor: View {
                 if entry != nil {
                     Section {
                         Button("Dieses Training löschen", systemImage: "trash", role: .destructive) {
-                            inputFocused = false
+                            focusedField = nil
                             showingDeleteConfirmation = true
                         }
                     }
@@ -350,8 +355,19 @@ struct TrainingEditor: View {
                 }
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
-                    Button("Fertig") { inputFocused = false }
+                    Button("Fertig") { focusedField = nil }
                 }
+            }
+            .task {
+                guard entry == nil else { return }
+                // Match Cashuvo: attach the sheet and keyboard toolbar before requesting focus.
+                do {
+                    try await Task.sleep(for: .milliseconds(350))
+                } catch {
+                    return
+                }
+                guard !Task.isCancelled, focusedField == nil, let first = groups.first else { return }
+                focusedField = .weight(first.id)
             }
             .confirmationDialog("Dieses Training löschen?", isPresented: $showingDeleteConfirmation, titleVisibility: .visible) {
                 Button("Dieses Training löschen", role: .destructive) { deleteTraining() }
@@ -381,6 +397,7 @@ struct TrainingEditor: View {
     }
 
     private func removeGroup(_ id: UUID) {
+        if focusedField == .weight(id) || focusedField == .prescription(id) { focusedField = nil }
         groups.removeAll { $0.id == id }
         if workingID == id, let first = groups.first { workingID = first.id }
     }

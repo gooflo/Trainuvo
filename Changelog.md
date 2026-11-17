@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.0 – Training direkt von der Zielkarte erfassen
+
+- Zahnrad und Hilfe nach rechts oben verschoben.
+- Stift neben Deine Ziele öffnet die Verwaltung zum Anlegen und Sortieren von Übungen.
+- Jede Zielkarte erhält einen eigenen Plus-Button für die direkte Trainingserfassung.
+- Neue Trainings fokussieren nach dem Aufbau der Maske das erste kg-Feld mit numerischer Tastatur und Fertig-Taste, analog zum Cashuvo-Ablauf.
+- Tastaturfokus nach Satzgruppe und Eingabefeld eindeutig zugeordnet. Hilfe, Dokumentation und Projektregeln aktualisiert.
+- Xcode-Build und Sicht-/Tastaturprüfung auf dem Gerät ausstehend.
+
 ## 0.5.3 – Einzelnes Training sichtbar löschen
 
 - Im geöffneten bestehenden Training einen sichtbaren Button „Dieses Training löschen“ mit Bestätigung ergänzt.

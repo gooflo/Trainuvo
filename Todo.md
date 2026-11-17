@@ -10,6 +10,14 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t18 – Startseitenaktionen und direkte Trainingserfassung (0.6.0)
+
+- Zahnrad und Fragezeichen rechts oben anzeigen.
+- Stift neben Deine Ziele mit Übung anlegen und Übungen sortieren anbieten.
+- Eigenes Plus pro Zielkarte öffnet sofort ein neues Training für diese Übung.
+- Erstes kg-Feld nach dem Aufbau der Maske automatisch aktivieren, numerische Tastatur mit Fertig-Taste zeigen. Fokus pro Gruppe und Feld eindeutig unterscheiden.
+- Xcode-Build, iPhone-15-Sichtprüfung mit vier Zielkarten und Tastaturtest auf dem Gerät ausstehend.
+
 ### t17 – Einzelnes Training über sichtbaren Button löschen (0.5.3)
 
 - Tageszeile öffnet direkt das zugehörige Training. Im bestehenden Training „Dieses Training löschen“ anbieten und bestätigen lassen.

@@ -9,6 +9,7 @@ struct ContentView: View {
     @State private var showingExerciseOrder = false
     @State private var showingSettings = false
     @State private var editingTraining: TrainingEntry?
+    @State private var quickTrainingExercise: Exercise?
 
     private var trainingDays: [TrainingDaySummary] {
         TrainingDaySummary.grouped(entries)
@@ -31,20 +32,40 @@ struct ContentView: View {
                         HStack(alignment: .firstTextBaseline) {
                             Text("Deine Ziele").font(.title2.bold())
                             Spacer()
-                            Button("Sortieren", systemImage: "arrow.up.arrow.down") {
-                                showingExerciseOrder = true
+                            Menu {
+                                Button("Übung anlegen", systemImage: "plus") {
+                                    showingExercise = true
+                                }
+                                Button("Übungen sortieren", systemImage: "arrow.up.arrow.down") {
+                                    showingExerciseOrder = true
+                                }
+                                .disabled(exercises.count < 2)
+                            } label: {
+                                Label("Übungen verwalten", systemImage: "pencil")
+                                    .labelStyle(.iconOnly)
+                                    .frame(width: 44, height: 44)
                             }
-                            .font(.subheadline)
-                            .disabled(exercises.count < 2)
                         }
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 280), spacing: 12)], spacing: 12) {
                             ForEach(exercises, id: \.id) { exercise in
-                                NavigationLink {
-                                    ExerciseDetailView(exercise: exercise)
-                                } label: {
-                                    GoalCard(exercise: exercise)
+                                ZStack(alignment: .topTrailing) {
+                                    NavigationLink {
+                                        ExerciseDetailView(exercise: exercise)
+                                    } label: {
+                                        GoalCard(exercise: exercise)
+                                    }
+                                    .buttonStyle(.plain)
+                                    Button {
+                                        quickTrainingExercise = exercise
+                                    } label: {
+                                        Image(systemName: "plus.circle.fill")
+                                            .font(.title2)
+                                            .frame(width: 44, height: 44)
+                                    }
+                                    .buttonStyle(.borderless)
+                                    .padding(4)
+                                    .accessibilityLabel("Training für \(exercise.name) erfassen")
                                 }
-                                .buttonStyle(.plain)
                             }
                         }
                         if !trainingDays.isEmpty {
@@ -84,19 +105,17 @@ struct ContentView: View {
             .background(Color(.systemGroupedBackground))
             .navigationTitle("Trainuvo")
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    HStack {
-                        Button("Einstellungen", systemImage: "gearshape") { showingSettings = true }
-                        Button("Hilfe", systemImage: "questionmark.circle") { showingHelp = true }
-                    }
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Übung anlegen", systemImage: "plus") { showingExercise = true }
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button("Einstellungen", systemImage: "gearshape") { showingSettings = true }
+                    Button("Hilfe", systemImage: "questionmark.circle") { showingHelp = true }
                 }
             }
             .sheet(isPresented: $showingExercise) { ExerciseEditor() }
             .sheet(isPresented: $showingHelp) { HelpView() }
             .sheet(isPresented: $showingSettings) { SettingsView() }
+            .sheet(item: $quickTrainingExercise) { exercise in
+                TrainingEditor(exercise: exercise)
+            }
             .sheet(item: $editingTraining) { entry in
                 if let exercise = entry.exercise {
                     TrainingEditor(exercise: exercise, entry: entry)
@@ -134,6 +153,8 @@ private struct GoalCard: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+            .padding(.trailing, 44)
+            .frame(minHeight: 44)
             if let progress = exercise.progress {
                 ProgressView(value: min(progress, 1))
                     .tint(progress >= 1 ? .green : .teal)
@@ -348,23 +369,24 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.5.3"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.6.0"
     }
 
     var body: some View {
         NavigationStack {
             List {
                 Section("Trainuvo \(version)") {
-                    Text("Lege über + eine Übung mit optionalem Zielgewicht an. Tippe auf eine Übung, um ein Training zu erfassen oder den Verlauf zu öffnen.")
+                    Text("Lege über den Stift neben „Deine Ziele“ eine Übung mit optionalem Zielgewicht an. Das Plus auf einer Zielkarte öffnet sofort die Trainingserfassung. Antippen der Karte öffnet den Verlauf. Einstellungen und Hilfe stehen oben rechts.")
                 }
                 Section("Übungen sortieren") {
-                    Text("Tippe auf der Startseite neben „Deine Ziele“ auf „Sortieren“. Ziehe die Übungen an den Griffen in die gewünschte Reihenfolge und tippe auf „Speichern“. Neue Übungen werden am Ende angefügt.")
+                    Text("Tippe auf der Startseite neben „Deine Ziele“ auf den Stift und dann auf „Übungen sortieren“. Ziehe die Übungen an den Griffen in die gewünschte Reihenfolge und tippe auf „Speichern“. Neue Übungen werden am Ende angefügt.")
                 }
                 Section("Standardsätze pro Übung") {
                     Text("Öffne die Übung und wähle im Menü … „Übung bearbeiten“. Hinterlege die Satzgruppen in Trainingsreihenfolge, zum Beispiel 1 × 5, 1 × 5, 3 × 5, 1 × 5. Mit den Pfeilen verschiebst du Gruppen. Markiere eine Gruppe als Arbeitsgewicht.")
                     Text("Neue Trainings übernehmen die Standardsätze samt Arbeitsgewicht-Markierung. Trage nur noch die kg ein. Änderungen an den Standardsätzen gelten für künftige Trainings.")
                 }
                 Section("Sätze und Gewichte") {
+                    Text("Bei einem neuen Training wird das erste kg-Feld automatisch aktiviert. Die numerische Tastatur öffnet sich mit „Fertig“ zum Schließen. Bestehende Trainings öffnen sich zum Bearbeiten ohne automatischen Tastaturstart.")
                     Text("Die Erfassung zeigt jede Satzgruppe in einer Zeile: Arbeitsgewicht-Markierung, Sätze, Satzauswahl und kg. Tippe auf die Zielscheibe bzw. den Kreis, um die Arbeitsgruppe zu wählen. Über den Pfeil kannst du die Vorauswahl öffnen oder eine Gruppe entfernen. Entfernen geht auch durch Wischen nach links.")
                     Text("Jede Satzgruppe enthält Sätze und Wiederholungen sowie ein Gewicht. Wähle 1 × 3, 1 × 5, 3 × 5, 3 × 3 oder 5 × 3 oder gib eigenen Text wie 1 × 5 oder 5/5/4 ein.")
                     Text("Erfasse zum Beispiel 1 × 5 mit 50 kg, 1 × 5 mit 70 kg und 3 × 5 mit 100 kg. Markiere genau eine Gruppe als Arbeitsgewicht. Sie bestimmt den Zielfortschritt. Im Verlauf steht das Zielscheiben-Symbol links neben dem Arbeitsgewicht. Die Gewichte sind rechtsbündig untereinander angeordnet.")

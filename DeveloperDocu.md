@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.5.3**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.6.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -59,7 +59,7 @@ ForEach-Schleifen über Exercise, TrainingEntry und SetGroup verwenden explizit 
 
 ## Zielkarten auf der Startseite
 
-GoalCard zeigt Übungsname und Prozentwert in der Kopfzeile, darunter den Fortschrittsbalken sowie eine gemeinsame Zeile für Zielgewicht, erreichtes Arbeitsgewicht und Trainingsdatum mit zweistelligem Jahr. Fehlende Werte erscheinen als Gedankenstrich. Die Karte verwendet 12 pt Innenabstand und 8 pt Abstand zwischen ihren Zeilen, das Raster 12 pt Kartenabstand. Vier Karten sollen bei Standardtextgröße im iPhone-15-Hochformat vollständig sichtbar sein. Die Informationszeile bleibt einzeilig und kann auf 70 % ihrer Schriftgröße verkleinert werden.
+GoalCard zeigt Übungsname und Prozentwert in der Kopfzeile, darunter den Fortschrittsbalken sowie eine gemeinsame Zeile für Zielgewicht, erreichtes Arbeitsgewicht und Trainingsdatum mit zweistelligem Jahr. Fehlende Werte erscheinen als Gedankenstrich. Die Karte verwendet 12 pt Innenabstand und 8 pt Abstand zwischen ihren Zeilen, das Raster 12 pt Kartenabstand. Ihre Kopfzeile reserviert rechts 44 pt für den separaten Plus-Button und hat mindestens 44 pt Höhe. Vier Karten sollen bei Standardtextgröße im iPhone-15-Hochformat vollständig sichtbar sein. Die Informationszeile bleibt einzeilig und kann auf 70 % ihrer Schriftgröße verkleinert werden.
 
 Sichtprüfung auf dem iPhone-15-Simulator mit vier Übungen durchführen. Auch lange Namen, Ziele über 100 %, Übungen ohne Trainings, Übungen ohne Ziel sowie größere Bedienungshilfen-Schriften prüfen. Bei großer Textgröße darf die Übersicht scrollen. Simulatorprüfung und Xcode-Build sind ausstehend.
 
@@ -98,6 +98,14 @@ SettingsView wird über das Zahnrad als Sheet geöffnet. TrainingDataOperations.
 Der Import verwendet gleichnamige Übungen ohne Beachtung von Groß-/Kleinschreibung und Akzenten wieder, erhält vorhandene Ziele und ergänzt Standardsätze nur bei leerem Bestand. Ein identischer Beispiel-Trainingseintrag wird anhand von Tag, geordnetem Satztext und Gewicht erkannt. Mehrfaches Importieren ergänzt fehlende Einträge. Der gesamte Import wird einmal gespeichert und bei Fehlern zurückgerollt.
 
 TrainingDataOperations.deleteAll löscht Übungen, Trainings, Satzgruppen, Standardsatzvorlagen und alte Item-Datensätze nach Bestätigung. Zuerst werden alle Daten geladen und die Kind-Eltern-Verbindungen gelöst, danach erfolgt das Löschen mit einem gemeinsamen Save. Fehler führen zu Rollback. Die Aktion führt keine Teil-Saves aus.
+
+## Direkte Trainingserfassung und Fokus
+
+ContentView zeigt Zahnrad und Hilfe als ToolbarItemGroup rechts oben. Der Stift neben Deine Ziele öffnet ein Menü für Übung anlegen und Übungen sortieren. Zielkarten kombinieren in einem ZStack einen NavigationLink zum Übungsverlauf und einen separaten 44 pt großen Plus-Button. Das Plus steht außerhalb des NavigationLinks, sodass es ausschließlich die Trainingserfassung für die gewählte Übung öffnet.
+
+TrainingEditor verwendet einen typisierten FocusState mit prescription(UUID) und weight(UUID). Neue Trainings warten in einem abbrechbaren task 350 ms auf den Aufbau des Sheets und der Tastatur-Toolbar. Dieses Muster stammt aus Cashuvo/AddTransactionView.swift. Wenn noch kein Feld fokussiert ist, wird das erste kg-Feld aktiviert. Bestehende Einträge erhalten beim Öffnen keinen automatischen Fokus. Die Fertig-Taste setzt den Fokus auf nil. Beim Entfernen der fokussierten Gruppe wird der Fokus ebenfalls gelöst.
+
+Auf dem iPhone 15 vier Zielkarten einschließlich langer Namen und erreichter Ziele prüfen. Plus muss ausschließlich die neue Erfassung öffnen, die übrige Karte den Verlauf. Erstes kg-Feld, numerische Tastatur und Fertig-Taste auf Gerät und Simulator prüfen. Eine weitere Gruppe fokussieren und entfernen, während die Tastatur offen ist. Erneutes Öffnen und schnelles Schließen der Maske müssen den task korrekt abbrechen. Xcode-Build und Gerätetest sind ausstehend.
 
 ## Tests auf dem Mac
 
@@ -168,4 +176,4 @@ Auf dem Gerät einen von zwei Einträgen einer Übung löschen, anschließend de
 
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.5.3` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.6.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.

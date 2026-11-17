@@ -21,6 +21,8 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 
 - Das Löschen eines Trainings erhält die zugehörige Übung und ihre Standardsätze, auch beim letzten Training. Eine Übung wird über ihre separate Löschaktion oder das bestätigte „Alles löschen“ entfernt. Löschänderungen mit einem Test für den letzten Trainingseintrag absichern.
 
+- Neue Trainings über das Plus auf der Zielkarte direkt öffnen. Das erste kg-Feld nach dem Aufbau der Maske fokussieren und die numerische Tastatur mit „Fertig“ anbieten. Die automatische Fokussierung soll vorhandene Benutzereingaben nicht überschreiben.
+
 ## Aufgaben und Testbefunde
 
 - Führe Aufgaben und Testbefunde in [Todo.md](Todo.md). Vergib fortlaufende Kennungen wie `t01` und behalte sie bei.

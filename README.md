@@ -2,12 +2,13 @@
 
 Trainuvo dokumentiert Krafttraining und zeigt den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.5.3 – Vorabversion**
+**Interner Entwicklungsstand: 0.6.0 – Vorabversion**
 
 ## Funktionen
 
 - Übungen mit optionalem Zielgewicht und geordneten Standardsatzgruppen anlegen, bearbeiten und löschen.
 - Zielkarten auf der Startseite in einer selbst festgelegten Reihenfolge anzeigen.
+- Trainings direkt über das Plus auf der Zielkarte erfassen. Das erste kg-Feld wird mit numerischer Tastatur und Fertig-Taste geöffnet.
 - Trainings pro Übung erfassen, nachtragen, bearbeiten und löschen.
 - Mehrere Satzgruppen mit unterschiedlichen Gewichten erfassen. Die Vorauswahl bietet 1 × 3, 1 × 5, 3 × 5, 3 × 3 und 5 × 3. Freitext ist möglich.
 - Eine Satzgruppe pro Training als Arbeitsgewicht markieren und die Anstrengung optional bewerten.
@@ -23,7 +24,7 @@ Die App ist für iPhone und iPad ausgelegt. Das vorhandene Xcode-Projekt setzt i
 
 ## Nutzung
 
-Über **+** eine Übung anlegen und optional ein Zielgewicht eintragen. Die Übung öffnen und **Training erfassen** wählen. Das Datum ist mit heute vorbelegt.
+Über den **Stift neben Deine Ziele → Übung anlegen** eine Übung mit optionalem Zielgewicht anlegen. Auf einer Zielkarte **+** antippen, um sofort ein neues Training zu öffnen. Das erste kg-Feld erhält automatisch den Fokus und die numerische Tastatur öffnet sich. **Fertig** schließt die Tastatur. Das Datum ist mit heute vorbelegt. Antippen der Karte öffnet den Übungsverlauf. Zahnrad und Hilfe stehen oben rechts.
 
 Beim Anlegen oder Bearbeiten einer Übung unter **Standardsätze in Trainingsreihenfolge** die gewünschten Gruppen hinterlegen, etwa **1 × 5, 1 × 5, 3 × 5, 1 × 5**. Mit den Pfeilen die Reihenfolge ändern und eine Gruppe als Arbeitsgewicht markieren. Beim neuen Training sind diese Gruppen bereits angelegt, und du ergänzt die kg. Die Gruppen können für das einzelne Training angepasst werden. Änderungen an den Standardsätzen beeinflussen künftige Erfassungen. Bestehende Trainings behalten ihre Satzgruppen und Gewichte.
 
@@ -48,7 +49,7 @@ Für ein Training beispielsweise drei Satzgruppen erfassen:
 
 Der Zielfortschritt entspricht dem Arbeitsgewicht des zeitlich letzten Trainings geteilt durch das aktuelle Zielgewicht. 60 kg bei einem Ziel von 100 kg ergeben 60 %. Bei identischem Datum einschließlich Uhrzeit entscheidet das Anlegedatum. Ein älterer nachgetragener Eintrag ersetzt den aktuellen Fortschritt daher nur, wenn er zeitlich der letzte ist.
 
-Auf der Startseite neben **Deine Ziele** auf **Sortieren** tippen, die Übungen an den Griffen verschieben und **Speichern** wählen. Die Reihenfolge bleibt nach einem Neustart erhalten. Neue Übungen erscheinen am Ende. Vor der ersten manuellen Sortierung stehen vorhandene Übungen alphabetisch.
+Auf der Startseite neben **Deine Ziele** den **Stift → Übungen sortieren** wählen, die Übungen an den Griffen verschieben und **Speichern** wählen. Die Reihenfolge bleibt nach einem Neustart erhalten. Neue Übungen erscheinen am Ende. Vor der ersten manuellen Sortierung stehen vorhandene Übungen alphabetisch.
 
 Die Startseite zeigt Trainingstage mit dem neuesten Datum zuerst. Innerhalb eines Tages folgen die Einträge deiner Übungsreihenfolge. Pro Trainingseintrag erscheint eine Zeile mit dem Arbeitsgewicht und optionaler Bewertung. Mehrere Einträge derselben Übung am gleichen Tag bleiben als einzelne Zeilen sichtbar. Antippen öffnet genau den gewählten Trainingseintrag zum Bearbeiten und Löschen. Den vollständigen Übungsverlauf öffnest du über die Zielkarte.
 
