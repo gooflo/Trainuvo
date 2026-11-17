@@ -7,10 +7,10 @@ struct ContentView: View {
     @State private var showingExercise = false
     @State private var showingHelp = false
     @State private var showingExerciseOrder = false
+    @State private var showingSettings = false
 
-    private var latestDay: [TrainingEntry] {
-        guard let date = entries.first?.date else { return [] }
-        return entries.filter { Calendar.current.isDate($0.date, inSameDayAs: date) }
+    private var trainingDays: [TrainingDaySummary] {
+        TrainingDaySummary.grouped(entries)
     }
 
     var body: some View {
@@ -46,26 +46,30 @@ struct ContentView: View {
                                 .buttonStyle(.plain)
                             }
                         }
-                        if let latest = entries.first {
-                            VStack(alignment: .leading, spacing: 12) {
-                                Text(Calendar.current.isDateInToday(latest.date) ? "Training heute" : "Letzter Trainingstag")
-                                    .font(.title2.bold())
-                                Text(latest.date, format: .dateTime.day().month(.wide).year())
-                                    .foregroundStyle(.secondary)
-                                ForEach(latestDay) { entry in
-                                    if let exercise = entry.exercise {
-                                        NavigationLink {
-                                            ExerciseDetailView(exercise: exercise)
-                                        } label: {
-                                            VStack(alignment: .leading, spacing: 8) {
-                                                Text(exercise.name).font(.headline)
-                                                TrainingSummary(entry: entry)
+                        if !trainingDays.isEmpty {
+                            Text("Trainingstage").font(.title2.bold())
+                            LazyVStack(alignment: .leading, spacing: 16) {
+                                ForEach(trainingDays) { day in
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        Text(day.date, format: .dateTime.day().month(.wide).year())
+                                            .font(.headline)
+                                        VStack(spacing: 0) {
+                                            ForEach(day.entries) { entry in
+                                                if let exercise = entry.exercise {
+                                                    NavigationLink {
+                                                        ExerciseDetailView(exercise: exercise)
+                                                    } label: {
+                                                        DayTrainingRow(entry: entry)
+                                                    }
+                                                    .buttonStyle(.plain)
+                                                } else {
+                                                    DayTrainingRow(entry: entry)
+                                                }
                                             }
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .padding()
-                                            .background(.background, in: RoundedRectangle(cornerRadius: 18))
                                         }
-                                        .buttonStyle(.plain)
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 4)
+                                        .background(.background, in: RoundedRectangle(cornerRadius: 16))
                                     }
                                 }
                             }
@@ -80,7 +84,10 @@ struct ContentView: View {
             .navigationTitle("Trainuvo")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Hilfe", systemImage: "questionmark.circle") { showingHelp = true }
+                    HStack {
+                        Button("Einstellungen", systemImage: "gearshape") { showingSettings = true }
+                        Button("Hilfe", systemImage: "questionmark.circle") { showingHelp = true }
+                    }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Übung anlegen", systemImage: "plus") { showingExercise = true }
@@ -88,6 +95,7 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showingExercise) { ExerciseEditor() }
             .sheet(isPresented: $showingHelp) { HelpView() }
+            .sheet(isPresented: $showingSettings) { SettingsView() }
             .sheet(isPresented: $showingExerciseOrder) { ExerciseOrderEditor(exercises: exercises) }
         }
         .tint(.teal)
@@ -147,6 +155,40 @@ private struct GoalCard: View {
     }
 }
 
+private struct DayTrainingRow: View {
+    let entry: TrainingEntry
+    @ScaledMetric(relativeTo: .subheadline) private var effortColumnWidth: CGFloat = 26
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 6) {
+            Text(entry.exercise?.name ?? "Unbekannte Übung")
+                .fontWeight(.medium)
+                .lineLimit(1)
+            Spacer(minLength: 4)
+            if let group = entry.workingGroup {
+                Text("\(group.prescription) @")
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                Text(entry.effort?.symbol ?? "")
+                    .font(.system(.subheadline, design: .monospaced).weight(.semibold))
+                    .frame(width: effortColumnWidth)
+                    .accessibilityLabel(entry.effort?.title ?? "")
+                    .accessibilityHidden(entry.effort == nil)
+                Text(TrainingFormat.weight(group.weight))
+                    .monospacedDigit()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                    .layoutPriority(1)
+            } else {
+                Text("Kein Arbeitsgewicht").foregroundStyle(.secondary)
+            }
+        }
+        .font(.subheadline)
+        .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+        .contentShape(Rectangle())
+    }
+}
+
 struct TrainingSummary: View {
     let entry: TrainingEntry
     @ScaledMetric(relativeTo: .subheadline) private var effortColumnWidth: CGFloat = 26
@@ -184,9 +226,7 @@ struct ExerciseDetailView: View {
     @State private var editingExercise = false
     @State private var addingTraining = false
     @State private var editingEntry: TrainingEntry?
-    @State private var deletingExercise = false
-    @State private var deletingEntry: TrainingEntry?
-    @State private var errorMessage: String?
+    @State private var activeAlert: DetailAlert?
 
     var body: some View {
         List {
@@ -218,7 +258,7 @@ struct ExerciseDetailView: View {
                         .padding(.vertical, 6)
                     }
                     .swipeActions {
-                        Button("Löschen", role: .destructive) { deletingEntry = entry }
+                        Button("Training löschen", role: .destructive) { activeAlert = .deleteTraining(entry) }
                     }
                 }
             }
@@ -228,7 +268,7 @@ struct ExerciseDetailView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     Button("Übung bearbeiten", systemImage: "pencil") { editingExercise = true }
-                    Button("Übung löschen", systemImage: "trash", role: .destructive) { deletingExercise = true }
+                    Button("Übung löschen", systemImage: "trash", role: .destructive) { activeAlert = .deleteExercise }
                 } label: {
                     Label("Übungsaktionen", systemImage: "ellipsis.circle")
                 }
@@ -237,27 +277,44 @@ struct ExerciseDetailView: View {
         .sheet(isPresented: $editingExercise) { ExerciseEditor(exercise: exercise) }
         .sheet(isPresented: $addingTraining) { TrainingEditor(exercise: exercise) }
         .sheet(item: $editingEntry) { entry in TrainingEditor(exercise: exercise, entry: entry) }
-        .alert("Übung und alle zugehörigen Trainings löschen?", isPresented: $deletingExercise) {
-            Button("Abbrechen", role: .cancel) {}
-            Button("Löschen", role: .destructive) { deleteExercise() }
+        .alert(activeAlert?.title ?? "", isPresented: Binding(
+            get: { activeAlert != nil },
+            set: { if !$0 { activeAlert = nil } }
+        ), presenting: activeAlert) { alert in
+            switch alert {
+            case .deleteTraining(let entry):
+                Button("Abbrechen", role: .cancel) {}
+                Button("Training löschen", role: .destructive) { deleteEntry(entry) }
+            case .deleteExercise:
+                Button("Abbrechen", role: .cancel) {}
+                Button("Übung und Trainings löschen", role: .destructive) { deleteExercise() }
+            case .error:
+                Button("OK", role: .cancel) {}
+            }
+        } message: { alert in
+            Text(alert.message)
         }
-        .alert("Training löschen?", isPresented: Binding(
-            get: { deletingEntry != nil },
-            set: { if !$0 { deletingEntry = nil } }
-        )) {
-            Button("Abbrechen", role: .cancel) { deletingEntry = nil }
-            Button("Löschen", role: .destructive) {
-                if let entry = deletingEntry { deleteEntry(entry) }
-                deletingEntry = nil
+    }
+
+    private enum DetailAlert {
+        case deleteTraining(TrainingEntry)
+        case deleteExercise
+        case error(String)
+
+        var title: String {
+            switch self {
+            case .deleteTraining: "Training löschen?"
+            case .deleteExercise: "Übung wirklich löschen?"
+            case .error: "Speichern fehlgeschlagen"
             }
         }
-        .alert("Speichern fehlgeschlagen", isPresented: Binding(
-            get: { errorMessage != nil },
-            set: { if !$0 { errorMessage = nil } }
-        )) {
-            Button("OK") { errorMessage = nil }
-        } message: {
-            Text(errorMessage ?? "")
+
+        var message: String {
+            switch self {
+            case .deleteTraining: "Der Trainingseintrag mit seinen Sätzen wird gelöscht. Die Übung und ihre Standardsätze bleiben erhalten."
+            case .deleteExercise: "Die Übung sowie alle zugehörigen Trainings und Standardsätze werden gelöscht."
+            case .error(let message): message
+            }
         }
     }
 
@@ -268,17 +325,15 @@ struct ExerciseDetailView: View {
             dismiss()
         } catch {
             modelContext.rollback()
-            errorMessage = error.localizedDescription
+            activeAlert = .error(error.localizedDescription)
         }
     }
 
     private func deleteEntry(_ entry: TrainingEntry) {
-        modelContext.delete(entry)
         do {
-            try modelContext.save()
+            try entry.deleteKeepingExercise(in: modelContext)
         } catch {
-            modelContext.rollback()
-            errorMessage = error.localizedDescription
+            activeAlert = .error(error.localizedDescription)
         }
     }
 }
@@ -287,7 +342,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.4.0"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.5.0"
     }
 
     var body: some View {
@@ -312,10 +367,21 @@ private struct HelpView: View {
                     Text("Unter den Satzgruppen kannst du optional wählen, wie das Arbeitsgewicht war: -- Sehr schwer, - Schwer, o OK oder + Leicht – Steigerung möglich. Im Verlauf und beim letzten Trainingstag steht das Symbol links vor dem Arbeitsgewicht.")
                     Text("Jedes neue Training beginnt mit „Nicht bewertet“. Beim Bearbeiten kannst du die Bewertung nachtragen, ändern oder über „Nicht bewertet“ entfernen.")
                 }
+                Section("Trainingstage") {
+                    Text("Die Startseite fasst Trainings nach Kalendertag zusammen. Jede Zeile zeigt Übungsname, Sätze und Wiederholungen sowie das Arbeitsgewicht, zum Beispiel Kniebeuge 3 × 5 @ 60 kg. Eine Bewertung steht links vor dem Gewicht. Aufwärmgruppen bleiben im Übungsdetail sichtbar.")
+                    Text("Wenn eine Übung an einem Tag mehrfach erfasst wurde, erscheint pro Trainingseintrag eine Zeile. Die Zeilen folgen deiner Übungsreihenfolge. Tippe auf eine Zeile, um den vollständigen Verlauf der Übung zu öffnen.")
+                }
+                Section("Trainings löschen") {
+                    Text("Wische im Trainingsverlauf einer Übung nach links und bestätige „Training löschen“. Die Übung, ihre Standardsätze und andere Trainings bleiben erhalten, auch beim Löschen des letzten Trainings. Eine Übung löschst du über das separate Menü … und „Übung löschen“.")
+                }
                 Section("Fortschritt und Verlauf") {
                     Text("Die Zielkarten zeigen Zielgewicht, erreichtes Arbeitsgewicht und Datum des letzten Trainings gemeinsam in einer Zeile. Prozentwert und Balken zeigen den Fortschritt. Ein grünes Häkchen markiert erreichte Ziele.")
                     Text("Der Fortschritt ergibt sich aus dem Arbeitsgewicht des zeitlich letzten Trainings geteilt durch das aktuelle Zielgewicht. 60 kg bei einem Ziel von 100 kg ergeben 60 %. Bei gleichem Trainingsdatum gilt der zuletzt angelegte Eintrag.")
                     Text("Beim Erfassen ist heute vorausgewählt. Du kannst ältere Trainings nachtragen. Beim neuen Training werden die hinterlegten Standardsätze mit leeren Gewichtsfeldern übernommen. Ohne Standardsätze dient das letzte Training als Vorschlag. Tippe im Verlauf auf einen Eintrag zum Bearbeiten oder wische zum Löschen nach links.")
+                }
+                Section("Einstellungen und Beispieldaten") {
+                    Text("Über das Zahnrad öffnest du die Einstellungen. „Beispieldaten anlegen“ ergänzt Press, Kniebeuge, Bankdrücken und Kreuzheben mit Standardsätzen und je einem Training vom 17.11.2026. Die jeweils letzte Gruppe ist das Arbeitsgewicht. Gleichnamige Übungen werden wiederverwendet und identische Beispieltrainings übersprungen.")
+                    Text("„Alles löschen“ entfernt nach ausdrücklicher Bestätigung alle Übungen, Trainings und Standardsätze auf diesem Gerät.")
                 }
                 Section("Datenspeicherung") {
                     Text("Die Daten werden lokal auf diesem Gerät gespeichert. iCloud-Synchronisierung ist für eine spätere Version vorgesehen.")

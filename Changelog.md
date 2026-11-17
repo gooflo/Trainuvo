@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 – Trainingstage und Einstellungen
+
+- Startseite nach Trainingstag zusammengefasst. Pro Trainingseintrag eine kompakte Zeile mit Übung, Arbeits-Satzgruppe, Gewicht und optionaler Bewertung.
+- Löschablauf überarbeitet. Die Verbindung vom Training zur Übung wird vor dem Löschen gelöst, die Rückbeziehungen sind explizit nullify. Eine eindeutig zugeordnete Bestätigung unterscheidet Training und Übung.
+- Regressionstests für das Löschen einzelner und letzter Trainings mit Erhalt der Übung und ihrer Standardsätze ergänzt. Die genaue Ursache des auf dem Gerät beobachteten Fehlers ist ohne Xcode-Lauf nicht abschließend nachgewiesen.
+- Einstellungsseite über Zahnrad mit bestätigtem Alles löschen und wiederholt nutzbarem Beispieldatenimport.
+- Press, Kniebeuge, Bankdrücken und Kreuzheben mit den vorgegebenen Zielen, Standardsätzen und Trainings vom 17.11.2026 ergänzt. Kreuzheben verwendet die drei aufgeführten Gruppen. Die letzte Gruppe ist jeweils das Arbeitsgewicht.
+- Dokumentation und Hilfe aktualisiert. Xcode-Build, Swift-Tests, Update-Test und Geräteprüfung sind ausstehend.
+
 ## 0.4.0 – Anstrengung beim Arbeitsgewicht
 
 - Optionale Bewertung pro Training ergänzt: -- Sehr schwer, - Schwer, o OK und + Leicht – Steigerung möglich.

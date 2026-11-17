@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.4.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.5.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -14,7 +14,9 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 |---|---|
 | TrainuvoApp.swift | Persistenter SwiftData-Container, lokaler Betrieb, Anzeige eines Öffnungsfehlers |
 | TrainingModels.swift | Exercise, ExerciseSetTemplate, TrainingEntry, SetGroup, Fortschrittsberechnung und Gewichtsformatierung |
-| ContentView.swift | Startseite, Zielkarten, letzter Trainingstag, Übungsdetail und Hilfe |
+| ContentView.swift | Startseite, Zielkarten, gruppierte Trainingstage, Übungsdetail und Hilfe |
+| SettingsView.swift | Einstellungsseite, Bestätigung für Alles löschen und Import-Rückmeldung |
+| TrainingDataOperations.swift | Beispieldatenimport und vollständiges Löschen mit gemeinsamem Save/Rollback |
 | ExerciseOrderEditor.swift | Reihenfolge der Übungen als lokalen Entwurf bearbeiten und explizit speichern |
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift | Unverändertes Modell aus dem Grundprojekt für vorhandene Testdaten |
@@ -27,10 +29,10 @@ Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInte
 - ExerciseSetTemplate speichert UUID, Reihenfolge, Satztext und Arbeitsgewicht-Markierung. Exercise hält diese Vorlagen als separate Cascade-Beziehung mit inverser Übungsbeziehung. Die Vorlage enthält keine Gewichte.
 - TrainingEntry speichert UUID, Trainingsdatum, Anlegedatum, Übungsbeziehung und das optionale String-Feld effortRawValue. TrainingEffort bietet die stabilen Werte veryHard, hard, okay und easy mit den Symbolen --, -, o und +. Der berechnete Zugriff effort bildet den String auf das Enum ab. Fehlende oder unbekannte Werte werden als unbewertet dargestellt. Das Datum kann bis heute gewählt werden. Es wird einschließlich Uhrzeit gespeichert.
 - SetGroup speichert UUID, Reihenfolge, freien Satztext, Gewicht in kg und die Markierung als Arbeitsgewicht.
-- Exercise → TrainingEntry und TrainingEntry → SetGroup sind Beziehungen mit Cascade-Löschung und inversen Elternbeziehungen.
+- Exercise → TrainingEntry und TrainingEntry → SetGroup sind Beziehungen mit Cascade-Löschung und inversen Elternbeziehungen. TrainingEntry.exercise, SetGroup.entry und ExerciseSetTemplate.exercise haben explizit nullify als Löschregel. Diese entspricht dem bisher impliziten Standard. Es werden keine bestehenden Felder entfernt.
 - Genau eine Satzgruppe muss als Arbeitsgewicht markiert sein. Das Entfernen der markierten Gruppe markiert die erste verbleibende Gruppe.
 - Fortschritt = markiertes Arbeitsgewicht des chronologisch letzten Trainings ÷ aktuelles Zielgewicht. Bei gleichem Trainingsdatum entscheidet das Anlegedatum. Werte über 100 % werden als Zahl angezeigt, der Fortschrittsbalken endet bei 100 %.
-- Die Startseite zeigt die Einträge des letzten lokalen Kalendertags mit Training.
+- TrainingDaySummary gruppiert alle Einträge nach lokalem Kalendertag. Die Tage sind absteigend sortiert. Innerhalb eines Tages gilt die manuelle Übungsreihenfolge, danach Übungsname und absteigendes Trainings-/Anlegedatum. Mehrfache Einträge derselben Übung bleiben als einzelne Trainingszeilen sichtbar.
 - Gewichte sind endliche Double-Werte zwischen 0 und 100.000 kg. Ziele liegen zwischen 0,01 und 100.000 kg. Komma und Punkt werden akzeptiert. Die Darstellung zeigt bis zu zwei Nachkommastellen. Freitext wird für den Fortschritt nicht ausgewertet.
 - Editoren bearbeiten zunächst lokale Entwürfe. Abbrechen verändert keine gespeicherten Daten. Speichern und Löschen verwenden explizites save, bei Fehlern rollback und eine Fehlermeldung. Löschen verlangt eine Bestätigung.
 - Ein neues Training verwendet zuerst die geordneten Übungsstandardsätze und deren Arbeitsgewicht-Markierung, mit leeren Gewichtsfeldern. Ohne Standardsätze werden wie bisher die Satzgruppen und Gewichte des letzten Trainings vorgeschlagen, sonst 3 × 5. Das Bearbeiten eines bestehenden Trainings verwendet immer dessen eigene Gruppen. Änderungen an Vorlagen berühren vorhandene TrainingEntry- und SetGroup-Objekte nicht.
@@ -59,7 +61,7 @@ Sichtprüfung auf dem iPhone-15-Simulator mit vier Übungen durchführen. Auch l
 
 ## Gewichtsspalte
 
-TrainingSummary verwendet vor jeder Gewichtsangabe einen 18 pt breiten Platz für die Arbeitsgewicht-Markierung. Bei anderen Gruppen ist das Symbol unsichtbar und für VoiceOver ausgeblendet. Gewichte verwenden tabellarische Ziffern, feste horizontale Eigenbreite und stehen am rechten Rand. Diese gemeinsame Darstellung gilt für Verlauf und Startseiten-Zusammenfassung.
+TrainingSummary verwendet vor jeder Gewichtsangabe einen 18 pt breiten Platz für die Arbeitsgewicht-Markierung. Bei anderen Gruppen ist das Symbol unsichtbar und für VoiceOver ausgeblendet. Gewichte verwenden tabellarische Ziffern, feste horizontale Eigenbreite und stehen am rechten Rand. Diese Darstellung gilt für den vollständigen Verlauf. Die Startseite verwendet DayTrainingRow mit nur der Arbeitsgruppe.
 
 ## Kompakte Trainingserfassung
 
@@ -71,9 +73,27 @@ Vier Gruppen sollen bei Standardtextgröße auf dem iPhone 15 im Hochformat geme
 
 TrainingEditor hält eine optionale TrainingEffort-Auswahl als lokalen Entwurf. Neue Trainings beginnen mit nil, auch bei Übernahme von Standardsätzen oder des letzten Trainings. Beim Bearbeiten wird die gespeicherte Auswahl geladen. Das Menü bietet Nicht bewertet zum Entfernen sowie alle vier ausgeschriebenen Bewertungen. Speichern schreibt die Auswahl zusammen mit den übrigen Trainingsdaten.
 
-TrainingSummary zeigt das Symbol ausschließlich bei der markierten Arbeitsgruppe. Alle Zeilen reservieren eine 26 pt breite Bewertungsspalte, die mit der Bedienungshilfen-Textgröße skaliert. Nicht angezeigte Bewertungen sind für VoiceOver ausgeblendet. VoiceOver spricht die ausgeschriebene Bewertung. Dies gilt für Verlauf und Startseiten-Zusammenfassung.
+TrainingSummary zeigt das Symbol ausschließlich bei der markierten Arbeitsgruppe. Alle Zeilen reservieren eine 26 pt breite Bewertungsspalte, die mit der Bedienungshilfen-Textgröße skaliert. Nicht angezeigte Bewertungen sind für VoiceOver ausgeblendet. VoiceOver spricht die ausgeschriebene Bewertung. DayTrainingRow verwendet dieselbe Bewertungsspalte neben der einzigen Arbeitsgruppe in der Tagesübersicht.
 
 0.4.0 ergänzt effortRawValue als optionales Feld ohne Pflichtwert. Vorhandene Einträge beginnen ohne Bewertung. Das Store-Update muss auf dem Mac über einer Installation mit gespeicherten Trainings geprüft werden.
+
+## Löschabläufe
+
+TrainingEntry.deleteKeepingExercise löst zuerst die optionale Verbindung zur Übung und löscht dann den Trainingseintrag mit seinen eigenen Satzgruppen. Speichern und Rollback liegen in derselben Methode. ExerciseDetailView verwendet genau diesen Einstieg. Damit hat der zu löschende Eintrag beim Löschen keine Elternreferenz mehr.
+
+ExerciseDetailView verwendet einen einzelnen typisierten Alert-Zustand für Trainingsbestätigung, Übungsbestätigung und Fehlermeldung. Die Bestätigungsbuttons nennen das jeweilige Objekt ausdrücklich. Übungen werden über die separate Übungsaktion oder den bestätigten Gesamtlöschvorgang entfernt. Der auf dem Gerät gemeldete Fehler ist hier ohne Simulator nicht reproduziert, die Änderungen sichern beide möglichen Fehlerbereiche ab. Tests prüfen insbesondere den letzten Trainingseintrag.
+
+## Trainingstage auf der Startseite
+
+TrainingDaySummary.grouped verwendet Calendar.startOfDay mit dem lokalen Kalender. DayTrainingRow zeigt pro Trainingseintrag Übungsname, den Text der markierten Arbeitsgruppe, @, die optionale Anstrengungsbewertung und das Gewicht. Ohne markierte Gruppe wird Kein Arbeitsgewicht angezeigt. Vier Übungen mit je einem Eintrag ergeben vier Zeilen. Die vollständigen Satzgruppen sind weiter im Übungsdetail verfügbar. Ein Eintrag ohne Übungszuordnung zeigt Unbekannte Übung und bleibt sichtbar.
+
+## Einstellungen und Beispieldaten
+
+SettingsView wird über das Zahnrad als Sheet geöffnet. TrainingDataOperations.createExamples legt die vier Übungsvorgaben aus der README an. Das Beispieldatum ist der 17.11.2026 um 12 Uhr in der lokalen Zeitzone im gregorianischen Kalender. Alle Satzgruppen werden in der angegebenen Reihenfolge angelegt, die letzte als Arbeitsgruppe. Neue Einträge sind unbewertet.
+
+Der Import verwendet gleichnamige Übungen ohne Beachtung von Groß-/Kleinschreibung und Akzenten wieder, erhält vorhandene Ziele und ergänzt Standardsätze nur bei leerem Bestand. Ein identischer Beispiel-Trainingseintrag wird anhand von Tag, geordnetem Satztext und Gewicht erkannt. Mehrfaches Importieren ergänzt fehlende Einträge. Der gesamte Import wird einmal gespeichert und bei Fehlern zurückgerollt.
+
+TrainingDataOperations.deleteAll löscht Übungen, Trainings, Satzgruppen, Standardsatzvorlagen und alte Item-Datensätze nach Bestätigung. Zuerst werden alle Daten geladen und die Kind-Eltern-Verbindungen gelöst, danach erfolgt das Löschen mit einem gemeinsamen Save. Fehler führen zu Rollback. Die Aktion führt keine Teil-Saves aus.
 
 ## Tests auf dem Mac
 
@@ -118,6 +138,17 @@ In der Entwicklungsumgebung des Assistenten sind Xcode und Swift nicht installie
 4. Auf -- ändern, speichern, App neu starten und prüfen. Danach über Nicht bewertet entfernen und prüfen. Abbrechen einer Bewertungsänderung darf den gespeicherten Wert nicht ändern.
 5. Mit unterschiedlichen Gewichten sowie offener und geschlossener Tastatur auf iPhone 15 prüfen, ob die vier Gruppen weiterhin kompakt dargestellt werden. Große Textgröße und VoiceOver prüfen.
 
+## Abnahme von Trainingstagen und Einstellungen in 0.5.0
+
+1. Über die bestehende Installation aktualisieren und den vorhandenen Datenbestand kontrollieren.
+2. In einer Testinstallation die Beispieldaten anlegen. Ein Tag mit vier Zeilen muss Press 1 × 5 @ 52 kg, Kniebeuge 3 × 5 @ 90 kg, Bankdrücken 3 × 3 @ 85 kg und Kreuzheben 3 × 5 @ 100 kg zeigen.
+3. Erneut Beispieldaten anlegen. Die vier Einträge dürfen keine identischen Duplikate erhalten. Ziele, Standardsätze und alle Aufwärmgruppen im Übungsdetail kontrollieren.
+4. Einen älteren Tag und ein zweites Training derselben Übung am selben Tag ergänzen. Gruppierung, Datum und Übungsreihenfolge prüfen.
+5. Ein Training löschen, danach alle verbleibenden Trainings derselben Übung löschen. Die Übung muss mit identischer ID, Ziel, Reihenfolge und Standardsätzen erhalten bleiben. Die App neu starten und erneut prüfen.
+6. Abbrechen bei Training löschen und Übung löschen prüfen. Die separate Übungsaktion bestätigen und prüfen, ob nur die gewählte Übung mit ihren Daten gelöscht wird.
+7. Alles löschen zunächst abbrechen. Danach bestätigen und die leere Startseite kontrollieren. Beispieldaten erneut anlegen.
+8. Auf iPhone 15 mit vier Übungen, langer Beschriftung und großer Textgröße prüfen. Xcode-Build und Swift-Tests mit ⌘ U ausführen.
+
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.4.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.5.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.

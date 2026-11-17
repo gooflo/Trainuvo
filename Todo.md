@@ -10,6 +10,27 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t12 – Trainingstage kompakt zusammenfassen (0.5.0)
+
+- Alle Trainings auf der Startseite nach Kalendertag bündeln, neueste Tage zuerst.
+- Pro Eintrag nur Übung, Arbeits-Satzgruppe, Gewicht und optionale Bewertung zeigen. Tageszeilen folgen der Übungsreihenfolge. Vollständige Satzgruppen bleiben im Übungsverlauf zugänglich.
+- Mehrere Trainings derselben Übung am selben Tag ergeben mehrere Zeilen.
+- Xcode-Build, Tests, Datumsgrenzen und Sichtprüfung mit vier Übungen ausstehend.
+
+### t13 – Trainings löschen und Übungen erhalten (0.5.0)
+
+- Gemeldeter Fehler: Nach dem Löschen von Trainings wurde auch die Übung gelöscht.
+- Trainings-Löschpfad trennt vor dem Löschen die Übungsbeziehung. Rückbeziehungen explizit nullify. Bestätigungsaktionen für Training und Übung eindeutig zugeordnet.
+- Regressionstests für einzelne und letzte Trainings, Erhalt von Ziel, Reihenfolge und Standardsätzen ergänzt.
+- Exakte Ursache auf dem Gerät noch nicht abschließend nachgewiesen. Xcode-Build, Tests und erneute Löschprüfung mit bestehenden Daten ausstehend.
+
+### t14 – Einstellungen, Alles löschen und Beispieldaten (0.5.0)
+
+- Zahnrad mit Einstellungsseite, bestätigtem Alles löschen und Beispieldaten anlegen.
+- Die vier vorgegebenen Übungen samt Standardsätzen und Trainings vom 17.11.2026 anlegen. Kreuzheben erhält drei Gruppen, die jeweils letzte Gruppe dient als Arbeitsgewicht.
+- Gleichnamige Übungen wiederverwenden, identische Beispieltrainings überspringen, Import und Löschen gemeinsam speichern und bei Fehlern zurückrollen.
+- Xcode-Build, Tests, Abbrechen/Bestätigen und wiederholter Import auf dem Gerät ausstehend.
+
 ### t11 – Anstrengung des Arbeitsgewichts bewerten (0.4.0)
 
 - Pro Training optional -- (sehr schwer), - (schwer), o (OK) oder + (leicht, Steigerung möglich) auswählen.

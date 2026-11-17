@@ -161,4 +161,134 @@ struct TrainuvoTests {
         #expect(cleared.effort == nil)
         #expect(cleared.effortRawValue == nil)
     }
+
+    @Test(arguments: [1, 2])
+    func deletingTrainingsKeepsExerciseAndTemplates(_ numberOfTrainings: Int) throws {
+        let schema = Schema([Item.self, Exercise.self, TrainingEntry.self, SetGroup.self, ExerciseSetTemplate.self])
+        let container = try ModelContainer(
+            for: schema,
+            configurations: [ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)]
+        )
+        let context = ModelContext(container)
+        let exercise = Exercise(name: "Kniebeuge", targetWeight: 100)
+        exercise.sortOrder = 3
+        let exerciseID = exercise.id
+        context.insert(exercise)
+        let template = ExerciseSetTemplate(position: 0, prescription: "3 × 5", isWorking: true)
+        context.insert(template)
+        exercise.setTemplates.append(template)
+        var trainings: [TrainingEntry] = []
+        for offset in 0..<numberOfTrainings {
+            let training = TrainingEntry(date: Date(timeIntervalSince1970: Double(offset)), exercise: exercise)
+            context.insert(training)
+            let group = SetGroup(position: 0, prescription: "3 × 5", weight: 60, isWorking: true)
+            context.insert(group)
+            training.groups.append(group)
+            trainings.append(training)
+        }
+        try context.save()
+
+        for (index, training) in trainings.enumerated() {
+            try training.deleteKeepingExercise(in: context)
+            let reader = ModelContext(container)
+            let exercises = try reader.fetch(FetchDescriptor<Exercise>())
+            let saved = try #require(exercises.first)
+            #expect(exercises.count == 1)
+            #expect(saved.id == exerciseID)
+            #expect(saved.name == "Kniebeuge")
+            #expect(saved.targetWeight == 100)
+            #expect(saved.sortOrder == 3)
+            #expect(saved.sortedSetTemplates.map(\.prescription) == ["3 × 5"])
+            #expect(saved.entries.count == numberOfTrainings - index - 1)
+            #expect(try reader.fetchCount(FetchDescriptor<TrainingEntry>()) == numberOfTrainings - index - 1)
+            #expect(try reader.fetchCount(FetchDescriptor<SetGroup>()) == numberOfTrainings - index - 1)
+        }
+    }
+
+    @Test func examplesAreExactAndRepeatableAndGroupedByDay() throws {
+        let schema = Schema([Item.self, Exercise.self, TrainingEntry.self, SetGroup.self, ExerciseSetTemplate.self])
+        let container = try ModelContainer(
+            for: schema,
+            configurations: [ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)]
+        )
+        let context = ModelContext(container)
+        let result = try TrainingDataOperations.createExamples(in: context)
+        #expect(result.exercisesCreated == 4)
+        #expect(result.trainingsCreated == 4)
+        let again = try TrainingDataOperations.createExamples(in: context)
+        #expect(again.exercisesCreated == 0)
+        #expect(again.trainingsCreated == 0)
+
+        let reader = ModelContext(container)
+        let exercises = try reader.fetch(FetchDescriptor<Exercise>(sortBy: [SortDescriptor(\Exercise.sortOrder)]))
+        #expect(exercises.map(\.name) == ["Press", "Kniebeuge", "Bankdrücken", "Kreuzheben"])
+        #expect(exercises.compactMap(\.targetWeight) == [40, 100, 80, 130])
+        #expect(exercises.map { $0.sortedSetTemplates.map(\.prescription) } == [
+            ["1 × 5", "1 × 5"], ["1 × 5", "3 × 5"], ["1 × 5", "3 × 3"], ["1 × 5", "1 × 5", "3 × 5"]
+        ])
+        let trainings = try reader.fetch(FetchDescriptor<TrainingEntry>())
+        #expect(trainings.count == 4)
+        #expect(try reader.fetchCount(FetchDescriptor<SetGroup>()) == 9)
+        #expect(trainings.allSatisfy { $0.effort == nil })
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = .current
+        let days = TrainingDaySummary.grouped(trainings, calendar: calendar)
+        let day = try #require(days.first)
+        #expect(days.count == 1)
+        let dateParts = calendar.dateComponents([.year, .month, .day], from: day.date)
+        #expect(dateParts.year == 2026)
+        #expect(dateParts.month == 11)
+        #expect(dateParts.day == 17)
+        #expect(day.entries.map { $0.exercise?.name ?? "" } == ["Press", "Kniebeuge", "Bankdrücken", "Kreuzheben"])
+        #expect(day.entries.compactMap(\.workingWeight) == [52, 90, 85, 100])
+        #expect(day.entries.compactMap { $0.workingGroup?.prescription } == ["1 × 5", "3 × 5", "3 × 3", "3 × 5"])
+    }
+
+    @Test func groupedDaysKeepSeparateEntriesAndUseLocalDayBoundaries() throws {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = try #require(TimeZone(secondsFromGMT: 3600))
+        let firstDate = try #require(calendar.date(from: DateComponents(year: 2026, month: 11, day: 17, hour: 0, minute: 5)))
+        let lateDate = try #require(calendar.date(from: DateComponents(year: 2026, month: 11, day: 17, hour: 23, minute: 55)))
+        let nextDate = try #require(calendar.date(from: DateComponents(year: 2026, month: 11, day: 18, hour: 0, minute: 5)))
+        let exercise = Exercise(name: "Press", targetWeight: 40)
+        let first = TrainingEntry(date: firstDate, exercise: exercise)
+        let late = TrainingEntry(date: lateDate, exercise: exercise)
+        let next = TrainingEntry(date: nextDate, exercise: exercise)
+        let days = TrainingDaySummary.grouped([first, next, late], calendar: calendar)
+        #expect(days.count == 2)
+        #expect(days[0].entries.map(\.id) == [next.id])
+        #expect(days[1].entries.map(\.id) == [late.id, first.id])
+    }
+
+    @Test func examplesReuseExistingExerciseAndDeleteAllClearsEveryModel() throws {
+        let schema = Schema([Item.self, Exercise.self, TrainingEntry.self, SetGroup.self, ExerciseSetTemplate.self])
+        let container = try ModelContainer(
+            for: schema,
+            configurations: [ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)]
+        )
+        let context = ModelContext(container)
+        let exercise = Exercise(name: "Press", targetWeight: 55)
+        context.insert(exercise)
+        let template = ExerciseSetTemplate(position: 0, prescription: "5 × 3", isWorking: true)
+        context.insert(template)
+        exercise.setTemplates.append(template)
+        context.insert(Item(timestamp: Date()))
+        try context.save()
+        let result = try TrainingDataOperations.createExamples(in: context)
+        #expect(result.exercisesCreated == 3)
+        #expect(result.trainingsCreated == 4)
+        #expect(exercise.targetWeight == 55)
+        #expect(exercise.sortedSetTemplates.map(\.prescription) == ["5 × 3"])
+
+        try TrainingDataOperations.deleteAll(in: context)
+        let reader = ModelContext(container)
+        #expect(try reader.fetchCount(FetchDescriptor<Exercise>()) == 0)
+        #expect(try reader.fetchCount(FetchDescriptor<TrainingEntry>()) == 0)
+        #expect(try reader.fetchCount(FetchDescriptor<SetGroup>()) == 0)
+        #expect(try reader.fetchCount(FetchDescriptor<ExerciseSetTemplate>()) == 0)
+        #expect(try reader.fetchCount(FetchDescriptor<Item>()) == 0)
+        let recreated = try TrainingDataOperations.createExamples(in: context)
+        #expect(recreated.exercisesCreated == 4)
+        #expect(recreated.trainingsCreated == 4)
+    }
 }

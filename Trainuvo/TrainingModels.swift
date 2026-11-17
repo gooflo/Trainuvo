@@ -44,6 +44,7 @@ final class ExerciseSetTemplate {
     var position: Int = 0
     var prescription: String = ""
     var isWorking: Bool = false
+    @Relationship(deleteRule: .nullify)
     var exercise: Exercise?
 
     init(position: Int, prescription: String, isWorking: Bool) {
@@ -59,6 +60,7 @@ final class TrainingEntry {
     var date: Date = Date()
     var createdAt: Date = Date()
     var effortRawValue: String?
+    @Relationship(deleteRule: .nullify)
     var exercise: Exercise?
     @Relationship(deleteRule: .cascade, inverse: \SetGroup.entry)
     var groups: [SetGroup] = []
@@ -69,7 +71,20 @@ final class TrainingEntry {
     }
 
     var sortedGroups: [SetGroup] { groups.sorted { $0.position < $1.position } }
-    var workingWeight: Double? { sortedGroups.first(where: \.isWorking)?.weight }
+    var workingGroup: SetGroup? { sortedGroups.first(where: \.isWorking) }
+    var workingWeight: Double? { workingGroup?.weight }
+
+    func deleteKeepingExercise(in context: ModelContext) throws {
+        // Remove the parent link before deleting the training and its owned groups.
+        exercise = nil
+        context.delete(self)
+        do {
+            try context.save()
+        } catch {
+            context.rollback()
+            throw error
+        }
+    }
 
     var effort: TrainingEffort? {
         get { effortRawValue.flatMap(TrainingEffort.init(rawValue:)) }
@@ -84,6 +99,7 @@ final class SetGroup {
     var prescription: String = ""
     var weight: Double = 0
     var isWorking: Bool = false
+    @Relationship(deleteRule: .nullify)
     var entry: TrainingEntry?
 
     init(position: Int, prescription: String, weight: Double, isWorking: Bool) {
@@ -139,4 +155,28 @@ enum TrainingEffort: String, CaseIterable, Identifiable {
     }
 
     var selectionTitle: String { "\(symbol) \(title)" }
+}
+
+struct TrainingDaySummary: Identifiable {
+    let date: Date
+    let entries: [TrainingEntry]
+
+    var id: Date { date }
+
+    static func grouped(_ entries: [TrainingEntry], calendar: Calendar = .current) -> [TrainingDaySummary] {
+        let days = Dictionary(grouping: entries) { calendar.startOfDay(for: $0.date) }
+        return days.keys.sorted(by: >).map { day in
+            let ordered = (days[day] ?? []).sorted { left, right in
+                let leftOrder = left.exercise?.sortOrder ?? Int.max
+                let rightOrder = right.exercise?.sortOrder ?? Int.max
+                if leftOrder != rightOrder { return leftOrder < rightOrder }
+                let leftName = left.exercise?.name ?? ""
+                let rightName = right.exercise?.name ?? ""
+                if leftName != rightName { return leftName < rightName }
+                if left.date != right.date { return left.date > right.date }
+                return left.createdAt > right.createdAt
+            }
+            return TrainingDaySummary(date: day, entries: ordered)
+        }
+    }
 }
