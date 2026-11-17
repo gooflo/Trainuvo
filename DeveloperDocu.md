@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.6.6**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.6.7**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -184,10 +184,10 @@ Auf dem Gerät einen von zwei Einträgen einer Übung löschen, anschließend de
 
 ## App-Icon und Header in 0.6.6
 
-Das ausgewählte Logo 3 liegt als Trainuvo-AppIcon.png im Assetkatalog unter AppIcon.appiconset. Es wurde für den Icon-Export auf 1024 × 1024 Pixel skaliert und als RGB-PNG ohne Alphakanal gespeichert. Contents.json verweist auf diese Datei als universelles iOS-App-Icon. Motiv ist die blaue Langhantel im blauen Fortschrittsring auf weißem Hintergrund.
+Das ausgewählte Logo mit der schrägen Hantel liegt als Trainuvo-AppIcon.png im Assetkatalog unter AppIcon.appiconset. Es wurde für den Icon-Export auf 1024 × 1024 Pixel skaliert und als RGB-PNG ohne Alphakanal gespeichert. Contents.json verweist auf diese Datei als universelles iOS-App-Icon. Motiv ist die schräge weiße Langhantel auf blauem Verlauf. Die korrigierte Variante ist seit 0.6.7 eingebaut.
 
 Im TrainingEditor die Titelzeilen unter Abbrechen und Speichern auf iPhone 15 bei geöffneter Tastatur prüfen. Lange Übungsnamen, vier Satzgruppen und große Textgröße einbeziehen. Nach dem Build das Icon auf dem Home-Bildschirm und im App-Umschalter prüfen. Xcode-Build und Sichtprüfung sind ausstehend.
 
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.6.6` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.6.7` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.

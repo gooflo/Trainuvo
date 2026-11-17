@@ -41,7 +41,7 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ### t20 – Logo und App-Icon mit Langhantel (0.6.6)
 
-- Vorschlag 3 ausgewählt: blaue Langhantel im blauen Fortschrittsring auf Weiß.
+- Gewünschtes Logo in 0.6.7 korrigiert: schräge weiße Langhantel auf blauem Verlauf.
 - Als deckendes RGB-PNG mit 1024 × 1024 Pixeln in AppIcon eingebaut.
 - Xcode-Build und Darstellung auf dem Home-Bildschirm ausstehend.
 

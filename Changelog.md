@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.7 – Gewünschtes Logo eingebaut
+
+- App-Icon durch die schräge weiße Langhantel auf blauem Verlauf ersetzt.
+- Logo-Beschreibung in Projektregeln und technischer Dokumentation korrigiert.
+- Iconformat geprüft. Xcode-Build und Darstellung auf dem Gerät ausstehend.
+
 ## 0.6.6 – App-Icon und Überschrift
 
 - Ausgewähltes Logo 3 als App-Icon eingebaut: blaue Langhantel mit Fortschrittsring auf Weiß.
