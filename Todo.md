@@ -4,6 +4,14 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
+### t21 – Übung bei der Trainingserfassung eindeutig anzeigen (Prio 1)
+
+- Beim Eintragen eines Trainings klar und gut sichtbar anzeigen, für welche Übung der Eintrag angelegt wird.
+
+### t22 – Darstellung der Arbeitsgewicht-Bewertung verbessern (Prio 2)
+
+- Die Auswahl und Darstellung der Anstrengungsbewertung gestalterisch überarbeiten, damit sie übersichtlicher und stimmiger wirkt.
+
 ### t19 – Export als JSON, Excel und formatierten Text (Prio 2)
 
 - Trainingsdaten als JSON und Excel exportieren.

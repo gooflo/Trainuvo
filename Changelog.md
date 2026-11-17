@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.2 – Weitere Verbesserungen vorgemerkt
+
+- Eindeutige Übungsanzeige bei der Trainingserfassung mit Prio 1 in Todo.md aufgenommen.
+- Überarbeitung der Darstellung der Arbeitsgewicht-Bewertung mit Prio 2 aufgenommen.
+
 ## 0.6.1 – Export und Logo vorgemerkt
 
 - JSON-, Excel- und formatierten Text-Export für OneNote unter Prio 2 in Todo.md aufgenommen.
