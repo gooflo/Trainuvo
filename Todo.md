@@ -10,6 +10,13 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t17 – Einzelnes Training über sichtbaren Button löschen (0.5.3)
+
+- Tageszeile öffnet direkt das zugehörige Training. Im bestehenden Training „Dieses Training löschen“ anbieten und bestätigen lassen.
+- Die Löschung verwendet deleteKeepingExercise und schließt den Editor erst nach erfolgreichem Speichern. Bei Fehlern zurückrollen und Meldung zeigen.
+- Den letzten Eintrag einer Übung löschen und den Erhalt von Übung, Ziel, Standardsätzen und Reihenfolge auf dem Gerät prüfen. Abbrechen ebenfalls prüfen.
+- Xcode-Build und Geräteprüfung ausstehend. Vorhandene Regressionstests für das Löschen einzelner und letzter Trainings bleiben relevant.
+
 ### t16 – ForEach-Compilerfehler bei SetGroup korrigieren (0.5.2)
 
 - Gemeldeter Fehler in ContentView: ForEach über Satzgruppen verlangt Identifiable-Konformität.

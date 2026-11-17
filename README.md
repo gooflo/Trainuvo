@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining und zeigt den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.5.2 – Vorabversion**
+**Interner Entwicklungsstand: 0.5.3 – Vorabversion**
 
 ## Funktionen
 
@@ -50,9 +50,9 @@ Der Zielfortschritt entspricht dem Arbeitsgewicht des zeitlich letzten Trainings
 
 Auf der Startseite neben **Deine Ziele** auf **Sortieren** tippen, die Übungen an den Griffen verschieben und **Speichern** wählen. Die Reihenfolge bleibt nach einem Neustart erhalten. Neue Übungen erscheinen am Ende. Vor der ersten manuellen Sortierung stehen vorhandene Übungen alphabetisch.
 
-Die Startseite zeigt Trainingstage mit dem neuesten Datum zuerst. Innerhalb eines Tages folgen die Einträge deiner Übungsreihenfolge. Pro Trainingseintrag erscheint eine Zeile mit dem Arbeitsgewicht und optionaler Bewertung. Mehrere Einträge derselben Übung am gleichen Tag bleiben als einzelne Zeilen sichtbar. Antippen öffnet den vollständigen Übungsverlauf mit allen Satzgruppen.
+Die Startseite zeigt Trainingstage mit dem neuesten Datum zuerst. Innerhalb eines Tages folgen die Einträge deiner Übungsreihenfolge. Pro Trainingseintrag erscheint eine Zeile mit dem Arbeitsgewicht und optionaler Bewertung. Mehrere Einträge derselben Übung am gleichen Tag bleiben als einzelne Zeilen sichtbar. Antippen öffnet genau den gewählten Trainingseintrag zum Bearbeiten und Löschen. Den vollständigen Übungsverlauf öffnest du über die Zielkarte.
 
-Im Verlauf steht die Arbeitsgewicht-Markierung links neben dem Gewicht. Alle Gewichte sind rechtsbündig untereinander angeordnet. Einen Eintrag zum Bearbeiten antippen oder zum Löschen nach links wischen. Die Übungsaktionen stehen im Menü **…**. Das Löschen eines Trainings erhält die Übung und deren Standardsätze, auch beim letzten Training. Das separate Löschen einer Übung entfernt nach Bestätigung auch ihre Trainings.
+Im Verlauf steht die Arbeitsgewicht-Markierung links neben dem Gewicht. Alle Gewichte sind rechtsbündig untereinander angeordnet. Einen Eintrag zum Bearbeiten antippen. Unten im geöffneten Training **Dieses Training löschen** wählen und bestätigen. Alternativ steht im Übungsverlauf die Wischaktion **Training löschen** bereit. Die Übungsaktionen stehen im Menü **…**. Das Löschen eines Trainings erhält die Übung und deren Standardsätze, auch beim letzten Training. Das separate Löschen einer Übung entfernt nach Bestätigung auch ihre Trainings.
 
 Satztexte dürfen frei formuliert werden, etwa **5/5/4**. Sie werden unverändert dokumentiert. Für den Prozentwert zählt das markierte Gewicht. Gewichte können mit Komma oder Punkt eingegeben werden.
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.3 – Einzelnes Training sichtbar löschen
+
+- Im geöffneten bestehenden Training einen sichtbaren Button „Dieses Training löschen“ mit Bestätigung ergänzt.
+- Tageszeilen auf der Startseite öffnen direkt den jeweiligen Trainingseintrag.
+- Der Löschbutton verwendet denselben abgesicherten Löschpfad mit getrennter Übungsbeziehung. Die Übung, Standardsätze und andere Trainingseinträge werden erhalten.
+- Vollständiges Durchwischen im Übungsverlauf deaktiviert, sodass die Löschaktion bewusst ausgewählt wird.
+- Hilfe und Dokumentation aktualisiert. Xcode-Build und Geräteprüfung ausstehend.
+
 ## 0.5.2 – Explizite Identifizierung in SwiftUI-Listen
 
 - Die Satzgruppen-Schleife in TrainingSummary verwendet die gespeicherte UUID explizit als ForEach-ID. Damit benötigt diese Schleife keine abgeleitete Identifiable-Konformität des Elements.

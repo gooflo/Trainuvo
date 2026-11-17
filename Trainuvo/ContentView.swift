@@ -8,6 +8,7 @@ struct ContentView: View {
     @State private var showingHelp = false
     @State private var showingExerciseOrder = false
     @State private var showingSettings = false
+    @State private var editingTraining: TrainingEntry?
 
     private var trainingDays: [TrainingDaySummary] {
         TrainingDaySummary.grouped(entries)
@@ -55,9 +56,9 @@ struct ContentView: View {
                                             .font(.headline)
                                         VStack(spacing: 0) {
                                             ForEach(day.entries, id: \.id) { entry in
-                                                if let exercise = entry.exercise {
-                                                    NavigationLink {
-                                                        ExerciseDetailView(exercise: exercise)
+                                                if entry.exercise != nil {
+                                                    Button {
+                                                        editingTraining = entry
                                                     } label: {
                                                         DayTrainingRow(entry: entry)
                                                     }
@@ -96,6 +97,11 @@ struct ContentView: View {
             .sheet(isPresented: $showingExercise) { ExerciseEditor() }
             .sheet(isPresented: $showingHelp) { HelpView() }
             .sheet(isPresented: $showingSettings) { SettingsView() }
+            .sheet(item: $editingTraining) { entry in
+                if let exercise = entry.exercise {
+                    TrainingEditor(exercise: exercise, entry: entry)
+                }
+            }
             .sheet(isPresented: $showingExerciseOrder) { ExerciseOrderEditor(exercises: exercises) }
         }
         .tint(.teal)
@@ -257,7 +263,7 @@ struct ExerciseDetailView: View {
                         .foregroundStyle(.primary)
                         .padding(.vertical, 6)
                     }
-                    .swipeActions {
+                    .swipeActions(allowsFullSwipe: false) {
                         Button("Training löschen", role: .destructive) { activeAlert = .deleteTraining(entry) }
                     }
                 }
@@ -342,7 +348,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.5.2"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.5.3"
     }
 
     var body: some View {
@@ -369,10 +375,10 @@ private struct HelpView: View {
                 }
                 Section("Trainingstage") {
                     Text("Die Startseite fasst Trainings nach Kalendertag zusammen. Jede Zeile zeigt Übungsname, Sätze und Wiederholungen sowie das Arbeitsgewicht, zum Beispiel Kniebeuge 3 × 5 @ 60 kg. Eine Bewertung steht links vor dem Gewicht. Aufwärmgruppen bleiben im Übungsdetail sichtbar.")
-                    Text("Wenn eine Übung an einem Tag mehrfach erfasst wurde, erscheint pro Trainingseintrag eine Zeile. Die Zeilen folgen deiner Übungsreihenfolge. Tippe auf eine Zeile, um den vollständigen Verlauf der Übung zu öffnen.")
+                    Text("Wenn eine Übung an einem Tag mehrfach erfasst wurde, erscheint pro Trainingseintrag eine Zeile. Die Zeilen folgen deiner Übungsreihenfolge. Tippe auf eine Tageszeile, um genau diesen Trainingseintrag zu bearbeiten oder zu löschen. Den vollständigen Verlauf öffnest du über die Zielkarte der Übung.")
                 }
                 Section("Trainings löschen") {
-                    Text("Wische im Trainingsverlauf einer Übung nach links und bestätige „Training löschen“. Die Übung, ihre Standardsätze und andere Trainings bleiben erhalten, auch beim Löschen des letzten Trainings. Eine Übung löschst du über das separate Menü … und „Übung löschen“.")
+                    Text("Tippe auf der Startseite auf eine Trainingszeile oder öffne im Übungsverlauf einen Eintrag. Unten findest du „Dieses Training löschen“. Bestätige die Löschung. Alternativ kannst du im Trainingsverlauf nach links wischen und „Training löschen“ wählen. Die Übung, ihre Standardsätze und andere Trainings bleiben erhalten, auch beim Löschen des letzten Trainings. Eine Übung löschst du über das separate Menü … und „Übung löschen“.")
                 }
                 Section("Fortschritt und Verlauf") {
                     Text("Die Zielkarten zeigen Zielgewicht, erreichtes Arbeitsgewicht und Datum des letzten Trainings gemeinsam in einer Zeile. Prozentwert und Balken zeigen den Fortschritt. Ein grünes Häkchen markiert erreichte Ziele.")

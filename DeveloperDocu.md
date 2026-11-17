@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.5.2**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.5.3**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -83,13 +83,13 @@ TrainingSummary zeigt das Symbol ausschließlich bei der markierten Arbeitsgrupp
 
 ## Löschabläufe
 
-TrainingEntry.deleteKeepingExercise löst zuerst die optionale Verbindung zur Übung und löscht dann den Trainingseintrag mit seinen eigenen Satzgruppen. Speichern und Rollback liegen in derselben Methode. ExerciseDetailView verwendet genau diesen Einstieg. Damit hat der zu löschende Eintrag beim Löschen keine Elternreferenz mehr.
+TrainingEntry.deleteKeepingExercise löst zuerst die optionale Verbindung zur Übung und löscht dann den Trainingseintrag mit seinen eigenen Satzgruppen. Speichern und Rollback liegen in derselben Methode. ExerciseDetailView und der sichtbare Löschbutton in TrainingEditor verwenden genau diesen Einstieg. Damit hat der zu löschende Eintrag beim Löschen keine Elternreferenz mehr.
 
 ExerciseDetailView verwendet einen einzelnen typisierten Alert-Zustand für Trainingsbestätigung, Übungsbestätigung und Fehlermeldung. Die Bestätigungsbuttons nennen das jeweilige Objekt ausdrücklich. Übungen werden über die separate Übungsaktion oder den bestätigten Gesamtlöschvorgang entfernt. Der auf dem Gerät gemeldete Fehler ist hier ohne Simulator nicht reproduziert, die Änderungen sichern beide möglichen Fehlerbereiche ab. Tests prüfen insbesondere den letzten Trainingseintrag.
 
 ## Trainingstage auf der Startseite
 
-TrainingDaySummary.grouped verwendet Calendar.startOfDay mit dem lokalen Kalender. DayTrainingRow zeigt pro Trainingseintrag Übungsname, den Text der markierten Arbeitsgruppe, @, die optionale Anstrengungsbewertung und das Gewicht. Ohne markierte Gruppe wird Kein Arbeitsgewicht angezeigt. Vier Übungen mit je einem Eintrag ergeben vier Zeilen. Die vollständigen Satzgruppen sind weiter im Übungsdetail verfügbar. Ein Eintrag ohne Übungszuordnung zeigt Unbekannte Übung und bleibt sichtbar.
+TrainingDaySummary.grouped verwendet Calendar.startOfDay mit dem lokalen Kalender. DayTrainingRow zeigt pro Trainingseintrag Übungsname, den Text der markierten Arbeitsgruppe, @, die optionale Anstrengungsbewertung und das Gewicht. Ohne markierte Gruppe wird Kein Arbeitsgewicht angezeigt. Vier Übungen mit je einem Eintrag ergeben vier Zeilen. Eine Tageszeile öffnet direkt TrainingEditor für diesen Datensatz. Die vollständigen Satzgruppen und der sichtbare Löschbutton sind dort verfügbar. Der gesamte Übungsverlauf wird über die Zielkarte geöffnet. Ein Eintrag ohne Übungszuordnung zeigt Unbekannte Übung und bleibt sichtbar.
 
 ## Einstellungen und Beispieldaten
 
@@ -160,6 +160,12 @@ In der Entwicklungsumgebung des Assistenten sind Xcode und Swift nicht installie
 3. Die Satztexte und Aufwärmgewichte beider Tage vergleichen. Erneut importieren und prüfen, dass keine identischen Duplikate entstehen.
 4. Xcode-Build, Swift-Tests und Sichtprüfung sind ausstehend.
 
+## Sichtbares Löschen eines Trainingseintrags in 0.5.3
+
+TrainingEditor zeigt beim Bearbeiten eines gespeicherten Eintrags unter den Satzgruppen „Dieses Training löschen“. Nach Bestätigung ruft er deleteKeepingExercise auf und schließt sich nach erfolgreichem Speichern. Abbrechen verändert keine Modelldaten. Bei einem Fehler bleibt der Editor mit Fehlermeldung geöffnet. Die Tageszeile auf der Startseite öffnet den Datensatz direkt zum Bearbeiten. Die vorhandene Wischaktion im Übungsverlauf bleibt zusätzlich verfügbar, mit deaktiviertem Full Swipe.
+
+Auf dem Gerät einen von zwei Einträgen einer Übung löschen, anschließend den letzten. Die Übung mit Ziel, Reihenfolge und Standardsätzen muss weiter auf der Startseite stehen. App neu starten und prüfen. Abbrechen in der Bestätigung sowie das Anlegen eines neuen Trainings für die erhaltene Übung prüfen. Xcode-Build und Gerätetest sind ausstehend.
+
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.5.2` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.5.3` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.

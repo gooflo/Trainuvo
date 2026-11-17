@@ -215,6 +215,7 @@ struct TrainingEditor: View {
     @State private var workingID: UUID
     @State private var effort: TrainingEffort?
     @State private var errorMessage: String?
+    @State private var showingDeleteConfirmation = false
     @FocusState private var inputFocused: Bool
 
     init(exercise: Exercise, entry: TrainingEntry? = nil) {
@@ -331,6 +332,14 @@ struct TrainingEditor: View {
                 } footer: {
                     Text("Zielscheibe = Arbeitsgewicht. Satzauswahl und Entfernen über den Pfeil.")
                 }
+                if entry != nil {
+                    Section {
+                        Button("Dieses Training löschen", systemImage: "trash", role: .destructive) {
+                            inputFocused = false
+                            showingDeleteConfirmation = true
+                        }
+                    }
+                }
             }
             .navigationTitle(entry == nil ? "Training erfassen" : "Training bearbeiten")
             .navigationBarTitleDisplayMode(.inline)
@@ -344,12 +353,30 @@ struct TrainingEditor: View {
                     Button("Fertig") { inputFocused = false }
                 }
             }
-            .alert("Speichern fehlgeschlagen", isPresented: Binding(
+            .confirmationDialog("Dieses Training löschen?", isPresented: $showingDeleteConfirmation, titleVisibility: .visible) {
+                Button("Dieses Training löschen", role: .destructive) { deleteTraining() }
+                Button("Abbrechen", role: .cancel) {}
+            } message: {
+                if let entry {
+                    Text("Training vom \(entry.date.formatted(date: .abbreviated, time: .omitted)) für \(exercise.name) mit seinen Sätzen löschen? Die Übung und ihre Standardsätze bleiben erhalten.")
+                }
+            }
+            .alert("Aktion fehlgeschlagen", isPresented: Binding(
                 get: { errorMessage != nil },
                 set: { if !$0 { errorMessage = nil } }
             )) {
                 Button("OK") { errorMessage = nil }
             } message: { Text(errorMessage ?? "") }
+        }
+    }
+
+    private func deleteTraining() {
+        guard let entry else { return }
+        do {
+            try entry.deleteKeepingExercise(in: modelContext)
+            dismiss()
+        } catch {
+            errorMessage = error.localizedDescription
         }
     }
 
