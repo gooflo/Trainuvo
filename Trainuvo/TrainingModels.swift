@@ -5,6 +5,7 @@ import SwiftData
 final class Exercise {
     var id: UUID = UUID()
     var name: String = ""
+    var sortOrder: Int = 0
     var targetWeight: Double?
     @Relationship(deleteRule: .cascade, inverse: \TrainingEntry.exercise)
     var entries: [TrainingEntry] = []

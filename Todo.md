@@ -10,6 +10,18 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t08 – Übungen auf der Startseite sortieren (0.3.0)
+
+- Über „Sortieren“ neben „Deine Ziele“ die Reihenfolge per Griff ändern und speichern.
+- Reihenfolge dauerhaft speichern. Vorhandene Übungen zunächst alphabetisch, neue Übungen am Ende anzeigen.
+- Xcode-Build, Update-Test, Abbrechen, Speichern und Neustart auf dem Gerät ausstehend.
+
+### t09 – Arbeitsgewicht links markieren und Gewichte ausrichten (0.3.0)
+
+- Zielscheiben-Symbol links neben dem Arbeitsgewicht anzeigen. Bei anderen Gruppen denselben Symbolplatz reservieren und Gewichte rechtsbündig ausrichten.
+- Gilt für Trainingsverlauf und Zusammenfassungen des letzten Trainingstags.
+- Sichtprüfung mit mehreren Satzgruppen und unterschiedlichen Gewichten auf dem Gerät ausstehend.
+
 ### t07 – Standardsätze pro Übung und erweiterte Vorauswahl (0.2.0)
 
 - Satzgruppen wie 1 × 5, 1 × 5, 3 × 5, 1 × 5 in dieser Reihenfolge pro Übung hinterlegen und umordnen.

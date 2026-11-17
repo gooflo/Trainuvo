@@ -2,11 +2,12 @@
 
 Trainuvo dokumentiert Krafttraining und zeigt den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.2.0 – Vorabversion**
+**Interner Entwicklungsstand: 0.3.0 – Vorabversion**
 
 ## Funktionen
 
 - Übungen mit optionalem Zielgewicht und geordneten Standardsatzgruppen anlegen, bearbeiten und löschen.
+- Zielkarten auf der Startseite in einer selbst festgelegten Reihenfolge anzeigen.
 - Trainings pro Übung erfassen, nachtragen, bearbeiten und löschen.
 - Mehrere Satzgruppen mit unterschiedlichen Gewichten erfassen. Die Vorauswahl bietet 1 × 3, 1 × 5, 3 × 5, 3 × 3 und 5 × 3. Freitext ist möglich.
 - Eine Satzgruppe pro Training als Arbeitsgewicht markieren.
@@ -35,7 +36,9 @@ Für ein Training beispielsweise drei Satzgruppen erfassen:
 
 Der Zielfortschritt entspricht dem Arbeitsgewicht des zeitlich letzten Trainings geteilt durch das aktuelle Zielgewicht. 60 kg bei einem Ziel von 100 kg ergeben 60 %. Bei identischem Datum einschließlich Uhrzeit entscheidet das Anlegedatum. Ein älterer nachgetragener Eintrag ersetzt den aktuellen Fortschritt daher nur, wenn er zeitlich der letzte ist.
 
-Im Verlauf einen Eintrag zum Bearbeiten antippen oder zum Löschen nach links wischen. Die Übungsaktionen stehen im Menü **…**. Löschen einer Übung entfernt auch ihre Trainings nach Bestätigung.
+Auf der Startseite neben **Deine Ziele** auf **Sortieren** tippen, die Übungen an den Griffen verschieben und **Speichern** wählen. Die Reihenfolge bleibt nach einem Neustart erhalten. Neue Übungen erscheinen am Ende. Vor der ersten manuellen Sortierung stehen vorhandene Übungen alphabetisch.
+
+Im Verlauf steht die Arbeitsgewicht-Markierung links neben dem Gewicht. Alle Gewichte sind rechtsbündig untereinander angeordnet. Einen Eintrag zum Bearbeiten antippen oder zum Löschen nach links wischen. Die Übungsaktionen stehen im Menü **…**. Löschen einer Übung entfernt auch ihre Trainings nach Bestätigung.
 
 Satztexte dürfen frei formuliert werden, etwa **5/5/4**. Sie werden unverändert dokumentiert. Für den Prozentwert zählt das markierte Gewicht. Gewichte können mit Komma oder Punkt eingegeben werden.
 

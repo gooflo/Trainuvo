@@ -87,4 +87,33 @@ struct TrainuvoTests {
         #expect(TrainingFormat.prescriptions.contains("1 × 3"))
         #expect(TrainingFormat.prescriptions.contains("1 × 5"))
     }
+
+    @Test func exerciseOrderPersistsAndOverridesAlphabeticalOrder() throws {
+        let schema = Schema([Item.self, Exercise.self, TrainingEntry.self, SetGroup.self, ExerciseSetTemplate.self])
+        let container = try ModelContainer(
+            for: schema,
+            configurations: [ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)]
+        )
+        let context = ModelContext(container)
+        let bench = Exercise(name: "Bankdrücken", targetWeight: 100)
+        let deadlift = Exercise(name: "Kreuzheben", targetWeight: 130)
+        #expect(bench.sortOrder == 0)
+        #expect(deadlift.sortOrder == 0)
+        context.insert(bench)
+        context.insert(deadlift)
+        try context.save()
+        let descriptor = FetchDescriptor<Exercise>(
+            sortBy: [SortDescriptor(\Exercise.sortOrder), SortDescriptor(\Exercise.name)]
+        )
+        #expect(try context.fetch(descriptor).map(\.id) == [bench.id, deadlift.id])
+        deadlift.sortOrder = 0
+        bench.sortOrder = 1
+        try context.save()
+        let reader = ModelContext(container)
+        #expect(try reader.fetch(descriptor).map(\.id) == [deadlift.id, bench.id])
+        bench.name = "Armtraining"
+        try context.save()
+        let renamedReader = ModelContext(container)
+        #expect(try renamedReader.fetch(descriptor).map(\.id) == [deadlift.id, bench.id])
+    }
 }

@@ -171,6 +171,7 @@ struct ExerciseEditor: View {
             exercise.setTemplates = []
         } else {
             savedExercise = Exercise(name: cleanName, targetWeight: targetWeight)
+            savedExercise.sortOrder = (exercises.map(\.sortOrder).max() ?? -1) + 1
             modelContext.insert(savedExercise)
         }
         for (position, draft) in templates.enumerated() {

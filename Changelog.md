@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 – Übungen sortieren und Gewichte ausrichten
+
+- Zielkarten auf der Startseite über „Sortieren“ manuell anordnen. Die Reihenfolge wird dauerhaft gespeichert, neue Übungen werden angehängt.
+- Bestehende Übungen starten alphabetisch, bis eine Reihenfolge gespeichert wird.
+- Arbeitsgewicht-Markierung links neben das Gewicht verschoben. Die Gewichte stehen rechtsbündig untereinander, auch bei mehreren Satzgruppen.
+- Hilfe und Dokumentation aktualisiert.
+- Xcode-Build, automatisierte Tests, Update- und Sichtprüfung sind auf dem Mac ausstehend.
+
 ## 0.2.0 – Standardsätze pro Übung
 
 - Satzgruppen in fester Reihenfolge pro Übung hinterlegen und mit Pfeilen umordnen.

@@ -2,10 +2,11 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Query(sort: \Exercise.name) private var exercises: [Exercise]
+    @Query(sort: [SortDescriptor(\Exercise.sortOrder), SortDescriptor(\Exercise.name)]) private var exercises: [Exercise]
     @Query(sort: \TrainingEntry.date, order: .reverse) private var entries: [TrainingEntry]
     @State private var showingExercise = false
     @State private var showingHelp = false
+    @State private var showingExerciseOrder = false
 
     private var latestDay: [TrainingEntry] {
         guard let date = entries.first?.date else { return [] }
@@ -26,8 +27,15 @@ struct ContentView: View {
                                 .buttonStyle(.borderedProminent)
                         }
                     } else {
-                        Text("Deine Ziele")
-                            .font(.title2.bold())
+                        HStack(alignment: .firstTextBaseline) {
+                            Text("Deine Ziele").font(.title2.bold())
+                            Spacer()
+                            Button("Sortieren", systemImage: "arrow.up.arrow.down") {
+                                showingExerciseOrder = true
+                            }
+                            .font(.subheadline)
+                            .disabled(exercises.count < 2)
+                        }
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 280), spacing: 12)], spacing: 12) {
                             ForEach(exercises) { exercise in
                                 NavigationLink {
@@ -80,6 +88,7 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showingExercise) { ExerciseEditor() }
             .sheet(isPresented: $showingHelp) { HelpView() }
+            .sheet(isPresented: $showingExerciseOrder) { ExerciseOrderEditor(exercises: exercises) }
         }
         .tint(.teal)
     }
@@ -146,11 +155,16 @@ struct TrainingSummary: View {
             HStack(alignment: .firstTextBaseline) {
                 Text(group.prescription)
                 Spacer()
-                Text(TrainingFormat.weight(group.weight)).fontWeight(.medium)
-                if group.isWorking {
-                    Image(systemName: "target").foregroundStyle(.teal)
-                        .accessibilityLabel("Arbeitsgewicht")
-                }
+                Image(systemName: "target")
+                    .foregroundStyle(.teal)
+                    .frame(width: 18)
+                    .opacity(group.isWorking ? 1 : 0)
+                    .accessibilityLabel("Arbeitsgewicht")
+                    .accessibilityHidden(!group.isWorking)
+                Text(TrainingFormat.weight(group.weight))
+                    .fontWeight(.medium)
+                    .monospacedDigit()
+                    .fixedSize(horizontal: true, vertical: false)
             }
             .font(.subheadline)
         }
@@ -267,7 +281,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.2.0"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.3.0"
     }
 
     var body: some View {
@@ -276,13 +290,16 @@ private struct HelpView: View {
                 Section("Trainuvo \(version)") {
                     Text("Lege über + eine Übung mit optionalem Zielgewicht an. Tippe auf eine Übung, um ein Training zu erfassen oder den Verlauf zu öffnen.")
                 }
+                Section("Übungen sortieren") {
+                    Text("Tippe auf der Startseite neben „Deine Ziele“ auf „Sortieren“. Ziehe die Übungen an den Griffen in die gewünschte Reihenfolge und tippe auf „Speichern“. Neue Übungen werden am Ende angefügt.")
+                }
                 Section("Standardsätze pro Übung") {
                     Text("Öffne die Übung und wähle im Menü … „Übung bearbeiten“. Hinterlege die Satzgruppen in Trainingsreihenfolge, zum Beispiel 1 × 5, 1 × 5, 3 × 5, 1 × 5. Mit den Pfeilen verschiebst du Gruppen. Markiere eine Gruppe als Arbeitsgewicht.")
                     Text("Neue Trainings übernehmen die Standardsätze samt Arbeitsgewicht-Markierung. Trage nur noch die kg ein. Änderungen an den Standardsätzen gelten für künftige Trainings.")
                 }
                 Section("Sätze und Gewichte") {
                     Text("Jede Satzgruppe enthält Sätze und Wiederholungen sowie ein Gewicht. Wähle 1 × 3, 1 × 5, 3 × 5, 3 × 3 oder 5 × 3 oder gib eigenen Text wie 1 × 5 oder 5/5/4 ein.")
-                    Text("Erfasse zum Beispiel 1 × 5 mit 50 kg, 1 × 5 mit 70 kg und 3 × 5 mit 100 kg. Markiere genau eine Gruppe als Arbeitsgewicht. Sie bestimmt den Zielfortschritt.")
+                    Text("Erfasse zum Beispiel 1 × 5 mit 50 kg, 1 × 5 mit 70 kg und 3 × 5 mit 100 kg. Markiere genau eine Gruppe als Arbeitsgewicht. Sie bestimmt den Zielfortschritt. Im Verlauf steht das Zielscheiben-Symbol links neben dem Arbeitsgewicht. Die Gewichte sind rechtsbündig untereinander angeordnet.")
                 }
                 Section("Fortschritt und Verlauf") {
                     Text("Die Zielkarten zeigen Zielgewicht, erreichtes Arbeitsgewicht und Datum des letzten Trainings gemeinsam in einer Zeile. Prozentwert und Balken zeigen den Fortschritt. Ein grünes Häkchen markiert erreichte Ziele.")
