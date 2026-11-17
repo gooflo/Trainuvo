@@ -369,7 +369,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.6.4"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.6.5"
     }
 
     var body: some View {
@@ -386,6 +386,7 @@ private struct HelpView: View {
                     Text("Neue Trainings übernehmen die Standardsätze samt Arbeitsgewicht-Markierung. Trage nur noch die kg ein. Änderungen an den Standardsätzen gelten für künftige Trainings.")
                 }
                 Section("Sätze und Gewichte") {
+                    Text("Oben in der Trainingserfassung steht der Übungsname als eigene Überschrift. Er bleibt auch beim Scrollen und bei geöffneter Tastatur sichtbar. Das Datum wählst du separat darunter.")
                     Text("Bei einem neuen Training wird das erste kg-Feld automatisch aktiviert. Die numerische Tastatur öffnet sich mit „Fertig“ zum Schließen. Bestehende Trainings öffnen sich zum Bearbeiten ohne automatischen Tastaturstart.")
                     Text("Die Erfassung zeigt jede Satzgruppe in einer Zeile: Arbeitsgewicht-Markierung, Sätze, Satzauswahl und kg. Tippe auf die Zielscheibe bzw. den Kreis, um die Arbeitsgruppe zu wählen. Über den Pfeil kannst du die Vorauswahl öffnen oder eine Gruppe entfernen. Entfernen geht auch durch Wischen nach links.")
                     Text("Jede Satzgruppe enthält Sätze und Wiederholungen sowie ein Gewicht. Wähle 1 × 3, 1 × 5, 3 × 5, 3 × 3 oder 5 × 3 oder gib eigenen Text wie 1 × 5 oder 5/5/4 ein.")

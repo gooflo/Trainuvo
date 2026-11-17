@@ -263,11 +263,7 @@ struct TrainingEditor: View {
         NavigationStack {
             Form {
                 Section {
-                    DatePicker(selection: $date, in: ...Date(), displayedComponents: .date) {
-                        Text(exercise.name)
-                            .font(.headline)
-                            .lineLimit(1)
-                    }
+                    DatePicker("Datum", selection: $date, in: ...Date(), displayedComponents: .date)
                     .accessibilityLabel("Trainingsdatum für \(exercise.name)")
                 }
                 Section {
@@ -345,6 +341,16 @@ struct TrainingEditor: View {
                         }
                     }
                 }
+            }
+            .safeAreaInset(edge: .top, spacing: 0) {
+                Text(exercise.name)
+                    .font(.title2.bold())
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 8)
+                    .background(Color(.systemGroupedBackground))
+                    .accessibilityAddTraits(.isHeader)
             }
             .navigationTitle(entry == nil ? "Training erfassen" : "Training bearbeiten")
             .navigationBarTitleDisplayMode(.inline)

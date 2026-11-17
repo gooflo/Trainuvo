@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.5 – Übung bei der Trainingserfassung deutlich anzeigen
+
+- Übungsname als eigenständige große Überschrift oberhalb der Eingabemaske ergänzt. Er bleibt beim Scrollen und bei geöffneter Tastatur sichtbar.
+- Datum separat beschriftet. Lange Übungsnamen können mehrzeilig angezeigt werden. Gilt für neue und bestehende Trainings.
+- t21 unter Done verschoben und Hilfe sowie technische Dokumentation aktualisiert.
+- Swift-Syntax geprüft. Xcode-Build und Sichtprüfung auf dem Gerät ausstehend.
+
 ## 0.6.4 – Zweisprachigkeit vorgemerkt
 
 - Deutsch und Englisch für App-Oberfläche, Hilfe und Fehlermeldungen mit Prio 3 in Todo.md aufgenommen.

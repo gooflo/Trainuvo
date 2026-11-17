@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.6.4**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.6.5**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -73,7 +73,7 @@ TrainingSummary verwendet vor jeder Gewichtsangabe einen 18 pt breiten Platz fü
 
 ## Kompakte Trainingserfassung
 
-TrainingEditor zeigt Übungsname und DatePicker in einer gemeinsamen Form-Zeile. Alle Satzgruppen liegen in einer Section. Jede Zeile enthält die 44 pt große Arbeitsgewicht-Schaltfläche, das frei editierbare Satzfeld, ein 44 pt großes Vorauswahl-/Aktionsmenü und das rechtsbündige kg-Feld. Die Zeilen haben keine vertikalen Inhaltsabstände und eine natürliche Mindesthöhe von 44 pt. Ein kurzer Footer erklärt Markierung und Aktionsmenü. Entfernen ist zusätzlich per Wischgeste möglich. Die letzte Gruppe kann nicht entfernt werden.
+TrainingEditor zeigt den Übungsnamen mit title2.bold als eigene Überschrift über dem Formular. safeAreaInset am oberen Rand hält die Überschrift auch beim Scrollen und bei geöffneter Tastatur sichtbar. Lange Namen laufen mehrzeilig. Der DatePicker steht separat im Formular mit der Beschriftung Datum. Alle Satzgruppen liegen in einer Section. Jede Zeile enthält die 44 pt große Arbeitsgewicht-Schaltfläche, das frei editierbare Satzfeld, ein 44 pt großes Vorauswahl-/Aktionsmenü und das rechtsbündige kg-Feld. Die Zeilen haben keine vertikalen Inhaltsabstände und eine natürliche Mindesthöhe von 44 pt. Ein kurzer Footer erklärt Markierung und Aktionsmenü. Entfernen ist zusätzlich per Wischgeste möglich. Die letzte Gruppe kann nicht entfernt werden.
 
 Vier Gruppen sollen bei Standardtextgröße auf dem iPhone 15 im Hochformat gemeinsam sichtbar sein. Sichtprüfung mit offener und geschlossener Tastatur, längeren Freitexten, vorausgefüllten Standardsätzen und großer Textgröße ist ausstehend. Bei großer Textgröße bleibt die Form scrollbar. Speichern, Vorlagenübernahme und Datenmodell verwenden die vorhandene Logik.
 
@@ -178,6 +178,10 @@ TrainingEditor zeigt beim Bearbeiten eines gespeicherten Eintrags unter den Satz
 
 Auf dem Gerät einen von zwei Einträgen einer Übung löschen, anschließend den letzten. Die Übung mit Ziel, Reihenfolge und Standardsätzen muss weiter auf der Startseite stehen. App neu starten und prüfen. Abbrechen in der Bestätigung sowie das Anlegen eines neuen Trainings für die erhaltene Übung prüfen. Xcode-Build und Gerätetest sind ausstehend.
 
+## Abnahme der Übungsüberschrift in 0.6.5
+
+Über das Plus einer Zielkarte ein neues Training öffnen und den Übungsnamen oberhalb des Formulars prüfen. Bei geöffneter numerischer Tastatur mit vier Satzgruppen scrollen. Der Name muss sichtbar bleiben. Ein bestehendes Training vom Trainingstag und aus dem Übungsverlauf öffnen und denselben Kontext prüfen. Lange Übungsnamen, iPhone 15, iPad und große Textgröße prüfen. Xcode-Build und Sichtprüfung sind ausstehend.
+
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.6.4` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.6.5` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.

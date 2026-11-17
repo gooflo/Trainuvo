@@ -4,10 +4,6 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
-### t21 – Übung bei der Trainingserfassung eindeutig anzeigen (Prio 1)
-
-- Beim Eintragen eines Trainings klar und gut sichtbar anzeigen, für welche Übung der Eintrag angelegt wird.
-
 ### t22 – Darstellung der Arbeitsgewicht-Bewertung verbessern (Prio 2)
 
 - Die Auswahl und Darstellung der Anstrengungsbewertung gestalterisch überarbeiten, damit sie übersichtlicher und stimmiger wirkt.
@@ -30,6 +26,12 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - App-Oberfläche, Hilfe und Fehlermeldungen auf Deutsch und Englisch bereitstellen.
 
 ## Done
+
+### t21 – Übung bei der Trainingserfassung eindeutig anzeigen (0.6.5)
+
+- Übungsname als große, eigenständige Überschrift oberhalb des Formulars anzeigen. Die Überschrift bleibt beim Scrollen und bei geöffneter Tastatur sichtbar.
+- Datum separat mit „Datum“ beschriften. Lange Übungsnamen dürfen über mehrere Zeilen laufen. Gilt für neue und bestehende Trainings.
+- Xcode-Build und Sichtprüfung auf iPhone 15 mit vier Satzgruppen, offener Tastatur und langen Namen ausstehend.
 
 ### t23 – Blaue Akzentfarbe (0.6.3)
 
