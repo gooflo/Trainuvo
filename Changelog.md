@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1 – Kompakte Zielkarten
+
+- Zielgewicht, erreichtes Arbeitsgewicht und Trainingsdatum in einer gemeinsamen Zeile.
+- Prozentwert in die Titelzeile verschoben und Kartenabstände reduziert, damit vier Übungsziele bei Standardtextgröße auf einen iPhone-15-Bildschirm im Hochformat passen.
+- Hilfe und Dokumentation angepasst.
+- Sichtprüfung auf dem iPhone 15 und Xcode-Build ausstehend.
+
 ## 0.1.0 – Erste Vorabversion
 
 - Übungen und optionale Zielgewichte verwalten.

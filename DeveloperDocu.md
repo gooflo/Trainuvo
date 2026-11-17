@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.1.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.1.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -18,7 +18,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift | Unverändertes Modell aus dem Grundprojekt für vorhandene Testdaten |
 
-Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt 0.1.0. Die externe Version 1.0 und Buildnummer 1 stammen aus dem Grundprojekt und werden für einen späteren Upload separat abgestimmt.
+Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Die externe Version 1.0 und Buildnummer 1 stammen aus dem Grundprojekt und werden für einen späteren Upload separat abgestimmt.
 
 ## Datenmodell und Geschäftsregeln
 
@@ -38,6 +38,12 @@ Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInte
 Der Container enthält weiterhin Item aus dem Xcode-Grundprojekt. Die bisherigen Store-Einstellungen bleiben erhalten, ergänzt um die Trainingsmodelle. CloudKit ist ausdrücklich ausgeschaltet. Ein Öffnungsfehler zeigt eine Fehlermeldung und erhält den vorhandenen Store.
 
 Vor der ersten Verteilung das ausgelieferte Modell als Ausgangsschema sichern. Spätere Änderungen mit vorhandenen Trainings testen und bei Bedarf einen SchemaMigrationPlan ergänzen. iCloud-Synchronisierung bleibt unter t05 auf Prio 3.
+
+## Zielkarten auf der Startseite
+
+GoalCard zeigt Übungsname und Prozentwert in der Kopfzeile, darunter den Fortschrittsbalken sowie eine gemeinsame Zeile für Zielgewicht, erreichtes Arbeitsgewicht und Trainingsdatum mit zweistelligem Jahr. Fehlende Werte erscheinen als Gedankenstrich. Die Karte verwendet 12 pt Innenabstand und 8 pt Abstand zwischen ihren Zeilen, das Raster 12 pt Kartenabstand. Vier Karten sollen bei Standardtextgröße im iPhone-15-Hochformat vollständig sichtbar sein. Die Informationszeile bleibt einzeilig und kann auf 70 % ihrer Schriftgröße verkleinert werden.
+
+Sichtprüfung auf dem iPhone-15-Simulator mit vier Übungen durchführen. Auch lange Namen, Ziele über 100 %, Übungen ohne Trainings, Übungen ohne Ziel sowie größere Bedienungshilfen-Schriften prüfen. Bei großer Textgröße darf die Übersicht scrollen. Simulatorprüfung und Xcode-Build sind ausstehend.
 
 ## Tests auf dem Mac
 
@@ -59,4 +65,4 @@ In der Entwicklungsumgebung des Assistenten sind Xcode und Swift nicht installie
 
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.1.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.1.1` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.

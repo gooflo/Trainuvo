@@ -15,7 +15,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
+                VStack(alignment: .leading, spacing: 16) {
                     if exercises.isEmpty {
                         ContentUnavailableView {
                             Label("Dein Training beginnt hier", systemImage: "dumbbell")
@@ -28,7 +28,7 @@ struct ContentView: View {
                     } else {
                         Text("Deine Ziele")
                             .font(.title2.bold())
-                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 280), spacing: 16)], spacing: 16) {
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 280), spacing: 12)], spacing: 12) {
                             ForEach(exercises) { exercise in
                                 NavigationLink {
                                     ExerciseDetailView(exercise: exercise)
@@ -89,47 +89,52 @@ private struct GoalCard: View {
     let exercise: Exercise
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            HStack {
-                Image(systemName: "dumbbell.fill").foregroundStyle(.teal)
-                Text(exercise.name).font(.headline)
-                Spacer()
-                Image(systemName: "chevron.right").font(.caption).foregroundStyle(.secondary)
-            }
-            if let progress = exercise.progress {
-                HStack(alignment: .firstTextBaseline) {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 8) {
+                Text(exercise.name)
+                    .font(.headline)
+                    .lineLimit(1)
+                Spacer(minLength: 4)
+                if let progress = exercise.progress {
                     Text(progress, format: .percent.precision(.fractionLength(0)))
-                        .font(.system(size: 38, weight: .bold, design: .rounded))
+                        .font(.title3.bold())
+                        .monospacedDigit()
                         .foregroundStyle(progress >= 1 ? Color.green : Color.primary)
-                    Spacer()
+                        .layoutPriority(1)
                     if progress >= 1 {
-                        Label("Ziel erreicht", systemImage: "checkmark.seal.fill")
-                            .font(.caption).foregroundStyle(.green)
+                        Image(systemName: "checkmark.seal.fill")
+                            .foregroundStyle(.green)
+                            .accessibilityLabel("Ziel erreicht")
                     }
                 }
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            if let progress = exercise.progress {
                 ProgressView(value: min(progress, 1))
                     .tint(progress >= 1 ? .green : .teal)
             }
-            if let target = exercise.targetWeight {
-                Text("Ziel: \(TrainingFormat.weight(target))").foregroundStyle(.secondary)
-            } else {
-                Text("Ohne Zielgewicht").foregroundStyle(.secondary)
-            }
-            if let latest = exercise.latestEntry, let weight = latest.workingWeight {
-                HStack {
-                    Text(TrainingFormat.weight(weight)).fontWeight(.semibold)
-                    Spacer()
-                    Text(latest.date, format: .dateTime.day().month().year())
-                        .foregroundStyle(.secondary)
+            HStack(spacing: 8) {
+                Text("Ziel: \(exercise.targetWeight.map { TrainingFormat.weight($0) } ?? "–")")
+                Text("Erreicht: \(exercise.latestEntry?.workingWeight.map { TrainingFormat.weight($0) } ?? "–")")
+                Spacer(minLength: 0)
+                if let latest = exercise.latestEntry {
+                    Text(latest.date, format: .dateTime.day(.twoDigits).month(.twoDigits).year(.twoDigits))
+                        .accessibilityLabel("Letztes Training")
+                        .accessibilityValue(latest.date.formatted(date: .long, time: .omitted))
+                } else {
+                    Text("–").accessibilityLabel("Noch kein Training")
                 }
-                .font(.subheadline)
-            } else {
-                Text("Noch kein Training").font(.subheadline).foregroundStyle(.secondary)
             }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+            .minimumScaleFactor(0.7)
         }
-        .padding(20)
+        .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.background, in: RoundedRectangle(cornerRadius: 22))
+        .background(.background, in: RoundedRectangle(cornerRadius: 16))
     }
 }
 
@@ -262,7 +267,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.1.0"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.1.1"
     }
 
     var body: some View {
@@ -276,6 +281,7 @@ private struct HelpView: View {
                     Text("Erfasse zum Beispiel 1 × 5 mit 50 kg, 1 × 5 mit 70 kg und 3 × 5 mit 100 kg. Markiere genau eine Gruppe als Arbeitsgewicht. Sie bestimmt den Zielfortschritt.")
                 }
                 Section("Fortschritt und Verlauf") {
+                    Text("Die Zielkarten zeigen Zielgewicht, erreichtes Arbeitsgewicht und Datum des letzten Trainings gemeinsam in einer Zeile. Prozentwert und Balken zeigen den Fortschritt. Ein grünes Häkchen markiert erreichte Ziele.")
                     Text("Der Fortschritt ergibt sich aus dem Arbeitsgewicht des zeitlich letzten Trainings geteilt durch das aktuelle Zielgewicht. 60 kg bei einem Ziel von 100 kg ergeben 60 %. Bei gleichem Trainingsdatum gilt der zuletzt angelegte Eintrag.")
                     Text("Beim Erfassen ist heute vorausgewählt. Du kannst ältere Trainings nachtragen. Beim neuen Training werden die Satzgruppen des letzten Trainings vorgeschlagen. Tippe im Verlauf auf einen Eintrag zum Bearbeiten oder wische zum Löschen nach links.")
                 }

@@ -10,6 +10,12 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t06 – Vier kompakte Übungsziele auf dem iPhone 15 (0.1.1)
+
+- Zielgewicht, erreichtes Arbeitsgewicht und letztes Trainingsdatum in einer Zeile darstellen.
+- Prozentwert in der Titelzeile, kleinere Innenabstände und Kartenabstände. Ziel sind vier sichtbare Übungsziele im iPhone-15-Hochformat bei Standardtextgröße.
+- Sichtprüfung mit vier Übungen, langen Namen, fehlenden Zielgewichten/Trainings sowie großer Textgröße und Xcode-Build ausstehend.
+
 ### t01 – Übungen und Zielgewichte verwalten (0.1.0)
 
 - Übungen anlegen und bearbeiten. Pro Übung optional ein Zielgewicht hinterlegen.

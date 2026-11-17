@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining und zeigt den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.1.0 – erste Vorabversion**
+**Interner Entwicklungsstand: 0.1.1 – Vorabversion**
 
 ## Funktionen
 
@@ -10,6 +10,7 @@ Trainuvo dokumentiert Krafttraining und zeigt den Fortschritt gegenüber persön
 - Trainings pro Übung erfassen, nachtragen, bearbeiten und löschen.
 - Mehrere Satzgruppen mit unterschiedlichen Gewichten erfassen. Die Vorauswahl bietet 3 × 5, 3 × 3 und 5 × 3. Freitext ist möglich.
 - Eine Satzgruppe pro Training als Arbeitsgewicht markieren.
+- Kompakte Zielkarten mit Zielgewicht, erreichtem Arbeitsgewicht und letztem Trainingsdatum in einer Zeile. Vier Übungsziele sollen bei Standardtextgröße auf einen iPhone-15-Bildschirm im Hochformat passen.
 - Startseite mit Zielfortschritt pro Übung und allen Einträgen des letzten Trainingstags.
 - Trainingsverlauf pro Übung. Satzgruppen des letzten Trainings werden bei einer neuen Erfassung vorgeschlagen.
 - Lokale Speicherung auf dem Gerät mit SwiftData. iCloud-Synchronisierung ist als Prio 3 vorgemerkt.
