@@ -10,6 +10,13 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t07 – Standardsätze pro Übung und erweiterte Vorauswahl (0.2.0)
+
+- Satzgruppen wie 1 × 5, 1 × 5, 3 × 5, 1 × 5 in dieser Reihenfolge pro Übung hinterlegen und umordnen.
+- Eine Gruppe als Arbeitsgewicht vormerken. Neue Trainings übernehmen Gruppen und Markierung mit leeren Gewichtsfeldern, sodass nur die kg einzutragen sind.
+- 1 × 3 und 1 × 5 zusätzlich als Vorauswahl anbieten.
+- Xcode-Build, automatisierte Tests, Update-Test mit bestehenden Trainings und Simulator-/Gerätetest ausstehend.
+
 ### t06 – Vier kompakte Übungsziele auf dem iPhone 15 (0.1.1)
 
 - Zielgewicht, erreichtes Arbeitsgewicht und letztes Trainingsdatum in einer Zeile darstellen.

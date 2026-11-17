@@ -8,6 +8,12 @@ final class Exercise {
     var targetWeight: Double?
     @Relationship(deleteRule: .cascade, inverse: \TrainingEntry.exercise)
     var entries: [TrainingEntry] = []
+    @Relationship(deleteRule: .cascade, inverse: \ExerciseSetTemplate.exercise)
+    var setTemplates: [ExerciseSetTemplate] = []
+
+    var sortedSetTemplates: [ExerciseSetTemplate] {
+        setTemplates.sorted { $0.position < $1.position }
+    }
 
     init(name: String, targetWeight: Double?) {
         self.name = name
@@ -27,6 +33,22 @@ final class Exercise {
         guard let targetWeight, targetWeight > 0,
               let weight = latestEntry?.workingWeight else { return nil }
         return weight / targetWeight
+    }
+}
+
+
+@Model
+final class ExerciseSetTemplate {
+    var id: UUID = UUID()
+    var position: Int = 0
+    var prescription: String = ""
+    var isWorking: Bool = false
+    var exercise: Exercise?
+
+    init(position: Int, prescription: String, isWorking: Bool) {
+        self.position = position
+        self.prescription = prescription
+        self.isWorking = isWorking
     }
 }
 
@@ -66,6 +88,8 @@ final class SetGroup {
 }
 
 enum TrainingFormat {
+    static let prescriptions = ["1 × 3", "1 × 5", "3 × 5", "3 × 3", "5 × 3"]
+
     static func number(_ value: Double) -> String {
         value.formatted(.number.precision(.fractionLength(0...2)))
     }

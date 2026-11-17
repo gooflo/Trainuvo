@@ -7,12 +7,24 @@ struct ExerciseEditor: View {
     @Query private var exercises: [Exercise]
     let exercise: Exercise?
     @State private var name: String
+    @State private var templates: [SetGroupDraft]
+    @State private var workingTemplateID: UUID?
     @State private var target: String
     @FocusState private var inputFocused: Bool
     @State private var errorMessage: String?
 
     init(exercise: Exercise? = nil) {
         self.exercise = exercise
+        let initial: [SetGroupDraft]
+        if let exercise {
+            initial = exercise.sortedSetTemplates.map {
+                SetGroupDraft(id: $0.id, prescription: $0.prescription)
+            }
+        } else {
+            initial = [SetGroupDraft()]
+        }
+        _templates = State(initialValue: initial)
+        _workingTemplateID = State(initialValue: exercise?.sortedSetTemplates.first(where: \.isWorking)?.id ?? initial.first?.id)
         _name = State(initialValue: exercise?.name ?? "")
         _target = State(initialValue: exercise.flatMap { $0.targetWeight }.map { TrainingFormat.number($0) } ?? "")
     }
@@ -29,6 +41,12 @@ struct ExerciseEditor: View {
             guard let value = TrainingFormat.parseWeight(cleanTarget), value >= 0.01 else {
                 return "Das Zielgewicht muss zwischen 0,01 und 100.000 kg liegen."
             }
+        }
+        if templates.contains(where: { $0.prescription.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }) {
+            return "Fülle die Standardsätze aus oder entferne die leere Gruppe."
+        }
+        if !templates.isEmpty && !templates.contains(where: { $0.id == workingTemplateID }) {
+            return "Markiere eine Standardgruppe als Arbeitsgewicht."
         }
         return nil
     }
@@ -50,6 +68,61 @@ struct ExerciseEditor: View {
                     }
                 } footer: {
                     Text("Das Arbeitsgewicht des letzten Trainings wird mit diesem Ziel verglichen.")
+                }
+                Section {
+                    ForEach($templates) { $template in
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack {
+                                TextField("Sätze × Wiederholungen", text: $template.prescription)
+                                    .focused($inputFocused)
+                                Menu {
+                                    ForEach(TrainingFormat.prescriptions, id: \.self) { preset in
+                                        Button(preset) { template.prescription = preset }
+                                    }
+                                } label: {
+                                    Label("Vorauswahl", systemImage: "list.bullet")
+                                        .labelStyle(.iconOnly)
+                                }
+                            }
+                            HStack(spacing: 16) {
+                                Button {
+                                    workingTemplateID = template.id
+                                } label: {
+                                    Label(
+                                        workingTemplateID == template.id ? "Arbeitsgewicht" : "Arbeitsgewicht wählen",
+                                        systemImage: workingTemplateID == template.id ? "checkmark.circle.fill" : "circle"
+                                    )
+                                }
+                                .font(.caption)
+                                Spacer(minLength: 0)
+                                Button { moveTemplate(template.id, by: -1) } label: {
+                                    Image(systemName: "arrow.up")
+                                }
+                                .accessibilityLabel("Satzgruppe nach oben")
+                                .disabled(templates.first?.id == template.id)
+                                Button { moveTemplate(template.id, by: 1) } label: {
+                                    Image(systemName: "arrow.down")
+                                }
+                                .accessibilityLabel("Satzgruppe nach unten")
+                                .disabled(templates.last?.id == template.id)
+                                Button(role: .destructive) { removeTemplate(template.id) } label: {
+                                    Image(systemName: "trash")
+                                }
+                                .accessibilityLabel("Standardgruppe entfernen")
+                            }
+                            .buttonStyle(.borderless)
+                        }
+                        .padding(.vertical, 4)
+                    }
+                    Button("Standardgruppe hinzufügen", systemImage: "plus.circle") {
+                        let group = SetGroupDraft(prescription: "1 × 5")
+                        templates.append(group)
+                        if workingTemplateID == nil { workingTemplateID = group.id }
+                    }
+                } header: {
+                    Text("Standardsätze in Trainingsreihenfolge")
+                } footer: {
+                    Text("Neue Trainings übernehmen diese Gruppen und die Arbeitsgewicht-Markierung. Du ergänzt die kg. Mit den Pfeilen änderst du die Reihenfolge. Ohne Standardsätze dient das letzte Training als Vorschlag.")
                 }
                 if let validation {
                     Section { Text(validation).foregroundStyle(.secondary) }
@@ -75,14 +148,39 @@ struct ExerciseEditor: View {
         }
     }
 
+    private func moveTemplate(_ id: UUID, by offset: Int) {
+        guard let index = templates.firstIndex(where: { $0.id == id }),
+              templates.indices.contains(index + offset) else { return }
+        templates.swapAt(index, index + offset)
+    }
+
+    private func removeTemplate(_ id: UUID) {
+        templates.removeAll { $0.id == id }
+        if workingTemplateID == id { workingTemplateID = templates.first?.id }
+    }
+
     private func save() {
         guard validation == nil else { return }
         let targetWeight = TrainingFormat.parseWeight(cleanTarget)
+        let savedExercise: Exercise
         if let exercise {
+            savedExercise = exercise
             exercise.name = cleanName
             exercise.targetWeight = targetWeight
+            for template in exercise.setTemplates { modelContext.delete(template) }
+            exercise.setTemplates = []
         } else {
-            modelContext.insert(Exercise(name: cleanName, targetWeight: targetWeight))
+            savedExercise = Exercise(name: cleanName, targetWeight: targetWeight)
+            modelContext.insert(savedExercise)
+        }
+        for (position, draft) in templates.enumerated() {
+            let template = ExerciseSetTemplate(
+                position: position,
+                prescription: draft.prescription.trimmingCharacters(in: .whitespacesAndNewlines),
+                isWorking: draft.id == workingTemplateID
+            )
+            modelContext.insert(template)
+            savedExercise.setTemplates.append(template)
         }
         do {
             try modelContext.save()
@@ -121,13 +219,27 @@ struct TrainingEditor: View {
         self.exercise = exercise
         self.entry = entry
         _date = State(initialValue: entry?.date ?? Date())
-        let source = entry ?? exercise.latestEntry
-        let copied = source?.sortedGroups.map {
-            SetGroupDraft(id: $0.id, prescription: $0.prescription, weight: TrainingFormat.number($0.weight))
-        } ?? []
-        let initial = copied.isEmpty ? [SetGroupDraft()] : copied
-        _groups = State(initialValue: initial)
-        _workingID = State(initialValue: source?.sortedGroups.first(where: \.isWorking)?.id ?? initial[0].id)
+        let initial: [SetGroupDraft]
+        let selectedWorkingID: UUID?
+        if let entry {
+            initial = entry.sortedGroups.map {
+                SetGroupDraft(id: $0.id, prescription: $0.prescription, weight: TrainingFormat.number($0.weight))
+            }
+            selectedWorkingID = entry.sortedGroups.first(where: \.isWorking)?.id
+        } else if !exercise.setTemplates.isEmpty {
+            initial = exercise.sortedSetTemplates.map {
+                SetGroupDraft(id: $0.id, prescription: $0.prescription)
+            }
+            selectedWorkingID = exercise.sortedSetTemplates.first(where: \.isWorking)?.id
+        } else {
+            initial = exercise.latestEntry?.sortedGroups.map {
+                SetGroupDraft(id: $0.id, prescription: $0.prescription, weight: TrainingFormat.number($0.weight))
+            } ?? []
+            selectedWorkingID = exercise.latestEntry?.sortedGroups.first(where: \.isWorking)?.id
+        }
+        let drafts = initial.isEmpty ? [SetGroupDraft()] : initial
+        _groups = State(initialValue: drafts)
+        _workingID = State(initialValue: selectedWorkingID ?? drafts[0].id)
     }
 
     private var isValid: Bool {
@@ -151,7 +263,7 @@ struct TrainingEditor: View {
                             TextField("Sätze × Wiederholungen", text: $group.prescription)
                                 .focused($inputFocused)
                             Menu {
-                                ForEach(["3 × 5", "3 × 3", "5 × 3"], id: \.self) { preset in
+                                ForEach(TrainingFormat.prescriptions, id: \.self) { preset in
                                     Button(preset) { group.prescription = preset }
                                 }
                             } label: {
