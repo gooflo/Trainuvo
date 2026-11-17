@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining und zeigt den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.6.0 – Vorabversion**
+**Interner Entwicklungsstand: 0.6.1 – Vorabversion**
 
 ## Funktionen
 

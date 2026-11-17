@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.1 – Export und Logo vorgemerkt
+
+- JSON-, Excel- und formatierten Text-Export für OneNote unter Prio 2 in Todo.md aufgenommen.
+- Logo und App-Icon mit Langhantelmotiv unter Prio 2 vorgemerkt.
+
 ## 0.6.0 – Training direkt von der Zielkarte erfassen
 
 - Zahnrad und Hilfe nach rechts oben verschoben.

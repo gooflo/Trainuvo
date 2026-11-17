@@ -4,6 +4,15 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
+### t19 – Export als JSON, Excel und formatierten Text (Prio 2)
+
+- Trainingsdaten als JSON und Excel exportieren.
+- Gut lesbaren, „pretty formatted“ Text zum Kopieren und Einfügen in OneNote exportieren.
+
+### t20 – Logo und App-Icon mit Langhantel (Prio 2)
+
+- Ein Logo mit Langhantelmotiv für Trainuvo entwerfen und als App-Icon aufbereiten.
+
 ### t05 – Trainingsdaten per iCloud synchronisieren (Prio 3)
 
 - Übungen, Trainingsdaten und Ziele über iCloud synchronisieren, damit sie auf mehreren Geräten verfügbar sind.
