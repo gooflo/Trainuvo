@@ -37,7 +37,7 @@ struct ContentView: View {
                             .disabled(exercises.count < 2)
                         }
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 280), spacing: 12)], spacing: 12) {
-                            ForEach(exercises) { exercise in
+                            ForEach(exercises, id: \.id) { exercise in
                                 NavigationLink {
                                     ExerciseDetailView(exercise: exercise)
                                 } label: {
@@ -54,7 +54,7 @@ struct ContentView: View {
                                         Text(day.date, format: .dateTime.day().month(.wide).year())
                                             .font(.headline)
                                         VStack(spacing: 0) {
-                                            ForEach(day.entries) { entry in
+                                            ForEach(day.entries, id: \.id) { entry in
                                                 if let exercise = entry.exercise {
                                                     NavigationLink {
                                                         ExerciseDetailView(exercise: exercise)
@@ -194,7 +194,7 @@ struct TrainingSummary: View {
     @ScaledMetric(relativeTo: .subheadline) private var effortColumnWidth: CGFloat = 26
 
     var body: some View {
-        ForEach(entry.sortedGroups) { group in
+        ForEach(entry.sortedGroups, id: \.id) { group in
             HStack(alignment: .firstTextBaseline) {
                 Text(group.prescription)
                 Spacer()
@@ -245,7 +245,7 @@ struct ExerciseDetailView: View {
                 if exercise.entries.isEmpty {
                     Text("Erfasse dein erstes Training.").foregroundStyle(.secondary)
                 }
-                ForEach(exercise.sortedEntries) { entry in
+                ForEach(exercise.sortedEntries, id: \.id) { entry in
                     Button {
                         editingEntry = entry
                     } label: {
@@ -342,7 +342,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.5.1"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.5.2"
     }
 
     var body: some View {

@@ -10,6 +10,12 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t16 – ForEach-Compilerfehler bei SetGroup korrigieren (0.5.2)
+
+- Gemeldeter Fehler in ContentView: ForEach über Satzgruppen verlangt Identifiable-Konformität.
+- Satzgruppen und weitere gespeicherte Modelle über ihre vorhandene UUID explizit identifizieren.
+- Swift-Syntax geprüft. Xcode-Build und Sichtprüfung ausstehend.
+
 ### t15 – Zweiter Beispieltrainingstag am 14.11.2026 (0.5.1)
 
 - Je Übung ein weiteres Training mit 2 kg weniger beim Arbeitsgewicht ergänzen: Press 50, Kniebeuge 88, Bankdrücken 83, Kreuzheben 98 kg.

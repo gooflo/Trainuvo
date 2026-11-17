@@ -23,7 +23,7 @@ struct ExerciseOrderEditor: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(orderedExercises) { exercise in
+                ForEach(orderedExercises, id: \.id) { exercise in
                     Text(exercise.name)
                 }
                 .onMove { offsets, destination in

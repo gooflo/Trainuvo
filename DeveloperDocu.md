@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.5.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.5.2**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -52,6 +52,10 @@ Die Startseite fragt Übungen nach sortOrder und danach nach Name ab. Altbestän
 ExerciseOrderEditor hält UUIDs als lokalen Reihenfolgeentwurf. Abbrechen ändert keine Modelldaten. Speichern ordnet die aktuell vorhandenen Übungen zu, ergänzt zwischenzeitlich angelegte Übungen am Ende und überspringt entfernte Übungen. Änderungen werden gemeinsam gespeichert, bei Fehlern zurückgerollt und als Fehlermeldung angezeigt.
 
 0.3.0 ergänzt nur das mit 0 vorbelegte Feld sortOrder. Das Update über die vorhandene 0.2.0-Installation mit Trainingsdaten muss auf dem Mac geprüft werden.
+
+## Identifizierung in SwiftUI-Listen
+
+ForEach-Schleifen über Exercise, TrainingEntry und SetGroup verwenden explizit id: \.id mit der gespeicherten UUID. Dies umfasst Zielkarten, Tageszeilen, Trainingsverlauf, Satzgruppen und den Sortierdialog. Die Datenmodelle und ihre gespeicherten IDs werden dafür nicht geändert. TrainingDaySummary und lokale Eingabeentwürfe definieren ihre Identifiable-Konformität selbst.
 
 ## Zielkarten auf der Startseite
 
@@ -158,4 +162,4 @@ In der Entwicklungsumgebung des Assistenten sind Xcode und Swift nicht installie
 
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.5.1` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.5.2` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.

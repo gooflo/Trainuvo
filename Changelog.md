@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.2 – Explizite Identifizierung in SwiftUI-Listen
+
+- Die Satzgruppen-Schleife in TrainingSummary verwendet die gespeicherte UUID explizit als ForEach-ID. Damit benötigt diese Schleife keine abgeleitete Identifiable-Konformität des Elements.
+- Weitere ForEach-Schleifen über gespeicherte Übungen und Trainings ebenfalls auf explizite IDs umgestellt.
+- Swift-Syntaxprüfung erfolgt. Xcode-Build und Sichtprüfung auf dem Mac ausstehend.
+
 ## 0.5.1 – Zweiter Beispieltrainingstag
 
 - Beispieltrainings vom 14.11.2026 ergänzt. Die Arbeitsgewichte liegen jeweils 2 kg unter denen vom 17.11.2026: Press 50 kg, Kniebeuge 88 kg, Bankdrücken 83 kg, Kreuzheben 98 kg.
