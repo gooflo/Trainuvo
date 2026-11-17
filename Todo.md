@@ -13,10 +13,6 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Trainingsdaten als JSON und Excel exportieren.
 - Gut lesbaren, „pretty formatted“ Text zum Kopieren und Einfügen in OneNote exportieren.
 
-### t20 – Logo und App-Icon mit Langhantel (Prio 2)
-
-- Ein Logo mit Langhantelmotiv für Trainuvo entwerfen und als App-Icon aufbereiten.
-
 ### t05 – Trainingsdaten per iCloud synchronisieren (Prio 3)
 
 - Übungen, Trainingsdaten und Ziele über iCloud synchronisieren, damit sie auf mehreren Geräten verfügbar sind.
@@ -25,7 +21,29 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 - App-Oberfläche, Hilfe und Fehlermeldungen auf Deutsch und Englisch bereitstellen.
 
+### t26 – Ziele löschen und Trainings erhalten (Prio 3)
+
+- Ziele entfernen können, wobei die zugehörigen Trainings erhalten bleiben.
+
+### t27 – Kommentar für den gesamten Trainingstag (Prio 3)
+
+- Einen gemeinsamen Kommentar für das Training an einem Tag eingeben und anzeigen können.
+- Fachlich gilt der Kommentar für den ganzen Tag mit allen Übungen.
+- Technische Option von Florian: Den Kommentar bei einem Übungseintrag speichern und dafür beispielsweise die letzte Übung des Tages verwenden. Die konkrete Umsetzung ist noch offen.
+
 ## Done
+
+### t25 – Abgeschnittene Überschrift der Trainingserfassung korrigieren (0.6.6)
+
+- Training erfassen bzw. Training bearbeiten unterhalb der oberen Buttonleiste anzeigen.
+- Den Übungsnamen direkt darunter als eigene große Überschrift anzeigen.
+- Xcode-Build und Sichtprüfung auf dem Gerät ausstehend.
+
+### t20 – Logo und App-Icon mit Langhantel (0.6.6)
+
+- Vorschlag 3 ausgewählt: blaue Langhantel im blauen Fortschrittsring auf Weiß.
+- Als deckendes RGB-PNG mit 1024 × 1024 Pixeln in AppIcon eingebaut.
+- Xcode-Build und Darstellung auf dem Home-Bildschirm ausstehend.
 
 ### t21 – Übung bei der Trainingserfassung eindeutig anzeigen (0.6.5)
 

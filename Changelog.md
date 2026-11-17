@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.6 – App-Icon und Überschrift
+
+- Ausgewähltes Logo 3 als App-Icon eingebaut: blaue Langhantel mit Fortschrittsring auf Weiß.
+- Training erfassen bzw. Training bearbeiten unter die obere Buttonleiste verschoben, mit dem Übungsnamen direkt darunter.
+- Ziele löschen mit Erhalt der Trainings und einen gemeinsamen Tageskommentar mit Prio 3 in Todo.md aufgenommen.
+- Swift-Syntax, Iconformat und Assetverknüpfung geprüft. Xcode-Build und Sichtprüfung auf dem Gerät ausstehend.
+
 ## 0.6.5 – Übung bei der Trainingserfassung deutlich anzeigen
 
 - Übungsname als eigenständige große Überschrift oberhalb der Eingabemaske ergänzt. Er bleibt beim Scrollen und bei geöffneter Tastatur sichtbar.

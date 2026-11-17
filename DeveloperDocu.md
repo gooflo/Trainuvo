@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.6.5**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.6.6**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -73,7 +73,7 @@ TrainingSummary verwendet vor jeder Gewichtsangabe einen 18 pt breiten Platz fü
 
 ## Kompakte Trainingserfassung
 
-TrainingEditor zeigt den Übungsnamen mit title2.bold als eigene Überschrift über dem Formular. safeAreaInset am oberen Rand hält die Überschrift auch beim Scrollen und bei geöffneter Tastatur sichtbar. Lange Namen laufen mehrzeilig. Der DatePicker steht separat im Formular mit der Beschriftung Datum. Alle Satzgruppen liegen in einer Section. Jede Zeile enthält die 44 pt große Arbeitsgewicht-Schaltfläche, das frei editierbare Satzfeld, ein 44 pt großes Vorauswahl-/Aktionsmenü und das rechtsbündige kg-Feld. Die Zeilen haben keine vertikalen Inhaltsabstände und eine natürliche Mindesthöhe von 44 pt. Ein kurzer Footer erklärt Markierung und Aktionsmenü. Entfernen ist zusätzlich per Wischgeste möglich. Die letzte Gruppe kann nicht entfernt werden.
+TrainingEditor zeigt unterhalb der Buttonleiste einen Header mit Training erfassen bzw. Training bearbeiten und dem Übungsnamen in title2.bold darunter. Der Navigationstitel ist leer, damit der Modustext den vollständigen Platz unter den Buttons nutzt. safeAreaInset am oberen Rand hält die Überschrift auch beim Scrollen und bei geöffneter Tastatur sichtbar. Lange Namen laufen mehrzeilig. Der DatePicker steht separat im Formular mit der Beschriftung Datum. Alle Satzgruppen liegen in einer Section. Jede Zeile enthält die 44 pt große Arbeitsgewicht-Schaltfläche, das frei editierbare Satzfeld, ein 44 pt großes Vorauswahl-/Aktionsmenü und das rechtsbündige kg-Feld. Die Zeilen haben keine vertikalen Inhaltsabstände und eine natürliche Mindesthöhe von 44 pt. Ein kurzer Footer erklärt Markierung und Aktionsmenü. Entfernen ist zusätzlich per Wischgeste möglich. Die letzte Gruppe kann nicht entfernt werden.
 
 Vier Gruppen sollen bei Standardtextgröße auf dem iPhone 15 im Hochformat gemeinsam sichtbar sein. Sichtprüfung mit offener und geschlossener Tastatur, längeren Freitexten, vorausgefüllten Standardsätzen und großer Textgröße ist ausstehend. Bei großer Textgröße bleibt die Form scrollbar. Speichern, Vorlagenübernahme und Datenmodell verwenden die vorhandene Logik.
 
@@ -182,6 +182,12 @@ Auf dem Gerät einen von zwei Einträgen einer Übung löschen, anschließend de
 
 Über das Plus einer Zielkarte ein neues Training öffnen und den Übungsnamen oberhalb des Formulars prüfen. Bei geöffneter numerischer Tastatur mit vier Satzgruppen scrollen. Der Name muss sichtbar bleiben. Ein bestehendes Training vom Trainingstag und aus dem Übungsverlauf öffnen und denselben Kontext prüfen. Lange Übungsnamen, iPhone 15, iPad und große Textgröße prüfen. Xcode-Build und Sichtprüfung sind ausstehend.
 
+## App-Icon und Header in 0.6.6
+
+Das ausgewählte Logo 3 liegt als Trainuvo-AppIcon.png im Assetkatalog unter AppIcon.appiconset. Es wurde für den Icon-Export auf 1024 × 1024 Pixel skaliert und als RGB-PNG ohne Alphakanal gespeichert. Contents.json verweist auf diese Datei als universelles iOS-App-Icon. Motiv ist die blaue Langhantel im blauen Fortschrittsring auf weißem Hintergrund.
+
+Im TrainingEditor die Titelzeilen unter Abbrechen und Speichern auf iPhone 15 bei geöffneter Tastatur prüfen. Lange Übungsnamen, vier Satzgruppen und große Textgröße einbeziehen. Nach dem Build das Icon auf dem Home-Bildschirm und im App-Umschalter prüfen. Xcode-Build und Sichtprüfung sind ausstehend.
+
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.6.5` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.6.6` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.

@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining und zeigt den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.6.5 – Vorabversion**
+**Interner Entwicklungsstand: 0.6.6 – Vorabversion**
 
 ## Funktionen
 
@@ -28,7 +28,7 @@ Die App ist für iPhone und iPad ausgelegt. Das vorhandene Xcode-Projekt setzt i
 
 Beim Anlegen oder Bearbeiten einer Übung unter **Standardsätze in Trainingsreihenfolge** die gewünschten Gruppen hinterlegen, etwa **1 × 5, 1 × 5, 3 × 5, 1 × 5**. Mit den Pfeilen die Reihenfolge ändern und eine Gruppe als Arbeitsgewicht markieren. Beim neuen Training sind diese Gruppen bereits angelegt, und du ergänzt die kg. Die Gruppen können für das einzelne Training angepasst werden. Änderungen an den Standardsätzen beeinflussen künftige Erfassungen. Bestehende Trainings behalten ihre Satzgruppen und Gewichte.
 
-Die Trainingserfassung zeigt jede Satzgruppe in einer kompakten Zeile mit Arbeitsgewicht-Markierung, Satztext, Satzauswahl und Gewicht in kg. Vier Gruppen sollen auf dem iPhone 15 im Hochformat bei Standardtextgröße gemeinsam sichtbar sein. Der Übungsname steht deutlich als eigene Überschrift über dem Formular und bleibt beim Scrollen und bei geöffneter Tastatur sichtbar. Das Datum steht separat darunter. Über den Pfeil stehen Vorauswahlen und Entfernen bereit. Eine Gruppe kann auch durch Wischen nach links entfernt werden. Tippe auf Kreis bzw. Zielscheibe, um die Arbeitsgruppe zu wählen.
+Die Trainingserfassung zeigt jede Satzgruppe in einer kompakten Zeile mit Arbeitsgewicht-Markierung, Satztext, Satzauswahl und Gewicht in kg. Vier Gruppen sollen auf dem iPhone 15 im Hochformat bei Standardtextgröße gemeinsam sichtbar sein. Unter der Buttonleiste stehen „Training erfassen“ bzw. „Training bearbeiten“ und darunter der Übungsname als eigene Überschrift über dem Formular und bleibt beim Scrollen und bei geöffneter Tastatur sichtbar. Das Datum steht separat darunter. Über den Pfeil stehen Vorauswahlen und Entfernen bereit. Eine Gruppe kann auch durch Wischen nach links entfernt werden. Tippe auf Kreis bzw. Zielscheibe, um die Arbeitsgruppe zu wählen.
 
 Unter den Satzgruppen lässt sich das Arbeitsgewicht optional bewerten. Die Auswahl zeigt Symbol und Bedeutung, im Verlauf und auf der Startseite steht das Symbol links vor dem Arbeitsgewicht. Ein neues Training beginnt mit **Nicht bewertet**. Die Bewertung kann im Verlauf nachgetragen, geändert oder entfernt werden.
 

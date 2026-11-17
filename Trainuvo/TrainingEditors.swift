@@ -343,16 +343,22 @@ struct TrainingEditor: View {
                 }
             }
             .safeAreaInset(edge: .top, spacing: 0) {
-                Text(exercise.name)
-                    .font(.title2.bold())
-                    .fixedSize(horizontal: false, vertical: true)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 8)
-                    .background(Color(.systemGroupedBackground))
-                    .accessibilityAddTraits(.isHeader)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(entry == nil ? "Training erfassen" : "Training bearbeiten")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    Text(exercise.name)
+                        .font(.title2.bold())
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 8)
+                .background(Color(.systemGroupedBackground))
+                .accessibilityElement(children: .combine)
+                .accessibilityAddTraits(.isHeader)
             }
-            .navigationTitle(entry == nil ? "Training erfassen" : "Training bearbeiten")
+            .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("Abbrechen") { dismiss() } }
