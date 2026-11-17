@@ -18,3 +18,8 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 
 - Erhalte vorhandene Trainingseinheiten, Übungen, Sätze und Ziele bei Updates. Prüfe Änderungen am SwiftData-Modell mit Daten aus einer älteren App-Version, sobald eine solche Version verteilt wurde.
 - Verwende in Tests Beispieldaten und prüfe bei Änderungen an der Trainingserfassung auch den Verlauf und die davon betroffenen Ziele.
+
+## Aufgaben und Testbefunde
+
+- Führe Aufgaben und Testbefunde in [Todo.md](Todo.md). Vergib fortlaufende Kennungen wie `t01` und behalte sie bei.
+- Führe neue und zurückgestellte Einträge unter **Open**. Verschiebe umgesetzte Einträge mit der internen Trainuvo-Version nach **Done** und vermerke ausstehende Prüfungen beim Eintrag.
