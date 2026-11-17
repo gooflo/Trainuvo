@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.4 – Zweisprachigkeit vorgemerkt
+
+- Deutsch und Englisch für App-Oberfläche, Hilfe und Fehlermeldungen mit Prio 3 in Todo.md aufgenommen.
+
 ## 0.6.3 – Blaue Akzentfarbe
 
 - Bedienelemente, Fortschrittsanzeigen und Arbeitsgewicht-Markierungen auf Blau umgestellt.

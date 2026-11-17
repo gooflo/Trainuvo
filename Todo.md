@@ -25,6 +25,10 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 - Übungen, Trainingsdaten und Ziele über iCloud synchronisieren, damit sie auf mehreren Geräten verfügbar sind.
 
+### t24 – Zweisprachigkeit Deutsch und Englisch (Prio 3)
+
+- App-Oberfläche, Hilfe und Fehlermeldungen auf Deutsch und Englisch bereitstellen.
+
 ## Done
 
 ### t23 – Blaue Akzentfarbe (0.6.3)
