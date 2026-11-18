@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.8 – Weitere Übungsarten vorgemerkt
+
+- Weitere Übungsarten neben Krafttraining mit Prio 2 in Todo.md aufgenommen. Übungstypen mit passenden Einheiten und ein freier Typ Andere sind als offene Alternativen dokumentiert.
+
 ## 0.6.7 – Gewünschtes Logo eingebaut
 
 - App-Icon durch die schräge weiße Langhantel auf blauem Verlauf ersetzt.

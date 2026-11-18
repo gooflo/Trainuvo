@@ -13,6 +13,13 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Trainingsdaten als JSON und Excel exportieren.
 - Gut lesbaren, „pretty formatted“ Text zum Kopieren und Einfügen in OneNote exportieren.
 
+### t28 – Weitere Übungsarten neben Krafttraining (Prio 2)
+
+- Auch Übungen außerhalb des Krafttrainings erfassen können.
+- Variante 1: Mehrere Übungstypen mit jeweils passenden Einheiten und Eingabefeldern anbieten, zum Beispiel Ergometer mit Watt und Eingabe der Minuten. Mögliche Bezeichnung für die Einträge wäre „Trainingseinheiten“ statt „Satzgruppen“.
+- Variante 2: Neben Krafttraining den Typ „Andere“ anbieten. Dafür alle Angaben als Freitext eingeben, ohne vorgegebene Einheiten.
+- Die Entscheidung zwischen den Varianten ist offen. Variante 2 könnte die einfachere Umsetzung sein.
+
 ### t05 – Trainingsdaten per iCloud synchronisieren (Prio 3)
 
 - Übungen, Trainingsdaten und Ziele über iCloud synchronisieren, damit sie auf mehreren Geräten verfügbar sind.
