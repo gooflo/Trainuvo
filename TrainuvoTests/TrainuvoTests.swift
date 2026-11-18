@@ -308,4 +308,104 @@ struct TrainuvoTests {
         #expect(recreated.exercisesCreated == 4)
         #expect(recreated.trainingsCreated == 8)
     }
+
+    @Test func legacyTypeValuesRemainStrengthTraining() {
+        let exercise = Exercise(name: "Bankdrücken", targetWeight: 80)
+        exercise.activityTypeRawValue = nil
+        let entry = TrainingEntry(date: Date(), exercise: exercise)
+        entry.activityTypeRawValue = nil
+        #expect(exercise.activityType == .strength)
+        #expect(entry.activityType == .strength)
+        exercise.activityType = .jogging
+        #expect(entry.activityType == .strength)
+    }
+
+    @Test func freeTextTypesPersistAndTrainingDeletionKeepsExercises() throws {
+        let schema = Schema([Item.self, Exercise.self, TrainingEntry.self, SetGroup.self, ExerciseSetTemplate.self])
+        let container = try ModelContainer(
+            for: schema,
+            configurations: [ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)]
+        )
+        let context = ModelContext(container)
+        let types: [ExerciseType] = [.ergometer, .swimming, .jogging, .other]
+        let texts = ["20 Minuten bei 100 Watt", "500 m Brust\nPause nach 250 m", "5 km in 30 Minuten", "Spaziergang mit der Familie"]
+        for (index, type) in types.enumerated() {
+            let exercise = Exercise(name: type.title, targetWeight: nil, activityType: type)
+            exercise.sortOrder = index
+            context.insert(exercise)
+            let entry = TrainingEntry(date: Date(), exercise: exercise)
+            context.insert(entry)
+            let unit = SetGroup(position: 0, prescription: texts[index], weight: 0, isWorking: false)
+            context.insert(unit)
+            entry.groups.append(unit)
+        }
+        try context.save()
+        let reader = ModelContext(container)
+        let exercises = try reader.fetch(FetchDescriptor<Exercise>(sortBy: [SortDescriptor(\Exercise.sortOrder)]))
+        #expect(exercises.map(\.activityType) == types)
+        for (index, exercise) in exercises.enumerated() {
+            let entry = try #require(exercise.latestEntry)
+            #expect(entry.activityType == types[index])
+            #expect(entry.freeTextSummary == texts[index])
+            #expect(entry.workingWeight == nil)
+            #expect(exercise.progress == nil)
+        }
+        let firstTraining = try #require(exercises.first?.latestEntry)
+        try firstTraining.deleteKeepingExercise(in: reader)
+        let refreshed = ModelContext(container)
+        #expect(try refreshed.fetchCount(FetchDescriptor<Exercise>()) == 4)
+        #expect(try refreshed.fetchCount(FetchDescriptor<TrainingEntry>()) == 3)
+    }
+
+    @Test func changingExerciseTypeRetainsEarlierTrainingAndStrengthDefaults() {
+        let exercise = Exercise(name: "Training", targetWeight: 100)
+        let template = ExerciseSetTemplate(position: 0, prescription: "3 × 5", isWorking: true)
+        exercise.setTemplates = [template]
+        let strength = TrainingEntry(date: Date(timeIntervalSince1970: 100), exercise: exercise)
+        strength.groups = [SetGroup(position: 0, prescription: "3 × 5", weight: 60, isWorking: true)]
+        strength.effort = .hard
+
+        exercise.activityType = .jogging
+        let running = TrainingEntry(date: Date(timeIntervalSince1970: 200), exercise: exercise)
+        running.groups = [SetGroup(position: 0, prescription: "5 km locker", weight: 0, isWorking: false)]
+        exercise.entries = [strength, running]
+        #expect(exercise.progress == nil)
+        #expect(exercise.latestEntryForCurrentType?.id == running.id)
+        #expect(strength.activityType == .strength)
+        #expect(strength.workingWeight == 60)
+        #expect(strength.effort == .hard)
+        #expect(exercise.targetWeight == 100)
+        #expect(exercise.setTemplates.first?.id == template.id)
+
+        exercise.activityType = .strength
+        #expect(exercise.latestEntryForCurrentType?.id == strength.id)
+        #expect(exercise.progress == 0.6)
+        #expect(running.activityType == .jogging)
+        #expect(running.freeTextSummary == "5 km locker")
+    }
+
+    @Test func strengthExamplesDoNotOverwriteAnExerciseWithAnotherType() throws {
+        let schema = Schema([Item.self, Exercise.self, TrainingEntry.self, SetGroup.self, ExerciseSetTemplate.self])
+        let container = try ModelContainer(
+            for: schema,
+            configurations: [ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)]
+        )
+        let context = ModelContext(container)
+        let exercise = Exercise(name: "Press", targetWeight: nil, activityType: .other)
+        context.insert(exercise)
+        let training = TrainingEntry(date: Date(), exercise: exercise)
+        context.insert(training)
+        let unit = SetGroup(position: 0, prescription: "Meine freie Einheit", weight: 0, isWorking: false)
+        context.insert(unit)
+        training.groups.append(unit)
+        try context.save()
+
+        let result = try TrainingDataOperations.createExamples(in: context)
+        #expect(result.exercisesCreated == 3)
+        #expect(result.trainingsCreated == 6)
+        #expect(exercise.activityType == .other)
+        #expect(exercise.entries.count == 1)
+        #expect(exercise.latestEntry?.freeTextSummary == "Meine freie Einheit")
+        #expect(exercise.setTemplates.isEmpty)
+    }
 }

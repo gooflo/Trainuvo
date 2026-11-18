@@ -1,8 +1,16 @@
 # Trainuvo
 
-Trainuvo dokumentiert Krafttraining und zeigt den Fortschritt gegenüber persönlichen Zielgewichten.
+Trainuvo dokumentiert Krafttraining, Ergometer, Schwimmen, Joggen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.6.9 – Vorabversion**
+**Interner Entwicklungsstand: 0.7.0 – Vorabversion**
+
+## Übungstypen
+
+Beim Anlegen oder Bearbeiten einer Übung den Typ **Krafttraining**, **Ergometer**, **Schwimmen**, **Joggen** oder **Andere** wählen.
+
+Krafttraining verwendet Gewichte, Satzgruppen und optionale Zielgewichte. Die übrigen vier Typen verwenden **Trainingseinheiten mit Freitext**, zum Beispiel „20 Minuten bei 100 Watt“, „500 m Brust“ oder „5 km in 30 Minuten“. Weitere Einheiten lassen sich hinzufügen. Neue Freitexttrainings starten leer mit normaler Tastatur. In der Tagesübersicht und im Verlauf erscheinen die Texte.
+
+Jeder Eintrag speichert seinen Typ. Beim Wechsel des Übungstyps bleiben bestehende Trainings in ihrer ursprünglichen Form bearbeitbar. Bisherige Krafttrainingsvorgaben werden gespeichert und beim Zurückwechseln wieder angeboten.
 
 ## Funktionen
 
@@ -24,7 +32,7 @@ Die App ist für iPhone und iPad ausgelegt. Das vorhandene Xcode-Projekt setzt i
 
 ## Nutzung
 
-Über den **Stift neben Deine Ziele → Übung anlegen** eine Übung mit optionalem Zielgewicht anlegen. Auf einer Zielkarte **+** antippen, um sofort ein neues Training zu öffnen. Das erste kg-Feld erhält automatisch den Fokus und die numerische Tastatur öffnet sich. **Fertig** schließt die Tastatur. Das Datum ist mit heute vorbelegt. Antippen der Karte öffnet den Übungsverlauf. Zahnrad und Hilfe stehen oben rechts.
+Über den **Stift neben Deine Übungen → Übung anlegen** eine Übung mit optionalem Zielgewicht anlegen. Auf einer Zielkarte **+** antippen, um sofort ein neues Training zu öffnen. Das erste kg-Feld erhält automatisch den Fokus und die numerische Tastatur öffnet sich. **Fertig** schließt die Tastatur. Das Datum ist mit heute vorbelegt. Antippen der Karte öffnet den Übungsverlauf. Zahnrad und Hilfe stehen oben rechts.
 
 Beim Anlegen oder Bearbeiten einer Übung unter **Standardsätze in Trainingsreihenfolge** die gewünschten Gruppen hinterlegen, etwa **1 × 5, 1 × 5, 3 × 5, 1 × 5**. Mit den Pfeilen die Reihenfolge ändern und eine Gruppe als Arbeitsgewicht markieren. Beim neuen Training sind diese Gruppen bereits angelegt, und du ergänzt die kg. Die Gruppen können für das einzelne Training angepasst werden. Änderungen an den Standardsätzen beeinflussen künftige Erfassungen. Bestehende Trainings behalten ihre Satzgruppen und Gewichte.
 
@@ -49,7 +57,7 @@ Für ein Training beispielsweise drei Satzgruppen erfassen:
 
 Der Zielfortschritt entspricht dem Arbeitsgewicht des zeitlich letzten Trainings geteilt durch das aktuelle Zielgewicht. 60 kg bei einem Ziel von 100 kg ergeben 60 %. Bei identischem Datum einschließlich Uhrzeit entscheidet das Anlegedatum. Ein älterer nachgetragener Eintrag ersetzt den aktuellen Fortschritt daher nur, wenn er zeitlich der letzte ist.
 
-Auf der Startseite neben **Deine Ziele** den **Stift → Übungen sortieren** wählen, die Übungen an den Griffen verschieben und **Speichern** wählen. Die Reihenfolge bleibt nach einem Neustart erhalten. Neue Übungen erscheinen am Ende. Vor der ersten manuellen Sortierung stehen vorhandene Übungen alphabetisch.
+Auf der Startseite neben **Deine Übungen** den **Stift → Übungen sortieren** wählen, die Übungen an den Griffen verschieben und **Speichern** wählen. Die Reihenfolge bleibt nach einem Neustart erhalten. Neue Übungen erscheinen am Ende. Vor der ersten manuellen Sortierung stehen vorhandene Übungen alphabetisch.
 
 Die Startseite zeigt Trainingstage mit dem neuesten Datum zuerst. Innerhalb eines Tages folgen die Einträge deiner Übungsreihenfolge. Pro Trainingseintrag erscheint eine Zeile mit dem Arbeitsgewicht und optionaler Bewertung. Mehrere Einträge derselben Übung am gleichen Tag bleiben als einzelne Zeilen sichtbar. Antippen öffnet genau den gewählten Trainingseintrag zum Bearbeiten und Löschen. Den vollständigen Übungsverlauf öffnest du über die Zielkarte.
 

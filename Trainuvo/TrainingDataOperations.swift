@@ -37,6 +37,7 @@ enum TrainingDataOperations {
                 if let existing = exercises.first(where: {
                     $0.name.compare(example.name, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame
                 }) {
+                    guard existing.activityType.usesWeights else { continue }
                     exercise = existing
                 } else {
                     exercise = Exercise(name: example.name, targetWeight: example.target)

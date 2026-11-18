@@ -9,13 +9,6 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Trainingsdaten als JSON und Excel exportieren.
 - Gut lesbaren, „pretty formatted“ Text zum Kopieren und Einfügen in OneNote exportieren.
 
-### t28 – Weitere Übungsarten neben Krafttraining (Prio 2)
-
-- Auch Übungen außerhalb des Krafttrainings erfassen können.
-- Variante 1: Mehrere Übungstypen mit jeweils passenden Einheiten und Eingabefeldern anbieten, zum Beispiel Ergometer mit Watt und Eingabe der Minuten. Mögliche Bezeichnung für die Einträge wäre „Trainingseinheiten“ statt „Satzgruppen“.
-- Variante 2: Neben Krafttraining den Typ „Andere“ anbieten. Dafür alle Angaben als Freitext eingeben, ohne vorgegebene Einheiten.
-- Die Entscheidung zwischen den Varianten ist offen. Variante 2 könnte die einfachere Umsetzung sein.
-
 ### t05 – Trainingsdaten per iCloud synchronisieren (Prio 3)
 
 - Übungen, Trainingsdaten und Ziele über iCloud synchronisieren, damit sie auf mehreren Geräten verfügbar sind.
@@ -35,6 +28,14 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Technische Option von Florian: Den Kommentar bei einem Übungseintrag speichern und dafür beispielsweise die letzte Übung des Tages verwenden. Die konkrete Umsetzung ist noch offen.
 
 ## Done
+
+### t28 – Weitere Übungsarten neben Krafttraining (0.7.0)
+
+- Übungstypen Krafttraining, Ergometer, Schwimmen, Joggen und Andere anbieten.
+- Ergometer, Schwimmen, Joggen und Andere als frei formulierte Trainingseinheiten erfassen, bearbeiten, anzeigen und löschen.
+- Typ in jedem Trainingseintrag speichern. Bestehende Einträge ohne Typ gelten als Krafttraining. Typwechsel erhalten bisherige Trainings und Krafttrainingsvorgaben.
+- Startbereich in Deine Übungen umbenannt. Karten, Tagesübersicht und Verlauf berücksichtigen den gespeicherten Typ.
+- Xcode-Build, Swift-Tests, Update-Test über 0.6.9 und Sichtprüfung mit gemischten Typen ausstehend.
 
 ### t22 – Darstellung der Arbeitsgewicht-Bewertung verbessern (0.6.9)
 

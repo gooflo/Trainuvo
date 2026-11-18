@@ -23,14 +23,14 @@ struct ContentView: View {
                         ContentUnavailableView {
                             Label("Dein Training beginnt hier", systemImage: "dumbbell")
                         } description: {
-                            Text("Lege deine erste Übung an und setze dir ein Zielgewicht.")
+                            Text("Lege deine erste Übung an und wähle den passenden Übungstyp.")
                         } actions: {
                             Button("Übung anlegen") { showingExercise = true }
                                 .buttonStyle(.borderedProminent)
                         }
                     } else {
                         HStack(alignment: .firstTextBaseline) {
-                            Text("Deine Ziele").font(.title2.bold())
+                            Text("Deine Übungen").font(.title2.bold())
                             Spacer()
                             Menu {
                                 Button("Übung anlegen", systemImage: "plus") {
@@ -159,22 +159,42 @@ private struct GoalCard: View {
                 ProgressView(value: min(progress, 1))
                     .tint(progress >= 1 ? .green : .blue)
             }
-            HStack(spacing: 8) {
-                Text("Ziel: \(exercise.targetWeight.map { TrainingFormat.weight($0) } ?? "–")")
-                Text("Erreicht: \(exercise.latestEntry?.workingWeight.map { TrainingFormat.weight($0) } ?? "–")")
-                Spacer(minLength: 0)
-                if let latest = exercise.latestEntry {
-                    Text(latest.date, format: .dateTime.day(.twoDigits).month(.twoDigits).year(.twoDigits))
-                        .accessibilityLabel("Letztes Training")
-                        .accessibilityValue(latest.date.formatted(date: .long, time: .omitted))
-                } else {
-                    Text("–").accessibilityLabel("Noch kein Training")
+            if exercise.activityType.usesWeights {
+                HStack(spacing: 8) {
+                    Text("Ziel: \(exercise.targetWeight.map { TrainingFormat.weight($0) } ?? "–")")
+                    Text("Erreicht: \(exercise.latestEntryForCurrentType?.workingWeight.map { TrainingFormat.weight($0) } ?? "–")")
+                    Spacer(minLength: 0)
+                    if let latest = exercise.latestEntryForCurrentType {
+                        Text(latest.date, format: .dateTime.day(.twoDigits).month(.twoDigits).year(.twoDigits))
+                            .accessibilityLabel("Letztes Training")
+                            .accessibilityValue(latest.date.formatted(date: .long, time: .omitted))
+                    } else {
+                        Text("–").accessibilityLabel("Noch kein Training")
+                    }
                 }
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+            } else {
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text(exercise.activityType.title)
+                        Spacer()
+                        if let latest = exercise.latestEntryForCurrentType {
+                            Text(latest.date, format: .dateTime.day().month().year(.twoDigits))
+                        }
+                    }
+                    if let latest = exercise.latestEntryForCurrentType {
+                        Text(latest.freeTextSummary)
+                            .lineLimit(2)
+                    } else {
+                        Text("Noch kein Training")
+                    }
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
             }
-            .font(.caption)
-            .foregroundStyle(.secondary)
-            .lineLimit(1)
-            .minimumScaleFactor(0.7)
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -192,7 +212,11 @@ private struct DayTrainingRow: View {
                 .fontWeight(.medium)
                 .lineLimit(1)
             Spacer(minLength: 4)
-            if let group = entry.workingGroup {
+            if !entry.activityType.usesWeights {
+                Text(entry.freeTextSummary)
+                    .multilineTextAlignment(.trailing)
+                    .lineLimit(2)
+            } else if let group = entry.workingGroup {
                 Text("\(group.prescription) @")
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
@@ -222,26 +246,33 @@ struct TrainingSummary: View {
 
     var body: some View {
         ForEach(entry.sortedGroups, id: \.id) { group in
-            HStack(alignment: .firstTextBaseline) {
+            if entry.activityType.usesWeights {
+                HStack(alignment: .firstTextBaseline) {
+                    Text(group.prescription)
+                    Spacer()
+                    Image(systemName: "target")
+                        .foregroundStyle(.blue)
+                        .frame(width: 18)
+                        .opacity(group.isWorking ? 1 : 0)
+                        .accessibilityLabel("Arbeitsgewicht")
+                        .accessibilityHidden(!group.isWorking)
+                    Text(group.isWorking ? entry.effort?.symbol ?? "" : "")
+                        .font(.system(.subheadline, design: .monospaced).weight(.semibold))
+                        .frame(width: effortColumnWidth)
+                        .accessibilityLabel(entry.effort?.title ?? "")
+                        .accessibilityHidden(!group.isWorking || entry.effort == nil)
+                    Text(TrainingFormat.weight(group.weight))
+                        .fontWeight(.medium)
+                        .monospacedDigit()
+                        .fixedSize(horizontal: true, vertical: false)
+                }
+                .font(.subheadline)
+            } else {
                 Text(group.prescription)
-                Spacer()
-                Image(systemName: "target")
-                    .foregroundStyle(.blue)
-                    .frame(width: 18)
-                    .opacity(group.isWorking ? 1 : 0)
-                    .accessibilityLabel("Arbeitsgewicht")
-                    .accessibilityHidden(!group.isWorking)
-                Text(group.isWorking ? entry.effort?.symbol ?? "" : "")
-                    .font(.system(.subheadline, design: .monospaced).weight(.semibold))
-                    .frame(width: effortColumnWidth)
-                    .accessibilityLabel(entry.effort?.title ?? "")
-                    .accessibilityHidden(!group.isWorking || entry.effort == nil)
-                Text(TrainingFormat.weight(group.weight))
-                    .fontWeight(.medium)
-                    .monospacedDigit()
-                    .fixedSize(horizontal: true, vertical: false)
+                    .font(.subheadline)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .font(.subheadline)
         }
     }
 }
@@ -258,7 +289,8 @@ struct ExerciseDetailView: View {
     var body: some View {
         List {
             Section {
-                if let target = exercise.targetWeight {
+                LabeledContent("Übungstyp", value: exercise.activityType.title)
+                if exercise.activityType.usesWeights, let target = exercise.targetWeight {
                     LabeledContent("Zielgewicht", value: TrainingFormat.weight(target))
                 }
                 if let progress = exercise.progress {
@@ -277,8 +309,14 @@ struct ExerciseDetailView: View {
                         editingEntry = entry
                     } label: {
                         VStack(alignment: .leading, spacing: 10) {
-                            Text(entry.date, format: .dateTime.day().month(.wide).year())
-                                .font(.headline)
+                            HStack {
+                                Text(entry.date, format: .dateTime.day().month(.wide).year())
+                                    .font(.headline)
+                                if entry.activityType != exercise.activityType {
+                                    Spacer()
+                                    Text(entry.activityType.title).font(.caption).foregroundStyle(.secondary)
+                                }
+                            }
                             TrainingSummary(entry: entry)
                         }
                         .foregroundStyle(.primary)
@@ -369,17 +407,22 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.6.9"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.7.0"
     }
 
     var body: some View {
         NavigationStack {
             List {
                 Section("Trainuvo \(version)") {
-                    Text("Lege über den Stift neben „Deine Ziele“ eine Übung mit optionalem Zielgewicht an. Das Plus auf einer Zielkarte öffnet sofort die Trainingserfassung. Antippen der Karte öffnet den Verlauf. Einstellungen und Hilfe stehen oben rechts.")
+                    Text("Lege über den Stift neben „Deine Übungen“ eine Übung mit optionalem Zielgewicht an. Das Plus auf einer Zielkarte öffnet sofort die Trainingserfassung. Antippen der Karte öffnet den Verlauf. Einstellungen und Hilfe stehen oben rechts.")
                 }
                 Section("Übungen sortieren") {
-                    Text("Tippe auf der Startseite neben „Deine Ziele“ auf den Stift und dann auf „Übungen sortieren“. Ziehe die Übungen an den Griffen in die gewünschte Reihenfolge und tippe auf „Speichern“. Neue Übungen werden am Ende angefügt.")
+                    Text("Tippe auf der Startseite neben „Deine Übungen“ auf den Stift und dann auf „Übungen sortieren“. Ziehe die Übungen an den Griffen in die gewünschte Reihenfolge und tippe auf „Speichern“. Neue Übungen werden am Ende angefügt.")
+                }
+                Section("Übungstypen und Freitext") {
+                    Text("Beim Anlegen oder Bearbeiten einer Übung wählst du Krafttraining, Ergometer, Schwimmen, Joggen oder Andere. Bei Ergometer, Schwimmen, Joggen und Andere beschreibst du die Trainingseinheiten frei, etwa mit Dauer, Strecke oder Belastung.")
+                    Text("Über „Trainingseinheit hinzufügen“ lassen sich mehrere Freitexteinheiten erfassen. Neue Einträge starten mit einem leeren Textfeld und normaler Tastatur. Auf der Startseite und im Verlauf erscheinen deine Texte.")
+                    Text("Jeder Eintrag behält seinen gespeicherten Übungstyp. Wenn du den Typ der Übung später änderst, lassen sich ältere Trainings weiterhin in ihrer ursprünglichen Form öffnen.")
                 }
                 Section("Standardsätze pro Übung") {
                     Text("Öffne die Übung und wähle im Menü … „Übung bearbeiten“. Hinterlege die Satzgruppen in Trainingsreihenfolge, zum Beispiel 1 × 5, 1 × 5, 3 × 5, 1 × 5. Mit den Pfeilen verschiebst du Gruppen. Markiere eine Gruppe als Arbeitsgewicht.")

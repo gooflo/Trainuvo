@@ -5,6 +5,7 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 ## Entwicklung und Git
 
 - Trainuvo ist eine native iOS- und iPadOS-App zur Dokumentation von Krafttraining und Trainingszielen. Verwende SwiftUI und SwiftData.
+- Unterstützte Übungstypen sind Krafttraining, Ergometer, Schwimmen, Joggen und Andere. Die vier zusätzlichen Typen verwenden freie Trainingseinheiten. Jeder Trainingseintrag speichert seinen Typ, sodass spätere Änderungen der Übung frühere Einträge erhalten.
 - Verwende Blau als primäre Akzentfarbe für Bedienelemente, Arbeitsgewicht-Markierungen und Fortschrittsanzeigen.
 - Das ausgewählte Logo zeigt eine schräge weiße Langhantel auf blauem Verlauf. Das App-Icon liegt im Assetkatalog unter AppIcon.
 - Halte die lokale Arbeitskopie auf dem Mac außerhalb von iCloud Drive. Arbeite direkt auf `main` im privaten GitHub-Repository. Der Assistent committet vereinbarte Änderungen, Florian pullt und testet in Xcode und setzt und pusht anschließend das Release-Tag.
@@ -23,7 +24,7 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 
 - Das Löschen eines Trainings erhält die zugehörige Übung und ihre Standardsätze, auch beim letzten Training. Eine Übung wird über ihre separate Löschaktion oder das bestätigte „Alles löschen“ entfernt. Löschänderungen mit einem Test für den letzten Trainingseintrag absichern.
 
-- Neue Trainings über das Plus auf der Zielkarte direkt öffnen. Das erste kg-Feld nach dem Aufbau der Maske fokussieren und die numerische Tastatur mit „Fertig“ anbieten. Die automatische Fokussierung soll vorhandene Benutzereingaben nicht überschreiben.
+- Neue Trainings über das Plus auf der Zielkarte direkt öffnen. Bei Krafttraining das erste kg-Feld, bei Freitexttypen das erste Textfeld nach dem Aufbau der Maske fokussieren und die numerische Tastatur mit „Fertig“ anbieten. Die automatische Fokussierung soll vorhandene Benutzereingaben nicht überschreiben.
 
 ## Aufgaben und Testbefunde
 

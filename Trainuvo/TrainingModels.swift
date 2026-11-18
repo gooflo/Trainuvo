@@ -7,6 +7,7 @@ final class Exercise {
     var name: String = ""
     var sortOrder: Int = 0
     var targetWeight: Double?
+    var activityTypeRawValue: String?
     @Relationship(deleteRule: .cascade, inverse: \TrainingEntry.exercise)
     var entries: [TrainingEntry] = []
     @Relationship(deleteRule: .cascade, inverse: \ExerciseSetTemplate.exercise)
@@ -16,9 +17,19 @@ final class Exercise {
         setTemplates.sorted { $0.position < $1.position }
     }
 
-    init(name: String, targetWeight: Double?) {
+    init(name: String, targetWeight: Double?, activityType: ExerciseType = .strength) {
         self.name = name
         self.targetWeight = targetWeight
+        self.activityTypeRawValue = activityType.rawValue
+    }
+
+    var activityType: ExerciseType {
+        get { activityTypeRawValue.flatMap(ExerciseType.init(rawValue:)) ?? .strength }
+        set { activityTypeRawValue = newValue.rawValue }
+    }
+
+    var latestEntryForCurrentType: TrainingEntry? {
+        sortedEntries.first { $0.activityType == activityType }
     }
 
     var sortedEntries: [TrainingEntry] {
@@ -31,8 +42,8 @@ final class Exercise {
     var latestEntry: TrainingEntry? { sortedEntries.first }
 
     var progress: Double? {
-        guard let targetWeight, targetWeight > 0,
-              let weight = latestEntry?.workingWeight else { return nil }
+        guard activityType.usesWeights, let targetWeight, targetWeight > 0,
+              let weight = latestEntryForCurrentType?.workingWeight else { return nil }
         return weight / targetWeight
     }
 }
@@ -60,6 +71,7 @@ final class TrainingEntry {
     var date: Date = Date()
     var createdAt: Date = Date()
     var effortRawValue: String?
+    var activityTypeRawValue: String?
     @Relationship(deleteRule: .nullify)
     var exercise: Exercise?
     @Relationship(deleteRule: .cascade, inverse: \SetGroup.entry)
@@ -68,10 +80,23 @@ final class TrainingEntry {
     init(date: Date, exercise: Exercise) {
         self.date = date
         self.exercise = exercise
+        self.activityTypeRawValue = exercise.activityType.rawValue
+    }
+
+    var activityType: ExerciseType {
+        get { activityTypeRawValue.flatMap(ExerciseType.init(rawValue:)) ?? .strength }
+        set { activityTypeRawValue = newValue.rawValue }
     }
 
     var sortedGroups: [SetGroup] { groups.sorted { $0.position < $1.position } }
-    var workingGroup: SetGroup? { sortedGroups.first(where: \.isWorking) }
+    var workingGroup: SetGroup? {
+        guard activityType.usesWeights else { return nil }
+        return sortedGroups.first(where: \.isWorking)
+    }
+
+    var freeTextSummary: String {
+        sortedGroups.map(\.prescription).joined(separator: " · ")
+    }
     var workingWeight: Double? { workingGroup?.weight }
 
     func deleteKeepingExercise(in context: ModelContext) throws {
@@ -177,6 +202,27 @@ struct TrainingDaySummary: Identifiable {
                 return left.createdAt > right.createdAt
             }
             return TrainingDaySummary(date: day, entries: ordered)
+        }
+    }
+}
+
+enum ExerciseType: String, CaseIterable, Identifiable {
+    case strength
+    case ergometer
+    case swimming
+    case jogging
+    case other
+
+    var id: String { rawValue }
+    var usesWeights: Bool { self == .strength }
+
+    var title: String {
+        switch self {
+        case .strength: "Krafttraining"
+        case .ergometer: "Ergometer"
+        case .swimming: "Schwimmen"
+        case .jogging: "Joggen"
+        case .other: "Andere"
         }
     }
 }

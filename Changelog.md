@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.7.0 – Weitere Übungstypen mit Freitext
+
+- Übungstypen Krafttraining, Ergometer, Schwimmen, Joggen und Andere ergänzt.
+- Die vier zusätzlichen Typen verwenden freie Trainingseinheiten mit normaler Tastatur. Mehrere Einheiten sind möglich.
+- Karten, Tagesübersicht und Verlauf zeigen passende Texte bzw. Krafttrainingsdaten. Der Startbereich heißt Deine Übungen.
+- Übung und Trainingseintrag speichern ihren Typ als optionalen String. Datensätze ohne Typ gelten als Krafttraining. Jeder neue Eintrag erhält seinen eigenen Typ, damit spätere Änderungen der Übung bestehende Trainings erhalten.
+- Krafttrainingsvorgaben werden bei Typwechsel beibehalten. Der Beispieldatenimport überspringt gleichnamige Übungen mit einem anderen Typ.
+- Hilfe, Dokumentation und Tests aktualisiert. t28 unter Done verschoben.
+- Swift-Syntax geprüft. Xcode-Build, Swift-Tests, Update-Test und Geräteprüfung ausstehend.
+
 ## 0.6.9 – Bewertung direkt auswählen
 
 - Vier direkt antippbare Flächen mit --, -, o und + sowie kurzen Beschriftungen eingeführt.

@@ -7,6 +7,7 @@ struct ExerciseEditor: View {
     @Query private var exercises: [Exercise]
     let exercise: Exercise?
     @State private var name: String
+    @State private var activityType: ExerciseType
     @State private var templates: [SetGroupDraft]
     @State private var workingTemplateID: UUID?
     @State private var target: String
@@ -26,6 +27,7 @@ struct ExerciseEditor: View {
         _templates = State(initialValue: initial)
         _workingTemplateID = State(initialValue: exercise?.sortedSetTemplates.first(where: \.isWorking)?.id ?? initial.first?.id)
         _name = State(initialValue: exercise?.name ?? "")
+        _activityType = State(initialValue: exercise?.activityType ?? .strength)
         _target = State(initialValue: exercise.flatMap { $0.targetWeight }.map { TrainingFormat.number($0) } ?? "")
     }
 
@@ -37,6 +39,7 @@ struct ExerciseEditor: View {
         if exercises.contains(where: {
             $0.id != exercise?.id && $0.name.compare(cleanName, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame
         }) { return "Eine Übung mit diesem Namen ist bereits vorhanden." }
+        if !activityType.usesWeights { return nil }
         if !cleanTarget.isEmpty {
             guard let value = TrainingFormat.parseWeight(cleanTarget), value >= 0.01 else {
                 return "Das Zielgewicht muss zwischen 0,01 und 100.000 kg liegen."
@@ -58,71 +61,78 @@ struct ExerciseEditor: View {
                     TextField("Name", text: $name)
                         .textInputAutocapitalization(.sentences)
                         .focused($inputFocused)
-                }
-                Section {
-                    HStack {
-                        TextField("Zielgewicht (optional)", text: $target)
-                            .keyboardType(.decimalPad)
-                            .focused($inputFocused)
-                        Text("kg").foregroundStyle(.secondary)
-                    }
-                } footer: {
-                    Text("Das Arbeitsgewicht des letzten Trainings wird mit diesem Ziel verglichen.")
-                }
-                Section {
-                    ForEach($templates) { $template in
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
-                                TextField("Sätze × Wiederholungen", text: $template.prescription)
-                                    .focused($inputFocused)
-                                Menu {
-                                    ForEach(TrainingFormat.prescriptions, id: \.self) { preset in
-                                        Button(preset) { template.prescription = preset }
-                                    }
-                                } label: {
-                                    Label("Vorauswahl", systemImage: "list.bullet")
-                                        .labelStyle(.iconOnly)
-                                }
-                            }
-                            HStack(spacing: 16) {
-                                Button {
-                                    workingTemplateID = template.id
-                                } label: {
-                                    Label(
-                                        workingTemplateID == template.id ? "Arbeitsgewicht" : "Arbeitsgewicht wählen",
-                                        systemImage: workingTemplateID == template.id ? "checkmark.circle.fill" : "circle"
-                                    )
-                                }
-                                .font(.caption)
-                                Spacer(minLength: 0)
-                                Button { moveTemplate(template.id, by: -1) } label: {
-                                    Image(systemName: "arrow.up")
-                                }
-                                .accessibilityLabel("Satzgruppe nach oben")
-                                .disabled(templates.first?.id == template.id)
-                                Button { moveTemplate(template.id, by: 1) } label: {
-                                    Image(systemName: "arrow.down")
-                                }
-                                .accessibilityLabel("Satzgruppe nach unten")
-                                .disabled(templates.last?.id == template.id)
-                                Button(role: .destructive) { removeTemplate(template.id) } label: {
-                                    Image(systemName: "trash")
-                                }
-                                .accessibilityLabel("Standardgruppe entfernen")
-                            }
-                            .buttonStyle(.borderless)
+                    Picker("Übungstyp", selection: $activityType) {
+                        ForEach(ExerciseType.allCases) { type in
+                            Text(type.title).tag(type)
                         }
-                        .padding(.vertical, 4)
                     }
-                    Button("Standardgruppe hinzufügen", systemImage: "plus.circle") {
-                        let group = SetGroupDraft(prescription: "1 × 5")
-                        templates.append(group)
-                        if workingTemplateID == nil { workingTemplateID = group.id }
+                }
+                if activityType.usesWeights {
+                    Section {
+                        HStack {
+                            TextField("Zielgewicht (optional)", text: $target)
+                                .keyboardType(.decimalPad)
+                                .focused($inputFocused)
+                            Text("kg").foregroundStyle(.secondary)
+                        }
+                    } footer: {
+                        Text("Das Arbeitsgewicht des letzten Trainings wird mit diesem Ziel verglichen.")
                     }
-                } header: {
-                    Text("Standardsätze in Trainingsreihenfolge")
-                } footer: {
-                    Text("Neue Trainings übernehmen diese Gruppen und die Arbeitsgewicht-Markierung. Du ergänzt die kg. Mit den Pfeilen änderst du die Reihenfolge. Ohne Standardsätze dient das letzte Training als Vorschlag.")
+                    Section {
+                        ForEach($templates) { $template in
+                            VStack(alignment: .leading, spacing: 10) {
+                                HStack {
+                                    TextField("Sätze × Wiederholungen", text: $template.prescription)
+                                        .focused($inputFocused)
+                                    Menu {
+                                        ForEach(TrainingFormat.prescriptions, id: \.self) { preset in
+                                            Button(preset) { template.prescription = preset }
+                                        }
+                                    } label: {
+                                        Label("Vorauswahl", systemImage: "list.bullet")
+                                            .labelStyle(.iconOnly)
+                                    }
+                                }
+                                HStack(spacing: 16) {
+                                    Button {
+                                        workingTemplateID = template.id
+                                    } label: {
+                                        Label(
+                                            workingTemplateID == template.id ? "Arbeitsgewicht" : "Arbeitsgewicht wählen",
+                                            systemImage: workingTemplateID == template.id ? "checkmark.circle.fill" : "circle"
+                                        )
+                                    }
+                                    .font(.caption)
+                                    Spacer(minLength: 0)
+                                    Button { moveTemplate(template.id, by: -1) } label: {
+                                        Image(systemName: "arrow.up")
+                                    }
+                                    .accessibilityLabel("Satzgruppe nach oben")
+                                    .disabled(templates.first?.id == template.id)
+                                    Button { moveTemplate(template.id, by: 1) } label: {
+                                        Image(systemName: "arrow.down")
+                                    }
+                                    .accessibilityLabel("Satzgruppe nach unten")
+                                    .disabled(templates.last?.id == template.id)
+                                    Button(role: .destructive) { removeTemplate(template.id) } label: {
+                                        Image(systemName: "trash")
+                                    }
+                                    .accessibilityLabel("Standardgruppe entfernen")
+                                }
+                                .buttonStyle(.borderless)
+                            }
+                            .padding(.vertical, 4)
+                        }
+                        Button("Standardgruppe hinzufügen", systemImage: "plus.circle") {
+                            let group = SetGroupDraft(prescription: "1 × 5")
+                            templates.append(group)
+                            if workingTemplateID == nil { workingTemplateID = group.id }
+                        }
+                    } header: {
+                        Text("Standardsätze in Trainingsreihenfolge")
+                    } footer: {
+                        Text("Neue Trainings übernehmen diese Gruppen und die Arbeitsgewicht-Markierung. Du ergänzt die kg. Mit den Pfeilen änderst du die Reihenfolge. Ohne Standardsätze dient das letzte Training als Vorschlag.")
+                    }
                 }
                 if let validation {
                     Section { Text(validation).foregroundStyle(.secondary) }
@@ -166,22 +176,25 @@ struct ExerciseEditor: View {
         if let exercise {
             savedExercise = exercise
             exercise.name = cleanName
-            exercise.targetWeight = targetWeight
-            for template in exercise.setTemplates { modelContext.delete(template) }
-            exercise.setTemplates = []
         } else {
-            savedExercise = Exercise(name: cleanName, targetWeight: targetWeight)
+            savedExercise = Exercise(name: cleanName, targetWeight: nil, activityType: activityType)
             savedExercise.sortOrder = (exercises.map(\.sortOrder).max() ?? -1) + 1
             modelContext.insert(savedExercise)
         }
-        for (position, draft) in templates.enumerated() {
-            let template = ExerciseSetTemplate(
-                position: position,
-                prescription: draft.prescription.trimmingCharacters(in: .whitespacesAndNewlines),
-                isWorking: draft.id == workingTemplateID
-            )
-            modelContext.insert(template)
-            savedExercise.setTemplates.append(template)
+        savedExercise.activityType = activityType
+        if activityType.usesWeights {
+            savedExercise.targetWeight = targetWeight
+            for template in savedExercise.setTemplates { modelContext.delete(template) }
+            savedExercise.setTemplates = []
+            for (position, draft) in templates.enumerated() {
+                let template = ExerciseSetTemplate(
+                    position: position,
+                    prescription: draft.prescription.trimmingCharacters(in: .whitespacesAndNewlines),
+                    isWorking: draft.id == workingTemplateID
+                )
+                modelContext.insert(template)
+                savedExercise.setTemplates.append(template)
+            }
         }
         do {
             try modelContext.save()
@@ -210,6 +223,7 @@ struct TrainingEditor: View {
     @Environment(\.dismiss) private var dismiss
     let exercise: Exercise
     let entry: TrainingEntry?
+    private let activityType: ExerciseType
     @State private var date: Date
     @State private var groups: [SetGroupDraft]
     @State private var workingID: UUID
@@ -226,6 +240,7 @@ struct TrainingEditor: View {
     init(exercise: Exercise, entry: TrainingEntry? = nil) {
         self.exercise = exercise
         self.entry = entry
+        self.activityType = entry?.activityType ?? exercise.activityType
         _effort = State(initialValue: entry?.effort)
         _date = State(initialValue: entry?.date ?? Date())
         let initial: [SetGroupDraft]
@@ -235,16 +250,19 @@ struct TrainingEditor: View {
                 SetGroupDraft(id: $0.id, prescription: $0.prescription, weight: TrainingFormat.number($0.weight))
             }
             selectedWorkingID = entry.sortedGroups.first(where: \.isWorking)?.id
+        } else if !exercise.activityType.usesWeights {
+            initial = [SetGroupDraft(prescription: "")]
+            selectedWorkingID = nil
         } else if !exercise.setTemplates.isEmpty {
             initial = exercise.sortedSetTemplates.map {
                 SetGroupDraft(id: $0.id, prescription: $0.prescription)
             }
             selectedWorkingID = exercise.sortedSetTemplates.first(where: \.isWorking)?.id
         } else {
-            initial = exercise.latestEntry?.sortedGroups.map {
+            initial = exercise.latestEntryForCurrentType?.sortedGroups.map {
                 SetGroupDraft(id: $0.id, prescription: $0.prescription, weight: TrainingFormat.number($0.weight))
             } ?? []
-            selectedWorkingID = exercise.latestEntry?.sortedGroups.first(where: \.isWorking)?.id
+            selectedWorkingID = exercise.latestEntryForCurrentType?.sortedGroups.first(where: \.isWorking)?.id
         }
         let drafts = initial.isEmpty ? [SetGroupDraft()] : initial
         _groups = State(initialValue: drafts)
@@ -252,10 +270,11 @@ struct TrainingEditor: View {
     }
 
     private var isValid: Bool {
-        !groups.isEmpty && groups.contains(where: { $0.id == workingID }) &&
-        groups.allSatisfy {
+        guard !groups.isEmpty else { return false }
+        if activityType.usesWeights && !groups.contains(where: { $0.id == workingID }) { return false }
+        return groups.allSatisfy {
             !$0.prescription.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-            TrainingFormat.parseWeight($0.weight) != nil
+            (!activityType.usesWeights || TrainingFormat.parseWeight($0.weight) != nil)
         }
     }
 
@@ -268,64 +287,93 @@ struct TrainingEditor: View {
                 }
                 Section {
                     ForEach($groups) { $group in
-                        HStack(spacing: 4) {
-                            Button {
-                                workingID = group.id
-                            } label: {
-                                Image(systemName: workingID == group.id ? "target" : "circle")
-                                    .foregroundStyle(workingID == group.id ? Color.blue : Color.secondary)
-                                    .frame(width: 44, height: 44)
-                            }
-                            .accessibilityLabel("Als Arbeitsgewicht wählen")
-                            .accessibilityValue(workingID == group.id ? "Ausgewählt" : "Nicht ausgewählt")
-
-                            TextField("Sätze", text: $group.prescription)
-                                .focused($focusedField, equals: .prescription(group.id))
-                                .accessibilityLabel("Sätze und Wiederholungen")
-                                .frame(minWidth: 60)
-
-                            Menu {
-                                ForEach(TrainingFormat.prescriptions, id: \.self) { preset in
-                                    Button(preset) { group.prescription = preset }
+                        if activityType.usesWeights {
+                            HStack(spacing: 4) {
+                                Button {
+                                    workingID = group.id
+                                } label: {
+                                    Image(systemName: workingID == group.id ? "target" : "circle")
+                                        .foregroundStyle(workingID == group.id ? Color.blue : Color.secondary)
+                                        .frame(width: 44, height: 44)
                                 }
+                                .accessibilityLabel("Als Arbeitsgewicht wählen")
+                                .accessibilityValue(workingID == group.id ? "Ausgewählt" : "Nicht ausgewählt")
+
+                                TextField("Sätze", text: $group.prescription)
+                                    .focused($focusedField, equals: .prescription(group.id))
+                                    .accessibilityLabel("Sätze und Wiederholungen")
+                                    .frame(minWidth: 60)
+
+                                Menu {
+                                    ForEach(TrainingFormat.prescriptions, id: \.self) { preset in
+                                        Button(preset) { group.prescription = preset }
+                                    }
+                                    if groups.count > 1 {
+                                        Divider()
+                                        Button("Satzgruppe entfernen", systemImage: "trash", role: .destructive) {
+                                            removeGroup(group.id)
+                                        }
+                                    }
+                                } label: {
+                                    Image(systemName: "chevron.down.circle")
+                                        .frame(width: 44, height: 44)
+                                }
+                                .accessibilityLabel("Satzauswahl und Aktionen")
+
+                                TextField("Gewicht", text: $group.weight)
+                                    .keyboardType(.decimalPad)
+                                    .focused($focusedField, equals: .weight(group.id))
+                                    .multilineTextAlignment(.trailing)
+                                    .monospacedDigit()
+                                    .frame(minWidth: 60, idealWidth: 80, maxWidth: 100)
+                                    .accessibilityLabel("Gewicht in Kilogramm")
+                                Text("kg")
+                                    .foregroundStyle(.secondary)
+                            }
+                            .buttonStyle(.borderless)
+                            .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 12))
+                            .swipeActions {
                                 if groups.count > 1 {
-                                    Divider()
-                                    Button("Satzgruppe entfernen", systemImage: "trash", role: .destructive) {
+                                    Button("Entfernen", role: .destructive) { removeGroup(group.id) }
+                                }
+                            }
+                        } else {
+                            HStack(alignment: .top) {
+                                TextField("Training beschreiben", text: $group.prescription, axis: .vertical)
+                                    .lineLimit(2...5)
+                                    .focused($focusedField, equals: .prescription(group.id))
+                                    .accessibilityLabel("Trainingseinheit")
+                                if groups.count > 1 {
+                                    Button("Trainingseinheit entfernen", systemImage: "minus.circle") {
                                         removeGroup(group.id)
                                     }
-                                }
-                            } label: {
-                                Image(systemName: "chevron.down.circle")
+                                    .labelStyle(.iconOnly)
                                     .frame(width: 44, height: 44)
+                                    .buttonStyle(.borderless)
+                                }
                             }
-                            .accessibilityLabel("Satzauswahl und Aktionen")
-
-                            TextField("Gewicht", text: $group.weight)
-                                .keyboardType(.decimalPad)
-                                .focused($focusedField, equals: .weight(group.id))
-                                .multilineTextAlignment(.trailing)
-                                .monospacedDigit()
-                                .frame(minWidth: 60, idealWidth: 80, maxWidth: 100)
-                                .accessibilityLabel("Gewicht in Kilogramm")
-                            Text("kg")
-                                .foregroundStyle(.secondary)
-                        }
-                        .buttonStyle(.borderless)
-                        .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 12))
-                        .swipeActions {
-                            if groups.count > 1 {
-                                Button("Entfernen", role: .destructive) { removeGroup(group.id) }
+                            .padding(.vertical, 4)
+                            .swipeActions {
+                                if groups.count > 1 {
+                                    Button("Entfernen", role: .destructive) { removeGroup(group.id) }
+                                }
                             }
                         }
                     }
-                    TrainingEffortSelector(selection: $effort)
-                    Button("Satzgruppe hinzufügen", systemImage: "plus.circle") {
-                        groups.append(SetGroupDraft(prescription: "1 × 5"))
+                    if activityType.usesWeights {
+                        TrainingEffortSelector(selection: $effort)
+                    }
+                    Button(activityType.usesWeights ? "Satzgruppe hinzufügen" : "Trainingseinheit hinzufügen", systemImage: "plus.circle") {
+                        groups.append(SetGroupDraft(prescription: activityType.usesWeights ? "1 × 5" : ""))
                     }
                 } header: {
-                    Text("Sätze und Gewichte")
+                    Text(activityType.usesWeights ? "Sätze und Gewichte" : "Trainingseinheiten")
                 } footer: {
-                    Text("Zielscheibe = Arbeitsgewicht. Satzauswahl und Entfernen über den Pfeil.")
+                    if activityType.usesWeights {
+                        Text("Zielscheibe = Arbeitsgewicht. Satzauswahl und Entfernen über den Pfeil.")
+                    } else {
+                        Text("Beschreibe dein Training frei, zum Beispiel mit Dauer, Strecke oder Belastung.")
+                    }
                 }
                 if entry != nil {
                     Section {
@@ -373,7 +421,7 @@ struct TrainingEditor: View {
                     return
                 }
                 guard !Task.isCancelled, focusedField == nil, let first = groups.first else { return }
-                focusedField = .weight(first.id)
+                focusedField = activityType.usesWeights ? .weight(first.id) : .prescription(first.id)
             }
             .confirmationDialog("Dieses Training löschen?", isPresented: $showingDeleteConfirmation, titleVisibility: .visible) {
                 Button("Dieses Training löschen", role: .destructive) { deleteTraining() }
@@ -421,17 +469,18 @@ struct TrainingEditor: View {
             modelContext.insert(training)
         }
         for (position, draft) in groups.enumerated() {
-            guard let weight = TrainingFormat.parseWeight(draft.weight) else { continue }
+            let weight = activityType.usesWeights ? (TrainingFormat.parseWeight(draft.weight) ?? 0) : 0
             let group = SetGroup(
                 position: position,
                 prescription: draft.prescription.trimmingCharacters(in: .whitespacesAndNewlines),
                 weight: weight,
-                isWorking: draft.id == workingID
+                isWorking: activityType.usesWeights && draft.id == workingID
             )
             modelContext.insert(group)
             training.groups.append(group)
         }
-        training.effort = effort
+        training.activityType = activityType
+        training.effort = activityType.usesWeights ? effort : nil
         do {
             try modelContext.save()
             dismiss()

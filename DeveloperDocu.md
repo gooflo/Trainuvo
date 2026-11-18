@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.6.9**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.7.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -22,6 +22,18 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | Item.swift | Unverändertes Modell aus dem Grundprojekt für vorhandene Testdaten |
 
 Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Die externe Version 1.0 und Buildnummer 1 stammen aus dem Grundprojekt und werden für einen späteren Upload separat abgestimmt.
+
+## Übungstypen in 0.7.0
+
+ExerciseType bietet die stabilen Rohwerte strength, ergometer, swimming, jogging und other. Exercise und TrainingEntry erhalten jeweils das optionale String-Feld activityTypeRawValue. Fehlende Werte bestehender Datensätze werden als strength interpretiert. Neue Trainingseinträge kopieren den Typ bei der Anlage. Beim Bearbeiten wird der gespeicherte Eintragstyp verwendet. Eine Änderung des Übungstyps deutet ältere Trainings somit nicht um.
+
+Krafttraining verwendet die vorhandenen Satzgruppen, kg-Felder, Zielgewichte und Bewertungen. Die übrigen Typen verwenden SetGroup.prescription für den frei eingegebenen Text einer Trainingseinheit. Numerisch wird intern 0 gespeichert und isWorking auf false gesetzt. Diese Werte werden bei Freitexttypen nicht angezeigt oder für Fortschritt verwendet. workingGroup und workingWeight liefern für Freitexttypen nil.
+
+Neue Freitexttrainings starten mit einer leeren Einheit. Das erste Textfeld wird mit normaler Tastatur fokussiert. Die kg-Tastatur und die Satzvorauswahl gelten für Krafttraining. Mehrere Einheiten und mehrzeiliger Text sind möglich. Speicherung und Löschung verwenden die vorhandenen Save-/Rollback- und Elternschutzabläufe.
+
+Beim Wechsel einer Übung zu einem Freitexttyp werden Zielgewicht und Standardsatzvorlagen beibehalten. Ein Zurückwechseln zu Krafttraining kann sie wiederverwenden. Die Fortschrittsberechnung und der Vorschlag für neue Krafttrainings verwenden den letzten Eintrag desselben Typs. Freitextkarten zeigen Typ, Datum und Text des letzten passenden Eintrags. Tagesübersicht und Verlauf verwenden immer den Eintragstyp.
+
+Die beiden neuen Attribute sind optional. Bestehende Modellnamen, Felder und Beziehungen bleiben erhalten. Das automatische Store-Update über 0.6.9 mit vorhandenen Daten muss auf dem Mac getestet werden. Der Beispieldatenimport verwendet weiterhin Krafttraining und überspringt gleichnamige Übungen mit einem anderen Typ.
 
 ## Datenmodell und Geschäftsregeln
 
@@ -105,7 +117,7 @@ TrainingDataOperations.deleteAll löscht Übungen, Trainings, Satzgruppen, Stand
 
 ## Direkte Trainingserfassung und Fokus
 
-ContentView zeigt Zahnrad und Hilfe als ToolbarItemGroup rechts oben. Der Stift neben Deine Ziele öffnet ein Menü für Übung anlegen und Übungen sortieren. Zielkarten kombinieren in einem ZStack einen NavigationLink zum Übungsverlauf und einen separaten 44 pt großen Plus-Button. Das Plus steht außerhalb des NavigationLinks, sodass es ausschließlich die Trainingserfassung für die gewählte Übung öffnet.
+ContentView zeigt Zahnrad und Hilfe als ToolbarItemGroup rechts oben. Der Stift neben Deine Übungen öffnet ein Menü für Übung anlegen und Übungen sortieren. Zielkarten kombinieren in einem ZStack einen NavigationLink zum Übungsverlauf und einen separaten 44 pt großen Plus-Button. Das Plus steht außerhalb des NavigationLinks, sodass es ausschließlich die Trainingserfassung für die gewählte Übung öffnet.
 
 TrainingEditor verwendet einen typisierten FocusState mit prescription(UUID) und weight(UUID). Neue Trainings warten in einem abbrechbaren task 350 ms auf den Aufbau des Sheets und der Tastatur-Toolbar. Dieses Muster stammt aus Cashuvo/AddTransactionView.swift. Wenn noch kein Feld fokussiert ist, wird das erste kg-Feld aktiviert. Bestehende Einträge erhalten beim Öffnen keinen automatischen Fokus. Die Fertig-Taste setzt den Fokus auf nil. Beim Entfernen der fokussierten Gruppe wird der Fokus ebenfalls gelöst.
 
@@ -192,6 +204,16 @@ Im TrainingEditor die Titelzeilen unter Abbrechen und Speichern auf iPhone 15 be
 
 Ein neues Training mit vier Satzgruppen öffnen. Alle vier Flächen einzeln antippen und die blaue Auswahl sowie die ausgeschriebene Bedeutung prüfen. Insbesondere + muss Leicht – Steigerung möglich anzeigen. Speichern, erneut öffnen und die Auswahl mit X entfernen. Abbrechen einer Änderung muss den gespeicherten Wert erhalten. Die Anzeige im Verlauf und in der Tagesübersicht prüfen. iPhone 15 mit offener/geschlossener Tastatur, Dunkelmodus, großer Bedienungshilfen-Schrift und VoiceOver einbeziehen. Xcode-Build und Geräteprüfung sind ausstehend.
 
+## Abnahme der Übungstypen in 0.7.0
+
+1. Unter 0.6.9 Trainings, Standardsätze, Ziele, Bewertungen und Reihenfolge anlegen bzw. prüfen. Mit 0.7.0 über die vorhandene Installation aktualisieren. Die gespeicherten Daten müssen als Krafttraining weiter funktionieren.
+2. Je eine Übung der Typen Ergometer, Schwimmen, Joggen und Andere anlegen. Freie Texte mit Minuten, Watt, Metern und eigenen Angaben eingeben. Die Auswahl darf keine kg-Felder oder Satzvorgaben zeigen.
+3. Eine zweite freie Einheit ergänzen, speichern, neu öffnen und ändern. Zeilenumbrüche, Abbrechen und Neustart prüfen. Tagesübersicht und Verlauf müssen den Text anzeigen.
+4. Ein einzelnes Freitexttraining und anschließend das letzte dieser Übung löschen. Die Übung muss erhalten bleiben.
+5. Eine Kraftübung in Joggen ändern, einen freien Eintrag hinzufügen und ältere Krafttrainings öffnen. Sie müssen ihre ursprünglichen Gruppen, Gewichte und Bewertungen zeigen. Zurück zu Krafttraining wechseln und Ziel, Vorlagen und Fortschritt kontrollieren.
+6. Startkarten auf iPhone 15 und iPad, normale und große Textgrößen sowie beide Tastaturarten mit Fertig-Taste prüfen.
+7. Xcode-Build und Swift-Tests mit ⌘ U ausführen. Die Tests decken Typ-Altwerte, alle vier Freitexttypen, Persistenz, Typwechsel, Löschung und den Beispieldatenimport ab. Laufzeit- und Geräteprüfung sind ausstehend.
+
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.6.9` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.7.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
