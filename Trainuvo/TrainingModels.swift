@@ -7,6 +7,7 @@ final class Exercise {
     var name: String = ""
     var sortOrder: Int = 0
     var targetWeight: Double?
+    var targetDescription: String?
     var activityTypeRawValue: String?
     @Relationship(deleteRule: .cascade, inverse: \TrainingEntry.exercise)
     var entries: [TrainingEntry] = []
@@ -18,7 +19,10 @@ final class Exercise {
     }
 
     func sortedSetTemplates(for type: ExerciseType) -> [ExerciseSetTemplate] {
-        setTemplates.filter { $0.activityType == type }.sorted { $0.position < $1.position }
+        setTemplates.filter { $0.activityType == type }.sorted {
+            if $0.position != $1.position { return $0.position < $1.position }
+            return $0.id.uuidString < $1.id.uuidString
+        }
     }
 
     init(name: String, targetWeight: Double?, activityType: ExerciseType = .strength) {
@@ -28,7 +32,7 @@ final class Exercise {
     }
 
     var activityType: ExerciseType {
-        get { activityTypeRawValue.flatMap(ExerciseType.init(rawValue:)) ?? .strength }
+        get { ExerciseType.storedType(activityTypeRawValue) }
         set { activityTypeRawValue = newValue.rawValue }
     }
 
@@ -59,19 +63,21 @@ final class ExerciseSetTemplate {
     var position: Int = 0
     var prescription: String = ""
     var isWorking: Bool = false
+    var detailText: String?
     var activityTypeRawValue: String?
     @Relationship(deleteRule: .nullify)
     var exercise: Exercise?
 
-    init(position: Int, prescription: String, isWorking: Bool, activityType: ExerciseType = .strength) {
+    init(position: Int, prescription: String, isWorking: Bool, activityType: ExerciseType = .strength, detailText: String? = nil) {
         self.position = position
         self.prescription = prescription
         self.isWorking = isWorking
+        self.detailText = detailText
         self.activityTypeRawValue = activityType.rawValue
     }
 
     var activityType: ExerciseType {
-        get { activityTypeRawValue.flatMap(ExerciseType.init(rawValue:)) ?? .strength }
+        get { ExerciseType.storedType(activityTypeRawValue) }
         set { activityTypeRawValue = newValue.rawValue }
     }
 }
@@ -95,20 +101,20 @@ final class TrainingEntry {
     }
 
     var activityType: ExerciseType {
-        get { activityTypeRawValue.flatMap(ExerciseType.init(rawValue:)) ?? .strength }
+        get { ExerciseType.storedType(activityTypeRawValue) }
         set { activityTypeRawValue = newValue.rawValue }
     }
 
     var sortedGroups: [SetGroup] { groups.sorted { $0.position < $1.position } }
     var workingGroup: SetGroup? {
-        guard activityType.usesWeights else { return nil }
+        guard activityType.usesSets else { return nil }
         return sortedGroups.first(where: \.isWorking)
     }
 
     var freeTextSummary: String {
-        sortedGroups.map(\.prescription).joined(separator: " · ")
+        sortedGroups.map { $0.summary(for: activityType) }.joined(separator: " · ")
     }
-    var workingWeight: Double? { workingGroup?.weight }
+    var workingWeight: Double? { activityType.usesWeights ? workingGroup?.weight : nil }
 
     func deleteKeepingExercise(in context: ModelContext) throws {
         // Remove the parent link before deleting the training and its owned groups.
@@ -135,19 +141,40 @@ final class SetGroup {
     var prescription: String = ""
     var weight: Double = 0
     var isWorking: Bool = false
+    var detailText: String?
     @Relationship(deleteRule: .nullify)
     var entry: TrainingEntry?
 
-    init(position: Int, prescription: String, weight: Double, isWorking: Bool) {
+    init(position: Int, prescription: String, weight: Double, isWorking: Bool, detailText: String? = nil) {
         self.position = position
         self.prescription = prescription
         self.weight = weight
         self.isWorking = isWorking
+        self.detailText = detailText
+    }
+
+    func valueText(for type: ExerciseType) -> String {
+        type.usesWeights ? TrainingFormat.weight(weight) : (detailText ?? "")
+    }
+
+    func summary(for type: ExerciseType) -> String {
+        [prescription, valueText(for: type)]
+            .filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+            .joined(separator: type.usesSets ? " @ " : " – ")
     }
 }
 
 enum TrainingFormat {
     static let prescriptions = ["1 × 3", "1 × 5", "3 × 5", "3 × 3", "5 × 3"]
+
+    static func isValidUnit(prescription: String, value: String, type: ExerciseType, isTemplate: Bool = false) -> Bool {
+        let left = prescription.trimmingCharacters(in: .whitespacesAndNewlines)
+        let right = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        if type == .other { return !left.isEmpty || !right.isEmpty }
+        guard !left.isEmpty else { return false }
+        if isTemplate { return true }
+        return type.usesWeights ? parseWeight(right) != nil : !right.isEmpty
+    }
 
     static func number(_ value: Double) -> String {
         value.formatted(.number.precision(.fractionLength(0...2)))
@@ -222,20 +249,26 @@ struct TrainingDaySummary: Identifiable {
 
 enum ExerciseType: String, CaseIterable, Identifiable {
     case strength
-    case ergometer
-    case swimming
-    case jogging
+    case sets
     case other
 
     var id: String { rawValue }
     var usesWeights: Bool { self == .strength }
+    var usesSets: Bool { self != .other }
+    var workingTitle: String { usesWeights ? "Arbeitsgewicht" : "Arbeitsgruppe" }
+
+    // Keep the stored raw values untouched; retired free-text types share Andere.
+    static func storedType(_ rawValue: String?) -> ExerciseType {
+        switch rawValue {
+        case "ergometer", "swimming", "jogging": .other
+        default: rawValue.flatMap(ExerciseType.init(rawValue:)) ?? .strength
+        }
+    }
 
     var title: String {
         switch self {
         case .strength: "Krafttraining"
-        case .ergometer: "Ergometer"
-        case .swimming: "Schwimmen"
-        case .jogging: "Joggen"
+        case .sets: "Satzübung"
         case .other: "Andere"
         }
     }

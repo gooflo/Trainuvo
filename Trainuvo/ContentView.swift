@@ -130,6 +130,14 @@ struct ContentView: View {
 private struct GoalCard: View {
     let exercise: Exercise
 
+    private var targetText: String {
+        if exercise.activityType.usesWeights {
+            return exercise.targetWeight.map { TrainingFormat.weight($0) } ?? "–"
+        }
+        guard let target = exercise.targetDescription, !target.isEmpty else { return "–" }
+        return target
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
@@ -159,10 +167,10 @@ private struct GoalCard: View {
                 ProgressView(value: min(progress, 1))
                     .tint(progress >= 1 ? .green : .blue)
             }
-            if exercise.activityType.usesWeights {
+            if exercise.activityType.usesSets {
                 HStack(spacing: 8) {
-                    Text("Ziel: \(exercise.targetWeight.map { TrainingFormat.weight($0) } ?? "–")")
-                    Text("Erreicht: \(exercise.latestEntryForCurrentType?.workingWeight.map { TrainingFormat.weight($0) } ?? "–")")
+                    Text("Ziel: \(targetText)")
+                    Text("Erreicht: \(exercise.latestEntryForCurrentType?.workingGroup?.valueText(for: exercise.activityType) ?? "–")")
                     Spacer(minLength: 0)
                     if let latest = exercise.latestEntryForCurrentType {
                         Text(latest.date, format: .dateTime.day(.twoDigits).month(.twoDigits).year(.twoDigits))
@@ -212,7 +220,12 @@ private struct DayTrainingRow: View {
                 .fontWeight(.medium)
                 .lineLimit(1)
             Spacer(minLength: 4)
-            if !entry.activityType.usesWeights {
+            if !entry.activityType.usesSets {
+                Text(entry.effort?.symbol ?? "")
+                    .font(.system(.subheadline, design: .monospaced).weight(.semibold))
+                    .frame(width: effortColumnWidth)
+                    .accessibilityLabel(entry.effort?.title ?? "")
+                    .accessibilityHidden(entry.effort == nil)
                 Text(entry.freeTextSummary)
                     .multilineTextAlignment(.trailing)
                     .lineLimit(2)
@@ -225,13 +238,13 @@ private struct DayTrainingRow: View {
                 Text("\(group.prescription) @")
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
-                Text(TrainingFormat.weight(group.weight))
+                Text(group.valueText(for: entry.activityType))
                     .monospacedDigit()
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
                     .layoutPriority(1)
             } else {
-                Text("Kein Arbeitsgewicht").foregroundStyle(.secondary)
+                Text(entry.activityType.usesWeights ? "Kein Arbeitsgewicht" : "Keine Arbeitsgruppe").foregroundStyle(.secondary)
             }
         }
         .font(.subheadline)
@@ -246,7 +259,7 @@ struct TrainingSummary: View {
 
     var body: some View {
         ForEach(entry.sortedGroups, id: \.id) { group in
-            if entry.activityType.usesWeights {
+            if entry.activityType.usesSets {
                 HStack(alignment: .firstTextBaseline) {
                     Text(group.isWorking ? entry.effort?.symbol ?? "" : "")
                         .font(.system(.subheadline, design: .monospaced).weight(.semibold))
@@ -259,19 +272,28 @@ struct TrainingSummary: View {
                         .foregroundStyle(.blue)
                         .frame(width: 18)
                         .opacity(group.isWorking ? 1 : 0)
-                        .accessibilityLabel("Arbeitsgewicht")
+                        .accessibilityLabel(entry.activityType.workingTitle)
                         .accessibilityHidden(!group.isWorking)
-                    Text(TrainingFormat.weight(group.weight))
+                    Text(group.valueText(for: entry.activityType))
                         .fontWeight(.medium)
                         .monospacedDigit()
-                        .fixedSize(horizontal: true, vertical: false)
+                        .fixedSize(horizontal: entry.activityType.usesWeights, vertical: true)
                 }
                 .font(.subheadline)
             } else {
-                Text(group.prescription)
-                    .font(.subheadline)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .fixedSize(horizontal: false, vertical: true)
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    Text(group.id == entry.sortedGroups.first?.id ? entry.effort?.symbol ?? "" : "")
+                        .font(.system(.subheadline, design: .monospaced).weight(.semibold))
+                        .frame(width: effortColumnWidth)
+                        .accessibilityLabel(entry.effort?.title ?? "")
+                        .accessibilityHidden(group.id != entry.sortedGroups.first?.id || entry.effort == nil)
+                    Text(group.prescription)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text(group.detailText ?? "")
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                }
+                .font(.subheadline)
+                .fixedSize(horizontal: false, vertical: true)
             }
         }
     }
@@ -292,6 +314,9 @@ struct ExerciseDetailView: View {
                 LabeledContent("Übungstyp", value: exercise.activityType.title)
                 if exercise.activityType.usesWeights, let target = exercise.targetWeight {
                     LabeledContent("Zielgewicht", value: TrainingFormat.weight(target))
+                }
+                if exercise.activityType == .sets, let target = exercise.targetDescription, !target.isEmpty {
+                    LabeledContent("Ziel", value: target)
                 }
                 if let progress = exercise.progress {
                     LabeledContent("Aktueller Fortschritt") {
@@ -407,7 +432,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.8.0"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.9.0"
     }
 
     var body: some View {
@@ -420,17 +445,17 @@ private struct HelpView: View {
                     Text("Tippe auf der Startseite neben „Deine Übungen“ auf den Stift und dann auf „Übungen sortieren“. Ziehe die Übungen an den Griffen in die gewünschte Reihenfolge und tippe auf „Speichern“. Neue Übungen werden am Ende angefügt.")
                 }
                 Section("Übungstypen und Freitext") {
-                    Text("Beim Anlegen oder Bearbeiten einer Übung wählst du Krafttraining, Ergometer, Schwimmen, Joggen oder Andere. Bei Ergometer, Schwimmen, Joggen und Andere beschreibst du die Trainingseinheiten frei, etwa mit Dauer, Strecke oder Belastung.")
-                    Text("Über „Trainingseinheit hinzufügen“ lassen sich mehrere Freitexteinheiten erfassen. Neue Einträge übernehmen die passenden Vorlagen der Übung. Ohne Vorlagen starten sie mit einem leeren Textfeld und normaler Tastatur. Auf der Startseite und im Verlauf erscheinen deine Texte.")
+                    Text("Du wählst Krafttraining, Satzübung oder Andere. Krafttraining verwendet kg. Satzübungen bieten dieselben Satzgruppen und eine Arbeitsgruppe, rechts trägst du freie Angaben ohne feste Einheit ein, zum Beispiel bei Klimmzügen oder Liegestützen. Ein optionales Ziel ist ebenfalls Freitext und wird ohne Prozentberechnung angezeigt.")
+                    Text("Bei Andere hat jede Trainingseinheit zwei freie Felder: etwa links 200 W und rechts 30 min. Mindestens eines muss ausgefüllt sein. Weitere Einheiten ergänzt du über „Trainingseinheit hinzufügen“. Neue Einträge übernehmen passende Vorlagen oder starten mit zwei leeren Feldern und normaler Tastatur. Bisherige Typen Ergometer, Schwimmen und Joggen werden als Andere weitergeführt; ihre Texte bleiben erhalten.")
                     Text("Jeder Eintrag behält seinen gespeicherten Übungstyp. Wenn du den Typ der Übung später änderst, lassen sich ältere Trainings weiterhin in ihrer ursprünglichen Form öffnen.")
                 }
                 Section("Vorlagen für Freitextübungen") {
-                    Text("Öffne die Übung und wähle „Übung bearbeiten“. Unter „Vorlagen für Trainingseinheiten“ kannst du mehrere freie Einheiten vorgeben, umordnen und entfernen. Neue Trainings übernehmen diese Texte zum Anpassen.")
+                    Text("Öffne die Übung und wähle „Übung bearbeiten“. Unter „Vorlagen für Trainingseinheiten“ kannst du mehrere Einheiten mit zwei freien Feldern vorgeben, umordnen und entfernen. Du kannst nur links, nur rechts oder beide Felder vorbelegen. Neue Trainings übernehmen beide Angaben zum Anpassen.")
                     Text("Die Vorlagen werden je Übungstyp gespeichert. Ein Wechsel des Übungstyps erhält die Vorlagen der anderen Typen. Vorhandene Trainings behalten ihre eigenen Texte.")
                 }
                 Section("Standardsätze pro Übung") {
-                    Text("Öffne die Übung und wähle im Menü … „Übung bearbeiten“. Hinterlege die Satzgruppen in Trainingsreihenfolge, zum Beispiel 1 × 5, 1 × 5, 3 × 5, 1 × 5. Mit den Pfeilen verschiebst du Gruppen. Markiere eine Gruppe als Arbeitsgewicht.")
-                    Text("Neue Trainings übernehmen die Standardsätze samt Arbeitsgewicht-Markierung. Trage nur noch die kg ein. Änderungen an den Standardsätzen gelten für künftige Trainings.")
+                    Text("Öffne die Übung und wähle im Menü … „Übung bearbeiten“. Hinterlege die Satzgruppen in Trainingsreihenfolge, zum Beispiel 1 × 5, 1 × 5, 3 × 5, 1 × 5. Mit den Pfeilen verschiebst du Gruppen. Markiere eine Gruppe als Arbeitsgewicht bzw. bei Satzübungen als Arbeitsgruppe.")
+                    Text("Neue Trainings übernehmen die Standardsätze samt Arbeitsgruppen-Markierung. Bei Krafttraining ergänzt du kg, bei Satzübungen freie Angaben rechts. Änderungen an den Standardsätzen gelten für künftige Trainings.")
                 }
                 Section("Sätze und Gewichte") {
                     Text("Oben in der Trainingserfassung steht der Übungsname als eigene Überschrift. Er bleibt auch beim Scrollen und bei geöffneter Tastatur sichtbar. Das Datum wählst du separat darunter.")
@@ -439,8 +464,8 @@ private struct HelpView: View {
                     Text("Jede Satzgruppe enthält Sätze und Wiederholungen sowie ein Gewicht. Wähle 1 × 3, 1 × 5, 3 × 5, 3 × 3 oder 5 × 3 oder gib eigenen Text wie 1 × 5 oder 5/5/4 ein.")
                     Text("Erfasse zum Beispiel 1 × 5 mit 50 kg, 1 × 5 mit 70 kg und 3 × 5 mit 100 kg. Markiere genau eine Gruppe als Arbeitsgewicht. Sie bestimmt den Zielfortschritt. Im Verlauf steht das Zielscheiben-Symbol links neben dem Arbeitsgewicht. Die Gewichte sind rechtsbündig untereinander angeordnet.")
                 }
-                Section("Anstrengung beim Arbeitsgewicht") {
-                    Text("Unter den Satzgruppen kannst du die Bewertung direkt antippen: -- Sehr schwer, - Schwer, o Neutral, + Leicht oder ++ Sehr leicht. Die gewählte Fläche ist blau und die volle Bedeutung steht darüber. In Tagesübersicht und Verlauf steht das Symbol links vor den Sätzen der Arbeitsgruppe.")
+                Section("Training bewerten") {
+                    Text("Bei jedem Übungstyp kannst du unter den Sätzen bzw. Trainingseinheiten die Bewertung direkt antippen: -- Sehr schwer, - Schwer, o Neutral, + Leicht oder ++ Sehr leicht. Die gewählte Fläche ist blau und die volle Bedeutung steht darüber. Die Bewertung gilt für den gesamten Trainingseintrag. In Tagesübersicht und Verlauf steht das Symbol links vor den Sätzen der Arbeitsgruppe bzw. vor der ersten freien Trainingseinheit.")
                     Text("Jedes neue Training beginnt mit „Nicht bewertet“. Beim Bearbeiten kannst du die Bewertung nachtragen oder ändern. Über das X neben der Bewertungsüberschrift entfernst du sie wieder.")
                 }
                 Section("Trainingstage") {
@@ -451,7 +476,7 @@ private struct HelpView: View {
                     Text("Tippe auf der Startseite auf eine Trainingszeile oder öffne im Übungsverlauf einen Eintrag. Unten findest du „Dieses Training löschen“. Bestätige die Löschung. Alternativ kannst du im Trainingsverlauf nach links wischen und „Training löschen“ wählen. Die Übung, ihre Standardsätze und andere Trainings bleiben erhalten, auch beim Löschen des letzten Trainings. Eine Übung löschst du über das separate Menü … und „Übung löschen“.")
                 }
                 Section("Fortschritt und Verlauf") {
-                    Text("Die Zielkarten zeigen Zielgewicht, erreichtes Arbeitsgewicht und Datum des letzten Trainings gemeinsam in einer Zeile. Prozentwert und Balken zeigen den Fortschritt. Ein grünes Häkchen markiert erreichte Ziele.")
+                    Text("Beim Krafttraining zeigen die Zielkarten Zielgewicht, erreichtes Arbeitsgewicht und Datum des letzten Trainings gemeinsam in einer Zeile. Prozentwert und Balken zeigen den Fortschritt. Ein grünes Häkchen markiert erreichte Ziele.")
                     Text("Der Fortschritt ergibt sich aus dem Arbeitsgewicht des zeitlich letzten Trainings geteilt durch das aktuelle Zielgewicht. 60 kg bei einem Ziel von 100 kg ergeben 60 %. Bei gleichem Trainingsdatum gilt der zuletzt angelegte Eintrag.")
                     Text("Beim Erfassen ist heute vorausgewählt. Du kannst ältere Trainings nachtragen. Beim neuen Training werden die hinterlegten Standardsätze mit leeren Gewichtsfeldern übernommen. Ohne Standardsätze dient das letzte Training als Vorschlag. Tippe im Verlauf auf einen Eintrag zum Bearbeiten oder wische zum Löschen nach links.")
                 }

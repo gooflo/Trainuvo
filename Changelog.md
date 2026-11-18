@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.9.0 – Satzübungen und freie Einheiten mit zwei Feldern
+
+- Auswahl auf Krafttraining, Satzübung und Andere beschränkt. Bisherige Typwerte ergometer, swimming und jogging werden als Andere gelesen; Daten und Vorlagen bleiben erhalten.
+- Satzübungen bieten Sätze, Vorauswahl, Arbeitsgruppe und freie rechte Angaben ohne kg. Ein optionales Freitextziel wird ohne Prozentwert angezeigt.
+- Andere verwendet zwei freie Felder je Einheit, etwa 200 W / 30 min. Vorlagen unterstützen ein oder beide Felder. Neue Trainings übernehmen beide Angaben als unabhängige Kopien.
+- Alle fünf Bewertungen für jeden Übungstyp aktiviert. Die Bewertung gilt für den gesamten Eintrag und steht vor den Sätzen bzw. der ersten freien Einheit.
+- Optionale Felder detailText an SetGroup und ExerciseSetTemplate sowie targetDescription an Exercise ergänzt. Bestehende Gewichte und Beziehungen unverändert.
+- t31–t33 erledigt, Hilfe, Dokumentation und Tests angepasst.
+- Swift-Syntax und statische Konsistenz geprüft. Xcode-Build, Swift-Tests, Store-Update und Geräteprüfung ausstehend.
+
 ## 0.8.0 – Symmetrische Bewertung und Freitextvorlagen
 
 - Bewertung auf -- Sehr schwer, - Schwer, o Neutral, + Leicht und ++ Sehr leicht erweitert. Bestehende Rohwerte und Symbole bleiben erhalten.

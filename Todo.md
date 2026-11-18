@@ -29,6 +29,24 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t31 – Drei Übungstypen und Satzübung (0.9.0)
+
+- Auswahl auf Krafttraining, Satzübung und Andere reduzieren. Satzübungen behalten Satzgruppen und Arbeitsmarkierung, rechts steht Freitext ohne kg; optionales Freitextziel ohne Prozentberechnung.
+- Bisherige Typen Ergometer, Schwimmen und Joggen mit Texten und Vorlagen als Andere erhalten.
+- Xcode-Build, Swift-Tests, Update über 0.8.0 und Geräteprüfung ausstehend.
+
+### t32 – Zwei Felder je freier Trainingseinheit (0.9.0)
+
+- Für Andere links und rechts freie Angaben erfassen, z. B. 200 W und 30 min.
+- Vorlagen dürfen eines oder beide Felder vorgeben. Neue Trainings übernehmen beide Angaben; vorhandene Einträge bleiben unabhängig.
+- Tests für Speicherung, Vorlagen, Typwechsel und Löschen ergänzt. Xcode-Ausführung und Sichtprüfung ausstehend.
+
+### t33 – Bewertung für jeden Übungstyp (0.9.0)
+
+- Alle fünf Bewertungen für Krafttraining, Satzübung und Andere anbieten, speichern, bearbeiten und entfernen.
+- Bewertung gilt für den gesamten Trainingseintrag und wird einmal angezeigt: vor der Arbeitsgruppe bzw. der ersten freien Einheit.
+- Xcode-Tests und Geräteprüfung ausstehend.
+
 ### t29 – Symmetrische Bewertung und Position (0.8.0)
 
 - -- Sehr schwer, - Schwer, o Neutral, + Leicht und ++ Sehr leicht anbieten.
