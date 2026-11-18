@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.6.8**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.6.9**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -79,7 +79,7 @@ Vier Gruppen sollen bei Standardtextgröße auf dem iPhone 15 im Hochformat geme
 
 ## Bewertung des Arbeitsgewichts
 
-TrainingEditor hält eine optionale TrainingEffort-Auswahl als lokalen Entwurf. Neue Trainings beginnen mit nil, auch bei Übernahme von Standardsätzen oder des letzten Trainings. Beim Bearbeiten wird die gespeicherte Auswahl geladen. Das Menü bietet Nicht bewertet zum Entfernen sowie alle vier ausgeschriebenen Bewertungen. Speichern schreibt die Auswahl zusammen mit den übrigen Trainingsdaten.
+TrainingEditor hält eine optionale TrainingEffort-Auswahl als lokalen Entwurf. Neue Trainings beginnen mit nil, auch bei Übernahme von Standardsätzen oder des letzten Trainings. Beim Bearbeiten wird die gespeicherte Auswahl geladen. TrainingEffortSelector bietet vier direkt antippbare Auswahlflächen mit Symbol und Kurzbeschriftung. Eine blaue Fläche zeigt die Auswahl, die volle Bedeutung steht darüber. X setzt den lokalen Entwurf auf nil. Die Auswahl verwendet bei normalen Textgrößen vier Spalten und bei Bedienungshilfen-Schriften zwei Spalten. VoiceOver erhält die vollständige Bedeutung und den Auswahlstatus. Speichern schreibt die Auswahl zusammen mit den übrigen Trainingsdaten.
 
 TrainingSummary zeigt das Symbol ausschließlich bei der markierten Arbeitsgruppe. Alle Zeilen reservieren eine 26 pt breite Bewertungsspalte, die mit der Bedienungshilfen-Textgröße skaliert. Nicht angezeigte Bewertungen sind für VoiceOver ausgeblendet. VoiceOver spricht die ausgeschriebene Bewertung. DayTrainingRow verwendet dieselbe Bewertungsspalte neben der einzigen Arbeitsgruppe in der Tagesübersicht.
 
@@ -188,6 +188,10 @@ Das ausgewählte Logo mit der schrägen Hantel liegt als Trainuvo-AppIcon.png im
 
 Im TrainingEditor die Titelzeilen unter Abbrechen und Speichern auf iPhone 15 bei geöffneter Tastatur prüfen. Lange Übungsnamen, vier Satzgruppen und große Textgröße einbeziehen. Nach dem Build das Icon auf dem Home-Bildschirm und im App-Umschalter prüfen. Xcode-Build und Sichtprüfung sind ausstehend.
 
+## Abnahme der Bewertungsauswahl in 0.6.9
+
+Ein neues Training mit vier Satzgruppen öffnen. Alle vier Flächen einzeln antippen und die blaue Auswahl sowie die ausgeschriebene Bedeutung prüfen. Insbesondere + muss Leicht – Steigerung möglich anzeigen. Speichern, erneut öffnen und die Auswahl mit X entfernen. Abbrechen einer Änderung muss den gespeicherten Wert erhalten. Die Anzeige im Verlauf und in der Tagesübersicht prüfen. iPhone 15 mit offener/geschlossener Tastatur, Dunkelmodus, großer Bedienungshilfen-Schrift und VoiceOver einbeziehen. Xcode-Build und Geräteprüfung sind ausstehend.
+
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.6.8` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.6.9` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.

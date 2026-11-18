@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.9 – Bewertung direkt auswählen
+
+- Vier direkt antippbare Flächen mit --, -, o und + sowie kurzen Beschriftungen eingeführt.
+- Die Auswahl wird blau hervorgehoben, die vollständige Bedeutung steht darüber. X entfernt die Bewertung.
+- Bei großer Bedienungshilfen-Schrift werden zwei Spalten verwendet. VoiceOver erhält die volle Bedeutung und den Auswahlstatus.
+- t22 unter Done verschoben. Hilfe und Dokumentation aktualisiert.
+- Xcode-Build und Geräteprüfung ausstehend.
+
 ## 0.6.8 – Weitere Übungsarten vorgemerkt
 
 - Weitere Übungsarten neben Krafttraining mit Prio 2 in Todo.md aufgenommen. Übungstypen mit passenden Einheiten und ein freier Typ Andere sind als offene Alternativen dokumentiert.

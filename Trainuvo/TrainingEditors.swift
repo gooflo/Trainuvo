@@ -318,13 +318,7 @@ struct TrainingEditor: View {
                             }
                         }
                     }
-                    Picker("Arbeitsgewicht war …", selection: $effort) {
-                        Text("Nicht bewertet").tag(Optional<TrainingEffort>.none)
-                        ForEach(TrainingEffort.allCases) { value in
-                            Text(value.selectionTitle).tag(Optional(value))
-                        }
-                    }
-                    .pickerStyle(.menu)
+                    TrainingEffortSelector(selection: $effort)
                     Button("Satzgruppe hinzufügen", systemImage: "plus.circle") {
                         groups.append(SetGroupDraft(prescription: "1 × 5"))
                     }
@@ -445,5 +439,74 @@ struct TrainingEditor: View {
             modelContext.rollback()
             errorMessage = error.localizedDescription
         }
+    }
+}
+
+private struct TrainingEffortSelector: View {
+    @Binding var selection: TrainingEffort?
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @ScaledMetric(relativeTo: .caption) private var labelHeight: CGFloat = 28
+
+    private var columns: [GridItem] {
+        Array(
+            repeating: GridItem(.flexible(), spacing: 6),
+            count: dynamicTypeSize.isAccessibilitySize ? 2 : 4
+        )
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Arbeitsgewicht bewerten")
+                        .font(.subheadline.weight(.semibold))
+                    Text(selection?.title ?? "Nicht bewertet")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 4)
+                Button("Bewertung entfernen", systemImage: "xmark.circle") {
+                    selection = nil
+                }
+                .labelStyle(.iconOnly)
+                .frame(width: 44, height: 44)
+                .buttonStyle(.borderless)
+                .disabled(selection == nil)
+            }
+            LazyVGrid(columns: columns, spacing: 6) {
+                ForEach(TrainingEffort.allCases) { value in
+                    Button {
+                        selection = value
+                    } label: {
+                        VStack(spacing: 2) {
+                            Text(value.symbol)
+                                .font(.system(.title3, design: .monospaced).weight(.semibold))
+                            Text(value == .easy ? "Leicht" : value.title)
+                                .font(.caption)
+                                .multilineTextAlignment(.center)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .frame(minHeight: labelHeight)
+                        }
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 8)
+                        .frame(maxWidth: .infinity)
+                        .foregroundStyle(selection == value ? Color.white : Color.primary)
+                        .background(
+                            selection == value ? Color.blue : Color(.tertiarySystemGroupedBackground),
+                            in: RoundedRectangle(cornerRadius: 10)
+                        )
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 10)
+                                .strokeBorder(selection == value ? Color.blue : Color.secondary.opacity(0.25))
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(value.selectionTitle)
+                    .accessibilityAddTraits(selection == value ? .isSelected : [])
+                }
+            }
+        }
+        .padding(.vertical, 4)
     }
 }

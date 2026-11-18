@@ -4,10 +4,6 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
-### t22 – Darstellung der Arbeitsgewicht-Bewertung verbessern (Prio 2)
-
-- Die Auswahl und Darstellung der Anstrengungsbewertung gestalterisch überarbeiten, damit sie übersichtlicher und stimmiger wirkt.
-
 ### t19 – Export als JSON, Excel und formatierten Text (Prio 2)
 
 - Trainingsdaten als JSON und Excel exportieren.
@@ -39,6 +35,13 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Technische Option von Florian: Den Kommentar bei einem Übungseintrag speichern und dafür beispielsweise die letzte Übung des Tages verwenden. Die konkrete Umsetzung ist noch offen.
 
 ## Done
+
+### t22 – Darstellung der Arbeitsgewicht-Bewertung verbessern (0.6.9)
+
+- Vier direkt antippbare Auswahlflächen mit Symbol und kurzer Beschriftung anzeigen: -- Sehr schwer, - Schwer, o OK und + Leicht.
+- Auswahl blau hervorheben, ausgeschriebene Bewertung darüber anzeigen und Entfernen über X ermöglichen.
+- Bei großen Bedienungshilfen-Schriften die Auswahl in zwei Spalten anzeigen.
+- Xcode-Build, Sichtprüfung auf iPhone 15 mit vier Satzgruppen und Tastatur sowie VoiceOver-Prüfung ausstehend.
 
 ### t25 – Abgeschnittene Überschrift der Trainingserfassung korrigieren (0.6.6)
 

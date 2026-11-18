@@ -369,7 +369,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.6.8"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.6.9"
     }
 
     var body: some View {
@@ -393,8 +393,8 @@ private struct HelpView: View {
                     Text("Erfasse zum Beispiel 1 × 5 mit 50 kg, 1 × 5 mit 70 kg und 3 × 5 mit 100 kg. Markiere genau eine Gruppe als Arbeitsgewicht. Sie bestimmt den Zielfortschritt. Im Verlauf steht das Zielscheiben-Symbol links neben dem Arbeitsgewicht. Die Gewichte sind rechtsbündig untereinander angeordnet.")
                 }
                 Section("Anstrengung beim Arbeitsgewicht") {
-                    Text("Unter den Satzgruppen kannst du optional wählen, wie das Arbeitsgewicht war: -- Sehr schwer, - Schwer, o OK oder + Leicht – Steigerung möglich. Im Verlauf und beim letzten Trainingstag steht das Symbol links vor dem Arbeitsgewicht.")
-                    Text("Jedes neue Training beginnt mit „Nicht bewertet“. Beim Bearbeiten kannst du die Bewertung nachtragen, ändern oder über „Nicht bewertet“ entfernen.")
+                    Text("Unter den Satzgruppen kannst du die Bewertung direkt antippen: -- Sehr schwer, - Schwer, o OK oder + Leicht. Die gewählte Fläche ist blau und die volle Bedeutung steht darüber. + bedeutet Steigerung möglich. Im Verlauf und beim letzten Trainingstag steht das Symbol links vor dem Arbeitsgewicht.")
+                    Text("Jedes neue Training beginnt mit „Nicht bewertet“. Beim Bearbeiten kannst du die Bewertung nachtragen oder ändern. Über das X neben der Bewertungsüberschrift entfernst du sie wieder.")
                 }
                 Section("Trainingstage") {
                     Text("Die Startseite fasst Trainings nach Kalendertag zusammen. Jede Zeile zeigt Übungsname, Sätze und Wiederholungen sowie das Arbeitsgewicht, zum Beispiel Kniebeuge 3 × 5 @ 60 kg. Eine Bewertung steht links vor dem Gewicht. Aufwärmgruppen bleiben im Übungsdetail sichtbar.")

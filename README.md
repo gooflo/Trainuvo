@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining und zeigt den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.6.8 – Vorabversion**
+**Interner Entwicklungsstand: 0.6.9 – Vorabversion**
 
 ## Funktionen
 
@@ -30,7 +30,7 @@ Beim Anlegen oder Bearbeiten einer Übung unter **Standardsätze in Trainingsrei
 
 Die Trainingserfassung zeigt jede Satzgruppe in einer kompakten Zeile mit Arbeitsgewicht-Markierung, Satztext, Satzauswahl und Gewicht in kg. Vier Gruppen sollen auf dem iPhone 15 im Hochformat bei Standardtextgröße gemeinsam sichtbar sein. Unter der Buttonleiste stehen „Training erfassen“ bzw. „Training bearbeiten“ und darunter der Übungsname als eigene Überschrift über dem Formular und bleibt beim Scrollen und bei geöffneter Tastatur sichtbar. Das Datum steht separat darunter. Über den Pfeil stehen Vorauswahlen und Entfernen bereit. Eine Gruppe kann auch durch Wischen nach links entfernt werden. Tippe auf Kreis bzw. Zielscheibe, um die Arbeitsgruppe zu wählen.
 
-Unter den Satzgruppen lässt sich das Arbeitsgewicht optional bewerten. Die Auswahl zeigt Symbol und Bedeutung, im Verlauf und auf der Startseite steht das Symbol links vor dem Arbeitsgewicht. Ein neues Training beginnt mit **Nicht bewertet**. Die Bewertung kann im Verlauf nachgetragen, geändert oder entfernt werden.
+Unter den Satzgruppen lässt sich das Arbeitsgewicht optional bewerten. Vier direkt antippbare Flächen zeigen Symbol und kurze Beschriftung. Die ausgewählte Fläche wird blau, die volle Bewertung steht darüber. Über das X lässt sie sich entfernen. Im Verlauf und auf der Startseite steht das Symbol links vor dem Arbeitsgewicht. Ein neues Training beginnt mit **Nicht bewertet**. Die Bewertung kann im Verlauf nachgetragen, geändert oder entfernt werden.
 
 | Bewertung | Symbol |
 |---|---|
