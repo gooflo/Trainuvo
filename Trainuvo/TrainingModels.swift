@@ -14,7 +14,11 @@ final class Exercise {
     var setTemplates: [ExerciseSetTemplate] = []
 
     var sortedSetTemplates: [ExerciseSetTemplate] {
-        setTemplates.sorted { $0.position < $1.position }
+        sortedSetTemplates(for: activityType)
+    }
+
+    func sortedSetTemplates(for type: ExerciseType) -> [ExerciseSetTemplate] {
+        setTemplates.filter { $0.activityType == type }.sorted { $0.position < $1.position }
     }
 
     init(name: String, targetWeight: Double?, activityType: ExerciseType = .strength) {
@@ -55,13 +59,20 @@ final class ExerciseSetTemplate {
     var position: Int = 0
     var prescription: String = ""
     var isWorking: Bool = false
+    var activityTypeRawValue: String?
     @Relationship(deleteRule: .nullify)
     var exercise: Exercise?
 
-    init(position: Int, prescription: String, isWorking: Bool) {
+    init(position: Int, prescription: String, isWorking: Bool, activityType: ExerciseType = .strength) {
         self.position = position
         self.prescription = prescription
         self.isWorking = isWorking
+        self.activityTypeRawValue = activityType.rawValue
+    }
+
+    var activityType: ExerciseType {
+        get { activityTypeRawValue.flatMap(ExerciseType.init(rawValue:)) ?? .strength }
+        set { activityTypeRawValue = newValue.rawValue }
     }
 }
 
@@ -158,6 +169,7 @@ enum TrainingEffort: String, CaseIterable, Identifiable {
     case hard
     case okay
     case easy
+    case veryEasy
 
     var id: String { rawValue }
 
@@ -167,6 +179,7 @@ enum TrainingEffort: String, CaseIterable, Identifiable {
         case .hard: "-"
         case .okay: "o"
         case .easy: "+"
+        case .veryEasy: "++"
         }
     }
 
@@ -174,8 +187,9 @@ enum TrainingEffort: String, CaseIterable, Identifiable {
         switch self {
         case .veryHard: "Sehr schwer"
         case .hard: "Schwer"
-        case .okay: "OK"
-        case .easy: "Leicht – Steigerung möglich"
+        case .okay: "Neutral"
+        case .easy: "Leicht"
+        case .veryEasy: "Sehr leicht"
         }
     }
 

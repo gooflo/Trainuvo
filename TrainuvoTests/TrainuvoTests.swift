@@ -120,8 +120,8 @@ struct TrainuvoTests {
         #expect(try renamedReader.fetch(descriptor).map(\.id) == [deadlift.id, bench.id])
     }
 
-    @Test func effortUsesAllFourSymbolsAndCanBeCleared() {
-        #expect(TrainingEffort.allCases.map(\.symbol) == ["--", "-", "o", "+"])
+    @Test func effortUsesAllFiveSymbolsAndCanBeCleared() {
+        #expect(TrainingEffort.allCases.map(\.symbol) == ["--", "-", "o", "+", "++"])
         let exercise = Exercise(name: "Kreuzheben", targetWeight: 130)
         let training = TrainingEntry(date: Date(), exercise: exercise)
         #expect(training.effort == nil)
@@ -407,5 +407,82 @@ struct TrainuvoTests {
         #expect(exercise.entries.count == 1)
         #expect(exercise.latestEntry?.freeTextSummary == "Meine freie Einheit")
         #expect(exercise.setTemplates.isEmpty)
+    }
+
+    @Test func ratingRawValuesRemainCompatible() {
+        #expect(TrainingEffort.allCases.map(\.title) == ["Sehr schwer", "Schwer", "Neutral", "Leicht", "Sehr leicht"])
+        #expect(TrainingEffort(rawValue: "okay") == .okay)
+        #expect(TrainingEffort(rawValue: "easy") == .easy)
+        #expect(TrainingEffort.veryEasy.symbol == "++")
+    }
+
+    @Test func typedTemplatesPersistAndKeepTrainingIndependent() throws {
+        let schema = Schema([Item.self, Exercise.self, TrainingEntry.self, SetGroup.self, ExerciseSetTemplate.self])
+        let container = try ModelContainer(
+            for: schema,
+            configurations: [ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)]
+        )
+        let context = ModelContext(container)
+        let exercise = Exercise(name: "Training", targetWeight: 100, activityType: .ergometer)
+        context.insert(exercise)
+        let legacy = ExerciseSetTemplate(position: 0, prescription: "3 × 5", isWorking: true)
+        legacy.activityTypeRawValue = nil
+        let warmup = ExerciseSetTemplate(position: 0, prescription: "5 Minuten locker", isWorking: false, activityType: .ergometer)
+        let work = ExerciseSetTemplate(position: 1, prescription: "20 Minuten bei 100 Watt", isWorking: false, activityType: .ergometer)
+        let running = ExerciseSetTemplate(position: 0, prescription: "5 km locker", isWorking: false, activityType: .jogging)
+        for template in [work, legacy, running, warmup] {
+            context.insert(template)
+            exercise.setTemplates.append(template)
+        }
+        let training = TrainingEntry(date: Date(), exercise: exercise)
+        context.insert(training)
+        for template in exercise.sortedSetTemplates {
+            let group = SetGroup(position: template.position, prescription: template.prescription, weight: 0, isWorking: false)
+            context.insert(group)
+            training.groups.append(group)
+        }
+        // Updating a default must not alter an already recorded training.
+        work.prescription = "25 Minuten bei 100 Watt"
+        try context.save()
+        let reader = ModelContext(container)
+        let saved = try #require(reader.fetch(FetchDescriptor<Exercise>()).first)
+        #expect(saved.sortedSetTemplates.map(\.prescription) == ["5 Minuten locker", "25 Minuten bei 100 Watt"])
+        #expect(saved.latestEntry?.freeTextSummary == "5 Minuten locker · 20 Minuten bei 100 Watt")
+        saved.activityType = .strength
+        #expect(saved.sortedSetTemplates.map(\.prescription) == ["3 × 5"])
+        #expect(saved.sortedSetTemplates.first?.activityType == .strength)
+        #expect(saved.sortedSetTemplates.first?.isWorking == true)
+        saved.activityType = .jogging
+        #expect(saved.sortedSetTemplates.map(\.prescription) == ["5 km locker"])
+        saved.activityType = .ergometer
+        try reader.save()
+        let refreshed = ModelContext(container)
+        let restored = try #require(refreshed.fetch(FetchDescriptor<Exercise>()).first)
+        #expect(restored.setTemplates.count == 4)
+        #expect(restored.sortedSetTemplates.map(\.prescription) == ["5 Minuten locker", "25 Minuten bei 100 Watt"])
+        let savedTraining = try #require(restored.latestEntry)
+        try savedTraining.deleteKeepingExercise(in: refreshed)
+        let afterDeletion = ModelContext(container)
+        #expect(try afterDeletion.fetchCount(FetchDescriptor<ExerciseSetTemplate>()) == 4)
+        #expect(try afterDeletion.fetchCount(FetchDescriptor<Exercise>()) == 1)
+    }
+
+    @Test func veryEasyRatingPersists() throws {
+        let schema = Schema([Item.self, Exercise.self, TrainingEntry.self, SetGroup.self, ExerciseSetTemplate.self])
+        let container = try ModelContainer(
+            for: schema,
+            configurations: [ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)]
+        )
+        let context = ModelContext(container)
+        let exercise = Exercise(name: "Press", targetWeight: 40)
+        context.insert(exercise)
+        let training = TrainingEntry(date: Date(), exercise: exercise)
+        context.insert(training)
+        training.effort = .veryEasy
+        try context.save()
+        let reader = ModelContext(container)
+        let saved = try #require(reader.fetch(FetchDescriptor<TrainingEntry>()).first)
+        #expect(saved.effort == .veryEasy)
+        #expect(saved.effortRawValue == "veryEasy")
     }
 }

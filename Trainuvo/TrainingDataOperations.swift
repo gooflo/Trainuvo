@@ -47,7 +47,7 @@ enum TrainingDataOperations {
                     result.exercisesCreated += 1
                 }
 
-                if exercise.setTemplates.isEmpty {
+                if exercise.sortedSetTemplates.isEmpty {
                     for (position, group) in example.groups.enumerated() {
                         let template = ExerciseSetTemplate(
                             position: position,

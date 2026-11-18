@@ -26,6 +26,9 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 
 - Neue Trainings über das Plus auf der Zielkarte direkt öffnen. Bei Krafttraining das erste kg-Feld, bei Freitexttypen das erste Textfeld nach dem Aufbau der Maske fokussieren und die numerische Tastatur mit „Fertig“ anbieten. Die automatische Fokussierung soll vorhandene Benutzereingaben nicht überschreiben.
 
+- Bewertungen verwenden -- Sehr schwer, - Schwer, o Neutral, + Leicht und ++ Sehr leicht. Im Verlauf und in der Tagesübersicht stehen sie links vor den Sätzen.
+- Vorlagen für Satzgruppen bzw. freie Trainingseinheiten gelten pro Übung und Übungstyp. Typwechsel erhalten die Vorlagen anderer Typen; Vorlagenänderungen verändern keine bestehenden Trainings.
+
 ## Aufgaben und Testbefunde
 
 - Führe Aufgaben und Testbefunde in [Todo.md](Todo.md). Vergib fortlaufende Kennungen wie `t01` und behalte sie bei.

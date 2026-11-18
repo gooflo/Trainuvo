@@ -29,6 +29,18 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t29 – Symmetrische Bewertung und Position (0.8.0)
+
+- -- Sehr schwer, - Schwer, o Neutral, + Leicht und ++ Sehr leicht anbieten.
+- Bewertung in der Tagesübersicht und im Verlauf links vor den Sätzen anzeigen.
+- Bestehende Rohwerte und Symbole erhalten. Xcode-Build, Swift-Tests und Sichtprüfung mit fünf Flächen ausstehend.
+
+### t30 – Vorlagen für Freitext-Trainingseinheiten (0.8.0)
+
+- Geordnete, bearbeitbare Trainingseinheiten in der Übung hinterlegen und bei neuen Trainings übernehmen.
+- Vorlagen pro Übungstyp speichern; vorhandene Krafttrainingsvorgaben und Trainings erhalten.
+- Xcode-Build, Swift-Tests, Update über 0.7.0, Typwechsel und Geräteprüfung ausstehend.
+
 ### t28 – Weitere Übungsarten neben Krafttraining (0.7.0)
 
 - Übungstypen Krafttraining, Ergometer, Schwimmen, Joggen und Andere anbieten.

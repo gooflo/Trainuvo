@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.7.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.8.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -29,20 +29,26 @@ ExerciseType bietet die stabilen Rohwerte strength, ergometer, swimming, jogging
 
 Krafttraining verwendet die vorhandenen Satzgruppen, kg-Felder, Zielgewichte und Bewertungen. Die übrigen Typen verwenden SetGroup.prescription für den frei eingegebenen Text einer Trainingseinheit. Numerisch wird intern 0 gespeichert und isWorking auf false gesetzt. Diese Werte werden bei Freitexttypen nicht angezeigt oder für Fortschritt verwendet. workingGroup und workingWeight liefern für Freitexttypen nil.
 
-Neue Freitexttrainings starten mit einer leeren Einheit. Das erste Textfeld wird mit normaler Tastatur fokussiert. Die kg-Tastatur und die Satzvorauswahl gelten für Krafttraining. Mehrere Einheiten und mehrzeiliger Text sind möglich. Speicherung und Löschung verwenden die vorhandenen Save-/Rollback- und Elternschutzabläufe.
+Neue Freitexttrainings übernehmen die geordneten Vorlagen des aktuellen Übungstyps. Ohne solche Vorlagen starten sie mit einer leeren Einheit. Das erste Textfeld wird mit normaler Tastatur fokussiert. Die kg-Tastatur und die Satzvorauswahl gelten für Krafttraining. Mehrere Einheiten und mehrzeiliger Text sind möglich. Speicherung und Löschung verwenden die vorhandenen Save-/Rollback- und Elternschutzabläufe.
 
 Beim Wechsel einer Übung zu einem Freitexttyp werden Zielgewicht und Standardsatzvorlagen beibehalten. Ein Zurückwechseln zu Krafttraining kann sie wiederverwenden. Die Fortschrittsberechnung und der Vorschlag für neue Krafttrainings verwenden den letzten Eintrag desselben Typs. Freitextkarten zeigen Typ, Datum und Text des letzten passenden Eintrags. Tagesübersicht und Verlauf verwenden immer den Eintragstyp.
 
 Die beiden neuen Attribute sind optional. Bestehende Modellnamen, Felder und Beziehungen bleiben erhalten. Das automatische Store-Update über 0.6.9 mit vorhandenen Daten muss auf dem Mac getestet werden. Der Beispieldatenimport verwendet weiterhin Krafttraining und überspringt gleichnamige Übungen mit einem anderen Typ.
 
+## Freitextvorlagen in 0.8.0
+
+Exercise.sortedSetTemplates filtert nach dem aktuellen Übungstyp; sortedSetTemplates(for:) erlaubt den gezielten Zugriff auf andere Typen. Das neue optionale activityTypeRawValue an ExerciseSetTemplate erhält Altbestände als Krafttraining. Beim Speichern werden nur Vorlagen des ausgewählten Typs ersetzt, alle übrigen bleiben erhalten. Der Editor puffert Entwürfe und die Krafttrainings-Arbeitsmarkierung beim Typwechsel. Abbrechen verwirft die Entwürfe.
+
+Freitextvorlagen erlauben mehrere sortierbare Texte ohne Gewichte und ohne Arbeitsmarkierung. TrainingEditor kopiert passende Vorlagen in unabhängige Satzgruppen. Änderungen an Vorlagen beeinflussen bestehende Einträge nicht. Neue Krafttrainingsvorlagen enthalten weiterhin leere kg-Felder. Vorhandene Trainings werden stets aus ihren eigenen Gruppen bearbeitet.
+
 ## Datenmodell und Geschäftsregeln
 
 - Exercise speichert UUID, Name, optionales Zielgewicht und sortOrder (Int, Standardwert 0). Namen werden beim Speichern getrimmt und ohne Beachtung von Groß-/Kleinschreibung und Akzenten auf Duplikate geprüft.
-- ExerciseSetTemplate speichert UUID, Reihenfolge, Satztext und Arbeitsgewicht-Markierung. Exercise hält diese Vorlagen als separate Cascade-Beziehung mit inverser Übungsbeziehung. Die Vorlage enthält keine Gewichte.
-- TrainingEntry speichert UUID, Trainingsdatum, Anlegedatum, Übungsbeziehung und das optionale String-Feld effortRawValue. TrainingEffort bietet die stabilen Werte veryHard, hard, okay und easy mit den Symbolen --, -, o und +. Der berechnete Zugriff effort bildet den String auf das Enum ab. Fehlende oder unbekannte Werte werden als unbewertet dargestellt. Das Datum kann bis heute gewählt werden. Es wird einschließlich Uhrzeit gespeichert.
+- ExerciseSetTemplate speichert UUID, Reihenfolge, Satztext bzw. freien Einheitstext, Arbeitsgewicht-Markierung und das optionale Feld activityTypeRawValue. Fehlende Typwerte gelten als strength. Exercise hält diese Vorlagen als separate Cascade-Beziehung mit inverser Übungsbeziehung. Die Vorlage enthält keine Gewichte.
+- TrainingEntry speichert UUID, Trainingsdatum, Anlegedatum, Übungsbeziehung und das optionale String-Feld effortRawValue. TrainingEffort bietet die stabilen Werte veryHard, hard, okay, easy und veryEasy mit den Symbolen --, -, o, + und ++. Die Bezeichnungen sind Sehr schwer, Schwer, Neutral, Leicht und Sehr leicht; okay und easy behalten ihre bisherigen Rohwerte. Der berechnete Zugriff effort bildet den String auf das Enum ab. Fehlende oder unbekannte Werte werden als unbewertet dargestellt. Das Datum kann bis heute gewählt werden. Es wird einschließlich Uhrzeit gespeichert.
 - SetGroup speichert UUID, Reihenfolge, freien Satztext, Gewicht in kg und die Markierung als Arbeitsgewicht.
 - Exercise → TrainingEntry und TrainingEntry → SetGroup sind Beziehungen mit Cascade-Löschung und inversen Elternbeziehungen. TrainingEntry.exercise, SetGroup.entry und ExerciseSetTemplate.exercise haben explizit nullify als Löschregel. Diese entspricht dem bisher impliziten Standard. Es werden keine bestehenden Felder entfernt.
-- Genau eine Satzgruppe muss als Arbeitsgewicht markiert sein. Das Entfernen der markierten Gruppe markiert die erste verbleibende Gruppe.
+- Beim Krafttraining muss genau eine Satzgruppe als Arbeitsgewicht markiert sein. Das Entfernen der markierten Gruppe markiert die erste verbleibende Gruppe.
 - Fortschritt = markiertes Arbeitsgewicht des chronologisch letzten Trainings ÷ aktuelles Zielgewicht. Bei gleichem Trainingsdatum entscheidet das Anlegedatum. Werte über 100 % werden als Zahl angezeigt, der Fortschrittsbalken endet bei 100 %.
 - TrainingDaySummary gruppiert alle Einträge nach lokalem Kalendertag. Die Tage sind absteigend sortiert. Innerhalb eines Tages gilt die manuelle Übungsreihenfolge, danach Übungsname und absteigendes Trainings-/Anlegedatum. Mehrfache Einträge derselben Übung bleiben als einzelne Trainingszeilen sichtbar.
 - Gewichte sind endliche Double-Werte zwischen 0 und 100.000 kg. Ziele liegen zwischen 0,01 und 100.000 kg. Komma und Punkt werden akzeptiert. Die Darstellung zeigt bis zu zwei Nachkommastellen. Freitext wird für den Fortschritt nicht ausgewertet.
@@ -91,9 +97,9 @@ Vier Gruppen sollen bei Standardtextgröße auf dem iPhone 15 im Hochformat geme
 
 ## Bewertung des Arbeitsgewichts
 
-TrainingEditor hält eine optionale TrainingEffort-Auswahl als lokalen Entwurf. Neue Trainings beginnen mit nil, auch bei Übernahme von Standardsätzen oder des letzten Trainings. Beim Bearbeiten wird die gespeicherte Auswahl geladen. TrainingEffortSelector bietet vier direkt antippbare Auswahlflächen mit Symbol und Kurzbeschriftung. Eine blaue Fläche zeigt die Auswahl, die volle Bedeutung steht darüber. X setzt den lokalen Entwurf auf nil. Die Auswahl verwendet bei normalen Textgrößen vier Spalten und bei Bedienungshilfen-Schriften zwei Spalten. VoiceOver erhält die vollständige Bedeutung und den Auswahlstatus. Speichern schreibt die Auswahl zusammen mit den übrigen Trainingsdaten.
+TrainingEditor hält eine optionale TrainingEffort-Auswahl als lokalen Entwurf. Neue Trainings beginnen mit nil, auch bei Übernahme von Standardsätzen oder des letzten Trainings. Beim Bearbeiten wird die gespeicherte Auswahl geladen. TrainingEffortSelector bietet fünf direkt antippbare Auswahlflächen mit Symbol und Kurzbeschriftung. Eine blaue Fläche zeigt die Auswahl, die volle Bedeutung steht darüber. X setzt den lokalen Entwurf auf nil. Die Auswahl verwendet bei normalen Textgrößen fünf Spalten und bei Bedienungshilfen-Schriften zwei Spalten. VoiceOver erhält die vollständige Bedeutung und den Auswahlstatus. Speichern schreibt die Auswahl zusammen mit den übrigen Trainingsdaten.
 
-TrainingSummary zeigt das Symbol ausschließlich bei der markierten Arbeitsgruppe. Alle Zeilen reservieren eine 26 pt breite Bewertungsspalte, die mit der Bedienungshilfen-Textgröße skaliert. Nicht angezeigte Bewertungen sind für VoiceOver ausgeblendet. VoiceOver spricht die ausgeschriebene Bewertung. DayTrainingRow verwendet dieselbe Bewertungsspalte neben der einzigen Arbeitsgruppe in der Tagesübersicht.
+TrainingSummary zeigt das Symbol ausschließlich bei der markierten Arbeitsgruppe. Alle Zeilen reservieren links vor den Sätzen eine 26 pt breite Bewertungsspalte, die mit der Bedienungshilfen-Textgröße skaliert. Nicht angezeigte Bewertungen sind für VoiceOver ausgeblendet. VoiceOver spricht die ausgeschriebene Bewertung. DayTrainingRow verwendet dieselbe Bewertungsspalte neben der einzigen Arbeitsgruppe in der Tagesübersicht.
 
 0.4.0 ergänzt effortRawValue als optionales Feld ohne Pflichtwert. Vorhandene Einträge beginnen ohne Bewertung. Das Store-Update muss auf dem Mac über einer Installation mit gespeicherten Trainings geprüft werden.
 
@@ -105,7 +111,7 @@ ExerciseDetailView verwendet einen einzelnen typisierten Alert-Zustand für Trai
 
 ## Trainingstage auf der Startseite
 
-TrainingDaySummary.grouped verwendet Calendar.startOfDay mit dem lokalen Kalender. DayTrainingRow zeigt pro Trainingseintrag Übungsname, den Text der markierten Arbeitsgruppe, @, die optionale Anstrengungsbewertung und das Gewicht. Ohne markierte Gruppe wird Kein Arbeitsgewicht angezeigt. Vier Übungen mit je einem Eintrag ergeben vier Zeilen. Eine Tageszeile öffnet direkt TrainingEditor für diesen Datensatz. Die vollständigen Satzgruppen und der sichtbare Löschbutton sind dort verfügbar. Der gesamte Übungsverlauf wird über die Zielkarte geöffnet. Ein Eintrag ohne Übungszuordnung zeigt Unbekannte Übung und bleibt sichtbar.
+TrainingDaySummary.grouped verwendet Calendar.startOfDay mit dem lokalen Kalender. DayTrainingRow zeigt pro Trainingseintrag Übungsname, die optionale Anstrengungsbewertung, den Text der markierten Arbeitsgruppe, @ und das Gewicht. Ohne markierte Gruppe wird Kein Arbeitsgewicht angezeigt. Vier Übungen mit je einem Eintrag ergeben vier Zeilen. Eine Tageszeile öffnet direkt TrainingEditor für diesen Datensatz. Die vollständigen Satzgruppen und der sichtbare Löschbutton sind dort verfügbar. Der gesamte Übungsverlauf wird über die Zielkarte geöffnet. Ein Eintrag ohne Übungszuordnung zeigt Unbekannte Übung und bleibt sichtbar.
 
 ## Einstellungen und Beispieldaten
 
@@ -214,6 +220,16 @@ Ein neues Training mit vier Satzgruppen öffnen. Alle vier Flächen einzeln anti
 6. Startkarten auf iPhone 15 und iPad, normale und große Textgrößen sowie beide Tastaturarten mit Fertig-Taste prüfen.
 7. Xcode-Build und Swift-Tests mit ⌘ U ausführen. Die Tests decken Typ-Altwerte, alle vier Freitexttypen, Persistenz, Typwechsel, Löschung und den Beispieldatenimport ab. Laufzeit- und Geräteprüfung sind ausstehend.
 
+## Abnahme von 0.8.0
+
+1. Über 0.7.0 mit vorhandenen Trainings, Bewertungen und Krafttrainingsvorlagen aktualisieren. Ziele, IDs, Reihenfolge, Gewichte und Vorlagen kontrollieren. Alte o- und +-Bewertungen müssen erhalten bleiben und Neutral bzw. Leicht heißen.
+2. Alle fünf Bewertungen auswählen, speichern und nach Neustart prüfen. X und Abbrechen testen. Tagesübersicht und Verlauf müssen das Symbol vor den Sätzen zeigen; Aufwärmgruppen bleiben ohne Bewertung und Gewichte stehen rechtsbündig.
+3. Für Ergometer, Schwimmen, Joggen und Andere je mehrere Vorlageneinheiten anlegen, sortieren und speichern. Neue Trainings müssen Texte und Reihenfolge übernehmen. Einheiten im Training ändern und prüfen, dass die Vorlage unverändert bleibt.
+4. Vorlagen ändern oder entfernen und gespeicherte Trainings erneut öffnen. Sie müssen ihre eigenen Texte behalten. Ohne Vorlage muss ein neues Freitexttraining mit einer leeren Einheit beginnen.
+5. Zwischen Krafttraining und Freitexttypen wechseln, einschließlich Wechsel während der Bearbeitung. Die Vorlagen anderer Typen sowie die Arbeitsmarkierung müssen erhalten bleiben. Abbrechen und Neustart prüfen.
+6. Letztes Freitexttraining löschen: Übung und Vorlagen müssen bleiben. iPhone 15 mit vier Satzgruppen, offener Tastatur, Dunkelmodus, großer Schrift und VoiceOver prüfen.
+7. Xcode-Build und Swift-Tests mit ⌘ U ausführen. Neue Tests decken fünf Symbole, Rohwertkompatibilität, ++-Persistenz, Vorlagentypen, Altwert-Fallback, Sortierung und unabhängige Trainings ab. Hier wurden nur Swift-Syntax und statische Konsistenz geprüft; alle Laufzeit- und Updateprüfungen sind ausstehend.
+
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.7.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.8.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.

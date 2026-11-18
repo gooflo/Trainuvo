@@ -2,15 +2,17 @@
 
 Trainuvo dokumentiert Krafttraining, Ergometer, Schwimmen, Joggen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.7.0 – Vorabversion**
+**Interner Entwicklungsstand: 0.8.0 – Vorabversion**
 
 ## Übungstypen
 
 Beim Anlegen oder Bearbeiten einer Übung den Typ **Krafttraining**, **Ergometer**, **Schwimmen**, **Joggen** oder **Andere** wählen.
 
-Krafttraining verwendet Gewichte, Satzgruppen und optionale Zielgewichte. Die übrigen vier Typen verwenden **Trainingseinheiten mit Freitext**, zum Beispiel „20 Minuten bei 100 Watt“, „500 m Brust“ oder „5 km in 30 Minuten“. Weitere Einheiten lassen sich hinzufügen. Neue Freitexttrainings starten leer mit normaler Tastatur. In der Tagesübersicht und im Verlauf erscheinen die Texte.
+Krafttraining verwendet Gewichte, Satzgruppen und optionale Zielgewichte. Die übrigen vier Typen verwenden **Trainingseinheiten mit Freitext**, zum Beispiel „20 Minuten bei 100 Watt“, „500 m Brust“ oder „5 km in 30 Minuten“. Weitere Einheiten lassen sich hinzufügen. Neue Freitexttrainings übernehmen die Vorlagen der Übung oder starten ohne Vorlagen mit einer leeren Einheit und normaler Tastatur. In der Tagesübersicht und im Verlauf erscheinen die Texte.
 
 Jeder Eintrag speichert seinen Typ. Beim Wechsel des Übungstyps bleiben bestehende Trainings in ihrer ursprünglichen Form bearbeitbar. Bisherige Krafttrainingsvorgaben werden gespeichert und beim Zurückwechseln wieder angeboten.
+
+Bei Freitextübungen lassen sich unter **Übung bearbeiten → Vorlagen für Trainingseinheiten** mehrere Texte hinterlegen und mit den Pfeilen sortieren. Neue Trainings übernehmen sie als einzeln bearbeitbare Einheiten. Vorlagen werden je Übungstyp gespeichert; Änderungen betreffen nur künftige Trainings.
 
 ## Funktionen
 
@@ -38,14 +40,15 @@ Beim Anlegen oder Bearbeiten einer Übung unter **Standardsätze in Trainingsrei
 
 Die Trainingserfassung zeigt jede Satzgruppe in einer kompakten Zeile mit Arbeitsgewicht-Markierung, Satztext, Satzauswahl und Gewicht in kg. Vier Gruppen sollen auf dem iPhone 15 im Hochformat bei Standardtextgröße gemeinsam sichtbar sein. Unter der Buttonleiste stehen „Training erfassen“ bzw. „Training bearbeiten“ und darunter der Übungsname als eigene Überschrift über dem Formular und bleibt beim Scrollen und bei geöffneter Tastatur sichtbar. Das Datum steht separat darunter. Über den Pfeil stehen Vorauswahlen und Entfernen bereit. Eine Gruppe kann auch durch Wischen nach links entfernt werden. Tippe auf Kreis bzw. Zielscheibe, um die Arbeitsgruppe zu wählen.
 
-Unter den Satzgruppen lässt sich das Arbeitsgewicht optional bewerten. Vier direkt antippbare Flächen zeigen Symbol und kurze Beschriftung. Die ausgewählte Fläche wird blau, die volle Bewertung steht darüber. Über das X lässt sie sich entfernen. Im Verlauf und auf der Startseite steht das Symbol links vor dem Arbeitsgewicht. Ein neues Training beginnt mit **Nicht bewertet**. Die Bewertung kann im Verlauf nachgetragen, geändert oder entfernt werden.
+Unter den Satzgruppen lässt sich das Arbeitsgewicht optional bewerten. Fünf direkt antippbare Flächen zeigen Symbol und kurze Beschriftung. Die ausgewählte Fläche wird blau, die volle Bewertung steht darüber. Über das X lässt sie sich entfernen. Im Verlauf und auf der Startseite steht das Symbol links vor den Sätzen. Ein neues Training beginnt mit **Nicht bewertet**. Die Bewertung kann im Verlauf nachgetragen, geändert oder entfernt werden.
 
 | Bewertung | Symbol |
 |---|---|
 | Sehr schwer | `--` |
 | Schwer | `-` |
-| OK | `o` |
-| Leicht, Steigerung möglich | `+` |
+| Neutral | `o` |
+| Leicht | `+` |
+| Sehr leicht | `++` |
 
 Für ein Training beispielsweise drei Satzgruppen erfassen:
 

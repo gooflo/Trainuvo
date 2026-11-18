@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.8.0 – Symmetrische Bewertung und Freitextvorlagen
+
+- Bewertung auf -- Sehr schwer, - Schwer, o Neutral, + Leicht und ++ Sehr leicht erweitert. Bestehende Rohwerte und Symbole bleiben erhalten.
+- Bewertung in Tagesübersicht und Verlauf links vor die Sätze verschoben; Gewichtsspalte bleibt rechtsbündig.
+- Geordnete Vorlagen für Freitext-Trainingseinheiten in der Übungsbearbeitung ergänzt. Neue Trainings übernehmen die passenden Texte; bestehende Trainings bleiben unabhängig.
+- Vorlagen speichern ihren Typ als optionales Feld. Bestehende Vorlagen gelten als Krafttraining; Typwechsel erhalten die Vorlagen anderer Typen.
+- t29 und t30 erledigt, Hilfe, Tests und Dokumentation aktualisiert.
+- Swift-Syntax und statische Konsistenz geprüft. Xcode-Build, Swift-Tests, Store-Update und Geräteprüfung ausstehend.
+
 ## 0.7.0 – Weitere Übungstypen mit Freitext
 
 - Übungstypen Krafttraining, Ergometer, Schwimmen, Joggen und Andere ergänzt.
