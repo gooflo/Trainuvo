@@ -291,3 +291,14 @@ TrainingExportFileNameView und TrainingActivityShareView übernehmen den Ablauf 
 TrainingExportFileName.baseName validiert die Eingabe, trimmt äußeren Whitespace und entfernt eine bereits eingegebene passende Endung ohne Beachtung der Groß-/Kleinschreibung. Leere Namen, Punkt/Punktpunkt, Pfadtrenner, Doppelpunkt und Steuerzeichen werden abgewiesen. Teilen kopiert die Datei in ein neues temporäres UUID-Verzeichnis unter dem gewünschten Namen und öffnet UIActivityViewController. Fehler entfernen das neue Verzeichnis und zeigen eine Meldung. Temporäre Dateien bleiben für asynchron lesende Share-Erweiterungen verfügbar. Der frühere FileDocument/fileExporter-Ablauf entfällt.
 
 Default für TXT/XLSX/JSON: Trainuvo_Export.<Endung>, ohne Zeitraum. Zeitraumfilter und Dateiinhalte bleiben unverändert. Tests prüfen gültige/ungültige Namen, Umlaute, passende Endungen und getrennte temporäre Verzeichnisse. In Xcode ⌘ U ausführen; alle Formate mit Standardname und eigenem Namen exportieren, Abbrechen und erneutes Öffnen, Teilen und In Dateien sichern auf iPhone/iPad prüfen. Swift-Syntax und statische Konsistenz hier geprüft; Xcode-Build, Swift-Tests und Geräteprüfung ausstehend.
+
+## Veröffentlichter Stand
+
+- 19.11.2026: Florian hat 0.12.0 als getaggt und veröffentlicht bestätigt.
+- Remote-Tag v0.12.0 geprüft: a8f147782006d5b88939df1b55f06cf7c663e037.
+- Die konkrete externe Versions-/Buildkennung des hochgeladenen Archivs wurde nicht separat bestätigt. Die Projektvorgabe am Tag ist extern 1.0, Build 1.
+- Weitere Uploads benötigen eine neue Buildnummer; veröffentlichte Tags werden nicht verschoben.
+
+## Hinweis zur Export-Compliance
+
+Apple verwendet ITSAppUsesNonExemptEncryption (Boolean). NO ist für Apps ohne nicht ausgenommene Verschlüsselung vorgesehen, einschließlich verlinkter Bibliotheken. Bei generierter Info.plist kann INFOPLIST_KEY_ITSAppUsesNonExemptEncryption auf NO gesetzt werden. Diese Einstellung fehlt aktuell und wurde mit diesem Dokumentationsvermerk noch nicht geändert. Vor Anwendung die App und Bibliotheken auf nicht ausgenommene Verschlüsselung prüfen. Quelle: https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption
