@@ -8,6 +8,7 @@ struct ContentView: View {
     @State private var showingHelp = false
     @State private var showingExerciseOrder = false
     @State private var showingSettings = false
+    @State private var showingExport = false
     @State private var editingTraining: TrainingEntry?
     @State private var quickTrainingExercise: Exercise?
 
@@ -106,12 +107,14 @@ struct ContentView: View {
             .navigationTitle("Trainuvo")
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button("Export", systemImage: "square.and.arrow.up") { showingExport = true }
                     Button("Einstellungen", systemImage: "gearshape") { showingSettings = true }
                     Button("Hilfe", systemImage: "questionmark.circle") { showingHelp = true }
                 }
             }
             .sheet(isPresented: $showingExercise) { ExerciseEditor() }
             .sheet(isPresented: $showingHelp) { HelpView() }
+            .sheet(isPresented: $showingExport) { TrainingExportView() }
             .sheet(isPresented: $showingSettings) { SettingsView() }
             .sheet(item: $quickTrainingExercise) { exercise in
                 TrainingEditor(exercise: exercise)
@@ -436,7 +439,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.9.1"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.10.0"
     }
 
     var body: some View {
@@ -487,6 +490,10 @@ private struct HelpView: View {
                 Section("Einstellungen und Beispieldaten") {
                     Text("Über das Zahnrad öffnest du die Einstellungen. „Beispieldaten anlegen“ ergänzt Press, Kniebeuge, Bankdrücken und Kreuzheben mit Standardsätzen und je einem Training vom 14. und 17.11.2026. Am 14.11. liegen die Arbeitsgewichte jeweils 2 kg niedriger. Die jeweils letzte Gruppe ist das Arbeitsgewicht. Gleichnamige Übungen werden wiederverwendet und identische Beispieltrainings übersprungen.")
                     Text("„Alles löschen“ entfernt nach ausdrücklicher Bestätigung alle Übungen, Trainings und Standardsätze auf diesem Gerät.")
+                }
+                Section("Export für OneNote, JSON und Excel") {
+                    Text("Über das Teilen-Symbol oben rechts öffnest du den Export. Wähle Monat und Jahr oder Von–Bis. Text kopieren übernimmt einen Absatz pro Trainingstag in die Zwischenablage, chronologisch aufsteigend und in deiner Übungsreihenfolge. Die Vorschau zeigt den kopierten Text. Bei Satztypen wird nur die Arbeitsgruppe ausgegeben, bei Andere alle Einheiten mit beiden Angaben. Bewertungen stehen als Zeichen vor den Angaben.")
+                    Text("Textdatei, JSON und Excel lassen sich in Dateien sichern. JSON und Excel enthalten auch Aufwärmsätze und alle freien Trainingseinheiten. Die Dateinamen enthalten Start und Ende des Zeitraums.")
                 }
                 Section("Datenspeicherung") {
                     Text("Die Daten werden lokal auf diesem Gerät gespeichert. iCloud-Synchronisierung ist für eine spätere Version vorgesehen.")

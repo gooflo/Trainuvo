@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.10.0 – Zeitraumexport für OneNote, JSON und Excel
+
+- Exportseite über das Teilen-Symbol ergänzt. Monat/Jahr oder freies Von–Bis wie in Cashuvo; beide Randtage vollständig eingeschlossen.
+- Vorschau und Text kopieren mit einem Absatz je Trainingstag, chronologisch aufsteigend, Übungen in ihrer Reihenfolge. Nur Arbeitsgruppen bei Satztypen, alle Einheiten bei Andere, Bewertungszeichen vor den Angaben.
+- Textdatei, JSON mit sämtlichen Trainingsgruppen und IDs sowie echte XLSX-Datei mit einer Zeile je Gruppe/Einheit. Dateinamen Trainuvo_Export_<Start>_<Ende>.
+- Cashuvos ZIP-/XML-Erzeugung für XLSX übernommen; Freitexte werden als Textzellen geschrieben. Keine Modell- oder Datenänderung.
+- t19 erledigt. Tests für Zeitraumgrenzen einschließlich Zeitumstellung, Text, JSON und XLSX-Struktur/CRC/XML ergänzt.
+- Swift-Syntax und statische Konsistenz geprüft. Xcode-Build, Swift-Tests, Excel-Öffnen und Einfügen in OneNote ausstehend.
+
 ## 0.9.1 – Farbige Trainingsbewertungen
 
 - -- Dunkelrot, - Rot, o Grau, + Grün und ++ Dunkelgrün in Auswahl, Tagesübersicht und Verlauf eingeführt.

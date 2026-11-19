@@ -40,3 +40,5 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 - Führe Änderungen pro interner Version in `Changelog.md`.
 - Führe die gesamte technische Dokumentation gemeinsam in `DeveloperDocu.md`. Sie umfasst Entwicklungsumgebung und Einrichtung, Architektur und Datenmodell, Geschäftsregeln und technische Abläufe, Build und Tests sowie Veröffentlichung.
 - Pflege `DeveloperDocu.md` bei Änderungen an diesen Themen im selben Commit mit. Lege README, Changelog und DeveloperDocu mit der ersten App-Version an.
+
+- Exporte verwenden Monat/Jahr oder Von–Bis analog Cashuvo. OneNote-Text enthält einen Absatz je Trainingstag, aufsteigende Tage, Übungsreihenfolge und Bewertung vor den Angaben; nur Arbeitsgruppen bei Satztypen, alle freien Einheiten bei Andere. JSON und Excel enthalten alle Gruppen. Standardnamen: Trainuvo_Export_<Start>_<Ende> mit yyyyMMdd.

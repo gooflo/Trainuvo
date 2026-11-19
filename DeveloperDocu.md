@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.9.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.10.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -250,4 +250,18 @@ Für die Abnahme bei Krafttraining, Satzübung und Andere alle fünf Bewertungen
 
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.9.1` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.10.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+
+## Export in 0.10.0
+
+TrainingExportView verwendet Cashuvos PeriodMode-Konzept mit Monat/Jahr und freier Von–Bis-Auswahl. TrainingExport.selected filtert ab startOfDay(Von) bis exklusiv startOfDay(Bis)+1 Kalendertag, ohne feste Sekundendauer; Zeitumstellungen und Uhrzeiten am Bis-Tag bleiben korrekt. Einträge werden chronologisch sortiert; bei Gleichstand entscheiden Anlegedatum und UUID.
+
+TrainingExport.text gruppiert über TrainingDaySummary und kehrt nur die Tagesreihenfolge zu aufsteigend um. Pro Tag wird genau eine Textzeile erzeugt. Innerhalb eines Tages gilt die vorhandene Übungsreihenfolge. Satztypen verwenden workingGroup, Andere alle Gruppen mit linker/rechter Angabe und Semikolon zwischen Einheiten. Mehrfach erfasste Übungen werden nicht zusammengelegt. oneLine normalisiert Whitespace ausschließlich für diesen kompakten Text. Rohtexte im JSON/Excel behalten Zeilenumbrüche.
+
+JSON ist ein versionierter Codable-Snapshot (schemaVersion 1) mit ISO-8601-Datumswerten, ausgewähltem Von/Bis, Zeitzone, Eintrags- und Gruppen-IDs, aktuellem Übungsnamen und aktuellen Zielen, normalisiertem und gespeichertem Typ, optionaler Bewertung und sämtlichen Gruppen. Ziele und Namen sind aktuelle Metadaten, keine historischen Momentaufnahmen. Gewicht wird nur für Krafttraining als Zahl exportiert. Es gibt keine Import-/Restore-Funktion.
+
+TrainingExportExcel übernimmt Cashuvos unkomprimierten ZIP-Writer samt CRC32 und XML-Escaping. Die Tabelle enthält alle Satzgruppen und freien Einheiten, eine Zeile je Gruppe mit Datum, Übung, Typ, Bewertung, Position, linker Angabe, numerischem kg-Gewicht, rechter Angabe, Arbeitsmarkierung und Training-ID. Inline-Textzellen verhindern eine Interpretation eingegebener Texte als Formeln. Die Kopfzeile ist fixiert. Einträge ohne Gruppen bleiben mit leerer Detailzeile sichtbar.
+
+TrainingExport.fileURL erstellt pro Export ein eigenes temporäres UUID-Verzeichnis; nur der Dateiname enthält Trainuvo_Export_<Start>_<Ende> mit gregorianischem yyyyMMdd. FileDocument/fileExporter speichert die erzeugten Daten mit passendem Inhaltstyp und editierbarem Standardnamen. Text kann zusätzlich direkt über UIPasteboard kopiert werden. Ungültige Zeiträume und leere Ergebnisse deaktivieren Aktionen. Fehler erscheinen als Meldung. Der Ablauf liest SwiftData ausschließlich; gespeicherte Daten werden nicht verändert.
+
+Tests in TrainingExportTests.swift prüfen Tagesgrenzen einschließlich 25-Stunden-Tag, exakten OneNote-Text, freie Angaben und Zeilenumbrüche, JSON-Snapshot mit IDs und sämtlichen Gruppen sowie XLSX-Einträge inklusive CRC und XML-Parsing. Hier sind Swift-Syntax und statische Konsistenz geprüft. Auf dem Mac ⌘ U ausführen; mit Beispieldaten 14.–17.11.2026 exportieren und zwei Absätze bzw. acht JSON-Einträge und 18 Detailzeilen in Excel prüfen. Einfügen in OneNote, Monate/Schaltjahre, freie Zeiträume, leere Auswahl, Abbrechen und Speichern sowie iPhone/iPad testen. Xcode-Build und Laufzeittests sind ausstehend.
