@@ -9,7 +9,7 @@ struct TrainuvoApp: App {
     init() {
         do {
             // Keep Item so data from the Xcode starter app remains readable.
-            let schema = Schema([Item.self, Exercise.self, TrainingEntry.self, SetGroup.self, ExerciseSetTemplate.self])
+            let schema = Schema([Item.self, Exercise.self, TrainingEntry.self, SetGroup.self, ExerciseSetTemplate.self, TrainingDayNote.self])
             let configuration = ModelConfiguration(
                 schema: schema, isStoredInMemoryOnly: false, cloudKitDatabase: .none
             )

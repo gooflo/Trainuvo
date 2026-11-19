@@ -1,22 +1,28 @@
 import Foundation
 
 enum TrainingExportExcel {
-    static func create(entries: [TrainingEntry], from: Date, to: Date) throws -> URL {
-        let headers = ["Datum", "Übung", "Typ", "Bewertung", "Satzgruppe / Einheit", "Angabe links", "Gewicht (kg)", "Angabe rechts", "Arbeitsgruppe", "Training-ID"]
+    static func create(entries: [TrainingEntry], notes: [TrainingDayNote] = [], from: Date, to: Date) throws -> URL {
+        let headers = ["Datum", "Übung", "Typ", "Bewertung", "Satzgruppe / Einheit", "Angabe links", "Gewicht (kg)", "Angabe rechts", "Arbeitsgruppe", "Training-ID", "Tageskommentar"]
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd"
         var rows = "<row>" + headers.map(textCell).joined() + "</row>"
-        for entry in entries {
-            let groups: [TrainingExport.Group?] = entry.sortedGroups.isEmpty ? [nil] : TrainingExport.snapshot([entry])[0].groups.map { Optional($0) }
-            for group in groups {
-                let left = [formatter.string(from: entry.date), entry.exercise?.name ?? "Unbekannte Übung",
-                            entry.activityType.title, entry.effort?.symbol ?? "",
-                            group.map { String($0.position + 1) } ?? "", group?.prescription ?? ""]
-                rows += "<row>" + left.map(textCell).joined()
-                rows += group?.weight.map { "<c><v>\($0)</v></c>" } ?? textCell("")
-                rows += [group?.detailText ?? "", group.map { $0.isWorking ? "Ja" : "Nein" } ?? "", entry.id.uuidString].map(textCell).joined()
-                rows += "</row>"
+        let days = TrainingDaySummary.grouped(entries, notes: notes)
+        for day in days {
+            if day.entries.isEmpty {
+                rows += "<row>" + ([formatter.string(from: day.date)] + Array(repeating: "", count: 9) + [day.noteText]).map(textCell).joined() + "</row>"
+            }
+            for entry in day.entries {
+                let groups: [TrainingExport.Group?] = entry.sortedGroups.isEmpty ? [nil] : TrainingExport.snapshot([entry])[0].groups.map { Optional($0) }
+                for group in groups {
+                    let left = [formatter.string(from: entry.date), entry.exercise?.name ?? "Unbekannte Übung",
+                                entry.activityType.title, entry.effort?.symbol ?? "",
+                                group.map { String($0.position + 1) } ?? "", group?.prescription ?? ""]
+                    rows += "<row>" + left.map(textCell).joined()
+                    rows += group?.weight.map { "<c><v>\($0)</v></c>" } ?? textCell("")
+                    rows += [group?.detailText ?? "", group.map { $0.isWorking ? "Ja" : "Nein" } ?? "", entry.id.uuidString, day.noteText].map(textCell).joined()
+                    rows += "</row>"
+                }
             }
         }
         let files = [
@@ -33,7 +39,7 @@ enum TrainingExportExcel {
             <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>
             """),
             ("xl/worksheets/sheet1.xml", """
-            <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols><col min="1" max="1" width="14" customWidth="1"/><col min="2" max="10" width="24" customWidth="1"/></cols><sheetData>\(rows)</sheetData></worksheet>
+            <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols><col min="1" max="1" width="14" customWidth="1"/><col min="2" max="11" width="24" customWidth="1"/></cols><sheetData>\(rows)</sheetData></worksheet>
             """)
         ]
         let url = try TrainingExport.fileURL(from: from, to: to, extension: "xlsx")

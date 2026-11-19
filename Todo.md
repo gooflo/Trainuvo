@@ -16,13 +16,14 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 - Ziele entfernen können, wobei die zugehörigen Trainings erhalten bleiben.
 
-### t27 – Kommentar für den gesamten Trainingstag (Prio 3)
-
-- Einen gemeinsamen Kommentar für das Training an einem Tag eingeben und anzeigen können.
-- Fachlich gilt der Kommentar für den ganzen Tag mit allen Übungen.
-- Technische Option von Florian: Den Kommentar bei einem Übungseintrag speichern und dafür beispielsweise die letzte Übung des Tages verwenden. Die konkrete Umsetzung ist noch offen.
-
 ## Done
+
+### t27 – Kommentar für den gesamten Trainingstag (0.11.0)
+
+- Unabhängige Tagesnotiz für alle Übungen, über Notizsymbol am Datum erfassen/bearbeiten, unter Übungen anzeigen und bestätigt löschen.
+- Notizen bleiben beim Löschen von Trainings/Übungen erhalten. Notiztage ohne Trainings bleiben sichtbar und exportierbar.
+- OneNote/TXT, JSON und Excel enthalten Tageskommentare; Alles löschen entfernt sie ebenfalls.
+- Xcode-Build, Swift-Tests, Store-Update über 0.10.2 und Gerätetest einschließlich Neustart und Löschabläufen ausstehend.
 
 ### t19 – Export als JSON, Excel und formatierten Text (0.10.0; angepasst in 0.10.1 und 0.10.2)
 

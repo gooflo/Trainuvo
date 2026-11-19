@@ -4,6 +4,9 @@ import SwiftData
 struct ContentView: View {
     @Query(sort: [SortDescriptor(\Exercise.sortOrder), SortDescriptor(\Exercise.name)]) private var exercises: [Exercise]
     @Query(sort: \TrainingEntry.date, order: .reverse) private var entries: [TrainingEntry]
+    @Query private var dayNotes: [TrainingDayNote]
+    @State private var noteDay: NoteDay?
+    private struct NoteDay: Identifiable { let date: Date; var id: Date { date } }
     @State private var showingExercise = false
     @State private var showingHelp = false
     @State private var showingExerciseOrder = false
@@ -13,7 +16,7 @@ struct ContentView: View {
     @State private var quickTrainingExercise: Exercise?
 
     private var trainingDays: [TrainingDaySummary] {
-        TrainingDaySummary.grouped(entries)
+        TrainingDaySummary.grouped(entries, notes: dayNotes)
     }
 
     var body: some View {
@@ -69,13 +72,25 @@ struct ContentView: View {
                                 }
                             }
                         }
-                        if !trainingDays.isEmpty {
-                            Text("Trainingstage").font(.title2.bold())
-                            LazyVStack(alignment: .leading, spacing: 16) {
-                                ForEach(trainingDays) { day in
-                                    VStack(alignment: .leading, spacing: 8) {
+                    }
+                    if !trainingDays.isEmpty {
+                        Text("Trainingstage").font(.title2.bold())
+                        LazyVStack(alignment: .leading, spacing: 16) {
+                            ForEach(trainingDays) { day in
+                                VStack(alignment: .leading, spacing: 8) {
+                                    HStack {
                                         Text(day.date, format: .dateTime.day().month(.wide).year())
                                             .font(.headline)
+                                        Spacer()
+                                        Button {
+                                            noteDay = NoteDay(date: day.date)
+                                        } label: {
+                                            Image(systemName: day.noteText.isEmpty ? "square.and.pencil" : "note.text")
+                                                .frame(width: 44, height: 44)
+                                        }
+                                        .accessibilityLabel(day.noteText.isEmpty ? "Tageskommentar hinzufügen" : "Tageskommentar bearbeiten")
+                                    }
+                                    if !day.entries.isEmpty {
                                         VStack(spacing: 0) {
                                             ForEach(day.entries, id: \.id) { entry in
                                                 if entry.exercise != nil {
@@ -93,6 +108,9 @@ struct ContentView: View {
                                         .padding(.horizontal, 12)
                                         .padding(.vertical, 4)
                                         .background(.background, in: RoundedRectangle(cornerRadius: 16))
+                                    }
+                                    if !day.noteText.isEmpty {
+                                        Text(day.noteText).font(.callout).textSelection(.enabled)
                                     }
                                 }
                             }
@@ -113,6 +131,7 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $showingExercise) { ExerciseEditor() }
+            .sheet(item: $noteDay) { day in TrainingDayNoteEditor(date: day.date) }
             .sheet(isPresented: $showingHelp) { HelpView() }
             .sheet(isPresented: $showingExport) { TrainingExportView() }
             .sheet(isPresented: $showingSettings) { SettingsView() }
@@ -439,7 +458,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.10.2"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.11.0"
     }
 
     var body: some View {
@@ -489,11 +508,14 @@ private struct HelpView: View {
                 }
                 Section("Einstellungen und Beispieldaten") {
                     Text("Über das Zahnrad öffnest du die Einstellungen. „Beispieldaten anlegen“ ergänzt Press, Kniebeuge, Bankdrücken und Kreuzheben mit Standardsätzen und je einem Training vom 14. und 17.11.2026. Am 14.11. liegen die Arbeitsgewichte jeweils 2 kg niedriger. Die jeweils letzte Gruppe ist das Arbeitsgewicht. Gleichnamige Übungen werden wiederverwendet und identische Beispieltrainings übersprungen.")
-                    Text("„Alles löschen“ entfernt nach ausdrücklicher Bestätigung alle Übungen, Trainings und Standardsätze auf diesem Gerät.")
+                    Text("„Alles löschen“ entfernt nach ausdrücklicher Bestätigung alle Übungen, Trainings, Standardsätze und Tageskommentare auf diesem Gerät.")
                 }
                 Section("Export für OneNote, JSON und Excel") {
                     Text("Über das Teilen-Symbol oben rechts öffnest du den Export. Wähle Monat und Jahr oder Von–Bis. Text kopieren übernimmt einen Absatz pro Trainingstag in die Zwischenablage, mit dem neuesten Tag zuerst und in deiner Übungsreihenfolge. Die Vorschau zeigt den kopierten Text. Bei Satztypen wird nur die Arbeitsgruppe ausgegeben, bei Andere alle Einheiten mit beiden Angaben. Bewertungen stehen als Zeichen vor den Angaben.")
                     Text("Die Aktionen Text kopieren, Textdatei, Excel und JSON stehen gemeinsam unter Export. Textdatei, JSON und Excel lassen sich in Dateien sichern. JSON und Excel enthalten auch Aufwärmsätze und alle freien Trainingseinheiten. Die Dateinamen enthalten Start und Ende des Zeitraums.")
+                }
+                Section("Kommentar zum Trainingstag") {
+                    Text("Über das Notizsymbol neben dem Datum kannst du einen gemeinsamen Kommentar für alle Übungen dieses Tages erfassen oder bearbeiten. Er erscheint unter den Übungen. Abbrechen verwirft Änderungen. Löschen entfernt nur den Kommentar nach Bestätigung. Auch ohne verbleibende Trainings bleibt ein kommentierter Tag sichtbar. Die Exporte enthalten den Tageskommentar ebenfalls.")
                 }
                 Section("Datenspeicherung") {
                     Text("Die Daten werden lokal auf diesem Gerät gespeichert. iCloud-Synchronisierung ist für eine spätere Version vorgesehen.")

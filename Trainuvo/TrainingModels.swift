@@ -226,12 +226,17 @@ enum TrainingEffort: String, CaseIterable, Identifiable {
 struct TrainingDaySummary: Identifiable {
     let date: Date
     let entries: [TrainingEntry]
+    var noteText: String = ""
 
     var id: Date { date }
 
-    static func grouped(_ entries: [TrainingEntry], calendar: Calendar = .current) -> [TrainingDaySummary] {
+    static func grouped(_ entries: [TrainingEntry], notes: [TrainingDayNote] = [], calendar: Calendar = .current) -> [TrainingDaySummary] {
         let days = Dictionary(grouping: entries) { calendar.startOfDay(for: $0.date) }
-        return days.keys.sorted(by: >).map { day in
+        let notesByDay = Dictionary(grouping: notes.compactMap { note -> (Date, TrainingDayNote)? in
+            guard let date = note.date(calendar: calendar), !note.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return nil }
+            return (calendar.startOfDay(for: date), note)
+        }, by: { $0.0 })
+        return Set(days.keys).union(notesByDay.keys).sorted(by: >).map { day in
             let ordered = (days[day] ?? []).sorted { left, right in
                 let leftOrder = left.exercise?.sortOrder ?? Int.max
                 let rightOrder = right.exercise?.sortOrder ?? Int.max
@@ -242,7 +247,7 @@ struct TrainingDaySummary: Identifiable {
                 if left.date != right.date { return left.date > right.date }
                 return left.createdAt > right.createdAt
             }
-            return TrainingDaySummary(date: day, entries: ordered)
+            return TrainingDaySummary(date: day, entries: ordered, noteText: TrainingDayNote.combined((notesByDay[day] ?? []).map { $0.1 }))
         }
     }
 }

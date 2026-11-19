@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.11.0 – Gemeinsamer Kommentar pro Trainingstag
+
+- Notizsymbol neben dem Tagesdatum mit eigenständigem Kommentar-Editor, lokalem Entwurf und bestätigtem Löschen.
+- Kommentare unter den Übungen anzeigen. Notizen bleiben bei Trainings-/Übungslöschung erhalten, auch als Tag ohne Trainings.
+- Text/TXT ergänzen Notiz am Tagesende, JSON schemaVersion 2 enthält dayNotes, Excel eine Tageskommentar-Spalte. Notiztage ohne Trainings sind exportierbar.
+- Eigenständiges SwiftData-Modell TrainingDayNote ergänzt; Alles löschen berücksichtigt es.
+- t27 erledigt, Hilfe und Dokumentation sowie Speicher-/Exporttests ergänzt.
+- Swift-Syntax und statische Konsistenz geprüft. Xcode-Build, Swift-Tests, Store-Update über 0.10.2 und Geräteprüfung ausstehend.
+
 ## 0.10.2 – Exportansicht vereinfachen
 
 - Erklärungstext unter den vier Exportaktionen entfernt. Die Vorschau folgt direkt.

@@ -19,7 +19,7 @@ struct SettingsView: View {
                         activeAlert = .confirmDelete
                     }
                 } footer: {
-                    Text("Löscht alle Übungen, Trainings und Standardsätze auf diesem Gerät nach Bestätigung.")
+                    Text("Löscht alle Übungen, Trainings, Standardsätze und Tageskommentare auf diesem Gerät nach Bestätigung.")
                 }
             }
             .navigationTitle("Einstellungen")
@@ -60,7 +60,7 @@ struct SettingsView: View {
 
         var message: String {
             switch self {
-            case .confirmDelete: "Alle Übungen, Trainings und Standardsätze werden dauerhaft gelöscht."
+            case .confirmDelete: "Alle Übungen, Trainings, Standardsätze und Tageskommentare werden dauerhaft gelöscht."
             case .result(let message), .error(let message): message
             }
         }

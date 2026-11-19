@@ -42,3 +42,5 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 - Pflege `DeveloperDocu.md` bei Änderungen an diesen Themen im selben Commit mit. Lege README, Changelog und DeveloperDocu mit der ersten App-Version an.
 
 - Exporte verwenden Monat/Jahr oder Von–Bis analog Cashuvo. OneNote-Text enthält einen Absatz je Trainingstag, absteigende Tage, Übungsreihenfolge und Bewertung vor den Angaben; nur Arbeitsgruppen bei Satztypen, alle freien Einheiten bei Andere. JSON und Excel enthalten alle Gruppen. Standardnamen: Trainuvo_Export_<Start>_<Ende> mit yyyyMMdd.
+
+- Kommentare gelten pro Trainingstag und werden unabhängig von Übungen/Trainings gespeichert. Ihre Löschung erhält Trainings; Trainings-/Übungslöschung erhält Tagesnotizen. Tage mit Notizen bleiben ohne Trainings sichtbar und exportierbar. Alles löschen entfernt auch Tagesnotizen.

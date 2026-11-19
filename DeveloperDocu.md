@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.10.2**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.11.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -250,7 +250,7 @@ Für die Abnahme bei Krafttraining, Satzübung und Andere alle fünf Bewertungen
 
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.10.2` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.11.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
 
 ## Export in 0.10.0
 
@@ -269,3 +269,13 @@ Tests in TrainingExportTests.swift prüfen Tagesgrenzen einschließlich 25-Stund
 In 0.10.1 stehen die vier Aktionen Text kopieren, Textdatei, Excel und JSON unmittelbar untereinander in der Section Export; die Vorschau folgt danach. Xcode-Build, Swift-Tests und Sichtprüfung sind ausstehend.
 
 0.10.2 entfernt ausschließlich den erklärenden Footer der Export-Section. Vier Aktionen und Vorschau bleiben direkt aufeinanderfolgend. Sichtprüfung in Xcode ausstehend.
+
+## Tagesnotizen in 0.11.0
+
+TrainingDayNote ist ein zusätzliches SwiftData-Modell mit UUID, dayKey (gregorianisch yyyy-MM-dd) und Text. Es hat keine Beziehung zu Übung oder Training, sodass deren Löschung die Notiz erhält. Der App-Container und betroffene In-Memory-Tests registrieren das zusätzliche Modell. Bisherige Modelle und Felder bleiben unverändert. Das Store-Update über 0.10.2 muss auf dem Mac mit Bestandsdaten geprüft werden.
+
+TrainingDaySummary.grouped vereinigt Trainingstage und nichtleere Notiztage. Der Tageskommentar wird als noteText angeboten; Tage ohne Trainings bleiben sichtbar, auch ohne Übungen. Die Schlüssel werden in der lokalen Zeitzone gelesen und geschrieben. Der Editor arbeitet mit einem lokalen Textentwurf. Speichern trimmt Rand-Whitespace und führt ein Save mit Rollback durch. Leerer Text entfernt die Notiz, der sichtbare Löschbutton verlangt Bestätigung. Doppelte Notizen desselben Tages werden zur verlustfreien Bearbeitung zusammen angezeigt und beim Speichern zu einem Datensatz zusammengeführt. Ein Datumswechsel eines Trainings verschiebt die unabhängige Notiz nicht.
+
+TrainingExport.selectedNotes filtert inklusive beider Randtage. Text/TXT ergänzen Notiz am Zeilenende, interne Zeilenumbrüche werden nur für diesen kompakten Text normalisiert. JSON schemaVersion 2 ergänzt dayNotes mit Tageskennung und unverändertem Text. Excel ergänzt die Spalte Tageskommentar bei den Detailzeilen; Tage ohne Trainings erhalten eine eigene Zeile. Exportaktionen bleiben bei reinen Notiztagen aktiv. TrainingDataOperations.deleteAll löscht Notizen mit demselben Save/Rollback wie übrige Daten.
+
+Tests in TrainingDayNoteTests prüfen Speicherung, Bearbeiten, unabhängiges Löschen, Notiztage ohne Trainings, Tageszuordnung, Zeitraum, Text/JSON/XLSX und Gesamtlöschung. Auf dem Mac ⌘ U ausführen und über 0.10.2 aktualisieren. Kommentar mit Zeilenumbrüchen anlegen, abbrechen/bearbeiten/löschen, letztes Training und letzte Übung löschen, App neu starten und Notiztag einschließlich aller Exporte kontrollieren. Das Löschen einer Notiz muss Trainings erhalten. Helle/dunkle Darstellung und iPhone/iPad prüfen. Hier sind Syntax und statische Verknüpfungen geprüft; Xcode-Build, Swift-Tests, Store-Update und Sichtprüfung sind ausstehend.

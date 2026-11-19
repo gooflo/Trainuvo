@@ -100,6 +100,7 @@ enum TrainingDataOperations {
 
     static func deleteAll(in context: ModelContext) throws {
         do {
+            let notes = try context.fetch(FetchDescriptor<TrainingDayNote>())
             let exercises = try context.fetch(FetchDescriptor<Exercise>())
             let trainings = try context.fetch(FetchDescriptor<TrainingEntry>())
             let groups = try context.fetch(FetchDescriptor<SetGroup>())
@@ -114,6 +115,7 @@ enum TrainingDataOperations {
             for template in templates { context.delete(template) }
             for training in trainings { context.delete(training) }
             for exercise in exercises { context.delete(exercise) }
+            for note in notes { context.delete(note) }
             for item in starterItems { context.delete(item) }
             try context.save()
         } catch {

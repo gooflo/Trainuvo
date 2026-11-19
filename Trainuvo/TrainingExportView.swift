@@ -7,6 +7,7 @@ struct TrainingExportView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.locale) private var locale
     @Query private var entries: [TrainingEntry]
+    @Query private var notes: [TrainingDayNote]
     private enum PeriodMode { case month, range }
     @State private var mode: PeriodMode = .month
     @State private var month = Calendar.current.component(.month, from: Date())
@@ -29,8 +30,9 @@ struct TrainingExportView: View {
                              to: calendar.date(byAdding: .month, value: 1, to: start) ?? start) ?? start
     }
     private var selected: [TrainingEntry] { TrainingExport.selected(entries, from: start, to: end, calendar: calendar) }
-    private var preview: String { TrainingExport.text(selected, calendar: calendar) }
-    private var canExport: Bool { start <= end && !selected.isEmpty }
+    private var selectedNotes: [TrainingDayNote] { TrainingExport.selectedNotes(notes, from: start, to: end, calendar: calendar) }
+    private var preview: String { TrainingExport.text(selected, notes: selectedNotes, calendar: calendar) }
+    private var canExport: Bool { start <= end && (!selected.isEmpty || !selectedNotes.isEmpty) }
 
     var body: some View {
         NavigationStack {
@@ -72,7 +74,7 @@ struct TrainingExportView: View {
                 }
                 .disabled(!canExport)
                 Section("Vorschau · \(selected.count) Trainings") {
-                    if selected.isEmpty {
+                    if selected.isEmpty && selectedNotes.isEmpty {
                         Text("Keine Trainings im gewählten Zeitraum.").foregroundStyle(.secondary)
                     } else {
                         Text(preview).font(.callout).textSelection(.enabled)
@@ -102,10 +104,10 @@ struct TrainingExportView: View {
         do {
             let url: URL
             if suffix == "xlsx" {
-                url = try TrainingExportExcel.create(entries: selected, from: start, to: end)
+                url = try TrainingExportExcel.create(entries: selected, notes: selectedNotes, from: start, to: end)
             } else {
                 url = try TrainingExport.fileURL(from: start, to: end, extension: suffix)
-                let data = suffix == "json" ? try TrainingExport.json(selected, from: start, to: end) : Data(preview.utf8)
+                let data = suffix == "json" ? try TrainingExport.json(selected, notes: selectedNotes, from: start, to: end) : Data(preview.utf8)
                 try data.write(to: url, options: .atomic)
             }
             document = TrainingExportDocument(data: try Data(contentsOf: url))

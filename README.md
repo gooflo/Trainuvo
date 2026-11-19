@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.10.2 – Vorabversion**
+**Interner Entwicklungsstand: 0.11.0 – Vorabversion**
 
 ## Übungstypen
 
@@ -118,3 +118,11 @@ Textdatei, JSON und echte Excel-Datei (.xlsx) lassen sich über den Dateidialog 
 Die vier Aktionen **Text kopieren**, **Textdatei**, **Excel** und **JSON** stehen unmittelbar untereinander unter **Export**, gefolgt von der Vorschau. Alle Formate zeigen die neuesten Trainingstage zuerst; innerhalb eines Tages gilt die Übungsreihenfolge der Startseite.
 
 Die Exportaktionen stehen ohne zusätzlichen Erklärungstext direkt über der Vorschau.
+
+## Tageskommentare
+
+Neben dem Datum eines Trainingstags öffnet das Notizsymbol einen gemeinsamen Kommentar für alle Übungen dieses Tages. Speichern übernimmt die Eingabe, Abbrechen verwirft sie. Der Text erscheint unter den Übungen. Kommentar löschen entfernt nur die Notiz nach Bestätigung; auch leeres Speichern entfernt sie.
+
+Kommentare bleiben beim Löschen von Trainings oder Übungen erhalten. Ein Tag mit Kommentar bleibt ohne Trainings sichtbar und bearbeitbar. Ändert sich das Datum eines Trainings, bleibt die Notiz am ursprünglichen Tag. Alles löschen entfernt auch die Tagesnotizen.
+
+Text kopieren und TXT ergänzen am Ende der Tageszeile „| Notiz: …“. JSON enthält Tagesnotizen separat (schemaVersion 2), Excel eine Spalte Tageskommentar. Tage mit ausschließlich einer Notiz sind ebenfalls exportierbar. Alle Formate verwenden denselben Zeitraum.

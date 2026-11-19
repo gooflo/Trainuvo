@@ -71,7 +71,7 @@ struct TrainingExportTests {
         decoder.dateDecodingStrategy = .iso8601
         let document = try decoder.decode(TrainingExport.Document.self, from: bytes)
         let saved = try #require(document.entries.first)
-        #expect(document.schemaVersion == 1)
+        #expect(document.schemaVersion == 2)
         #expect(saved.id == entry.id)
         #expect(saved.exerciseID == exercise.id)
         #expect(saved.type == "sets")
