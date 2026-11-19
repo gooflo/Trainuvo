@@ -606,14 +606,17 @@ private struct TrainingEffortSelector: View {
                         .padding(.horizontal, 6)
                         .padding(.vertical, 8)
                         .frame(maxWidth: .infinity)
-                        .foregroundStyle(selection == value ? Color.white : Color.primary)
+                        .foregroundStyle(value.displayColor)
                         .background(
-                            selection == value ? Color.blue : Color(.tertiarySystemGroupedBackground),
+                            selection == value ? value.displayColor.opacity(0.10) : Color(.tertiarySystemGroupedBackground),
                             in: RoundedRectangle(cornerRadius: 10)
                         )
                         .overlay {
                             RoundedRectangle(cornerRadius: 10)
-                                .strokeBorder(selection == value ? Color.blue : Color.secondary.opacity(0.25))
+                                .strokeBorder(
+                                    selection == value ? value.displayColor : Color.secondary.opacity(0.25),
+                                    lineWidth: selection == value ? 3 : 1
+                                )
                         }
                     }
                     .buttonStyle(.plain)

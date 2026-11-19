@@ -29,6 +29,12 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t34 – Farbige Trainingsbewertungen (0.9.1)
+
+- -- Dunkelrot, - Rot, o Grau, + Grün und ++ Dunkelgrün bei allen drei Übungstypen in Auswahl, Tagesübersicht und Verlauf anzeigen.
+- Auswahl über kräftigen Rahmen in derselben Farbe und dezenten Hintergrund kennzeichnen; Symbole und VoiceOver erhalten.
+- Adaptive Hell-/Dunkelfarben verwenden. Xcode-Build und Sichtprüfung bei beiden Darstellungen, großer Schrift und VoiceOver ausstehend.
+
 ### t31 – Drei Übungstypen und Satzübung (0.9.0)
 
 - Auswahl auf Krafttraining, Satzübung und Andere reduzieren. Satzübungen behalten Satzgruppen und Arbeitsmarkierung, rechts steht Freitext ohne kg; optionales Freitextziel ohne Prozentberechnung.

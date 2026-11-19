@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.9.0 – Vorabversion**
+**Interner Entwicklungsstand: 0.9.1 – Vorabversion**
 
 ## Übungstypen
 
@@ -46,15 +46,15 @@ Beim Anlegen oder Bearbeiten einer Übung unter **Standardsätze in Trainingsrei
 
 Die Trainingserfassung zeigt jede Satzgruppe in einer kompakten Zeile mit Arbeitsgewicht-Markierung, Satztext, Satzauswahl und Gewicht in kg. Vier Gruppen sollen auf dem iPhone 15 im Hochformat bei Standardtextgröße gemeinsam sichtbar sein. Unter der Buttonleiste stehen „Training erfassen“ bzw. „Training bearbeiten“ und darunter der Übungsname als eigene Überschrift über dem Formular und bleibt beim Scrollen und bei geöffneter Tastatur sichtbar. Das Datum steht separat darunter. Über den Pfeil stehen Vorauswahlen und Entfernen bereit. Eine Gruppe kann auch durch Wischen nach links entfernt werden. Tippe auf Kreis bzw. Zielscheibe, um die Arbeitsgruppe zu wählen.
 
-Unter den Sätzen bzw. Trainingseinheiten lässt sich bei jedem Typ das gesamte Training optional bewerten. Fünf direkt antippbare Flächen zeigen Symbol und kurze Beschriftung. Die ausgewählte Fläche wird blau, die volle Bewertung steht darüber. Über das X lässt sie sich entfernen. Im Verlauf und auf der Startseite steht das Symbol links vor den Sätzen der Arbeitsgruppe bzw. vor der ersten freien Einheit. Ein neues Training beginnt mit **Nicht bewertet**. Die Bewertung kann im Verlauf nachgetragen, geändert oder entfernt werden.
+Unter den Sätzen bzw. Trainingseinheiten lässt sich bei jedem Typ das gesamte Training optional bewerten. Fünf direkt antippbare Flächen zeigen Symbol und kurze Beschriftung. Schwere Bewertungen erscheinen rot, neutrale grau und leichte grün. Die ausgewählte Fläche erhält einen kräftigen Rahmen in ihrer Farbe und einen dezenten Hintergrund, die volle Bewertung steht darüber. Die Symbole bleiben zusätzlich zur Farbe erhalten. Über das X lässt sie sich entfernen. Im Verlauf und auf der Startseite steht das Symbol links vor den Sätzen der Arbeitsgruppe bzw. vor der ersten freien Einheit. Ein neues Training beginnt mit **Nicht bewertet**. Die Bewertung kann im Verlauf nachgetragen, geändert oder entfernt werden.
 
-| Bewertung | Symbol |
-|---|---|
-| Sehr schwer | `--` |
-| Schwer | `-` |
-| Neutral | `o` |
-| Leicht | `+` |
-| Sehr leicht | `++` |
+| Bewertung | Symbol | Farbe |
+|---|---|---|
+| Sehr schwer | `--` | Dunkelrot |
+| Schwer | `-` | Rot |
+| Neutral | `o` | Grau |
+| Leicht | `+` | Grün |
+| Sehr leicht | `++` | Dunkelgrün |
 
 Für ein Training beispielsweise drei Satzgruppen erfassen:
 

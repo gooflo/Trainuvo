@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.9.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.9.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -93,9 +93,9 @@ TrainingEditor zeigt unterhalb der Buttonleiste einen Header mit Training erfass
 
 Vier Gruppen sollen bei Standardtextgröße auf dem iPhone 15 im Hochformat gemeinsam sichtbar sein. Sichtprüfung mit offener und geschlossener Tastatur, längeren Freitexten, vorausgefüllten Standardsätzen und großer Textgröße ist ausstehend. Bei großer Textgröße bleibt die Form scrollbar. Speichern, Vorlagenübernahme und Datenmodell verwenden die vorhandene Logik.
 
-## Bewertung des Arbeitsgewichts
+## Bewertung des Trainings
 
-TrainingEditor hält eine optionale TrainingEffort-Auswahl als lokalen Entwurf. Neue Trainings beginnen mit nil, auch bei Übernahme von Standardsätzen oder des letzten Trainings. Beim Bearbeiten wird die gespeicherte Auswahl geladen. Der für alle Typen verfügbare TrainingEffortSelector heißt Training bewerten und bietet fünf direkt antippbare Auswahlflächen mit Symbol und Kurzbeschriftung. Eine blaue Fläche zeigt die Auswahl, die volle Bedeutung steht darüber. X setzt den lokalen Entwurf auf nil. Die Auswahl verwendet bei normalen Textgrößen fünf Spalten und bei Bedienungshilfen-Schriften zwei Spalten. VoiceOver erhält die vollständige Bedeutung und den Auswahlstatus. Speichern schreibt die Auswahl zusammen mit den übrigen Trainingsdaten.
+TrainingEditor hält eine optionale TrainingEffort-Auswahl als lokalen Entwurf. Neue Trainings beginnen mit nil, auch bei Übernahme von Standardsätzen oder des letzten Trainings. Beim Bearbeiten wird die gespeicherte Auswahl geladen. Der für alle Typen verfügbare TrainingEffortSelector heißt Training bewerten und bietet fünf direkt antippbare Auswahlflächen mit Symbol und Kurzbeschriftung. Ein 3 pt breiter Rahmen in der Bewertungsfarbe und ein mit 10 % Deckkraft getönter Hintergrund zeigen die Auswahl; ungewählte Flächen haben einen 1 pt breiten neutralen Rahmen. Die volle Bedeutung steht darüber. X setzt den lokalen Entwurf auf nil. Die Auswahl verwendet bei normalen Textgrößen fünf Spalten und bei Bedienungshilfen-Schriften zwei Spalten. VoiceOver erhält die vollständige Bedeutung und den Auswahlstatus. Speichern schreibt die Auswahl zusammen mit den übrigen Trainingsdaten.
 
 TrainingSummary zeigt das Symbol bei Satztypen ausschließlich bei der markierten Arbeitsgruppe und bei Andere ausschließlich vor der ersten Einheit. Alle Zeilen reservieren links vor den Sätzen eine 26 pt breite Bewertungsspalte, die mit der Bedienungshilfen-Textgröße skaliert. Nicht angezeigte Bewertungen sind für VoiceOver ausgeblendet. VoiceOver spricht die ausgeschriebene Bewertung. DayTrainingRow verwendet dieselbe Bewertungsspalte neben der einzigen Arbeitsgruppe in der Tagesübersicht.
 
@@ -240,6 +240,14 @@ Ein neues Training mit vier Satzgruppen öffnen. Alle vier Flächen einzeln anti
 
 Hier sind nur Swift-Syntax und statische Konsistenz geprüft. Xcode-Build, Swift-Tests, Store-Migration und Geräteprüfung sind ausstehend.
 
+## Bewertungsfarben in 0.9.1
+
+TrainingEffortStyle.swift ergänzt die reine UI-Eigenschaft displayColor. Sie liest TrainingEffort_<rawValue> aus dem Assetkatalog. Die fünf Colorsets definieren sRGB-Werte für helle und dunkle Darstellung: veryHard Dunkelrot, hard Rot, okay Grau, easy Grün und veryEasy Dunkelgrün. Die dunklen Varianten sind für dunkle Hintergründe aufgehellt; die extremen Stufen bleiben gegenüber den einfachen Stufen dunkler.
+
+TrainingEffortSelector und die vier Bewertungsdarstellungen in DayTrainingRow und TrainingSummary verwenden diese gemeinsame Zuordnung. Unbewertete bzw. unmarkierte Gruppen bleiben leer; Symbolspalten und Ausrichtung sind unverändert. Zeichen, ausgeschriebene Bedeutungen und VoiceOver-Auswahlstatus unterstützen die Unterscheidung unabhängig von Farben. Modell, gespeicherte Rohwerte und Speichern-/Löschabläufe werden nicht verändert.
+
+Für die Abnahme bei Krafttraining, Satzübung und Andere alle fünf Bewertungen wählen, speichern und in Tagesübersicht und Verlauf vergleichen. Rahmen, Abbrechen, Entfernen über X und Neustart prüfen. Helle/dunkle Darstellung, große Schrift und VoiceOver auf iPhone 15 einbeziehen. Swift-Syntax, JSON-Assets und Zuordnung wurden statisch geprüft. Xcode-Build und Geräteprüfung sind ausstehend.
+
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.9.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.9.1` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.

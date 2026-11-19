@@ -223,6 +223,7 @@ private struct DayTrainingRow: View {
             if !entry.activityType.usesSets {
                 Text(entry.effort?.symbol ?? "")
                     .font(.system(.subheadline, design: .monospaced).weight(.semibold))
+                    .foregroundStyle(entry.effort?.displayColor ?? Color.secondary)
                     .frame(width: effortColumnWidth)
                     .accessibilityLabel(entry.effort?.title ?? "")
                     .accessibilityHidden(entry.effort == nil)
@@ -232,6 +233,7 @@ private struct DayTrainingRow: View {
             } else if let group = entry.workingGroup {
                 Text(entry.effort?.symbol ?? "")
                     .font(.system(.subheadline, design: .monospaced).weight(.semibold))
+                    .foregroundStyle(entry.effort?.displayColor ?? Color.secondary)
                     .frame(width: effortColumnWidth)
                     .accessibilityLabel(entry.effort?.title ?? "")
                     .accessibilityHidden(entry.effort == nil)
@@ -263,6 +265,7 @@ struct TrainingSummary: View {
                 HStack(alignment: .firstTextBaseline) {
                     Text(group.isWorking ? entry.effort?.symbol ?? "" : "")
                         .font(.system(.subheadline, design: .monospaced).weight(.semibold))
+                        .foregroundStyle(entry.effort?.displayColor ?? Color.secondary)
                         .frame(width: effortColumnWidth)
                         .accessibilityLabel(entry.effort?.title ?? "")
                         .accessibilityHidden(!group.isWorking || entry.effort == nil)
@@ -284,6 +287,7 @@ struct TrainingSummary: View {
                 HStack(alignment: .firstTextBaseline, spacing: 8) {
                     Text(group.id == entry.sortedGroups.first?.id ? entry.effort?.symbol ?? "" : "")
                         .font(.system(.subheadline, design: .monospaced).weight(.semibold))
+                        .foregroundStyle(entry.effort?.displayColor ?? Color.secondary)
                         .frame(width: effortColumnWidth)
                         .accessibilityLabel(entry.effort?.title ?? "")
                         .accessibilityHidden(group.id != entry.sortedGroups.first?.id || entry.effort == nil)
@@ -432,7 +436,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.9.0"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.9.1"
     }
 
     var body: some View {
@@ -465,7 +469,7 @@ private struct HelpView: View {
                     Text("Erfasse zum Beispiel 1 × 5 mit 50 kg, 1 × 5 mit 70 kg und 3 × 5 mit 100 kg. Markiere genau eine Gruppe als Arbeitsgewicht. Sie bestimmt den Zielfortschritt. Im Verlauf steht das Zielscheiben-Symbol links neben dem Arbeitsgewicht. Die Gewichte sind rechtsbündig untereinander angeordnet.")
                 }
                 Section("Training bewerten") {
-                    Text("Bei jedem Übungstyp kannst du unter den Sätzen bzw. Trainingseinheiten die Bewertung direkt antippen: -- Sehr schwer, - Schwer, o Neutral, + Leicht oder ++ Sehr leicht. Die gewählte Fläche ist blau und die volle Bedeutung steht darüber. Die Bewertung gilt für den gesamten Trainingseintrag. In Tagesübersicht und Verlauf steht das Symbol links vor den Sätzen der Arbeitsgruppe bzw. vor der ersten freien Trainingseinheit.")
+                    Text("Bei jedem Übungstyp kannst du unter den Sätzen bzw. Trainingseinheiten die Bewertung direkt antippen: -- Sehr schwer, - Schwer, o Neutral, + Leicht oder ++ Sehr leicht. Schwere Bewertungen sind rot, neutrale grau und leichte grün. -- und ++ verwenden die dunklere Farbstufe. Die gewählte Fläche hat einen kräftigen Rahmen in ihrer Farbe und die volle Bedeutung steht darüber. Die Bewertung gilt für den gesamten Trainingseintrag. In Tagesübersicht und Verlauf steht das Symbol links vor den Sätzen der Arbeitsgruppe bzw. vor der ersten freien Trainingseinheit.")
                     Text("Jedes neue Training beginnt mit „Nicht bewertet“. Beim Bearbeiten kannst du die Bewertung nachtragen oder ändern. Über das X neben der Bewertungsüberschrift entfernst du sie wieder.")
                 }
                 Section("Trainingstage") {

@@ -26,7 +26,7 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 
 - Neue Trainings über das Plus auf der Zielkarte direkt öffnen. Bei Krafttraining das erste kg-Feld mit numerischer Tastatur, bei Satzübungen die erste rechte Angabe mit normaler Tastatur fokussieren. Andere fokussiert links, bei nur links vorbelegter Vorlage rechts. Die Tastaturen bieten „Fertig“. Die automatische Fokussierung soll vorhandene Benutzereingaben nicht überschreiben.
 
-- Die optionale Bewertung gilt für den gesamten Trainingseintrag und ist bei allen drei Übungstypen verfügbar. Bewertungen verwenden -- Sehr schwer, - Schwer, o Neutral, + Leicht und ++ Sehr leicht. Im Verlauf und in der Tagesübersicht stehen sie links vor den Sätzen bzw. der ersten freien Trainingseinheit.
+- Die optionale Bewertung gilt für den gesamten Trainingseintrag und ist bei allen drei Übungstypen verfügbar. Bewertungen verwenden -- Sehr schwer (Dunkelrot), - Schwer (Rot), o Neutral (Grau), + Leicht (Grün) und ++ Sehr leicht (Dunkelgrün). Die Farben gelten in Auswahl und Zusammenfassungen mit Varianten für Hell/Dunkel. Die ausgewählte Bewertung hat einen kräftigen Rahmen in ihrer Farbe; die Symbole und VoiceOver-Bedeutungen bleiben erhalten. Im Verlauf und in der Tagesübersicht stehen sie links vor den Sätzen bzw. der ersten freien Trainingseinheit.
 - Vorlagen für Satzgruppen bzw. freie Trainingseinheiten gelten pro Übung und Übungstyp. Typwechsel erhalten die Vorlagen anderer Typen; Vorlagenänderungen verändern keine bestehenden Trainings.
 
 ## Aufgaben und Testbefunde

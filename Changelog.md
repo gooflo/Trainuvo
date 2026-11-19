@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.1 – Farbige Trainingsbewertungen
+
+- -- Dunkelrot, - Rot, o Grau, + Grün und ++ Dunkelgrün in Auswahl, Tagesübersicht und Verlauf eingeführt.
+- Ausgewählte Bewertung durch einen kräftigen farbigen Rahmen und dezenten Hintergrund hervorgehoben. Zeichen, Beschriftungen und VoiceOver-Auswahlstatus bleiben erhalten.
+- Gemeinsame Farbzuordnung mit Hell-/Dunkelvarianten im Assetkatalog; gespeicherte Daten und Bewertungswerte unverändert.
+- Hilfe und Dokumentation aktualisiert, t34 erledigt.
+- Swift-Syntax, Farbassets und statische Konsistenz geprüft. Xcode-Build und Sichtprüfung auf dem Gerät ausstehend.
+
 ## 0.9.0 – Satzübungen und freie Einheiten mit zwei Feldern
 
 - Auswahl auf Krafttraining, Satzübung und Andere beschränkt. Bisherige Typwerte ergometer, swimming und jogging werden als Andere gelesen; Daten und Vorlagen bleiben erhalten.
