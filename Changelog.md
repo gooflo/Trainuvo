@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.12.1 – Nächsten Upload vorbereiten
+
+- Buildnummer aller Targets von 1 auf 2 erhöht; externe Version bleibt 1.0.
+- Vorhandene Export-Compliance-Einstellung NO und App-Mindestversion 17.6 übernommen und dokumentiert.
+- Interne Version und Hilfe auf 0.12.1 angehoben. Keine Funktionsänderung.
+- Versionen und Einstellungserhalt statisch geprüft; Archivierung und Upload auf dem Mac ausstehend.
+
 ## 0.12.0 – Dateinamen vor dem Teilen anpassen
 
 - Cashuvos Dateinamen-Dialog für Textdatei, Excel und JSON übernommen; feste Endung neben dem editierbaren Namen, anschließend System-Teilen.

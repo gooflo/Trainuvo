@@ -1,12 +1,12 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.12.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.12.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
 Die Arbeitskopie liegt auf dem Mac unter `~/Developer/Trainuvo`. In Xcode `Trainuvo.xcodeproj` öffnen, über **Integrate → Pull…** den Stand von `main` holen, das Scheme **Trainuvo** und einen verfügbaren iPhone-Simulator wählen. Mit **⌘ R** bauen und starten.
 
-Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner mit automatischer Target-Zuordnung. Neue Swift-Dateien im Ordner Trainuvo gehören dadurch zum App-Target. Bundle-ID, Signing-Team und Mindestversion iOS 27.2 stammen aus dem Grundprojekt.
+Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner mit automatischer Target-Zuordnung. Neue Swift-Dateien im Ordner Trainuvo gehören dadurch zum App-Target. Bundle-ID und Signing-Team stammen aus dem Grundprojekt. Das App-Target setzt inzwischen iOS/iPadOS 17.6 voraus; projektweite Vorgabe und Unit-Test-Target verbleiben bei 27.2.
 
 ## Architektur
 
@@ -21,7 +21,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift | Unverändertes Modell aus dem Grundprojekt für vorhandene Testdaten |
 
-Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Die externe Version 1.0 und Buildnummer 1 stammen aus dem Grundprojekt und werden für einen späteren Upload separat abgestimmt.
+Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload sind externe Version 1.0 und Buildnummer 2 vereinbart.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -250,7 +250,7 @@ Für die Abnahme bei Krafttraining, Satzübung und Andere alle fünf Bewertungen
 
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.12.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.12.1` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
 
 ## Export in 0.10.0
 
@@ -301,4 +301,8 @@ Default für TXT/XLSX/JSON: Trainuvo_Export.<Endung>, ohne Zeitraum. Zeitraumfil
 
 ## Hinweis zur Export-Compliance
 
-Apple verwendet ITSAppUsesNonExemptEncryption (Boolean). NO ist für Apps ohne nicht ausgenommene Verschlüsselung vorgesehen, einschließlich verlinkter Bibliotheken. Bei generierter Info.plist kann INFOPLIST_KEY_ITSAppUsesNonExemptEncryption auf NO gesetzt werden. Diese Einstellung fehlt aktuell und wurde mit diesem Dokumentationsvermerk noch nicht geändert. Vor Anwendung die App und Bibliotheken auf nicht ausgenommene Verschlüsselung prüfen. Quelle: https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption
+Apple verwendet ITSAppUsesNonExemptEncryption (Boolean). NO ist für Apps ohne nicht ausgenommene Verschlüsselung vorgesehen, einschließlich verlinkter Bibliotheken. Bei generierter Info.plist kann INFOPLIST_KEY_ITSAppUsesNonExemptEncryption auf NO gesetzt werden. Die Einstellung wurde inzwischen von Florian auf NO gesetzt und im Remote-Stand vor der Vorbereitung von 0.12.1 geprüft. Vor Anwendung die App und Bibliotheken auf nicht ausgenommene Verschlüsselung prüfen. Quelle: https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption
+
+## Nächster Upload: 0.12.1 / 1.0 (2)
+
+Die App sowie Test-Targets verwenden Buildnummer 2; die externe Version bleibt 1.0. Interne Version und Hilfe zeigen 0.12.1. Die vom Nutzer eingestellten Werte für Export-Compliance (NO) und App-Mindestversion iOS/iPadOS 17.6 bleiben erhalten. Die projektweite Vorgabe und Unit-Test-Mindestversion bleiben 27.2. Version 0.12.0 ist weiterhin der bestätigte veröffentlichte Stand mit unverändertem Tag v0.12.0. Build 2 ist nur vorbereitet; Archivierung, Upload und Freigabe sind noch nicht bestätigt. Versionskonsistenz und unveränderte weitere Build-Einstellungen statisch geprüft; kein Xcode-Archiv hier erstellt.

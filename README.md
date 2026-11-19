@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.12.0 – Vorabversion**
+**Interner Entwicklungsstand: 0.12.1 – Vorabversion**
 
 ## Übungstypen
 
@@ -36,7 +36,7 @@ Jeder Eintrag speichert seinen Typ. Beim Wechsel des Übungstyps bleiben bestehe
 
 ## Voraussetzungen
 
-Die App ist für iPhone und iPad ausgelegt. Das vorhandene Xcode-Projekt setzt iOS/iPadOS 27.2 voraus. Zum Entwickeln wird eine passende Xcode-Version auf dem Mac benötigt.
+Die App ist für iPhone und iPad ausgelegt. Das App-Target unterstützt iOS/iPadOS ab 17.6. Zum Entwickeln wird eine passende Xcode-Version auf dem Mac benötigt.
 
 ## Nutzung
 
@@ -132,3 +132,5 @@ Der nach Tagen gruppierte Verlauf auf der Startseite trägt die Überschrift „
 ## Dateiname beim Export
 
 Vor dem Teilen von Textdatei, Excel und JSON erscheint die Dateinamen-Eingabe analog Cashuvo. Standard ist Trainuvo_Export.txt, Trainuvo_Export.xlsx bzw. Trainuvo_Export.json. Der Name ist frei änderbar; die feste Dateiendung steht rechts daneben und wird automatisch ergänzt. Eine bereits eingegebene passende Endung wird nicht doppelt angehängt. Abbrechen verwirft den Dialog. Leere Namen, Pfadtrenner, Doppelpunkte und Steuerzeichen sind nicht erlaubt. Text kopieren benötigt keinen Dateinamen.
+
+Für den nächsten Upload vorbereitet: extern **1.0 (2)**, intern **0.12.1**. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
