@@ -2,9 +2,10 @@
 
 ## 0.12.1 – Nächsten Upload vorbereiten
 
-- Buildnummer aller Targets von 1 auf 2 erhöht; externe Version bleibt 1.0.
+- Nächsten Upload auf ausdrückliche Vorgabe intern 0.12.1 / extern 1.0.0 (3) festgelegt. Build 2 ist laut Florian bereits belegt; alle Targets verwenden Buildnummer 3.
 - Vorhandene Export-Compliance-Einstellung NO und App-Mindestversion 17.6 übernommen und dokumentiert.
-- Interne Version und Hilfe auf 0.12.1 angehoben. Keine Funktionsänderung.
+- Interne Version und Hilfe bleiben 0.12.1. Keine Funktionsänderung.
+- Cashuvos TestFlight-Checkliste und WhatsApp-Format in Trainuvos Projektregeln übernommen.
 - Versionen und Einstellungserhalt statisch geprüft; Archivierung und Upload auf dem Mac ausstehend.
 
 ## 0.12.0 – Dateinamen vor dem Teilen anpassen

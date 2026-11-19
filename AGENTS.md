@@ -44,3 +44,18 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 - Exporte verwenden Monat/Jahr oder Von–Bis analog Cashuvo. OneNote-Text enthält einen Absatz je Trainingstag, absteigende Tage, Übungsreihenfolge und Bewertung vor den Angaben; nur Arbeitsgruppen bei Satztypen, alle freien Einheiten bei Andere. JSON und Excel enthalten alle Gruppen. Standardname für TXT/XLSX/JSON: Trainuvo_Export.<Endung>. Vor dem System-Teilen den Dateinamen wie in Cashuvo editierbar anbieten, mit fester Endung und Validierung.
 
 - Kommentare gelten pro Trainingstag und werden unabhängig von Übungen/Trainings gespeichert. Ihre Löschung erhält Trainings; Trainings-/Übungslöschung erhält Tagesnotizen. Tage mit Notizen bleiben ohne Trainings sichtbar und exportierbar. Alles löschen entfernt auch Tagesnotizen.
+
+## TestFlight und Ankündigungen
+
+- Interne SemVer-Version, externe App-Version und Buildnummer getrennt führen. Während der Testphase die externe Version möglichst stabil halten; Änderungen vorher abstimmen. Die nächste Buildnummer muss in App Store Connect noch frei sein. Der Repositorywert allein beweist nicht, welche Builds schon hochgeladen wurden; Angaben von Florian zu belegten Builds berücksichtigen.
+- Aktuell vereinbart: intern 0.12.1, extern 1.0.0 (3). Build 2 ist laut Florian bereits belegt. Künftige Zuordnungen in DeveloperDocu und Changelog dokumentieren.
+- Wenn Florian „publishen“, „publizieren“, „veröffentlichen“ oder Ähnliches sagt, die kurze TestFlight-Checkliste und den vollständigen WhatsApp-Entwurf für den vorgesehenen Build in derselben Antwort ausgeben:
+  1. Tag setzen und pushen.
+  2. Archivieren und hochladen; externe Version und Build im Organizer prüfen. Automatische Buildnummernverwaltung für eine eindeutige Zuordnung abwählen, sofern angeboten.
+  3. In App Store Connect unter der vorgesehenen externen Version beim bereiten Build die Testgruppe hinzufügen. Build-Uploads kann währenddessen noch Verarbeitung läuft zeigen.
+  4. Zur Prüfung übermitteln, wenn die Schaltfläche angezeigt wird.
+  5. Erst nach Verfügbarkeit für die Testgruppe in WhatsApp ankündigen.
+- Vor Upload an Tag und Push mit Include tags erinnern. Bereits veröffentlichte Tags nicht verschieben. Öffentliche App-Store-Veröffentlichung separat abstimmen.
+- WhatsApp-Entwurf analog Cashuvo: Überschrift exakt `✳️✳️✳️ NEUE VERSION ✳️✳️✳️`. Darunter externe Version samt Build, beispielsweise `Trainuvo 1.0.0 (3) ist jetzt in TestFlight verfügbar:`.
+- Kurze Stichpunkte ausschließlich zu sichtbaren Änderungen gegenüber dem zuletzt verteilten Build. Abschnitte `Fehlerbehebungen und kleine optische Änderungen` sowie `Neue Funktionen`; Neue Funktionen bei Releases ohne neue Funktionen weglassen. Mit dem Hinweis auf das Update in TestFlight abschließen.
+- Verfügbarkeit nur behaupten, wenn der Build für die Testgruppe bereitsteht oder der Entwurf ausdrücklich für diesen Zeitpunkt gedacht ist. Keine Nachrichten ohne gesonderten Auftrag versenden.
