@@ -24,9 +24,10 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
-### t19 – Export als JSON, Excel und formatierten Text (0.10.0; angepasst in 0.10.1)
+### t19 – Export als JSON, Excel und formatierten Text (0.10.0; angepasst in 0.10.1 und 0.10.2)
 
 - Zeitraumwahl Monat/Jahr und Von–Bis analog Cashuvo.
+- Seit 0.10.2 ohne Erklärungstext unter den Exportaktionen.
 - Seit 0.10.1 neueste Tage zuerst in allen Formaten; Text kopieren, Textdatei, Excel und JSON gemeinsam unter Export.
 - OneNote-Text: ein Absatz pro Trainingstag, neueste zuerst, Übungsreihenfolge, Bewertung vor Angaben, nur Arbeitsgruppen bei Satztypen und alle freien Einheiten bei Andere.
 - Vorschau, Text kopieren und Textdatei ergänzen. JSON und XLSX enthalten sämtliche Satzgruppen und Einheiten des Zeitraums.

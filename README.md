@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.10.1 – Vorabversion**
+**Interner Entwicklungsstand: 0.10.2 – Vorabversion**
 
 ## Übungstypen
 
@@ -116,3 +116,5 @@ Beispiel: `17.11.2026 | Press o 1×5 @ 52 kg | Kniebeuge + 3×5 @ 90 kg`
 Textdatei, JSON und echte Excel-Datei (.xlsx) lassen sich über den Dateidialog speichern. Standardname: `Trainuvo_Export_<Start>_<Ende>` mit yyyyMMdd. JSON enthält alle ausgewählten Trainings mit IDs, Datumswerten, Bewertung und sämtlichen Gruppen sowie aktuellen Übungszielen. Excel zeigt eine Zeile je Gruppe bzw. Einheit mit numerischem kg-Wert, freien Angaben und Arbeitsmarkierung. Export verändert keine gespeicherten Daten und ist noch keine Wiederherstellungs-/Importfunktion.
 
 Die vier Aktionen **Text kopieren**, **Textdatei**, **Excel** und **JSON** stehen unmittelbar untereinander unter **Export**, gefolgt von der Vorschau. Alle Formate zeigen die neuesten Trainingstage zuerst; innerhalb eines Tages gilt die Übungsreihenfolge der Startseite.
+
+Die Exportaktionen stehen ohne zusätzlichen Erklärungstext direkt über der Vorschau.

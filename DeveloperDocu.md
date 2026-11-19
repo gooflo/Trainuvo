@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.10.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.10.2**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -250,7 +250,7 @@ Für die Abnahme bei Krafttraining, Satzübung und Andere alle fünf Bewertungen
 
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.10.1` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.10.2` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
 
 ## Export in 0.10.0
 
@@ -267,3 +267,5 @@ TrainingExport.fileURL erstellt pro Export ein eigenes temporäres UUID-Verzeich
 Tests in TrainingExportTests.swift prüfen Tagesgrenzen einschließlich 25-Stunden-Tag, exakten OneNote-Text, freie Angaben und Zeilenumbrüche, JSON-Snapshot mit IDs und sämtlichen Gruppen sowie XLSX-Einträge inklusive CRC und XML-Parsing. Hier sind Swift-Syntax und statische Konsistenz geprüft. Auf dem Mac ⌘ U ausführen; mit Beispieldaten 14.–17.11.2026 exportieren und zwei Absätze bzw. acht JSON-Einträge und 18 Detailzeilen in Excel prüfen. Einfügen in OneNote, Monate/Schaltjahre, freie Zeiträume, leere Auswahl, Abbrechen und Speichern sowie iPhone/iPad testen. Xcode-Build und Laufzeittests sind ausstehend.
 
 In 0.10.1 stehen die vier Aktionen Text kopieren, Textdatei, Excel und JSON unmittelbar untereinander in der Section Export; die Vorschau folgt danach. Xcode-Build, Swift-Tests und Sichtprüfung sind ausstehend.
+
+0.10.2 entfernt ausschließlich den erklärenden Footer der Export-Section. Vier Aktionen und Vorschau bleiben direkt aufeinanderfolgend. Sichtprüfung in Xcode ausstehend.

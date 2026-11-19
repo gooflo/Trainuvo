@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.10.2 – Exportansicht vereinfachen
+
+- Erklärungstext unter den vier Exportaktionen entfernt. Die Vorschau folgt direkt.
+- Entfernten Footer und Versionskonsistenz statisch geprüft. Xcode-Build und Sichtprüfung ausstehend.
+
 ## 0.10.1 – Exportreihenfolge und gemeinsame Aktionen
 
 - Neueste Trainingstage zuerst in Text, Vorschau, JSON und Excel; innerhalb eines Tages die Übungsreihenfolge der Startseite.

@@ -69,8 +69,6 @@ struct TrainingExportView: View {
                     Button("JSON", systemImage: "curlybraces") { export("json") }
                 } header: {
                     Text("Export")
-                } footer: {
-                    Text("Neueste Tage zuerst, Übungen in deiner Reihenfolge. Text: ein Absatz je Tag mit Arbeitsgruppen bzw. freien Einheiten. Excel und JSON: alle Gruppen einschließlich Aufwärmsätzen.")
                 }
                 .disabled(!canExport)
                 Section("Vorschau · \(selected.count) Trainings") {
