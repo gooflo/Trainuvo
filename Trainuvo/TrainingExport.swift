@@ -33,11 +33,8 @@ enum TrainingExport {
     static func selected(_ entries: [TrainingEntry], from: Date, to: Date, calendar: Calendar = .current) -> [TrainingEntry] {
         guard from <= to, let end = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: to)) else { return [] }
         let start = calendar.startOfDay(for: from)
-        return entries.filter { $0.date >= start && $0.date < end }.sorted {
-            if $0.date != $1.date { return $0.date < $1.date }
-            if $0.createdAt != $1.createdAt { return $0.createdAt < $1.createdAt }
-            return $0.id.uuidString < $1.id.uuidString
-        }
+        let filtered = entries.filter { $0.date >= start && $0.date < end }
+        return TrainingDaySummary.grouped(filtered, calendar: calendar).flatMap(\.entries)
     }
 
     static func snapshot(_ entries: [TrainingEntry]) -> [Entry] {
@@ -65,7 +62,7 @@ enum TrainingExport {
         formatter.timeZone = calendar.timeZone
         formatter.locale = Locale(identifier: "de_DE")
         formatter.dateFormat = "dd.MM.yyyy"
-        return TrainingDaySummary.grouped(entries, calendar: calendar).reversed().map { day in
+        return TrainingDaySummary.grouped(entries, calendar: calendar).map { day in
             let parts = day.entries.map { entry in
                 let name = oneLine(entry.exercise?.name ?? "Unbekannte Übung")
                 let rating = entry.effort.map { $0.symbol + " " } ?? ""

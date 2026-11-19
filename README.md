@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.10.0 – Vorabversion**
+**Interner Entwicklungsstand: 0.10.1 – Vorabversion**
 
 ## Übungstypen
 
@@ -109,8 +109,10 @@ Gleichnamige Übungen werden wiederverwendet. Vorhandene Ziele und vorhandene St
 
 Über das Teilen-Symbol oben rechts den Export öffnen. Die Auswahl „Monat“ mit Monat/Jahr oder „Von–Bis“ entspricht Cashuvo. Beide Randtage sind vollständig enthalten. Ohne passende Einträge bzw. bei ungültigem Zeitraum sind Exporte deaktiviert.
 
-„Text kopieren“ überträgt die Vorschau direkt für OneNote. Ein Absatz pro Trainingstag, älteste Tage zuerst, Übungen in der gespeicherten Reihenfolge. Krafttraining und Satzübung zeigen nur die Arbeitsgruppe; Andere zeigt alle Einheiten mit „links / rechts“, mehrere Einheiten mit Semikolon. Bewertungen stehen als Zeichen davor. Zeilenumbrüche innerhalb freier Angaben werden für diesen kompakten Export zu Leerzeichen. Mehrere Einträge derselben Übung bleiben erhalten.
+„Text kopieren“ überträgt die Vorschau direkt für OneNote. Ein Absatz pro Trainingstag, neueste Tage zuerst, Übungen in der gespeicherten Reihenfolge. Krafttraining und Satzübung zeigen nur die Arbeitsgruppe; Andere zeigt alle Einheiten mit „links / rechts“, mehrere Einheiten mit Semikolon. Bewertungen stehen als Zeichen davor. Zeilenumbrüche innerhalb freier Angaben werden für diesen kompakten Export zu Leerzeichen. Mehrere Einträge derselben Übung bleiben erhalten.
 
 Beispiel: `17.11.2026 | Press o 1×5 @ 52 kg | Kniebeuge + 3×5 @ 90 kg`
 
 Textdatei, JSON und echte Excel-Datei (.xlsx) lassen sich über den Dateidialog speichern. Standardname: `Trainuvo_Export_<Start>_<Ende>` mit yyyyMMdd. JSON enthält alle ausgewählten Trainings mit IDs, Datumswerten, Bewertung und sämtlichen Gruppen sowie aktuellen Übungszielen. Excel zeigt eine Zeile je Gruppe bzw. Einheit mit numerischem kg-Wert, freien Angaben und Arbeitsmarkierung. Export verändert keine gespeicherten Daten und ist noch keine Wiederherstellungs-/Importfunktion.
+
+Die vier Aktionen **Text kopieren**, **Textdatei**, **Excel** und **JSON** stehen unmittelbar untereinander unter **Export**, gefolgt von der Vorschau. Alle Formate zeigen die neuesten Trainingstage zuerst; innerhalb eines Tages gilt die Übungsreihenfolge der Startseite.

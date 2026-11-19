@@ -64,11 +64,13 @@ struct TrainingExportView: View {
                         UIPasteboard.general.string = preview
                         message = "Text für OneNote kopiert."
                     }
-                    Button("Textdatei exportieren", systemImage: "doc.text") { export("txt") }
+                    Button("Textdatei", systemImage: "doc.text") { export("txt") }
+                    Button("Excel", systemImage: "tablecells") { export("xlsx") }
+                    Button("JSON", systemImage: "curlybraces") { export("json") }
                 } header: {
-                    Text("Für OneNote")
+                    Text("Export")
                 } footer: {
-                    Text("Ein Absatz pro Trainingstag, älteste Tage zuerst. Satztypen zeigen nur die Arbeitsgruppe; Andere zeigt alle freien Einheiten. Farben werden als Bewertungszeichen ausgegeben.")
+                    Text("Neueste Tage zuerst, Übungen in deiner Reihenfolge. Text: ein Absatz je Tag mit Arbeitsgruppen bzw. freien Einheiten. Excel und JSON: alle Gruppen einschließlich Aufwärmsätzen.")
                 }
                 .disabled(!canExport)
                 Section("Vorschau · \(selected.count) Trainings") {
@@ -78,13 +80,7 @@ struct TrainingExportView: View {
                         Text(preview).font(.callout).textSelection(.enabled)
                     }
                 }
-                Section {
-                    Button("JSON exportieren", systemImage: "curlybraces") { export("json") }
-                    Button("Excel exportieren", systemImage: "tablecells") { export("xlsx") }
-                } header: { Text("Alle Trainingsdetails") } footer: {
-                    Text("JSON enthält die Trainingseinträge mit allen Gruppen und IDs. Excel enthält eine Zeile je Satzgruppe bzw. freier Einheit, einschließlich Aufwärmsätzen. Beide verwenden denselben Zeitraum.")
-                }
-                .disabled(!canExport)
+
             }
             .navigationTitle("Export")
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Fertig") { dismiss() } } }

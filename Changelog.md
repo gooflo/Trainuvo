@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.1 – Exportreihenfolge und gemeinsame Aktionen
+
+- Neueste Trainingstage zuerst in Text, Vorschau, JSON und Excel; innerhalb eines Tages die Übungsreihenfolge der Startseite.
+- Text kopieren, Textdatei, Excel und JSON unmittelbar untereinander unter Export; Vorschau darunter.
+- Bestehende Exporttests und Dokumentation angepasst. Swift-Syntax und statische Konsistenz geprüft; Xcode-Build, Swift-Tests und Geräteprüfung ausstehend.
+
 ## 0.10.0 – Zeitraumexport für OneNote, JSON und Excel
 
 - Exportseite über das Teilen-Symbol ergänzt. Monat/Jahr oder freies Von–Bis wie in Cashuvo; beide Randtage vollständig eingeschlossen.

@@ -23,7 +23,7 @@ struct TrainingExportTests {
         let late = TrainingEntry(date: end.addingTimeInterval(-1), exercise: exercise)
         let next = TrainingEntry(date: end, exercise: exercise)
         let before = TrainingEntry(date: start.addingTimeInterval(-1), exercise: exercise)
-        #expect(TrainingExport.selected([next, late, before, first], from: start, to: start, calendar: cal).map(\.id) == [first.id, late.id])
+        #expect(TrainingExport.selected([next, late, before, first], from: start, to: start, calendar: cal).map(\.id) == [late.id, first.id])
         #expect(TrainingExport.selected([first], from: end, to: start, calendar: cal).isEmpty)
         #expect(TrainingExport.selected([], from: start, to: start, calendar: cal).isEmpty)
     }
@@ -48,8 +48,10 @@ struct TrainingExportTests {
         ]
         let earlier = TrainingEntry(date: date.addingTimeInterval(-86400), exercise: press)
         earlier.groups = [SetGroup(position: 0, prescription: "1×5", weight: 50, isWorking: true)]
-        let text = TrainingExport.text([other, training, earlier], calendar: cal)
-        #expect(text == "16.11.2026 | Press 1×5 @ 50 kg\n17.11.2026 | Press + 3×5 @ 52 kg | Ergometer o 200 W locker / 30 min; 5 min Pause")
+        let selected = TrainingExport.selected([other, training, earlier], from: earlier.date, to: date, calendar: cal)
+        #expect(selected.map(\.id) == [training.id, other.id, earlier.id])
+        let text = TrainingExport.text(selected, calendar: cal)
+        #expect(text == "17.11.2026 | Press + 3×5 @ 52 kg | Ergometer o 200 W locker / 30 min; 5 min Pause\n16.11.2026 | Press 1×5 @ 50 kg")
         #expect(text.components(separatedBy: "\n").count == 2)
         #expect(!text.contains("40 kg"))
         #expect(TrainingExport.text([]).isEmpty)
