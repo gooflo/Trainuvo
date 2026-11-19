@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.11.1 – Vorabversion**
+**Interner Entwicklungsstand: 0.11.2 – Vorabversion**
 
 ## Übungstypen
 
@@ -126,3 +126,5 @@ Neben dem Datum eines Trainingstags öffnet das Notizsymbol einen gemeinsamen Ko
 Kommentare bleiben beim Löschen von Trainings oder Übungen erhalten. Ein Tag mit Kommentar bleibt ohne Trainings sichtbar und bearbeitbar. Ändert sich das Datum eines Trainings, bleibt die Notiz am ursprünglichen Tag. Alles löschen entfernt auch die Tagesnotizen.
 
 Text kopieren und TXT ergänzen am Ende der Tageszeile „| Notiz: …“. JSON enthält Tagesnotizen separat (schemaVersion 2), Excel eine Spalte Tageskommentar. Tage mit ausschließlich einer Notiz sind ebenfalls exportierbar. Alle Formate verwenden denselben Zeitraum.
+
+Der nach Tagen gruppierte Verlauf auf der Startseite trägt die Überschrift „Trainings“.

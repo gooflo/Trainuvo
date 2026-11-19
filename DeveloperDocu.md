@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.11.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.11.2**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -250,7 +250,7 @@ Für die Abnahme bei Krafttraining, Satzübung und Andere alle fünf Bewertungen
 
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.11.1` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.11.2` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
 
 ## Export in 0.10.0
 
@@ -281,3 +281,5 @@ TrainingExport.selectedNotes filtert inklusive beider Randtage. Text/TXT ergänz
 Tests in TrainingDayNoteTests prüfen Speicherung, Bearbeiten, unabhängiges Löschen, Notiztage ohne Trainings, Tageszuordnung, Zeitraum, Text/JSON/XLSX und Gesamtlöschung. Auf dem Mac ⌘ U ausführen und über 0.10.2 aktualisieren. Kommentar mit Zeilenumbrüchen anlegen, abbrechen/bearbeiten/löschen, letztes Training und letzte Übung löschen, App neu starten und Notiztag einschließlich aller Exporte kontrollieren. Das Löschen einer Notiz muss Trainings erhalten. Helle/dunkle Darstellung und iPhone/iPad prüfen. Hier sind Syntax und statische Verknüpfungen geprüft; Xcode-Build, Swift-Tests, Store-Update und Sichtprüfung sind ausstehend.
 
 0.11.1 kürzt die Startseitenüberschrift auf „Übungen“ und passt die Verweise in der Hilfe an. Reine Textänderung, statisch geprüft; Sichtprüfung auf dem Gerät ausstehend.
+
+0.11.2 benennt die Überschrift Trainingstage auf der Startseite und in der Hilfe in Trainings um. Gruppierung und Daten bleiben erhalten. Textänderung statisch geprüft, Xcode-Build und Sichtprüfung ausstehend.

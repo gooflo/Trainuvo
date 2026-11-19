@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.2 – Trainings als Überschrift
+
+- Überschrift Trainingstage auf der Startseite und in der Hilfe in Trainings umbenannt.
+- Reine Textänderung statisch geprüft; Xcode-Build und Sichtprüfung ausstehend.
+
 ## 0.11.1 – Kürzere Überschrift
 
 - Startseitenüberschrift von Deine Übungen auf Übungen gekürzt. Hilfe und Dokumentation angepasst.

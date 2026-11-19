@@ -74,7 +74,7 @@ struct ContentView: View {
                         }
                     }
                     if !trainingDays.isEmpty {
-                        Text("Trainingstage").font(.title2.bold())
+                        Text("Trainings").font(.title2.bold())
                         LazyVStack(alignment: .leading, spacing: 16) {
                             ForEach(trainingDays) { day in
                                 VStack(alignment: .leading, spacing: 8) {
@@ -458,7 +458,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.11.1"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.11.2"
     }
 
     var body: some View {
@@ -494,7 +494,7 @@ private struct HelpView: View {
                     Text("Bei jedem Übungstyp kannst du unter den Sätzen bzw. Trainingseinheiten die Bewertung direkt antippen: -- Sehr schwer, - Schwer, o Neutral, + Leicht oder ++ Sehr leicht. Schwere Bewertungen sind rot, neutrale grau und leichte grün. -- und ++ verwenden die dunklere Farbstufe. Die gewählte Fläche hat einen kräftigen Rahmen in ihrer Farbe und die volle Bedeutung steht darüber. Die Bewertung gilt für den gesamten Trainingseintrag. In Tagesübersicht und Verlauf steht das Symbol links vor den Sätzen der Arbeitsgruppe bzw. vor der ersten freien Trainingseinheit.")
                     Text("Jedes neue Training beginnt mit „Nicht bewertet“. Beim Bearbeiten kannst du die Bewertung nachtragen oder ändern. Über das X neben der Bewertungsüberschrift entfernst du sie wieder.")
                 }
-                Section("Trainingstage") {
+                Section("Trainings") {
                     Text("Die Startseite fasst Trainings nach Kalendertag zusammen. Jede Zeile zeigt Übungsname, Sätze und Wiederholungen sowie das Arbeitsgewicht, zum Beispiel Kniebeuge 3 × 5 @ 60 kg. Eine Bewertung steht links vor den Sätzen. Aufwärmgruppen bleiben im Übungsdetail sichtbar.")
                     Text("Wenn eine Übung an einem Tag mehrfach erfasst wurde, erscheint pro Trainingseintrag eine Zeile. Die Zeilen folgen deiner Übungsreihenfolge. Tippe auf eine Tageszeile, um genau diesen Trainingseintrag zu bearbeiten oder zu löschen. Den vollständigen Verlauf öffnest du über die Zielkarte der Übung.")
                 }

@@ -18,6 +18,11 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t36 – Überschrift Trainings verwenden (0.11.2)
+
+- Trainingstage auf der Startseite und in der Hilfe durch Trainings ersetzen.
+- Statisch geprüft, Xcode-Build und Sichtprüfung ausstehend.
+
 ### t35 – Startseitenüberschrift kürzen (0.11.1)
 
 - Übungen statt Deine Übungen anzeigen; Verweise in Hilfe und Dokumentation anpassen.
