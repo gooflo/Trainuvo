@@ -107,12 +107,8 @@ enum TrainingExport {
     }
 
     static func fileURL(from: Date, to: Date, extension suffix: String) throws -> URL {
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .gregorian)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "yyyyMMdd"
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-        return folder.appendingPathComponent("Trainuvo_Export_\(formatter.string(from: from))_\(formatter.string(from: to)).\(suffix)")
+        return folder.appendingPathComponent("Trainuvo_Export.\(suffix)")
     }
 }

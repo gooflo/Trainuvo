@@ -1,6 +1,5 @@
 import SwiftUI
 import SwiftData
-import UniformTypeIdentifiers
 import UIKit
 
 struct TrainingExportView: View {
@@ -14,10 +13,8 @@ struct TrainingExportView: View {
     @State private var year = Calendar.current.component(.year, from: Date())
     @State private var from = Calendar.current.dateInterval(of: .month, for: Date())?.start ?? Date()
     @State private var to = Date()
-    @State private var document: TrainingExportDocument?
-    @State private var fileType: UTType = .json
-    @State private var filename = ""
-    @State private var showingExporter = false
+    private struct ExportFile: Identifiable { let id = UUID(); let url: URL }
+    @State private var exportFile: ExportFile?
     @State private var message: String?
     private let calendar = Calendar.current
 
@@ -84,8 +81,8 @@ struct TrainingExportView: View {
             }
             .navigationTitle("Export")
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Fertig") { dismiss() } } }
-            .fileExporter(isPresented: $showingExporter, document: document, contentType: fileType, defaultFilename: filename) { result in
-                if case .failure(let error) = result { message = error.localizedDescription }
+            .sheet(item: $exportFile) { file in
+                TrainingExportFileNameView(sourceURL: file.url)
             }
             .alert("Export", isPresented: Binding(get: { message != nil }, set: { if !$0 { message = nil } })) {
                 Button("OK") { message = nil }
@@ -110,23 +107,7 @@ struct TrainingExportView: View {
                 let data = suffix == "json" ? try TrainingExport.json(selected, notes: selectedNotes, from: start, to: end) : Data(preview.utf8)
                 try data.write(to: url, options: .atomic)
             }
-            document = TrainingExportDocument(data: try Data(contentsOf: url))
-            filename = url.deletingPathExtension().lastPathComponent
-            fileType = UTType(filenameExtension: suffix) ?? .data
-            showingExporter = true
+            exportFile = ExportFile(url: url)
         } catch { message = error.localizedDescription }
-    }
-}
-
-struct TrainingExportDocument: FileDocument {
-    static var readableContentTypes: [UTType] { [.json, .plainText, UTType(filenameExtension: "xlsx") ?? .data] }
-    var data: Data
-    init(data: Data) { self.data = data }
-    init(configuration: ReadConfiguration) throws {
-        guard let data = configuration.file.regularFileContents else { throw CocoaError(.fileReadCorruptFile) }
-        self.data = data
-    }
-    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        FileWrapper(regularFileWithContents: data)
     }
 }

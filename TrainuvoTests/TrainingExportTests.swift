@@ -92,7 +92,7 @@ struct TrainingExportTests {
         let url = try TrainingExportExcel.create(entries: [entry], from: entry.date, to: entry.date)
         defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
         #expect(url.pathExtension == "xlsx")
-        #expect(url.lastPathComponent.hasPrefix("Trainuvo_Export_"))
+        #expect(url.lastPathComponent == "Trainuvo_Export.xlsx")
         let parts = try storedParts(Data(contentsOf: url))
         #expect(parts.count == 5)
         for (_, bytes) in parts { #expect(XMLParser(data: bytes).parse()) }

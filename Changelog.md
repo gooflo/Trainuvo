@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.12.0 – Dateinamen vor dem Teilen anpassen
+
+- Cashuvos Dateinamen-Dialog für Textdatei, Excel und JSON übernommen; feste Endung neben dem editierbaren Namen, anschließend System-Teilen.
+- Standardnamen Trainuvo_Export.txt, Trainuvo_Export.xlsx und Trainuvo_Export.json ohne Datumsbereich.
+- Namen validieren und passende Endungen nicht doppelt anhängen. Text kopieren bleibt direkt verfügbar.
+- Tests und Dokumentation angepasst, t37 erledigt. Swift-Syntax und statische Konsistenz geprüft; Xcode-Build, Swift-Tests und iPhone-/iPad-Teilen ausstehend.
+
 ## 0.11.2 – Trainings als Überschrift
 
 - Überschrift Trainingstage auf der Startseite und in der Hilfe in Trainings umbenannt.

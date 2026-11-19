@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.11.2**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.12.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -250,7 +250,7 @@ Für die Abnahme bei Krafttraining, Satzübung und Andere alle fünf Bewertungen
 
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.11.2` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.12.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
 
 ## Export in 0.10.0
 
@@ -262,7 +262,7 @@ JSON ist ein versionierter Codable-Snapshot (schemaVersion 1) mit ISO-8601-Datum
 
 TrainingExportExcel übernimmt Cashuvos unkomprimierten ZIP-Writer samt CRC32 und XML-Escaping. Die Tabelle enthält alle Satzgruppen und freien Einheiten, eine Zeile je Gruppe mit Datum, Übung, Typ, Bewertung, Position, linker Angabe, numerischem kg-Gewicht, rechter Angabe, Arbeitsmarkierung und Training-ID. Inline-Textzellen verhindern eine Interpretation eingegebener Texte als Formeln. Die Kopfzeile ist fixiert. Einträge ohne Gruppen bleiben mit leerer Detailzeile sichtbar.
 
-TrainingExport.fileURL erstellt pro Export ein eigenes temporäres UUID-Verzeichnis; nur der Dateiname enthält Trainuvo_Export_<Start>_<Ende> mit gregorianischem yyyyMMdd. FileDocument/fileExporter speichert die erzeugten Daten mit passendem Inhaltstyp und editierbarem Standardnamen. Text kann zusätzlich direkt über UIPasteboard kopiert werden. Ungültige Zeiträume und leere Ergebnisse deaktivieren Aktionen. Fehler erscheinen als Meldung. Der Ablauf liest SwiftData ausschließlich; gespeicherte Daten werden nicht verändert.
+TrainingExport.fileURL erstellt pro Export ein eigenes temporäres UUID-Verzeichnis mit dem Standardnamen Trainuvo_Export und passender Endung. TrainingExportFileNameView bietet vor dem System-Teilen die editierbare Dateinamen-Eingabe. Text kann zusätzlich direkt über UIPasteboard kopiert werden. Ungültige Zeiträume und leere Ergebnisse deaktivieren Aktionen. Fehler erscheinen als Meldung. Der Ablauf liest SwiftData ausschließlich; gespeicherte Daten werden nicht verändert.
 
 Tests in TrainingExportTests.swift prüfen Tagesgrenzen einschließlich 25-Stunden-Tag, exakten OneNote-Text, freie Angaben und Zeilenumbrüche, JSON-Snapshot mit IDs und sämtlichen Gruppen sowie XLSX-Einträge inklusive CRC und XML-Parsing. Hier sind Swift-Syntax und statische Konsistenz geprüft. Auf dem Mac ⌘ U ausführen; mit Beispieldaten 14.–17.11.2026 exportieren und zwei Absätze bzw. acht JSON-Einträge und 18 Detailzeilen in Excel prüfen. Einfügen in OneNote, Monate/Schaltjahre, freie Zeiträume, leere Auswahl, Abbrechen und Speichern sowie iPhone/iPad testen. Xcode-Build und Laufzeittests sind ausstehend.
 
@@ -283,3 +283,11 @@ Tests in TrainingDayNoteTests prüfen Speicherung, Bearbeiten, unabhängiges Lö
 0.11.1 kürzt die Startseitenüberschrift auf „Übungen“ und passt die Verweise in der Hilfe an. Reine Textänderung, statisch geprüft; Sichtprüfung auf dem Gerät ausstehend.
 
 0.11.2 benennt die Überschrift Trainingstage auf der Startseite und in der Hilfe in Trainings um. Gruppierung und Daten bleiben erhalten. Textänderung statisch geprüft, Xcode-Build und Sichtprüfung ausstehend.
+
+## Anpassbare Dateinamen in 0.12.0
+
+TrainingExportFileNameView und TrainingActivityShareView übernehmen den Ablauf aus Cashuvo/AccountStatementView.swift. Die erzeugte Quelldatei wird über einen optionalen ExportFile-Wert mit eigener UUID als Sheet übergeben; die Namenseingabe ist dadurch bereits beim Öffnen initialisiert. Der Dialog zeigt den Namen ohne Endung, die feste Endung steht separat rechts. Abbrechen verändert keine Trainingsdaten und legt keine Kopie unter dem eingegebenen Namen an.
+
+TrainingExportFileName.baseName validiert die Eingabe, trimmt äußeren Whitespace und entfernt eine bereits eingegebene passende Endung ohne Beachtung der Groß-/Kleinschreibung. Leere Namen, Punkt/Punktpunkt, Pfadtrenner, Doppelpunkt und Steuerzeichen werden abgewiesen. Teilen kopiert die Datei in ein neues temporäres UUID-Verzeichnis unter dem gewünschten Namen und öffnet UIActivityViewController. Fehler entfernen das neue Verzeichnis und zeigen eine Meldung. Temporäre Dateien bleiben für asynchron lesende Share-Erweiterungen verfügbar. Der frühere FileDocument/fileExporter-Ablauf entfällt.
+
+Default für TXT/XLSX/JSON: Trainuvo_Export.<Endung>, ohne Zeitraum. Zeitraumfilter und Dateiinhalte bleiben unverändert. Tests prüfen gültige/ungültige Namen, Umlaute, passende Endungen und getrennte temporäre Verzeichnisse. In Xcode ⌘ U ausführen; alle Formate mit Standardname und eigenem Namen exportieren, Abbrechen und erneutes Öffnen, Teilen und In Dateien sichern auf iPhone/iPad prüfen. Swift-Syntax und statische Konsistenz hier geprüft; Xcode-Build, Swift-Tests und Geräteprüfung ausstehend.

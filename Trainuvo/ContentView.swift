@@ -458,7 +458,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.11.2"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.12.0"
     }
 
     var body: some View {
@@ -512,7 +512,7 @@ private struct HelpView: View {
                 }
                 Section("Export für OneNote, JSON und Excel") {
                     Text("Über das Teilen-Symbol oben rechts öffnest du den Export. Wähle Monat und Jahr oder Von–Bis. Text kopieren übernimmt einen Absatz pro Trainingstag in die Zwischenablage, mit dem neuesten Tag zuerst und in deiner Übungsreihenfolge. Die Vorschau zeigt den kopierten Text. Bei Satztypen wird nur die Arbeitsgruppe ausgegeben, bei Andere alle Einheiten mit beiden Angaben. Bewertungen stehen als Zeichen vor den Angaben.")
-                    Text("Die Aktionen Text kopieren, Textdatei, Excel und JSON stehen gemeinsam unter Export. Textdatei, JSON und Excel lassen sich in Dateien sichern. JSON und Excel enthalten auch Aufwärmsätze und alle freien Trainingseinheiten. Die Dateinamen enthalten Start und Ende des Zeitraums.")
+                    Text("Die Aktionen Text kopieren, Textdatei, Excel und JSON stehen gemeinsam unter Export. Bei Textdatei, Excel und JSON kannst du vor dem Teilen den Dateinamen ändern. Standard ist Trainuvo_Export mit passender Dateiendung. Über das Teilen-Menü kannst du die Datei auch in Dateien sichern. JSON und Excel enthalten auch Aufwärmsätze und alle freien Trainingseinheiten. Die Dateiendung wird automatisch ergänzt.")
                 }
                 Section("Kommentar zum Trainingstag") {
                     Text("Über das Notizsymbol neben dem Datum kannst du einen gemeinsamen Kommentar für alle Übungen dieses Tages erfassen oder bearbeiten. Er erscheint unter den Übungen. Abbrechen verwirft Änderungen. Löschen entfernt nur den Kommentar nach Bestätigung. Auch ohne verbleibende Trainings bleibt ein kommentierter Tag sichtbar. Die Exporte enthalten den Tageskommentar ebenfalls.")

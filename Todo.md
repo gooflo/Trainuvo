@@ -18,6 +18,12 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t37 – Dateinamen analog Cashuvo anpassen (0.12.0)
+
+- Vor TXT-/Excel-/JSON-Teilen editierbaren Namen mit fester Endung anbieten. Standard Trainuvo_Export.<Endung>.
+- Validierung, Abbrechen und System-Teilen analog Cashuvo. Text kopieren unverändert.
+- Tests ergänzt, Xcode-Build, Swift-Tests und Teilen/Speichern auf iPhone/iPad ausstehend.
+
 ### t36 – Überschrift Trainings verwenden (0.11.2)
 
 - Trainingstage auf der Startseite und in der Hilfe durch Trainings ersetzen.

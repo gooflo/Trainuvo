@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.11.2 – Vorabversion**
+**Interner Entwicklungsstand: 0.12.0 – Vorabversion**
 
 ## Übungstypen
 
@@ -113,7 +113,7 @@ Gleichnamige Übungen werden wiederverwendet. Vorhandene Ziele und vorhandene St
 
 Beispiel: `17.11.2026 | Press o 1×5 @ 52 kg | Kniebeuge + 3×5 @ 90 kg`
 
-Textdatei, JSON und echte Excel-Datei (.xlsx) lassen sich über den Dateidialog speichern. Standardname: `Trainuvo_Export_<Start>_<Ende>` mit yyyyMMdd. JSON enthält alle ausgewählten Trainings mit IDs, Datumswerten, Bewertung und sämtlichen Gruppen sowie aktuellen Übungszielen. Excel zeigt eine Zeile je Gruppe bzw. Einheit mit numerischem kg-Wert, freien Angaben und Arbeitsmarkierung. Export verändert keine gespeicherten Daten und ist noch keine Wiederherstellungs-/Importfunktion.
+Textdatei, JSON und echte Excel-Datei (.xlsx) lassen sich nach Eingabe eines Dateinamens über das Teilen-Menü speichern oder weitergeben. Standardname: `Trainuvo_Export.<Endung>`. JSON enthält alle ausgewählten Trainings mit IDs, Datumswerten, Bewertung und sämtlichen Gruppen sowie aktuellen Übungszielen. Excel zeigt eine Zeile je Gruppe bzw. Einheit mit numerischem kg-Wert, freien Angaben und Arbeitsmarkierung. Export verändert keine gespeicherten Daten und ist noch keine Wiederherstellungs-/Importfunktion.
 
 Die vier Aktionen **Text kopieren**, **Textdatei**, **Excel** und **JSON** stehen unmittelbar untereinander unter **Export**, gefolgt von der Vorschau. Alle Formate zeigen die neuesten Trainingstage zuerst; innerhalb eines Tages gilt die Übungsreihenfolge der Startseite.
 
@@ -128,3 +128,7 @@ Kommentare bleiben beim Löschen von Trainings oder Übungen erhalten. Ein Tag m
 Text kopieren und TXT ergänzen am Ende der Tageszeile „| Notiz: …“. JSON enthält Tagesnotizen separat (schemaVersion 2), Excel eine Spalte Tageskommentar. Tage mit ausschließlich einer Notiz sind ebenfalls exportierbar. Alle Formate verwenden denselben Zeitraum.
 
 Der nach Tagen gruppierte Verlauf auf der Startseite trägt die Überschrift „Trainings“.
+
+## Dateiname beim Export
+
+Vor dem Teilen von Textdatei, Excel und JSON erscheint die Dateinamen-Eingabe analog Cashuvo. Standard ist Trainuvo_Export.txt, Trainuvo_Export.xlsx bzw. Trainuvo_Export.json. Der Name ist frei änderbar; die feste Dateiendung steht rechts daneben und wird automatisch ergänzt. Eine bereits eingegebene passende Endung wird nicht doppelt angehängt. Abbrechen verwirft den Dialog. Leere Namen, Pfadtrenner, Doppelpunkte und Steuerzeichen sind nicht erlaubt. Text kopieren benötigt keinen Dateinamen.
