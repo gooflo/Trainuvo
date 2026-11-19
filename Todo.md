@@ -18,6 +18,11 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t35 – Startseitenüberschrift kürzen (0.11.1)
+
+- Übungen statt Deine Übungen anzeigen; Verweise in Hilfe und Dokumentation anpassen.
+- Statisch geprüft, Xcode-Build und Sichtprüfung ausstehend.
+
 ### t27 – Kommentar für den gesamten Trainingstag (0.11.0)
 
 - Unabhängige Tagesnotiz für alle Übungen, über Notizsymbol am Datum erfassen/bearbeiten, unter Übungen anzeigen und bestätigt löschen.

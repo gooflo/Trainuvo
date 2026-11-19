@@ -34,7 +34,7 @@ struct ContentView: View {
                         }
                     } else {
                         HStack(alignment: .firstTextBaseline) {
-                            Text("Deine Übungen").font(.title2.bold())
+                            Text("Übungen").font(.title2.bold())
                             Spacer()
                             Menu {
                                 Button("Übung anlegen", systemImage: "plus") {
@@ -458,17 +458,17 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.11.0"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.11.1"
     }
 
     var body: some View {
         NavigationStack {
             List {
                 Section("Trainuvo \(version)") {
-                    Text("Lege über den Stift neben „Deine Übungen“ eine Übung mit optionalem Zielgewicht an. Das Plus auf einer Zielkarte öffnet sofort die Trainingserfassung. Antippen der Karte öffnet den Verlauf. Einstellungen und Hilfe stehen oben rechts.")
+                    Text("Lege über den Stift neben „Übungen“ eine Übung mit optionalem Zielgewicht an. Das Plus auf einer Zielkarte öffnet sofort die Trainingserfassung. Antippen der Karte öffnet den Verlauf. Einstellungen und Hilfe stehen oben rechts.")
                 }
                 Section("Übungen sortieren") {
-                    Text("Tippe auf der Startseite neben „Deine Übungen“ auf den Stift und dann auf „Übungen sortieren“. Ziehe die Übungen an den Griffen in die gewünschte Reihenfolge und tippe auf „Speichern“. Neue Übungen werden am Ende angefügt.")
+                    Text("Tippe auf der Startseite neben „Übungen“ auf den Stift und dann auf „Übungen sortieren“. Ziehe die Übungen an den Griffen in die gewünschte Reihenfolge und tippe auf „Speichern“. Neue Übungen werden am Ende angefügt.")
                 }
                 Section("Übungstypen und Freitext") {
                     Text("Du wählst Krafttraining, Satzübung oder Andere. Krafttraining verwendet kg. Satzübungen bieten dieselben Satzgruppen und eine Arbeitsgruppe, rechts trägst du freie Angaben ohne feste Einheit ein, zum Beispiel bei Klimmzügen oder Liegestützen. Ein optionales Ziel ist ebenfalls Freitext und wird ohne Prozentberechnung angezeigt.")

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.1 – Kürzere Überschrift
+
+- Startseitenüberschrift von Deine Übungen auf Übungen gekürzt. Hilfe und Dokumentation angepasst.
+- Reine Textänderung statisch geprüft; Xcode-Build und Sichtprüfung ausstehend.
+
 ## 0.11.0 – Gemeinsamer Kommentar pro Trainingstag
 
 - Notizsymbol neben dem Tagesdatum mit eigenständigem Kommentar-Editor, lokalem Entwurf und bestätigtem Löschen.

@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.11.0 – Vorabversion**
+**Interner Entwicklungsstand: 0.11.1 – Vorabversion**
 
 ## Übungstypen
 
@@ -40,7 +40,7 @@ Die App ist für iPhone und iPad ausgelegt. Das vorhandene Xcode-Projekt setzt i
 
 ## Nutzung
 
-Über den **Stift neben Deine Übungen → Übung anlegen** eine Übung mit optionalem Zielgewicht anlegen. Auf einer Zielkarte **+** antippen, um sofort ein neues Training zu öffnen. Bei Krafttraining erhält das erste kg-Feld automatisch den Fokus und die numerische Tastatur öffnet sich. Satzübungen fokussieren die rechte freie Angabe mit normaler Tastatur. Bei Andere wird das erste linke Feld fokussiert, bei nur links vorbelegter Vorlage das rechte Feld. **Fertig** schließt die Tastatur. Das Datum ist mit heute vorbelegt. Antippen der Karte öffnet den Übungsverlauf. Zahnrad und Hilfe stehen oben rechts.
+Über den **Stift neben Übungen → Übung anlegen** eine Übung mit optionalem Zielgewicht anlegen. Auf einer Zielkarte **+** antippen, um sofort ein neues Training zu öffnen. Bei Krafttraining erhält das erste kg-Feld automatisch den Fokus und die numerische Tastatur öffnet sich. Satzübungen fokussieren die rechte freie Angabe mit normaler Tastatur. Bei Andere wird das erste linke Feld fokussiert, bei nur links vorbelegter Vorlage das rechte Feld. **Fertig** schließt die Tastatur. Das Datum ist mit heute vorbelegt. Antippen der Karte öffnet den Übungsverlauf. Zahnrad und Hilfe stehen oben rechts.
 
 Beim Anlegen oder Bearbeiten einer Übung unter **Standardsätze in Trainingsreihenfolge** die gewünschten Gruppen hinterlegen, etwa **1 × 5, 1 × 5, 3 × 5, 1 × 5**. Mit den Pfeilen die Reihenfolge ändern und eine Gruppe als Arbeitsgewicht markieren. Beim neuen Training sind diese Gruppen bereits angelegt, und du ergänzt die kg. Die Gruppen können für das einzelne Training angepasst werden. Änderungen an den Standardsätzen beeinflussen künftige Erfassungen. Bestehende Trainings behalten ihre Satzgruppen und Gewichte.
 
@@ -66,7 +66,7 @@ Für ein Training beispielsweise drei Satzgruppen erfassen:
 
 Der Zielfortschritt entspricht dem Arbeitsgewicht des zeitlich letzten Trainings geteilt durch das aktuelle Zielgewicht. 60 kg bei einem Ziel von 100 kg ergeben 60 %. Bei identischem Datum einschließlich Uhrzeit entscheidet das Anlegedatum. Ein älterer nachgetragener Eintrag ersetzt den aktuellen Fortschritt daher nur, wenn er zeitlich der letzte ist.
 
-Auf der Startseite neben **Deine Übungen** den **Stift → Übungen sortieren** wählen, die Übungen an den Griffen verschieben und **Speichern** wählen. Die Reihenfolge bleibt nach einem Neustart erhalten. Neue Übungen erscheinen am Ende. Vor der ersten manuellen Sortierung stehen vorhandene Übungen alphabetisch.
+Auf der Startseite neben **Übungen** den **Stift → Übungen sortieren** wählen, die Übungen an den Griffen verschieben und **Speichern** wählen. Die Reihenfolge bleibt nach einem Neustart erhalten. Neue Übungen erscheinen am Ende. Vor der ersten manuellen Sortierung stehen vorhandene Übungen alphabetisch.
 
 Die Startseite zeigt Trainingstage mit dem neuesten Datum zuerst. Innerhalb eines Tages folgen die Einträge deiner Übungsreihenfolge. Pro Trainingseintrag erscheint eine Zeile mit dem Arbeitsgewicht und optionaler Bewertung. Mehrere Einträge derselben Übung am gleichen Tag bleiben als einzelne Zeilen sichtbar. Antippen öffnet genau den gewählten Trainingseintrag zum Bearbeiten und Löschen. Den vollständigen Übungsverlauf öffnest du über die Zielkarte.
 

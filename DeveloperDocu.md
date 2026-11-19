@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.11.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.11.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -121,7 +121,7 @@ TrainingDataOperations.deleteAll löscht Übungen, Trainings, Satzgruppen, Stand
 
 ## Direkte Trainingserfassung und Fokus
 
-ContentView zeigt Zahnrad und Hilfe als ToolbarItemGroup rechts oben. Der Stift neben Deine Übungen öffnet ein Menü für Übung anlegen und Übungen sortieren. Zielkarten kombinieren in einem ZStack einen NavigationLink zum Übungsverlauf und einen separaten 44 pt großen Plus-Button. Das Plus steht außerhalb des NavigationLinks, sodass es ausschließlich die Trainingserfassung für die gewählte Übung öffnet.
+ContentView zeigt Zahnrad und Hilfe als ToolbarItemGroup rechts oben. Der Stift neben Übungen öffnet ein Menü für Übung anlegen und Übungen sortieren. Zielkarten kombinieren in einem ZStack einen NavigationLink zum Übungsverlauf und einen separaten 44 pt großen Plus-Button. Das Plus steht außerhalb des NavigationLinks, sodass es ausschließlich die Trainingserfassung für die gewählte Übung öffnet.
 
 TrainingEditor verwendet einen typisierten FocusState mit prescription(UUID) und weight(UUID). Neue Trainings warten in einem abbrechbaren task 350 ms auf den Aufbau des Sheets und der Tastatur-Toolbar. Dieses Muster stammt aus Cashuvo/AddTransactionView.swift. Wenn noch kein Feld fokussiert ist, wird bei Krafttraining das erste kg-Feld aktiviert, bei Satzübungen die rechte freie Angabe und bei Andere links (bei nur links vorbelegter Vorlage rechts). Freie Angaben verwenden die normale Tastatur. Bestehende Einträge erhalten beim Öffnen keinen automatischen Fokus. Die Fertig-Taste setzt den Fokus auf nil. Beim Entfernen der fokussierten Gruppe wird der Fokus ebenfalls gelöst.
 
@@ -250,7 +250,7 @@ Für die Abnahme bei Krafttraining, Satzübung und Andere alle fünf Bewertungen
 
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.11.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.11.1` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
 
 ## Export in 0.10.0
 
@@ -279,3 +279,5 @@ TrainingDaySummary.grouped vereinigt Trainingstage und nichtleere Notiztage. Der
 TrainingExport.selectedNotes filtert inklusive beider Randtage. Text/TXT ergänzen Notiz am Zeilenende, interne Zeilenumbrüche werden nur für diesen kompakten Text normalisiert. JSON schemaVersion 2 ergänzt dayNotes mit Tageskennung und unverändertem Text. Excel ergänzt die Spalte Tageskommentar bei den Detailzeilen; Tage ohne Trainings erhalten eine eigene Zeile. Exportaktionen bleiben bei reinen Notiztagen aktiv. TrainingDataOperations.deleteAll löscht Notizen mit demselben Save/Rollback wie übrige Daten.
 
 Tests in TrainingDayNoteTests prüfen Speicherung, Bearbeiten, unabhängiges Löschen, Notiztage ohne Trainings, Tageszuordnung, Zeitraum, Text/JSON/XLSX und Gesamtlöschung. Auf dem Mac ⌘ U ausführen und über 0.10.2 aktualisieren. Kommentar mit Zeilenumbrüchen anlegen, abbrechen/bearbeiten/löschen, letztes Training und letzte Übung löschen, App neu starten und Notiztag einschließlich aller Exporte kontrollieren. Das Löschen einer Notiz muss Trainings erhalten. Helle/dunkle Darstellung und iPhone/iPad prüfen. Hier sind Syntax und statische Verknüpfungen geprüft; Xcode-Build, Swift-Tests, Store-Update und Sichtprüfung sind ausstehend.
+
+0.11.1 kürzt die Startseitenüberschrift auf „Übungen“ und passt die Verweise in der Hilfe an. Reine Textänderung, statisch geprüft; Sichtprüfung auf dem Gerät ausstehend.
