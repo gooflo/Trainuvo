@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.13.0 – Privater iCloud-Abgleich
+
+- SwiftData mit privater CloudKit-Datenbank verbinden: Übungen, Ziele, Reihenfolge, Vorlagen, Trainings, Bewertungen und Tageskommentare auf eigenen Geräten synchronisieren. Lokale Offline-Nutzung bleibt möglich.
+- Das ausgelieferte Datenmodell aus v0.12.0 (identisch zum Modell in 0.12.1) als unveränderliches V1 sichern. V2 macht Listenbeziehungen optional und gibt Item.timestamp einen Default; Modell-/Feldnamen und IDs bleiben erhalten. Leichtgewichtigen Migrationsplan ergänzen, bisherigen Store weiterverwenden.
+- Accountstatus und Sync-Hinweise in Einstellungen/Hilfe anzeigen. Löschbestätigungen erklären die Wirkung auf andere Geräte.
+- Entitlements, Hintergrundbenachrichtigungen und isolierte Debug-Schema-Initialisierung vorbereiten. Migrationstests mit dateibasierten Bestandsdaten ergänzen.
+- Intern 0.13.0, extern weiterhin 1.0.0; nächster Build 4 vorbereitet. Vor Upload prüfen, dass Build 4 in App Store Connect frei ist.
+- Statische Prüfungen durchgeführt. Xcode-Build, Swift-Tests, reale Migration und Zwei-Geräte-Abgleich sowie Apple-Einrichtung/Production-Schema ausstehend. Kein Archiv, Upload oder Tag erstellt.
+
+
 ## 0.12.1 – Nächsten Upload vorbereiten
 
 - Nächsten Upload auf ausdrückliche Vorgabe intern 0.12.1 / extern 1.0.0 (3) festgelegt. Build 2 ist laut Florian bereits belegt; alle Targets verwenden Buildnummer 3.

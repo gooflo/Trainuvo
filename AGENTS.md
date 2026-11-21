@@ -48,7 +48,7 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 ## TestFlight und Ankündigungen
 
 - Interne SemVer-Version, externe App-Version und Buildnummer getrennt führen. Während der Testphase die externe Version möglichst stabil halten; Änderungen vorher abstimmen. Die nächste Buildnummer muss in App Store Connect noch frei sein. Der Repositorywert allein beweist nicht, welche Builds schon hochgeladen wurden; Angaben von Florian zu belegten Builds berücksichtigen.
-- Aktuell vereinbart: intern 0.12.1, extern 1.0.0 (3). Build 2 ist laut Florian bereits belegt. Künftige Zuordnungen in DeveloperDocu und Changelog dokumentieren.
+- Zuletzt vorbereitet und laut Florian erledigt: intern 0.12.1, extern 1.0.0 (3). Für iCloud ist intern 0.13.0 / extern 1.0.0 (4) vorbereitet; Build 4 vor Upload auf Verfügbarkeit prüfen. Build 2 ist laut Florian bereits belegt. Künftige Zuordnungen in DeveloperDocu und Changelog dokumentieren.
 - Wenn Florian „publishen“, „publizieren“, „veröffentlichen“ oder Ähnliches sagt, die kurze TestFlight-Checkliste und den vollständigen WhatsApp-Entwurf für den vorgesehenen Build in derselben Antwort ausgeben:
   1. Tag setzen und pushen.
   2. Archivieren und hochladen; externe Version und Build im Organizer prüfen. Automatische Buildnummernverwaltung für eine eindeutige Zuordnung abwählen, sofern angeboten.
@@ -59,3 +59,11 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 - WhatsApp-Entwurf analog Cashuvo: Überschrift exakt `✳️✳️✳️ NEUE VERSION ✳️✳️✳️`. Darunter externe Version samt Build, beispielsweise `Trainuvo 1.0.0 (3) ist jetzt in TestFlight verfügbar:`.
 - Kurze Stichpunkte ausschließlich zu sichtbaren Änderungen gegenüber dem zuletzt verteilten Build. Abschnitte `Fehlerbehebungen und kleine optische Änderungen` sowie `Neue Funktionen`; Neue Funktionen bei Releases ohne neue Funktionen weglassen. Künftig immer mit dem exakten Satz „Viel Spaß beim Testen!“ abschließen. Die bisherige Schlussaufforderung zu Update, Rückmeldungen und Screenshots entfällt.
 - Verfügbarkeit nur behaupten, wenn der Build für die Testgruppe bereitsteht oder der Entwurf ausdrücklich für diesen Zeitpunkt gedacht ist. Keine Nachrichten ohne gesonderten Auftrag versenden.
+
+## SwiftData und CloudKit
+
+- TrainuvoSchemaV1 entspricht dem ausgelieferten Modell aus v0.12.0 und 0.12.1 und bleibt unverändert. Aktuelles Modell ist V2; spätere Modelländerungen als neues VersionedSchema mit Migrationsplan und Bestandsdaten-Test umsetzen.
+- Bestehenden default.store und gespeicherte IDs erhalten. Bei Container-/Migrationsfehlern Fehlermeldung anzeigen; kein automatisches Löschen oder Ersatz durch einen leeren Store.
+- Private CloudKit-Datenbank iCloud.com.vogtapps.Trainuvo verwenden. Kein gemeinsamer Familien-Datensatz. Beziehungen optional halten, Attribute optional oder mit Default; keine Unique-Constraints.
+- Development-Schema nur im Debug-Modus und in einem isolierten temporären Store initialisieren. Vor TestFlight das geprüfte Schema nach Production deployen.
+- Sync-Abnahme umfasst Update einer Bestandsinstallation und zwei Geräte desselben Accounts: Anlegen/Ändern, Offline-Nachholen, Bewertungen, Sortierung, Tageskommentare und Löschen eines letzten Trainings bei Erhalt von Übung/Vorlagen. Accountstatus nicht als abgeschlossenen Sync darstellen.

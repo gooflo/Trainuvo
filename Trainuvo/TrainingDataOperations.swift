@@ -55,7 +55,7 @@ enum TrainingDataOperations {
                             isWorking: position == example.groups.count - 1
                         )
                         context.insert(template)
-                        exercise.setTemplates.append(template)
+                        exercise.templates.append(template)
                     }
                 }
 
@@ -65,7 +65,7 @@ enum TrainingDataOperations {
                     }
                     var trainingGroups = example.groups
                     trainingGroups[trainingGroups.count - 1].1 -= day.reduction
-                    let alreadyExists = exercise.entries.contains { entry in
+                    let alreadyExists = exercise.trainingEntries.contains { entry in
                         guard calendar.isDate(entry.date, inSameDayAs: date) else { return false }
                         let groups = entry.sortedGroups
                         return groups.count == trainingGroups.count &&
@@ -85,7 +85,7 @@ enum TrainingDataOperations {
                             isWorking: position == trainingGroups.count - 1
                         )
                         context.insert(set)
-                        training.groups.append(set)
+                        training.setGroups.append(set)
                     }
                     result.trainingsCreated += 1
                 }

@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.12.1 – Vorabversion**
+**Interner Entwicklungsstand: 0.13.0 – Vorabversion**
 
 ## Übungstypen
 
@@ -32,7 +32,7 @@ Jeder Eintrag speichert seinen Typ. Beim Wechsel des Übungstyps bleiben bestehe
 - Startseite mit Zielfortschritt und nach Datum zusammengefassten Trainingstagen. Jede Trainingszeile zeigt nur die Arbeitsgruppe, zum Beispiel Kniebeuge 3 × 5 @ 60 kg.
 - Trainingsverlauf pro Übung. Neue Trainings übernehmen die Standardsätze mit leeren Gewichtsfeldern. Ohne Standardsätze dient das letzte Training als Vorschlag.
 - Einstellungen über das Zahnrad mit **Beispieldaten anlegen** und dem bestätigten **Alles löschen**.
-- Lokale Speicherung auf dem Gerät mit SwiftData. iCloud-Synchronisierung ist als Prio 3 vorgemerkt.
+- Lokale SwiftData-Speicherung mit privatem iCloud-Abgleich für Übungen, Ziele, Vorlagen, Trainings, Bewertungen und Tageskommentare. Offline weiterarbeiten; Abgleich erfolgt zeitversetzt.
 
 ## Voraussetzungen
 
@@ -76,7 +76,7 @@ Satztexte dürfen frei formuliert werden, etwa **5/5/4**. Sie werden unveränder
 
 ## Einstellungen und Beispieldaten
 
-Über das Zahnrad die Einstellungen öffnen. **Alles löschen** entfernt nach ausdrücklicher Bestätigung sämtliche lokalen Übungen, Trainings und Standardsätze.
+Über das Zahnrad die Einstellungen öffnen. **Alles löschen** entfernt nach ausdrücklicher Bestätigung sämtliche Übungen, Trainings, Standardsätze und Tageskommentare, nach dem iCloud-Abgleich auch auf den weiteren Geräten desselben Apple-Accounts.
 
 **Beispieldaten anlegen** ergänzt folgende Daten mit je einem Training vom **14.11.2026** und **17.11.2026**. Die letzte Gruppe ist jeweils als Arbeitsgewicht markiert, die Bewertung ist leer.
 
@@ -133,4 +133,13 @@ Der nach Tagen gruppierte Verlauf auf der Startseite trägt die Überschrift „
 
 Vor dem Teilen von Textdatei, Excel und JSON erscheint die Dateinamen-Eingabe analog Cashuvo. Standard ist Trainuvo_Export.txt, Trainuvo_Export.xlsx bzw. Trainuvo_Export.json. Der Name ist frei änderbar; die feste Dateiendung steht rechts daneben und wird automatisch ergänzt. Eine bereits eingegebene passende Endung wird nicht doppelt angehängt. Abbrechen verwirft den Dialog. Leere Namen, Pfadtrenner, Doppelpunkte und Steuerzeichen sind nicht erlaubt. Text kopieren benötigt keinen Dateinamen.
 
-Für den nächsten Upload vorbereitet: extern **1.0.0 (3)**, intern **0.12.1**. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
+Für den nächsten Upload vorbereitet: extern **1.0.0 (4)**, intern **0.13.0**. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
+
+
+## iCloud ab 0.13.0
+
+Der Abgleich verwendet die private CloudKit-Datenbank des angemeldeten Apple-Accounts. Jeder Tester behält seine eigenen Daten; eine gemeinsame Familien-Datenbank ist nicht vorgesehen. Auf allen eigenen Geräten müssen derselbe Apple-Account und iCloud für Trainuvo aktiviert sein. Unter Einstellungen → Synchronisierung zeigt die App den Accountstatus. „Angemeldet“ bestätigt keinen bereits abgeschlossenen Datenabgleich.
+
+Vor dem ersten Update vorhandene Daten als JSON exportieren und die bisherige App installiert lassen. Der Export ist eine zusätzliche Sicherung zum Nachschlagen, noch kein Import. Der Update-Pfad behält den bisherigen Store bei und migriert auf ein versioniertes, CloudKit-kompatibles Modell. Bei einem Öffnungsfehler wird der Store nicht zurückgesetzt. Bereits unabhängig auf mehreren Geräten angelegte Übungen werden zusammengeführt, jedoch nicht anhand gleicher Namen zu einem Objekt verschmolzen; dadurch können gleichnamige Übungen erscheinen.
+
+Die Apple-Einrichtung, der Migrationstest, der Zwei-Geräte-Test und die Freigabe des CloudKit-Schemas für TestFlight sind in [DeveloperDocu.md](DeveloperDocu.md) beschrieben. Diese Prüfungen sind vor der Verteilung noch auf dem Mac durchzuführen.

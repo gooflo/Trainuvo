@@ -9,6 +9,7 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
+                CloudSyncInfoView()
                 Section {
                     Button("Beispieldaten anlegen", systemImage: "dumbbell") { createExamples() }
                 } footer: {
@@ -19,7 +20,7 @@ struct SettingsView: View {
                         activeAlert = .confirmDelete
                     }
                 } footer: {
-                    Text("Löscht alle Übungen, Trainings, Standardsätze und Tageskommentare auf diesem Gerät nach Bestätigung.")
+                    Text("Löscht alle Übungen, Trainings, Standardsätze und Tageskommentare auf diesem Gerät und nach iCloud-Abgleich auf deinen anderen Geräten nach Bestätigung.")
                 }
             }
             .navigationTitle("Einstellungen")
@@ -60,7 +61,7 @@ struct SettingsView: View {
 
         var message: String {
             switch self {
-            case .confirmDelete: "Alle Übungen, Trainings, Standardsätze und Tageskommentare werden dauerhaft gelöscht."
+            case .confirmDelete: "Alle Übungen, Trainings, Standardsätze und Tageskommentare werden dauerhaft gelöscht, auch auf deinen anderen synchronisierten Geräten."
             case .result(let message), .error(let message): message
             }
         }

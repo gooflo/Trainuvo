@@ -4,10 +4,6 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
-### t05 – Trainingsdaten per iCloud synchronisieren (Prio 3)
-
-- Übungen, Trainingsdaten und Ziele über iCloud synchronisieren, damit sie auf mehreren Geräten verfügbar sind.
-
 ### t24 – Zweisprachigkeit Deutsch und Englisch (Prio 3)
 
 - App-Oberfläche, Hilfe und Fehlermeldungen auf Deutsch und Englisch bereitstellen.
@@ -17,6 +13,15 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Ziele entfernen können, wobei die zugehörigen Trainings erhalten bleiben.
 
 ## Done
+
+### t05 – Trainingsdaten per iCloud synchronisieren (0.13.0)
+
+- Private CloudKit-Datenbank für den Apple-Account aktivieren; Übungen, Ziele, Sortierung, Vorlagen, Trainings, Satzgruppen, Bewertungen und Tageskommentare abgleichen. Lokal und offline weiterarbeiten.
+- Ausgeliefertes Modell als V1 sichern, CloudKit-kompatibles V2 und leichtgewichtigen Migrationsplan ergänzen. Optionalen Beziehungen sichere Listen-Zugriffe geben; bestehenden Store ohne Reset weiterverwenden.
+- Accountstatus in Einstellungen, Hinweis zu zeitversetztem Abgleich und geräteübergreifenden Löschungen ergänzen.
+- Development-Schema nur im Debug-Build mit getrenntem temporären Store initialisieren. Entitlements und Hintergrundbenachrichtigungen vorbereiten.
+- Regressionstests für echte dateibasierte unversionierte und versionierte V1-Stores, Daten-/ID-Erhalt, erneutes Öffnen und Löschen des letzten Trainings ergänzt.
+- Swift-Syntax, Projekt-/Plist-Konsistenz und Quelltext-Diff statisch geprüft. **Ausstehend:** Xcode-Build/⌘ U, Signierung und CloudKit-Container-Einrichtung, Update einer bestehenden Installation, Offline-/Zwei-Geräte-Test einschließlich Löschungen sowie Development-Schema nach Production deployen. Erst danach zur Verteilung freigeben.
 
 ### t37 – Dateinamen analog Cashuvo anpassen (0.12.0)
 

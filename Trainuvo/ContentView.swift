@@ -352,7 +352,7 @@ struct ExerciseDetailView: View {
                 Button("Training erfassen", systemImage: "plus.circle.fill") { addingTraining = true }
             }
             Section("Trainingsverlauf") {
-                if exercise.entries.isEmpty {
+                if exercise.trainingEntries.isEmpty {
                     Text("Erfasse dein erstes Training.").foregroundStyle(.secondary)
                 }
                 ForEach(exercise.sortedEntries, id: \.id) { entry in
@@ -458,7 +458,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.12.1"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.13.0"
     }
 
     var body: some View {
@@ -508,7 +508,7 @@ private struct HelpView: View {
                 }
                 Section("Einstellungen und Beispieldaten") {
                     Text("Über das Zahnrad öffnest du die Einstellungen. „Beispieldaten anlegen“ ergänzt Press, Kniebeuge, Bankdrücken und Kreuzheben mit Standardsätzen und je einem Training vom 14. und 17.11.2026. Am 14.11. liegen die Arbeitsgewichte jeweils 2 kg niedriger. Die jeweils letzte Gruppe ist das Arbeitsgewicht. Gleichnamige Übungen werden wiederverwendet und identische Beispieltrainings übersprungen.")
-                    Text("„Alles löschen“ entfernt nach ausdrücklicher Bestätigung alle Übungen, Trainings, Standardsätze und Tageskommentare auf diesem Gerät.")
+                    Text("„Alles löschen“ entfernt nach ausdrücklicher Bestätigung alle Übungen, Trainings, Standardsätze und Tageskommentare auf diesem Gerät und nach iCloud-Abgleich auf deinen weiteren Geräten.")
                 }
                 Section("Export für OneNote, JSON und Excel") {
                     Text("Über das Teilen-Symbol oben rechts öffnest du den Export. Wähle Monat und Jahr oder Von–Bis. Text kopieren übernimmt einen Absatz pro Trainingstag in die Zwischenablage, mit dem neuesten Tag zuerst und in deiner Übungsreihenfolge. Die Vorschau zeigt den kopierten Text. Bei Satztypen wird nur die Arbeitsgruppe ausgegeben, bei Andere alle Einheiten mit beiden Angaben. Bewertungen stehen als Zeichen vor den Angaben.")
@@ -518,7 +518,7 @@ private struct HelpView: View {
                     Text("Über das Notizsymbol neben dem Datum kannst du einen gemeinsamen Kommentar für alle Übungen dieses Tages erfassen oder bearbeiten. Er erscheint unter den Übungen. Abbrechen verwirft Änderungen. Löschen entfernt nur den Kommentar nach Bestätigung. Auch ohne verbleibende Trainings bleibt ein kommentierter Tag sichtbar. Die Exporte enthalten den Tageskommentar ebenfalls.")
                 }
                 Section("Datenspeicherung") {
-                    Text("Die Daten werden lokal auf diesem Gerät gespeichert. iCloud-Synchronisierung ist für eine spätere Version vorgesehen.")
+                    Text("Deine Daten werden lokal gespeichert und über iCloud privat mit deinen Geräten desselben Apple-Accounts synchronisiert. Ohne Internet kannst du weiterarbeiten. Der Abgleich erfolgt zeitversetzt. In den Einstellungen kannst du den iCloud-Accountstatus prüfen. Das ist keine Bestätigung, dass bereits alle Daten übertragen sind.")
                 }
             }
             .navigationTitle("Hilfe")

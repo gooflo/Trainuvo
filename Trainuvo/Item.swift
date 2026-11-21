@@ -1,18 +1,1 @@
-//
-//  Item.swift
-//  Trainuvo
-//
-//  Created by Florian Vogt on 17.11.26.
-//
-
-import Foundation
-import SwiftData
-
-@Model
-final class Item {
-    var timestamp: Date
-    
-    init(timestamp: Date) {
-        self.timestamp = timestamp
-    }
-}
+// Item is declared in TrainuvoSchemaV2; the released declaration is frozen in V1.

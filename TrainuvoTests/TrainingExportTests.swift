@@ -36,18 +36,18 @@ struct TrainingExportTests {
         cardio.sortOrder = 1
         let training = TrainingEntry(date: date, exercise: press)
         training.effort = .easy
-        training.groups = [
+        training.setGroups = [
             SetGroup(position: 0, prescription: "1×5", weight: 40, isWorking: false),
             SetGroup(position: 1, prescription: "3×5", weight: 52, isWorking: true)
         ]
         let other = TrainingEntry(date: date, exercise: cardio)
         other.effort = .okay
-        other.groups = [
+        other.setGroups = [
             SetGroup(position: 0, prescription: "200 W\nlocker", weight: 0, isWorking: false, detailText: "30 min"),
             SetGroup(position: 1, prescription: "", weight: 0, isWorking: false, detailText: "5 min Pause")
         ]
         let earlier = TrainingEntry(date: date.addingTimeInterval(-86400), exercise: press)
-        earlier.groups = [SetGroup(position: 0, prescription: "1×5", weight: 50, isWorking: true)]
+        earlier.setGroups = [SetGroup(position: 0, prescription: "1×5", weight: 50, isWorking: true)]
         let selected = TrainingExport.selected([other, training, earlier], from: earlier.date, to: date, calendar: cal)
         #expect(selected.map(\.id) == [training.id, other.id, earlier.id])
         let text = TrainingExport.text(selected, calendar: cal)
@@ -62,7 +62,7 @@ struct TrainingExportTests {
         exercise.targetDescription = "ohne Hilfe"
         let entry = TrainingEntry(date: Date(), exercise: exercise)
         entry.effort = .veryEasy
-        entry.groups = [
+        entry.setGroups = [
             SetGroup(position: 0, prescription: "1×3", weight: 0, isWorking: false, detailText: "mit Band"),
             SetGroup(position: 1, prescription: "3×5", weight: 0, isWorking: true, detailText: "ohne Hilfe")
         ]
@@ -85,7 +85,7 @@ struct TrainingExportTests {
     @Test func excelContainsValidXMLAndLiteralUserText() throws {
         let exercise = Exercise(name: "=1+1 & <Test>", targetWeight: 100)
         let entry = TrainingEntry(date: Date(), exercise: exercise)
-        entry.groups = [
+        entry.setGroups = [
             SetGroup(position: 0, prescription: "1×5", weight: 40, isWorking: false),
             SetGroup(position: 1, prescription: "3×5", weight: 60.5, isWorking: true)
         ]

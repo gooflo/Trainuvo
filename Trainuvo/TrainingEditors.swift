@@ -235,7 +235,7 @@ struct ExerciseEditor: View {
         if activityType.usesWeights { savedExercise.targetWeight = targetWeight }
         if activityType == .sets { savedExercise.targetDescription = setTarget.trimmingCharacters(in: .whitespacesAndNewlines) }
         let replacedTemplates = savedExercise.sortedSetTemplates(for: activityType)
-        savedExercise.setTemplates.removeAll { $0.activityType == activityType }
+        savedExercise.templates.removeAll { $0.activityType == activityType }
         for template in replacedTemplates {
             template.exercise = nil
             modelContext.delete(template)
@@ -249,7 +249,7 @@ struct ExerciseEditor: View {
                 detailText: activityType.usesWeights ? nil : draft.weight.trimmingCharacters(in: .whitespacesAndNewlines)
             )
             modelContext.insert(template)
-            savedExercise.setTemplates.append(template)
+            savedExercise.templates.append(template)
         }
         do {
             try modelContext.save()
@@ -526,8 +526,8 @@ struct TrainingEditor: View {
         let training: TrainingEntry
         if let entry {
             training = entry
-            for group in entry.groups { modelContext.delete(group) }
-            training.groups = []
+            for group in entry.setGroups { modelContext.delete(group) }
+            training.setGroups = []
             training.date = date
         } else {
             training = TrainingEntry(date: date, exercise: exercise)
@@ -543,7 +543,7 @@ struct TrainingEditor: View {
                 detailText: activityType.usesWeights ? nil : draft.weight.trimmingCharacters(in: .whitespacesAndNewlines)
             )
             modelContext.insert(group)
-            training.groups.append(group)
+            training.setGroups.append(group)
         }
         training.activityType = activityType
         training.effort = effort

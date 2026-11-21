@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.12.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.13.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -12,16 +12,18 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 
 | Datei | Verantwortung |
 |---|---|
-| TrainuvoApp.swift | Persistenter SwiftData-Container, lokaler Betrieb, Anzeige eines Öffnungsfehlers |
-| TrainingModels.swift | Exercise, ExerciseSetTemplate, TrainingEntry, SetGroup, Fortschrittsberechnung und Gewichtsformatierung |
+| TrainuvoApp.swift | Persistenter SwiftData-/CloudKit-Container, Migrationsplan, Öffnungsfehler und isolierte Debug-Schema-Einrichtung |
+| TrainingModels.swift | VersionedSchema V2 mit allen sechs Modellen, aktuelle Typaliase und Berechnungen |
+| TrainuvoSchemaV1.swift / TrainuvoMigrationPlan.swift | Unverändertes ausgeliefertes Modell und V1→V2-Migration |
+| CloudSyncInfoView.swift | iCloud-Accountstatus, Offline-/Sync-Hinweise |
 | ContentView.swift | Startseite, Zielkarten, gruppierte Trainingstage, Übungsdetail und Hilfe |
 | SettingsView.swift | Einstellungsseite, Bestätigung für Alles löschen und Import-Rückmeldung |
 | TrainingDataOperations.swift | Beispieldatenimport und vollständiges Löschen mit gemeinsamem Save/Rollback |
 | ExerciseOrderEditor.swift | Reihenfolge der Übungen als lokalen Entwurf bearbeiten und explizit speichern |
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
-| Item.swift | Unverändertes Modell aus dem Grundprojekt für vorhandene Testdaten |
+| Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload sind externe Version 1.0.0 und Buildnummer 3 vereinbart.
+Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (4) vorbereitet; Build 4 muss vor Upload noch frei sein. Intern 0.13.0. Keine Veröffentlichung durch diese Änderung.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -55,11 +57,15 @@ Die neuen Felder targetDescription an Exercise und detailText an ExerciseSetTemp
 - Neue Übungen starten im Editor mit einer Standardgruppe 3 × 5. Die Gruppen können entfernt, ergänzt, bearbeitet und mit Pfeilen umgeordnet werden. Genau eine vorhandene Standardgruppe muss als Arbeitsgewicht markiert sein. Ohne Standardgruppen ist die Markierung leer. Eingabe und Speicherung verwenden lokale Entwürfe.
 - Die gemeinsame Vorauswahl TrainingFormat.prescriptions bietet 1 × 3, 1 × 5, 3 × 5, 3 × 3 und 5 × 3.
 
-## Speicherung und spätere Synchronisierung
+## Speicherung und Migration ab 0.13.0
 
-Der Container enthält weiterhin Item aus dem Xcode-Grundprojekt. Die bisherigen Store-Einstellungen bleiben erhalten, ergänzt um die Trainingsmodelle. 0.2.0 ergänzt ExerciseSetTemplate und eine mit leerer Liste vorbelegte Beziehung an Exercise. Bestehende Attribute und Beziehungen bleiben erhalten. Das automatische SwiftData-Update muss über einer Installation von 0.1.1 mit Trainingsdaten auf dem Mac geprüft werden. CloudKit ist ausdrücklich ausgeschaltet. Ein Öffnungsfehler zeigt eine Fehlermeldung und erhält den vorhandenen Store.
+TrainuvoSchemaV1 friert das Modell aus dem veröffentlichten Tag v0.12.0 ein. Die persistenten Deklarationen in 0.12.1 sind damit identisch. V1 nicht nachträglich verändern. Das aktuelle TrainuvoSchemaV2 enthält dieselben sechs Modellnamen; globale Typaliase halten die übrige App lesbar. Item bleibt für alte Grundprojekt-Daten erhalten.
 
-Vor der ersten Verteilung das ausgelieferte Modell als Ausgangsschema sichern. Spätere Änderungen mit vorhandenen Trainings testen und bei Bedarf einen SchemaMigrationPlan ergänzen. iCloud-Synchronisierung bleibt unter t05 auf Prio 3.
+V2 macht ausschließlich die gespeicherten Listenbeziehungen Exercise.entries, Exercise.setTemplates und TrainingEntry.groups optional und ergänzt einen Default für Item.timestamp. Namen, IDs, inverse Beziehungen und Löschregeln bleiben erhalten. trainingEntries, templates und setGroups sind berechnete, beschreibbare Listen-Zugriffe mit leerer Liste für nil. CloudKit kann Beziehungen zeitversetzt liefern. Die Ansicht muss daher fehlende Zuordnungen und Gruppen vertragen. Alle erforderlichen Attribute haben Defaults, optionale Attribute bleiben optional; Unique-Constraints werden nicht verwendet.
+
+TrainuvoMigrationPlan enthält die leichtgewichtige V1→V2-Migration. Die App öffnet das versionierte Schema am bisherigen Standardpfad: kein eigener Containername, keine neue Store-URL und kein Reset. ModelConfiguration nutzt explizit .private("iCloud.com.vogtapps.Trainuvo"). Ein Fehler verhindert das Öffnen und zeigt eine Meldung, ohne den Store zu löschen oder einen leeren Ersatz anzulegen. Die Kompatibilität mit einer tatsächlich ausgelieferten Installation muss auf dem Mac geprüft werden.
+
+TrainingMigrationTests erzeugt dateibasierte V1-Stores, einmal mit dem bisherigen unversionierten Schema und einmal mit VersionedSchema. Der Test migriert alle drei Übungstypen, IDs, Ziele, Sortierung, Vorlagen, Gruppen, Werte, Bewertung, Notiz und Item; danach löscht er das letzte Training der ersten Übung, öffnet erneut, legt ein Training an und prüft dessen erneutes Laden. Diese Tests sind hier mangels Xcode nicht ausgeführt. Zusätzlich bleibt ein realer Update-Test erforderlich; der Testnachbau ersetzt keinen Store aus einem alten App-Build.
 
 ## Reihenfolge der Übungen
 
@@ -250,7 +256,7 @@ Für die Abnahme bei Krafttraining, Satzübung und Andere alle fünf Bewertungen
 
 ## Veröffentlichung
 
-Nach erfolgreichem Test den vorgesehenen Commit mit `v0.12.1` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
+Nach erfolgreichem Test den vorgesehenen Commit mit `v0.13.0` taggen und das Tag pushen. Externe App-Version und Buildnummer vor einem Upload abstimmen, anschließend in Xcode archivieren und im Organizer prüfen. TestFlight und eine öffentliche Veröffentlichung werden separat beauftragt.
 
 ## Export in 0.10.0
 
@@ -303,8 +309,49 @@ Default für TXT/XLSX/JSON: Trainuvo_Export.<Endung>, ohne Zeitraum. Zeitraumfil
 
 Apple verwendet ITSAppUsesNonExemptEncryption (Boolean). NO ist für Apps ohne nicht ausgenommene Verschlüsselung vorgesehen, einschließlich verlinkter Bibliotheken. Bei generierter Info.plist kann INFOPLIST_KEY_ITSAppUsesNonExemptEncryption auf NO gesetzt werden. Die Einstellung wurde inzwischen von Florian auf NO gesetzt und im Remote-Stand vor der Vorbereitung von 0.12.1 geprüft. Vor Anwendung die App und Bibliotheken auf nicht ausgenommene Verschlüsselung prüfen. Quelle: https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption
 
-## Nächster Upload: 0.12.1 / 1.0.0 (3)
+## Bisherige Vorbereitung: 0.12.1 / 1.0.0 (3)
 
-Die App sowie Test-Targets verwenden Buildnummer 3; die externe Version ist mit Florian auf 1.0.0 abgestimmt. Build 2 ist laut Florian bereits belegt. Interne Version und Hilfe zeigen 0.12.1. Die vom Nutzer eingestellten Werte für Export-Compliance (NO) und App-Mindestversion iOS/iPadOS 17.6 bleiben erhalten. Die projektweite Vorgabe und Unit-Test-Mindestversion bleiben 27.2. Version 0.12.0 ist weiterhin der bestätigte veröffentlichte Stand mit unverändertem Tag v0.12.0. Build 3 ist nur vorbereitet; Archivierung, Upload und Freigabe sind noch nicht bestätigt. Versionskonsistenz und unveränderte weitere Build-Einstellungen statisch geprüft; kein Xcode-Archiv hier erstellt.
+Die App sowie Test-Targets verwenden Buildnummer 3; die externe Version ist mit Florian auf 1.0.0 abgestimmt. Build 2 ist laut Florian bereits belegt. Interne Version und Hilfe zeigen 0.12.1. Die vom Nutzer eingestellten Werte für Export-Compliance (NO) und App-Mindestversion iOS/iPadOS 17.6 bleiben erhalten. Die projektweite Vorgabe und Unit-Test-Mindestversion bleiben 27.2. Version 0.12.0 ist weiterhin der bestätigte veröffentlichte Stand mit unverändertem Tag v0.12.0. Florian hat den Schritt anschließend als erledigt bestätigt; App Store Connect wurde hier nicht unabhängig geprüft. Versionskonsistenz und unveränderte weitere Build-Einstellungen statisch geprüft; kein Xcode-Archiv hier erstellt.
 
 Die TestFlight-Checkliste und das WhatsApp-Format aus Cashuvo sind jetzt auch in Trainuvos AGENTS.md verbindlich festgehalten. Vor dem Hochladen im Organizer intern 0.12.1 / extern 1.0.0 (3) kontrollieren. Der tatsächliche Status und bereits verwendete Builds in App Store Connect sind hier nicht direkt abrufbar; die Meldung zu Build 2 stammt von Florian. Die interne Version bleibt auf ausdrücklichen Wunsch 0.12.1. Einstellungen statisch geprüft, kein neues Archiv erstellt.
+
+
+## iCloud einrichten und 0.13.0 prüfen
+
+Vorbereitet: intern **0.13.0**, extern weiterhin **1.0.0**, Build **4**. Build 4 vor Upload in App Store Connect auf Verfügbarkeit prüfen. Export-Compliance NO und App-Mindestversion 17.6 bleiben erhalten. Die Unit-Tests benötigen gemäß unverändertem Test-Target einen Simulator ab iOS 27.2.
+
+### 1. Vorhandene Daten erhalten und Signierung einrichten
+
+1. Vor dem Update vorhandene Daten über das Teilen-Symbol → Export als JSON sichern. Export ist noch kein Import. Die bestehende App nicht deinstallieren und kein „Alles löschen“ verwenden.
+2. In Xcode **Integrate → Pull…** für main. Projekt → Target **Trainuvo** → **Signing & Capabilities** öffnen. Team und **Automatically manage signing** prüfen; Bundle-ID bleibt com.vogtapps.Trainuvo.
+3. Über **+ Capability → iCloud** hinzufügen bzw. prüfen. **CloudKit** aktivieren und genau **iCloud.com.vogtapps.Trainuvo** auswählen. Falls noch nicht vorhanden, mit **+** diesen Container anlegen; Xcode registriert ihn für das Team. Kein iCloud Documents/Key-Value Store erforderlich. Der Assistent hat keinen Zugriff auf die Apple-Signierungsverwaltung.
+4. **Push Notifications** sowie **Background Modes → Remote notifications** aktivieren bzw. prüfen. Trainuvo.entitlements und Trainuvo-Info.plist sind bereits referenziert; keine zweite Info.plist/Entitlements-Datei mit widersprüchlichen Werten erzeugen. Den Root-Plist nicht als App-Ressource kopieren. Provisioning aktualisieren lassen. Nutzer müssen keine sichtbaren Push-Nachrichten erlauben; dies dient dem Hintergrundabgleich.
+5. Mit **⌘ B** bauen, dann auf einem passenden Simulator mit **⌘ U** alle Unit-Tests ausführen, insbesondere TrainingMigrationTests. Bei einem Fehler nicht Store/Simulator/App löschen, sondern Fehlermeldung prüfen.
+
+### 2. Development-Schema initialisieren
+
+1. Auf einem Testgerät oder Simulator unter iCloud mit einem Apple-Account anmelden; iCloud für Trainuvo erlauben. Im Scheme **Product → Scheme → Edit Scheme… → Run → Arguments → Arguments Passed On Launch** den Debug-Parameter **-initializeCloudKitSchema** hinzufügen und aktivieren.
+2. Mit **⌘ R** im Debug-Build einmal starten. In der Xcode-Konsole nach **Development schema initialized** suchen. Die Initialisierung erzeugt nur Schema-/Testdaten in einem getrennten temporären Store und entfernt den lokalen Hilfsstore anschließend. Der eigentliche App-Store wird von diesem Helfer nicht geöffnet. Ein Fehler muss behoben werden, bevor fortgefahren wird.
+3. Den Parameter danach wieder deaktivieren/entfernen. In der [CloudKit Console](https://icloud.developer.apple.com/) den Container **iCloud.com.vogtapps.Trainuvo → Development → Schema** prüfen. Alle sechs Modelltypen (üblicherweise CD_Exercise, CD_ExerciseSetTemplate, CD_TrainingEntry, CD_SetGroup, CD_TrainingDayNote, CD_Item) und ihre Felder müssen vorhanden sein.
+
+### 3. Bestandsdaten und zwei Geräte testen
+
+- Auf einem Testgerät zunächst den bisherigen 0.12.1-Build mit Beispieldaten verwenden; Ziele, alle drei Typen, Standardsätze, mehrere Tage/Gruppen, Bewertungen und Tagesnotiz ergänzen. Anzahl/IDs nach Möglichkeit per JSON vergleichen. Dann 0.13.0 **über die bestehende Installation** installieren. Keine Deinstallation. Alles muss nach Update und Neustart erhalten sein.
+- Zwei Geräte mit demselben Apple-Account und derselben CloudKit-Umgebung verwenden. Xcode-Debug verwendet Development, TestFlight Production; ein Debug-Gerät und ein TestFlight-Gerät sind kein gültiges Sync-Testpaar. Zum Prüfen beide Apps im Vordergrund öffnen und dem Abgleich Zeit geben.
+- Auf A eine Übung und ein Training je Typ anlegen. B muss Ziele, Typen, beide freien Felder, Satzgruppen, Arbeitsgruppe und Bewertung übernehmen. Auf B Zielgewicht, Vorlagen und Übungsreihenfolge ändern; A muss dies übernehmen.
+- Tageskommentar auf A anlegen, auf B bearbeiten. Einen notiz-only Tag prüfen; Export TXT/JSON/XLSX muss dieselben Daten zeigen. Gleichzeitig offline angelegte Notizen desselben Tages bleiben zusammen sichtbar; beim Bearbeiten werden sie zu einem Text konsolidiert.
+- A offline setzen, ein Training anlegen und bestehendes ändern. Nach Wiederverbindung auf B kontrollieren. Bei gleichzeitigen Änderungen desselben Datensatzes gelten die Konfliktregeln des Apple-Abgleichs; keine eigene Versionshistorie oder feldweise manuelle Konfliktauflösung.
+- Auf B das letzte Training einer Übung löschen. Auf A muss das Training verschwinden; Übung, Ziel, Sortierung, Vorlagen und Tagesnotiz bleiben erhalten. Eine Notiz löschen und den Erhalt der Trainings prüfen. „Alles löschen“ nur mit entbehrlichen Testdaten testen, weil die Löschung synchronisiert wird.
+- Geräte ohne iCloud-Anmeldung müssen weiter lokal arbeiten können; Accountstatus zeigt die fehlende Anmeldung. Nach Wiederanmeldung den Nachholabgleich prüfen. Ein Accountstatus „Angemeldet“ belegt lediglich die Verfügbarkeit des Accounts, keinen abgeschlossenen Upload/Download.
+
+Unabhängig auf mehreren Geräten bereits angelegte, gleichnamige Übungen werden nicht anhand ihres Namens dedupliziert. Sync führt die Datensätze zusammen, erfindet aber keine gemeinsame Identität. Beispieldaten nicht gleichzeitig offline auf beiden Geräten erzeugen. Keine automatische Löschung anhand von Namen ergänzen.
+
+### 4. Vor TestFlight
+
+Nach erfolgreichen Tests in der CloudKit Console **Development → Schema → Deploy Schema Changes… → Production** ausführen und alle benötigten Typen/Felder/Indizes übernehmen. Es wird das Schema übertragen, nicht der Inhalt der Development-Datenbank. Produktionsdaten bleiben pro Apple-Account privat. Danach den Release-Build archivieren, Signierungs-Entitlements und das finale Info.plist (UIBackgroundModes remote-notification, interne Version, Export-Compliance NO) prüfen und gemäß Release-Checkliste verteilen. Vor Upload den getesteten Commit mit v0.13.0 taggen und mit **Include tags** pushen. Keine bereits veröffentlichten Tags verschieben.
+
+Auch Production anschließend auf zwei Geräten mit demselben TestFlight-Build prüfen, einschließlich Update über Build 3. In Production später additive CloudKit-Schemaänderungen verwenden; Feld-/Typumbenennungen und Löschungen nicht als unverfängliche Refactorings behandeln.
+
+Technische Grundlage: [Apple: Syncing model data across a person’s devices](https://developer.apple.com/documentation/swiftdata/syncing-model-data-across-a-persons-devices).
+
+Prüfstand: Quelltext, Swift-Syntax, XML-Plists, Projektkonfiguration und Versionen statisch geprüft. **Kein Xcode/Apple-SDK verfügbar:** kein Build, keine ausgeführten Swift-Tests, kein realer Store-Update-Test und kein CloudKit-Geräteabgleich. t05 ist implementiert, aber noch nicht für Verteilung abgenommen.

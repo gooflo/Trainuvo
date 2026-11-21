@@ -18,13 +18,13 @@ struct TrainuvoTests {
     @Test func latestTrainingUsesMarkedWorkingWeight() {
         let exercise = Exercise(name: "Kreuzheben", targetWeight: 100)
         let older = TrainingEntry(date: Date(timeIntervalSince1970: 100), exercise: exercise)
-        older.groups = [SetGroup(position: 0, prescription: "3 × 5", weight: 90, isWorking: true)]
+        older.setGroups = [SetGroup(position: 0, prescription: "3 × 5", weight: 90, isWorking: true)]
         let latest = TrainingEntry(date: Date(timeIntervalSince1970: 200), exercise: exercise)
-        latest.groups = [
+        latest.setGroups = [
             SetGroup(position: 0, prescription: "1 × 5", weight: 50, isWorking: false),
             SetGroup(position: 1, prescription: "3 × 5", weight: 60, isWorking: true)
         ]
-        exercise.entries = [latest, older]
+        exercise.trainingEntries = [latest, older]
         #expect(exercise.progress == 0.6)
         exercise.targetWeight = 50
         #expect(exercise.progress == 1.2)
@@ -46,18 +46,18 @@ struct TrainuvoTests {
         context.insert(training)
         let group = SetGroup(position: 0, prescription: "3 × 5", weight: 60, isWorking: true)
         context.insert(group)
-        training.groups.append(group)
+        training.setGroups.append(group)
         try context.save()
 
         let template = ExerciseSetTemplate(position: 0, prescription: "1 × 3", isWorking: true)
         context.insert(template)
-        exercise.setTemplates.append(template)
+        exercise.templates.append(template)
         try context.save()
 
         let reader = ModelContext(container)
         let saved = try #require(reader.fetch(FetchDescriptor<Exercise>()).first)
-        #expect(saved.entries.count == 1)
-        #expect(saved.latestEntry?.groups.count == 1)
+        #expect(saved.trainingEntries.count == 1)
+        #expect(saved.latestEntry?.setGroups.count == 1)
         #expect(saved.progress == 0.6)
         #expect(saved.latestEntry?.effort == .easy)
         #expect(saved.latestEntry?.effortRawValue == "easy")
@@ -73,7 +73,7 @@ struct TrainuvoTests {
 
     @Test func templatesRetainOrderAndDoNotChangeTraining() {
         let exercise = Exercise(name: "Kreuzheben", targetWeight: 130)
-        exercise.setTemplates = [
+        exercise.templates = [
             ExerciseSetTemplate(position: 3, prescription: "1 × 5", isWorking: false),
             ExerciseSetTemplate(position: 1, prescription: "1 × 5", isWorking: false),
             ExerciseSetTemplate(position: 0, prescription: "1 × 5", isWorking: false),
@@ -82,9 +82,9 @@ struct TrainuvoTests {
         #expect(exercise.sortedSetTemplates.map(\.prescription) == ["1 × 5", "1 × 5", "3 × 5", "1 × 5"])
         #expect(exercise.sortedSetTemplates.first(where: \.isWorking)?.position == 2)
         let training = TrainingEntry(date: Date(), exercise: exercise)
-        training.groups = [SetGroup(position: 0, prescription: "3 × 3", weight: 60, isWorking: true)]
-        exercise.entries = [training]
-        exercise.setTemplates[0].prescription = "1 × 3"
+        training.setGroups = [SetGroup(position: 0, prescription: "3 × 3", weight: 60, isWorking: true)]
+        exercise.trainingEntries = [training]
+        exercise.templates[0].prescription = "1 × 3"
         #expect(training.sortedGroups.first?.prescription == "3 × 3")
         #expect(training.workingWeight == 60)
         #expect(TrainingFormat.prescriptions.contains("1 × 3"))
@@ -177,14 +177,14 @@ struct TrainuvoTests {
         context.insert(exercise)
         let template = ExerciseSetTemplate(position: 0, prescription: "3 × 5", isWorking: true)
         context.insert(template)
-        exercise.setTemplates.append(template)
+        exercise.templates.append(template)
         var trainings: [TrainingEntry] = []
         for offset in 0..<numberOfTrainings {
             let training = TrainingEntry(date: Date(timeIntervalSince1970: Double(offset)), exercise: exercise)
             context.insert(training)
             let group = SetGroup(position: 0, prescription: "3 × 5", weight: 60, isWorking: true)
             context.insert(group)
-            training.groups.append(group)
+            training.setGroups.append(group)
             trainings.append(training)
         }
         try context.save()
@@ -200,7 +200,7 @@ struct TrainuvoTests {
             #expect(saved.targetWeight == 100)
             #expect(saved.sortOrder == 3)
             #expect(saved.sortedSetTemplates.map(\.prescription) == ["3 × 5"])
-            #expect(saved.entries.count == numberOfTrainings - index - 1)
+            #expect(saved.trainingEntries.count == numberOfTrainings - index - 1)
             #expect(try reader.fetchCount(FetchDescriptor<TrainingEntry>()) == numberOfTrainings - index - 1)
             #expect(try reader.fetchCount(FetchDescriptor<SetGroup>()) == numberOfTrainings - index - 1)
         }
@@ -289,7 +289,7 @@ struct TrainuvoTests {
         context.insert(exercise)
         let template = ExerciseSetTemplate(position: 0, prescription: "5 × 3", isWorking: true)
         context.insert(template)
-        exercise.setTemplates.append(template)
+        exercise.templates.append(template)
         context.insert(Item(timestamp: Date()))
         try context.save()
         let result = try TrainingDataOperations.createExamples(in: context)
@@ -334,24 +334,24 @@ struct TrainuvoTests {
         context.insert(exercise)
         let template = ExerciseSetTemplate(position: 0, prescription: type.usesSets ? "3 × 5" : "200 W", isWorking: type.usesSets, activityType: type, detailText: type.usesWeights ? nil : "30 min")
         context.insert(template)
-        exercise.setTemplates.append(template)
+        exercise.templates.append(template)
         for effort in TrainingEffort.allCases {
             let entry = TrainingEntry(date: Date(), exercise: exercise)
             context.insert(entry)
             entry.effort = effort
             let group = SetGroup(position: 0, prescription: template.prescription, weight: type.usesWeights ? 60 : 0, isWorking: type.usesSets, detailText: type.usesWeights ? nil : "30 min")
             context.insert(group)
-            entry.groups.append(group)
+            entry.setGroups.append(group)
         }
         try context.save()
         let reader = ModelContext(container)
         let saved = try #require(reader.fetch(FetchDescriptor<Exercise>()).first)
         #expect(saved.activityType == type)
-        #expect(saved.entries.count == 5)
-        #expect(Set(saved.entries.compactMap(\.effortRawValue)) == Set(TrainingEffort.allCases.map(\.rawValue)))
+        #expect(saved.trainingEntries.count == 5)
+        #expect(Set(saved.trainingEntries.compactMap(\.effortRawValue)) == Set(TrainingEffort.allCases.map(\.rawValue)))
         #expect(saved.sortedSetTemplates.first?.detailText == (type.usesWeights ? nil : "30 min"))
         #expect(saved.targetDescription == (type == .sets ? "ohne Hilfe" : nil))
-        for entry in Array(saved.entries) {
+        for entry in Array(saved.trainingEntries) {
             let group = try #require(entry.sortedGroups.first)
             #expect(entry.activityType == type)
             #expect(group.valueText(for: type) == (type.usesWeights ? "60 kg" : "30 min"))
@@ -379,13 +379,13 @@ struct TrainuvoTests {
         let template = ExerciseSetTemplate(position: 0, prescription: "Alte Vorlage", isWorking: false)
         template.activityTypeRawValue = rawValue
         context.insert(template)
-        exercise.setTemplates.append(template)
+        exercise.templates.append(template)
         let entry = TrainingEntry(date: Date(), exercise: exercise)
         entry.activityTypeRawValue = rawValue
         context.insert(entry)
         let group = SetGroup(position: 0, prescription: "Alter Text\nmit Zeilenumbruch", weight: 0, isWorking: false)
         context.insert(group)
-        entry.groups.append(group)
+        entry.setGroups.append(group)
         try context.save()
         let reader = ModelContext(container)
         let saved = try #require(reader.fetch(FetchDescriptor<Exercise>()).first)
@@ -421,22 +421,22 @@ struct TrainuvoTests {
     @Test func changingExerciseTypeRetainsEarlierTrainingAndStrengthDefaults() {
         let exercise = Exercise(name: "Training", targetWeight: 100)
         let template = ExerciseSetTemplate(position: 0, prescription: "3 × 5", isWorking: true)
-        exercise.setTemplates = [template]
+        exercise.templates = [template]
         let strength = TrainingEntry(date: Date(timeIntervalSince1970: 100), exercise: exercise)
-        strength.groups = [SetGroup(position: 0, prescription: "3 × 5", weight: 60, isWorking: true)]
+        strength.setGroups = [SetGroup(position: 0, prescription: "3 × 5", weight: 60, isWorking: true)]
         strength.effort = .hard
 
         exercise.activityType = .other
         let running = TrainingEntry(date: Date(timeIntervalSince1970: 200), exercise: exercise)
-        running.groups = [SetGroup(position: 0, prescription: "5 km locker", weight: 0, isWorking: false)]
-        exercise.entries = [strength, running]
+        running.setGroups = [SetGroup(position: 0, prescription: "5 km locker", weight: 0, isWorking: false)]
+        exercise.trainingEntries = [strength, running]
         #expect(exercise.progress == nil)
         #expect(exercise.latestEntryForCurrentType?.id == running.id)
         #expect(strength.activityType == .strength)
         #expect(strength.workingWeight == 60)
         #expect(strength.effort == .hard)
         #expect(exercise.targetWeight == 100)
-        #expect(exercise.setTemplates.first?.id == template.id)
+        #expect(exercise.templates.first?.id == template.id)
 
         exercise.activityType = .strength
         #expect(exercise.latestEntryForCurrentType?.id == strength.id)
@@ -458,16 +458,16 @@ struct TrainuvoTests {
         context.insert(training)
         let unit = SetGroup(position: 0, prescription: "Meine freie Einheit", weight: 0, isWorking: false)
         context.insert(unit)
-        training.groups.append(unit)
+        training.setGroups.append(unit)
         try context.save()
 
         let result = try TrainingDataOperations.createExamples(in: context)
         #expect(result.exercisesCreated == 3)
         #expect(result.trainingsCreated == 6)
         #expect(exercise.activityType == .other)
-        #expect(exercise.entries.count == 1)
+        #expect(exercise.trainingEntries.count == 1)
         #expect(exercise.latestEntry?.freeTextSummary == "Meine freie Einheit")
-        #expect(exercise.setTemplates.isEmpty)
+        #expect(exercise.templates.isEmpty)
     }
 
     @Test func ratingRawValuesRemainCompatible() {
@@ -493,14 +493,14 @@ struct TrainuvoTests {
         let running = ExerciseSetTemplate(position: 0, prescription: "3 × 5", isWorking: true, activityType: .sets, detailText: "ohne Hilfe")
         for template in [work, legacy, running, warmup] {
             context.insert(template)
-            exercise.setTemplates.append(template)
+            exercise.templates.append(template)
         }
         let training = TrainingEntry(date: Date(), exercise: exercise)
         context.insert(training)
         for template in exercise.sortedSetTemplates {
             let group = SetGroup(position: template.position, prescription: template.prescription, weight: 0, isWorking: false, detailText: template.detailText)
             context.insert(group)
-            training.groups.append(group)
+            training.setGroups.append(group)
         }
         // Updating a default must not alter an already recorded training.
         work.detailText = "25 min"
@@ -521,7 +521,7 @@ struct TrainuvoTests {
         try reader.save()
         let refreshed = ModelContext(container)
         let restored = try #require(refreshed.fetch(FetchDescriptor<Exercise>()).first)
-        #expect(restored.setTemplates.count == 4)
+        #expect(restored.templates.count == 4)
         #expect(restored.sortedSetTemplates.map(\.prescription) == ["5 Minuten locker", "100 W"])
         let savedTraining = try #require(restored.latestEntry)
         try savedTraining.deleteKeepingExercise(in: refreshed)

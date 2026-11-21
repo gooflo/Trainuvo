@@ -45,7 +45,7 @@ struct TrainingDayNoteTests {
         #expect(note.dayKey == "2026-11-17")
         let exercise = Exercise(name: "Press", targetWeight: 40)
         let training = TrainingEntry(date: date, exercise: exercise)
-        training.groups = [SetGroup(position: 0, prescription: "1×5", weight: 52, isWorking: true)]
+        training.setGroups = [SetGroup(position: 0, prescription: "1×5", weight: 52, isWorking: true)]
         #expect(TrainingExport.text([training], notes: [note], calendar: calendar) == "17.11.2026 | Press 1×5 @ 52 kg | Notiz: Gut weiter so")
         #expect(TrainingExport.selectedNotes([previous, note], from: date, to: date, calendar: calendar).map(\.id) == [note.id])
         #expect(TrainingExport.text([], notes: [note], calendar: calendar) == "17.11.2026 | Notiz: Gut weiter so")
