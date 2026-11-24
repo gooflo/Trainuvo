@@ -15,6 +15,15 @@ struct ContentView: View {
     @State private var editingTraining: TrainingEntry?
     @State private var quickTrainingExercise: Exercise?
 
+    private static let trainingDayFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "de_DE")
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.timeZone = .autoupdatingCurrent
+        formatter.dateFormat = "EEEE, dd.MM.yyyy"
+        return formatter
+    }()
+
     private var trainingDays: [TrainingDaySummary] {
         TrainingDaySummary.grouped(entries, notes: dayNotes)
     }
@@ -79,7 +88,7 @@ struct ContentView: View {
                             ForEach(trainingDays) { day in
                                 VStack(alignment: .leading, spacing: 8) {
                                     HStack {
-                                        Text(day.date, format: .dateTime.day().month(.wide).year())
+                                        Text(Self.trainingDayFormatter.string(from: day.date))
                                             .font(.headline)
                                         Spacer()
                                         Button {
@@ -458,7 +467,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.13.2"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.13.3"
     }
 
     var body: some View {
@@ -495,7 +504,7 @@ private struct HelpView: View {
                     Text("Jedes neue Training beginnt mit „Nicht bewertet“. Beim Bearbeiten kannst du die Bewertung nachtragen oder ändern. Über das X neben der Bewertungsüberschrift entfernst du sie wieder.")
                 }
                 Section("Trainings") {
-                    Text("Die Startseite fasst Trainings nach Kalendertag zusammen. Jede Zeile zeigt Übungsname, Sätze und Wiederholungen sowie das Arbeitsgewicht, zum Beispiel Kniebeuge 3 × 5 @ 60 kg. Eine Bewertung steht links vor den Sätzen. Aufwärmgruppen bleiben im Übungsdetail sichtbar.")
+                    Text("Die Startseite fasst Trainings nach Kalendertag zusammen. Die Überschrift zeigt zuerst den Wochentag und danach das kurze Datum, zum Beispiel Mittwoch, 18.11.2026. Jede Zeile zeigt Übungsname, Sätze und Wiederholungen sowie das Arbeitsgewicht, zum Beispiel Kniebeuge 3 × 5 @ 60 kg. Eine Bewertung steht links vor den Sätzen. Aufwärmgruppen bleiben im Übungsdetail sichtbar.")
                     Text("Wenn eine Übung an einem Tag mehrfach erfasst wurde, erscheint pro Trainingseintrag eine Zeile. Die Zeilen folgen deiner Übungsreihenfolge. Tippe auf eine Tageszeile, um genau diesen Trainingseintrag zu bearbeiten oder zu löschen. Den vollständigen Verlauf öffnest du über die Zielkarte der Übung.")
                 }
                 Section("Trainings löschen") {

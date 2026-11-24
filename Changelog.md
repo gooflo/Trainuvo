@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.13.3 – Wochentag vor dem Trainingsdatum anzeigen
+
+- Tagesüberschriften der Trainings auf der Startseite als „Mittwoch, 18.11.2026“ anzeigen: deutscher ausgeschriebener Wochentag, zweistelliger Tag/Monat und vierstelliges Jahr. Gilt auch für Tage mit ausschließlich Tageskommentar.
+- Hilfe und Dokumentation nachziehen. Intern 0.13.3 / extern 1.0.0 (7) vorbereiten; Build 7 vor Upload auf Verfügbarkeit prüfen.
+- Florian hat den erfolgreichen iPhone-Start mit Build 6 bestätigt. Der vollständige Zwei-Geräte-Sync-Test bleibt separat offen.
+- Datumsformat und Änderung statisch geprüft. Kein Xcode/Apple-SDK verfügbar; Build und Sichtprüfung auf iPhone/iPad ausstehend.
+
 ## 0.13.2 – Update älterer Stores ohne Tageskommentar-Modell ermöglichen
 
 - Ursache aus dem Diagnosebericht eingegrenzt: iPhone-Store enthält fünf bekannte Entitäten, aber kein TrainingDayNote. Die fehlende historische Modellmenge führte zu „Cannot use staged migration with an unknown model version“ (134504).

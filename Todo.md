@@ -14,6 +14,11 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t39 – Wochentag und kurzes Datum in Trainingsüberschriften (0.13.3)
+
+- Auf der Startseite beispielsweise „Mittwoch, 18.11.2026“ anzeigen, auch bei Tagen mit ausschließlich Kommentar. Ausgeschriebener deutscher Wochentag zuerst; Tag/Monat zweistellig, Jahr vierstellig, lokale Zeitzone.
+- Hilfe aktualisiert. Statisch geprüft; Xcode-Build und Sichtprüfung auf iPhone/iPad, mit langen Wochentagen und großer Schrift ausstehend.
+
 ### t38 – Älteren Fünf-Modell-Store im Migrationsplan berücksichtigen (0.13.2)
 
 - iPhone unter iOS 27.2.1: Build 4/5 konnte den vorhandenen Store wegen 134504 nicht öffnen. iPad-Update mit bestehenden Daten funktioniert laut Florian.
@@ -21,7 +26,7 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Historisches Schema vor Tageskommentaren ergänzen; Lightweight-Folge BeforeDayNotes → V1 → V2. V1/V2 nicht verändern, Store/IDs erhalten. Kein neues CloudKit-Schema.
 - Neue dateibasierte Tests bilden den exakten Fünf-Modell-Fingerprint nach und prüfen Migration, Daten-/Beziehungserhalt, neue Tagesnotiz und Wiederöffnen. Sechs-Modell-V1-Tests sowie aktualisiertes V2 weiter prüfen.
 - Diagnose und temporäre Kopie aus 0.13.1 bleiben verfügbar. Die nachgebesserten Diagnosetests wurden von Florian als erfolgreich bestätigt; neue Migrationstests sind davon nicht abgedeckt.
-- **Ausstehend:** Xcode-Build/⌘ U, TestFlight-Update auf dem betroffenen iPhone ohne Deinstallation und vollständiger Production-/Zwei-Geräte-Abgleich. Korrektur implementiert; reale Fehlerbehebung noch nicht bestätigt.
+- **Ausstehend:** Xcode-Build/⌘ U, TestFlight-Update auf dem betroffenen iPhone ohne Deinstallation und vollständiger Production-/Zwei-Geräte-Abgleich. Florian hat den erfolgreichen Start auf dem betroffenen iPhone mit Build 6 bestätigt; vollständiger Production-/Zwei-Geräte-Test bleibt offen.
 
 ### t05 – Trainingsdaten per iCloud synchronisieren (0.13.0)
 

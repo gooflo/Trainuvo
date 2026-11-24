@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.13.2**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.13.3**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (6) vorbereitet; Build 6 muss vor Upload noch frei sein. Intern 0.13.2. Keine Veröffentlichung durch diese Änderung.
+Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (7) vorbereitet; Build 7 muss vor Upload noch frei sein. Intern 0.13.3. Keine Veröffentlichung durch diese Änderung.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -394,3 +394,10 @@ Das aktuelle V2 und CloudKit-Schema werden nicht geändert; kein erneutes Develo
 Nächste Schritte am Mac: main pullen, ⌘ B und ⌘ U. Insbesondere alle Varianten von TrainingMigrationTests müssen bestehen. Danach den getesteten Stand mit v0.13.2 taggen/pushen; extern 1.0.0 (6) kontrollieren, Build 6 auf Verfügbarkeit prüfen und per TestFlight über Build 5 auf dem iPhone installieren. Die App nicht deinstallieren. Zuerst vollständige Übungen/Trainings/Vorlagen/Bewertungen prüfen, dann eine Tagesnotiz und ein Training anlegen, Neustart und Abgleich mit dem iPad testen. Bei erneutem Öffnungsfehler Diagnose kopieren. Kein veröffentlichter Tag wird verschoben.
 
 Prüfstand: Historische Deklarationen, Syntax, Modell-/Migrationsfolge und Versionsangaben statisch geprüft. Kein Xcode/Apple-SDK verfügbar, daher neue Swift-Tests und reales iPhone-Update noch nicht ausgeführt. t38 ist implementiert, aber noch nicht auf dem betroffenen Gerät abgenommen.
+
+
+## Tagesüberschriften: 0.13.3 / 1.0.0 (7)
+
+ContentView formatiert ausschließlich die Tagesüberschriften der Startseite mit einem wiederverwendeten DateFormatter: de_DE, gregorianischer Kalender, autoupdatingCurrent-Zeitzone, EEEE, dd.MM.yyyy. Beispiel: Mittwoch, 18.11.2026. Auch reine Notiztage verwenden diese Überschrift. Die App-Hilfe beschreibt das Format. Xcode-Build und Sichtprüfung mit langen Wochentagen, großer Schrift, iPhone und iPad ausstehend; statische Format-/Quelltextprüfung durchgeführt.
+
+Florian hat den erfolgreichen iPhone-Start mit TestFlight-Build 6 (0.13.2) bestätigt. Kein bestätigter vollständiger Production-Sync-Test. Nächster Upload vorbereitet als 1.0.0 (7), intern 0.13.3; freien Buildwert prüfen. Vor Upload nach erfolgreichem Test v0.13.3 taggen und mit Include tags pushen.
