@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.13.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.13.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -355,3 +355,16 @@ Auch Production anschließend auf zwei Geräten mit demselben TestFlight-Build p
 Technische Grundlage: [Apple: Syncing model data across a person’s devices](https://developer.apple.com/documentation/swiftdata/syncing-model-data-across-a-persons-devices).
 
 Prüfstand: Quelltext, Swift-Syntax, XML-Plists, Projektkonfiguration und Versionen statisch geprüft. **Kein Xcode/Apple-SDK verfügbar:** kein Build, keine ausgeführten Swift-Tests, kein realer Store-Update-Test und kein CloudKit-Geräteabgleich. t05 ist implementiert, aber noch nicht für Verteilung abgenommen.
+
+
+## Diagnose des Öffnungsfehlers: 0.13.1 / 1.0.0 (5)
+
+Florian hat für Build 4 erfolgreiche Xcode-/Unit-Tests, Initialisierung des Development-Schemas, Deployment nach Production und ein erfolgreiches iPad-Update mit vollständigem Datenbestand bestätigt. Auf dem iPhone unter iOS 27.2.1 liefert Core Data dagegen Code 134504 (unknown model version) beim Öffnen von default.store. Build 3 war laut Florian sehr wahrscheinlich installiert. Das aktuelle iPadOS funktioniert; ein Betriebssystemunterschied ist nicht nachgewiesen. Aus dem Log allein folgt nicht, welche Entitäts-/Modellhashes abweichen. t38 bleibt offen.
+
+StoreDiagnostics liest nach einem fehlgeschlagenen Container-Start die Metadaten am selben, aus ModelConfiguration abgeleiteten Standardpfad ausschließlich mit NSReadOnlyPersistentStoreOption. Es startet keinen zweiten Container, ändert keine Metadaten, erzeugt keinen Ersatzstore und führt keine Reparatur aus. Existiert kein Store, wird keiner angelegt. NSManagedObjectModel.makeManagedObjectModel erzeugt nur die Referenzmodelle aus den unveränderten V1/V2-Typen; entityVersionHashesByName und isConfiguration(withName:compatibleWithStoreMetadata:) zeigen Kompatibilität und Abweichungen. Diese strukturelle Prüfung ist noch kein Nachweis einer erfolgreichen SwiftData-Migration.
+
+StoreFailureView zeigt die bisherige Fehlermeldung sowie Diagnose kopieren (Zwischenablage), Diagnose teilen (System-Teilen) und aufklappbare technische Details. Der Bericht enthält interne/externe Version/Build, OS, Fehlertyp/-Domain/-Code, Modellversionskennungen und Entitätshashes. Keine ModelContext-Fetches, Trainingswerte, Accountkennungen, Store-UUIDs oder absoluten Dateipfade. Beliebige NSError.userInfo und localizedDescription werden nicht in den Bericht übernommen, weil sie Nutzerdaten enthalten können; nur Fehlercodes einer begrenzten NSUnderlyingError-Kette werden aufgenommen. Die bisherige lokale Fehlermeldung bleibt auf dem Bildschirm sichtbar.
+
+Prüfung: In Xcode Integrate → Pull…, ⌘ B und ⌘ U. StoreDiagnosticsTests prüft fehlenden Store (keine Dateierzeugung), einen synthetischen V2-Store (Store-Datei unverändert, Testdaten danach ladbar, Hashvergleich erfolgreich) und private Inhalte in NSError (nicht exportieren). Die vorherigen Migrationstests bleiben bestehen. Kein Apple-SDK hier verfügbar, daher nur Swift-Syntax und statische Konsistenz geprüft.
+
+Für das betroffene iPhone wird 1.0.0 (5) als neuer TestFlight-Diagnosebuild benötigt, intern 0.13.1. Vor Upload freien Buildwert prüfen, nach erfolgreichem Test v0.13.1 taggen/pushen. Build 4 und veröffentlichte Tags erhalten. Weder den fehlerhaften Store noch die App löschen; den Diagnosebuild darüber installieren. Bei Fehler Diagnose kopieren und Bericht zur Auswertung bereitstellen. Noch kein bestätigter Fix und keine Freigabe des Production-Abgleichs. Da kein persistentes Modell geändert wird, kein neues CloudKit-Schema deployen. Ein Debug-Build auf dem iPhone würde die CloudKit-Umgebung ändern; für diesen Befund denselben TestFlight-/Production-Pfad verwenden.

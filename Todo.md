@@ -4,6 +4,14 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
+### t38 – iPhone öffnet TestFlight-Build 4 nicht: unbekannte Modellversion (Prio 1)
+
+- iPhone mit iOS 27.2.1: NSCocoaErrorDomain 134504, Cannot use staged migration with an unknown model version. Build 3 laut Florian sehr wahrscheinlich zuvor installiert. Keine Daten löschen oder App deinstallieren.
+- iPad mit aktuellem iPadOS: Build 4 startet; zuvor gespeicherte Daten bleiben vollständig sichtbar. Xcode-/Unit-Tests laut Florian erfolgreich. Development-Schema initialisiert und nach Production deployed.
+- Ursache eingegrenzt: Der Migrationsmanager erkennt die Store-Modellversion auf dem iPhone nicht. Welche gespeicherten Hashes abweichen und warum, ist noch nicht bekannt. Kein Beleg für defekte Trainingsdaten oder ein fehlendes CloudKit-Deployment.
+- 0.13.1 / 1.0.0 (5): Kopier-/Teildiagnose am Fehlerbildschirm mit schreibgeschützter Metadatenprüfung und Vergleich der V1-/V2-Entitätshashes. Keine Änderung an Modellen, Migration oder CloudKit-Schema und keine automatische Wiederherstellung.
+- Offen: Diagnosebuild in Xcode bauen/testen, auf dem iPhone ohne Deinstallation aktualisieren, Bericht auswerten und darauf basierend Korrektur implementieren. Danach Update-/Sync-Test auf beiden Geräten. Dieser Befund ist noch nicht behoben.
+
 ### t24 – Zweisprachigkeit Deutsch und Englisch (Prio 3)
 
 - App-Oberfläche, Hilfe und Fehlermeldungen auf Deutsch und Englisch bereitstellen.
@@ -21,7 +29,7 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Accountstatus in Einstellungen, Hinweis zu zeitversetztem Abgleich und geräteübergreifenden Löschungen ergänzen.
 - Development-Schema nur im Debug-Build mit getrenntem temporären Store initialisieren. Entitlements und Hintergrundbenachrichtigungen vorbereiten.
 - Regressionstests für echte dateibasierte unversionierte und versionierte V1-Stores, Daten-/ID-Erhalt, erneutes Öffnen und Löschen des letzten Trainings ergänzt.
-- Swift-Syntax, Projekt-/Plist-Konsistenz und Quelltext-Diff statisch geprüft. **Ausstehend:** Xcode-Build/⌘ U, Signierung und CloudKit-Container-Einrichtung, Update einer bestehenden Installation, Offline-/Zwei-Geräte-Test einschließlich Löschungen sowie Development-Schema nach Production deployen. Erst danach zur Verteilung freigeben.
+- Stand 24.11.2026 laut Florian: Xcode-/Unit-Tests erfolgreich, Signierung/Container eingerichtet, Development-Schema initialisiert und nach Production deployed. Bestandsdaten auf dem Simulator und iPad sichtbar. **Offen:** iPhone-Öffnungsfehler t38 sowie Production-/Offline-/Zwei-Geräte-Test einschließlich Löschungen. Keine vollständige Sync-Abnahme.
 
 ### t37 – Dateinamen analog Cashuvo anpassen (0.12.0)
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.1 – Öffnungsfehler auf dem iPhone diagnostizierbar machen
+
+- Im Fehlerbildschirm Diagnose kopieren/teilen und aufklappbare technische Details ergänzen. Betriebssystem/App-Version, Fehlercodes und schreibgeschützt gelesene Modellhashes mit V1/V2 vergleichen; Trainingsinhalte, Accountkennungen, Store-UUID und Dateipfade aus dem Bericht weglassen.
+- iPhone-TestFlight-Fehler 134504 unter t38 als offen erfassen; keine bestätigte Fehlerbehebung. Erfolgreichen iPad-Update-Test sowie Schema-Deployment und Xcode-Tests laut Florian dokumentieren.
+- Datenmodelle, Migrationsplan und CloudKit-Schema bleiben unverändert. Kein automatischer Reset, kein Ausweichstore und kein Versuch, einen unbekannten Store ohne bekannten Migrationspfad zu öffnen.
+- Intern 0.13.1, extern 1.0.0 (5) als nächster Diagnosebuild vorbereitet. Verfügbarkeit von Build 5 vor Upload prüfen. Kein Tag/Upload durch den Assistenten.
+- Tests für schreibgeschütztes Lesen ohne Änderung der Store-Datei, Erhalt gespeicherter Daten, fehlenden Store und Ausschluss privater Inhalte ergänzt. Statische Prüfungen durchgeführt; Xcode-Build/Swift-Tests und Prüfung auf dem betroffenen iPhone ausstehend.
+
 ## 0.13.0 – Privater iCloud-Abgleich
 
 - SwiftData mit privater CloudKit-Datenbank verbinden: Übungen, Ziele, Reihenfolge, Vorlagen, Trainings, Bewertungen und Tageskommentare auf eigenen Geräten synchronisieren. Lokale Offline-Nutzung bleibt möglich.

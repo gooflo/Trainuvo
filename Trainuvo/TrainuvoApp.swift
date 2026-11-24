@@ -10,7 +10,16 @@ struct TrainuvoApp: App {
     private let storage: Result<ModelContainer, Error>
 
     init() {
-        storage = Result { try Self.makeModelContainer() }
+        do {
+            storage = .success(try Self.makeModelContainer())
+        } catch {
+            let schema = Schema(versionedSchema: TrainuvoSchemaV2.self)
+            let configuration = ModelConfiguration(schema: schema, cloudKitDatabase: .private("iCloud.com.vogtapps.Trainuvo"))
+            storage = .failure(StoreOpenFailure(
+                message: error.localizedDescription,
+                report: StoreDiagnostics.report(error: error, storeURL: configuration.url)
+            ))
+        }
     }
 
     var body: some Scene {
@@ -20,12 +29,7 @@ struct TrainuvoApp: App {
                 ContentView()
                     .modelContainer(container)
             case .failure(let error):
-                ContentUnavailableView {
-                    Label("Daten konnten nicht geöffnet werden", systemImage: "externaldrive.badge.exclamationmark")
-                } description: {
-                    Text("Deine vorhandenen Daten werden bei diesem Fehler nicht gelöscht.")
-                    Text(error.localizedDescription)
-                }
+                StoreFailureView(error: error)
             }
         }
     }
