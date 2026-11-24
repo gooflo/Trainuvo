@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.14.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.14.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (8) vorbereitet; Build 8 muss vor Upload noch frei sein. Intern 0.14.0. Keine Veröffentlichung durch diese Änderung.
+Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (9) vorbereitet; Build 9 muss vor Upload noch frei sein. Intern 0.14.1. Keine Veröffentlichung durch diese Änderung.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -421,3 +421,12 @@ Am Mac: main pullen, ⌘ B und ⌘ U. In einer bestehenden Installation eine Üb
 **Vor TestFlight erneut das CloudKit-Schema aktualisieren:** In Signing & Capabilities unverändert den bisherigen Container verwenden. Debug-Startargument -initializeCloudKitSchema einmal aktivieren, ⌘ R, Meldung Development schema initialized prüfen, Argument entfernen. CloudKit Console → iCloud.com.vogtapps.Trainuvo → Development → Schema → CD_Exercise: neues Feld CD_hiddenFromHome prüfen. Nach Tests Deploy Schema Changes… nach Production. Erst danach getesteten Commit mit v0.14.0 taggen, Include tags pushen und 1.0.0 (8) archivieren/hochladen. Freie Buildnummer prüfen. Alte TestFlight-Builds verwenden V2 und zeigen weiterhin alle Karten, weil sie das Flag nicht kennen; den Sichtbarkeitsabgleich mit zwei aktuellen Builds prüfen.
 
 Prüfstand: Syntax, Versionierung, eingefrorenes V2 und Änderungen am Modell/Filter statisch geprüft. Kein Xcode/Apple-SDK vorhanden; neue Swift-Tests, reale Migration, UI und CloudKit-Deployment noch ausstehend.
+
+
+## Löschabfrage mit Ausblendalternative – 0.14.1 / 1.0.0 (9)
+
+ExerciseDetailView.DetailAlert.deleteExercise bietet Abbrechen, Nur auf Startseite ausblenden und die destruktive Aktion Übung und alle Trainings löschen. Der Nachrichtentext unterscheidet die Folgen. changeHomeVisibility nimmt jetzt den gewünschten Bool-Zustand ausdrücklich entgegen: Das direkte Sichtbarkeitsmenü übergibt die Umkehr des aktuellen Werts, die Löschabfrage immer true. Dadurch kann die Alternative eine bereits ausgeblendete Übung nicht versehentlich wieder einblenden. Speichern/Rollback/Fehlermeldung und Schließen nach Erfolg verwenden denselben vorhandenen Pfad. Die eigentliche Cascade-Löschung bleibt ausdrücklich der roten Löschaktion zugeordnet; Abbrechen mutiert keine Daten.
+
+Prüfung am Mac: Pull, ⌘ B, dann eine entbehrliche Testübung mit Trainings verwenden. Alle drei Auswahlwege prüfen: Abbrechen erhält Daten und Sichtbarkeit, Ausblenden erhält Trainings/Vorlagen und verbirgt die Karte, endgültiges Löschen entfernt Übung und Trainings nach der Wahl. Eine bereits ausgeblendete Übung über den Stift sichtbar machen und dieselbe Alternative prüfen; sie bleibt ausgeblendet. Diese UI-Prüfung ist hier ohne Xcode nicht ausgeführt. Vorhandene ExerciseVisibilityTests für den Datenerhalt bleiben gültig. Modelle und Schema sind gegenüber 0.14.0 unverändert; vor der ersten Veröffentlichung dieser Funktion muss dessen V3-Feld dennoch in Development initialisiert und nach Production übertragen werden.
+
+Nächster Upload vorbereitet: intern 0.14.1 / extern 1.0.0 (9); freie Buildnummer prüfen. Nach erfolgreichen Prüfungen v0.14.1 taggen und mit Include tags pushen.

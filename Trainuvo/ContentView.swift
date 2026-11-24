@@ -408,7 +408,7 @@ struct ExerciseDetailView: View {
                 Menu {
                     Button("Übung bearbeiten", systemImage: "pencil") { editingExercise = true }
                     Button(exercise.isHiddenFromHome ? "Auf Startseite einblenden" : "Auf Startseite ausblenden", systemImage: exercise.isHiddenFromHome ? "eye" : "eye.slash") {
-                        changeHomeVisibility()
+                        changeHomeVisibility(!exercise.isHiddenFromHome)
                     }
                     Button("Übung löschen", systemImage: "trash", role: .destructive) { activeAlert = .deleteExercise }
                 } label: {
@@ -429,7 +429,8 @@ struct ExerciseDetailView: View {
                 Button("Training löschen", role: .destructive) { deleteEntry(entry) }
             case .deleteExercise:
                 Button("Abbrechen", role: .cancel) {}
-                Button("Übung und Trainings löschen", role: .destructive) { deleteExercise() }
+                Button("Nur auf Startseite ausblenden") { changeHomeVisibility(true) }
+                Button("Übung und alle Trainings löschen", role: .destructive) { deleteExercise() }
             case .error:
                 Button("OK", role: .cancel) {}
             }
@@ -446,7 +447,7 @@ struct ExerciseDetailView: View {
         var title: String {
             switch self {
             case .deleteTraining: "Training löschen?"
-            case .deleteExercise: "Übung wirklich löschen?"
+            case .deleteExercise: "Übung löschen oder ausblenden?"
             case .error: "Speichern fehlgeschlagen"
             }
         }
@@ -454,15 +455,15 @@ struct ExerciseDetailView: View {
         var message: String {
             switch self {
             case .deleteTraining: "Der Trainingseintrag mit seinen Sätzen wird gelöscht. Die Übung und ihre Standardsätze bleiben erhalten."
-            case .deleteExercise: "Die Übung sowie alle zugehörigen Trainings und Standardsätze werden gelöscht."
+            case .deleteExercise: "Beim Löschen werden die Übung, alle zugehörigen Trainings und Standardsätze dauerhaft entfernt. Beim Ausblenden bleibt alles erhalten; nur die Karte verschwindet von der Startseite."
             case .error(let message): message
             }
         }
     }
 
-    private func changeHomeVisibility() {
+    private func changeHomeVisibility(_ hidden: Bool) {
         do {
-            try exercise.setHiddenFromHome(!exercise.isHiddenFromHome, in: modelContext)
+            try exercise.setHiddenFromHome(hidden, in: modelContext)
             dismiss()
         } catch {
             activeAlert = .error(error.localizedDescription)
@@ -493,7 +494,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.14.0"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.14.1"
     }
 
     var body: some View {
@@ -503,6 +504,7 @@ private struct HelpView: View {
                     Text("Lege über den Stift neben „Übungen“ eine Übung mit optionalem Zielgewicht an. Das Plus auf einer Zielkarte öffnet sofort die Trainingserfassung. Antippen der Karte öffnet den Verlauf. Einstellungen und Hilfe stehen oben rechts.")
                 }
                 Section("Übungen aus- und einblenden") {
+                    Text("Auch bei „Übung löschen“ kannst du stattdessen „Nur auf Startseite ausblenden“ wählen. Diese Auswahl erhält alle Trainings. Nur „Übung und alle Trainings löschen“ entfernt die Übung samt Trainings und Standardsätzen dauerhaft.")
                     Text("Öffne eine Zielkarte und wähle im Menü … „Auf Startseite ausblenden“. Übung, Ziel, Vorlagen und alle bisherigen Trainings bleiben erhalten. In der Tagesübersicht und in Exporten bleiben diese Trainings sichtbar.")
                     Text("Über den Stift neben Übungen aktivierst du „Ausgeblendete Übungen anzeigen“. Öffne die gewünschte Karte und wähle im Menü … „Auf Startseite einblenden“. Die Einstellung pro Übung wird über iCloud abgeglichen.")
                 }

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.14.1 – Beim Löschen alternativ ausblenden
+
+- Löschabfrage einer Übung bietet „Nur auf Startseite ausblenden“, „Übung und alle Trainings löschen“ sowie Abbrechen. Der Text erklärt den Datenerhalt beziehungsweise das dauerhafte Löschen.
+- Ausblenden setzt ausdrücklich true und erhält daher auch bei bereits versteckten Übungen deren Zustand. Derselbe Save-/Rollback-Pfad wie beim direkten Ausblenden wird verwendet.
+- Hilfe und Dokumentation angepasst. Intern 0.14.1 / extern 1.0.0 (9) vorbereitet; Buildnummer vor Upload prüfen.
+- Swift-Syntax und Aktionszuordnung statisch geprüft; Xcode-Build und Bedienprüfung aller drei Auswahlwege ausstehend. Modelle/Migration unverändert gegenüber 0.14.0; dessen V3-CloudKit-Deployment bleibt vor der ersten Verteilung erforderlich.
+
 ## 0.14.0 – Übungsziele aus- und einblenden
 
 - Übungskarten über … aus der Startseite ausblenden und wieder einblenden. Ziel, Übung, Vorlagen, Reihenfolge und Trainingseinträge behalten. Verlauf, Tagesübersicht und Exporte enthalten ausgeblendete Übungen weiterhin.

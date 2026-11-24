@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.14.0 – Vorabversion**
+**Interner Entwicklungsstand: 0.14.1 – Vorabversion**
 
 ## Übungstypen
 
@@ -133,7 +133,7 @@ Der nach Tagen gruppierte Verlauf auf der Startseite trägt die Überschrift „
 
 Vor dem Teilen von Textdatei, Excel und JSON erscheint die Dateinamen-Eingabe analog Cashuvo. Standard ist Trainuvo_Export.txt, Trainuvo_Export.xlsx bzw. Trainuvo_Export.json. Der Name ist frei änderbar; die feste Dateiendung steht rechts daneben und wird automatisch ergänzt. Eine bereits eingegebene passende Endung wird nicht doppelt angehängt. Abbrechen verwirft den Dialog. Leere Namen, Pfadtrenner, Doppelpunkte und Steuerzeichen sind nicht erlaubt. Text kopieren benötigt keinen Dateinamen.
 
-Für den nächsten Upload vorbereitet: extern **1.0.0 (8)**, intern **0.14.0**. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
+Für den nächsten Upload vorbereitet: extern **1.0.0 (9)**, intern **0.14.1**. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
 
 
 ## iCloud ab 0.13.0
@@ -168,3 +168,6 @@ Vorbereitet: intern **0.13.2**, extern **1.0.0 (6)**. Xcode-Build/Tests und Upda
 Zum Wiederherstellen im **Stift-Menü neben Übungen → Ausgeblendete Übungen anzeigen** aktivieren. Die Karte öffnen und unter **… → Auf Startseite einblenden** wählen. Auch wenn alle Karten ausgeblendet sind, bleibt das Stift-Menü erreichbar. Die Sichtbarkeit pro Übung wird gespeichert und über iCloud synchronisiert; die Anzeige ausgeblendeter Karten ist eine vorübergehende Ansicht auf dem aktuellen Gerät.
 
 Intern 0.14.0 / extern 1.0.0 (8) vorbereitet. Vor TestFlight das um das optionale Sichtbarkeitsfeld erweiterte CloudKit-Schema in Development initialisieren, prüfen und nach Production übertragen. Details in DeveloperDocu.md.
+
+
+Bei **… → Übung löschen** bietet die Abfrage jetzt drei Möglichkeiten: **Nur auf Startseite ausblenden**, **Übung und alle Trainings löschen** oder **Abbrechen**. Ausblenden erhält alle Daten, auch bei bereits ausgeblendeten Übungen. Intern 0.14.1 / extern 1.0.0 (9) vorbereitet; Buildnummer vor Upload auf Verfügbarkeit prüfen. Vor der ersten Verteilung der Ausblendfunktion weiterhin das V3-CloudKit-Feld nach Production deployen, wie oben beschrieben.

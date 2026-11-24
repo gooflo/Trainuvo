@@ -10,9 +10,10 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
-### t26 – Übungsziele ausblenden und Trainings erhalten (0.14.0)
+### t26 – Übungsziele ausblenden und Trainings erhalten (0.14.0; ergänzt 0.14.1)
 
 - Auf Wunsch von Florian als Sichtbarkeitseinstellung statt Löschen umsetzen. Detailmenü … → Auf Startseite ausblenden/einblenden.
+- Seit 0.14.1 auch in der Löschabfrage: Nur auf Startseite ausblenden, Übung und alle Trainings löschen oder Abbrechen. Ausblenden setzt immer true, auch bei bereits versteckter Übung. Bedienprüfung aller drei Wege ausstehend.
 - Im Stift-Menü „Ausgeblendete Übungen anzeigen“ anbieten. Auch wenn alle Karten verborgen sind, bleibt Wiederherstellen erreichbar.
 - Übung, Ziel, Reihenfolge, Vorlagen, Trainings und Tagesnotizen bleiben erhalten; Verlauf, Tagesübersicht und Exporte werden nicht gefiltert. Einstellung pro Übung per iCloud synchronisieren.
 - Optionales Feld hiddenFromHome in neuem V3 mit V2→V3-Lightweight-Migration. Bestehende Datensätze sind sichtbar.
