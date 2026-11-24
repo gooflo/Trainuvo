@@ -12,7 +12,7 @@ enum StoreDiagnostics {
     // Diagnostic only: never instantiate a container, migrate, repair or write metadata here.
     static func report(error: Error, storeURL: URL) -> String {
         let bundle = Bundle.main
-        let version = bundle.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.14.1"
+        let version = bundle.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.14.2"
         let external = bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "?"
         let build = bundle.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "?"
         var lines = [

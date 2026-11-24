@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.14.2 – Sichtbarkeit direkt per Schalter einstellen
+
+- In der Übungsansicht direkt über Training erfassen den Schalter „Einblenden auf Startseite“ anbieten. An = sichtbar, Aus = verborgen. Nach dem Umschalten bleibt die Ansicht geöffnet.
+- Die bisherige Sichtbarkeitsaktion im …-Menü durch den Schalter ersetzen. Die Alternative in der Löschabfrage bleibt erhalten und setzt ausdrücklich verborgen.
+- Hilfe/Dokumentation angepasst. Intern 0.14.2 / extern 1.0.0 (10) vorbereitet; Buildnummer vor Upload prüfen. Modelle und Migration unverändert gegenüber 0.14.0.
+- Swift-Syntax, Schalterzuordnung und Versionswerte statisch geprüft; Xcode-Build und Sichtprüfung ausstehend. Erstmaliges V3-CloudKit-Deployment vor TestFlight bleibt erforderlich, falls noch nicht erfolgt.
+
 ## 0.14.1 – Beim Löschen alternativ ausblenden
 
 - Löschabfrage einer Übung bietet „Nur auf Startseite ausblenden“, „Übung und alle Trainings löschen“ sowie Abbrechen. Der Text erklärt den Datenerhalt beziehungsweise das dauerhafte Löschen.

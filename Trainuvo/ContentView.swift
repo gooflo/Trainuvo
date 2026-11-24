@@ -357,10 +357,6 @@ struct ExerciseDetailView: View {
         List {
             Section {
                 LabeledContent("Übungstyp", value: exercise.activityType.title)
-                if exercise.isHiddenFromHome {
-                    Label("Auf Startseite ausgeblendet", systemImage: "eye.slash")
-                        .foregroundStyle(.secondary)
-                }
                 if exercise.activityType.usesWeights, let target = exercise.targetWeight {
                     LabeledContent("Zielgewicht", value: TrainingFormat.weight(target))
                 }
@@ -372,6 +368,10 @@ struct ExerciseDetailView: View {
                         Text(progress, format: .percent.precision(.fractionLength(0)))
                     }
                 }
+                Toggle("Einblenden auf Startseite", isOn: Binding(
+                    get: { !exercise.isHiddenFromHome },
+                    set: { changeHomeVisibility(!$0) }
+                ))
                 Button("Training erfassen", systemImage: "plus.circle.fill") { addingTraining = true }
             }
             Section("Trainingsverlauf") {
@@ -407,9 +407,6 @@ struct ExerciseDetailView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     Button("Übung bearbeiten", systemImage: "pencil") { editingExercise = true }
-                    Button(exercise.isHiddenFromHome ? "Auf Startseite einblenden" : "Auf Startseite ausblenden", systemImage: exercise.isHiddenFromHome ? "eye" : "eye.slash") {
-                        changeHomeVisibility(!exercise.isHiddenFromHome)
-                    }
                     Button("Übung löschen", systemImage: "trash", role: .destructive) { activeAlert = .deleteExercise }
                 } label: {
                     Label("Übungsaktionen", systemImage: "ellipsis.circle")
@@ -429,7 +426,7 @@ struct ExerciseDetailView: View {
                 Button("Training löschen", role: .destructive) { deleteEntry(entry) }
             case .deleteExercise:
                 Button("Abbrechen", role: .cancel) {}
-                Button("Nur auf Startseite ausblenden") { changeHomeVisibility(true) }
+                Button("Nur auf Startseite ausblenden") { changeHomeVisibility(true, closeAfterSave: true) }
                 Button("Übung und alle Trainings löschen", role: .destructive) { deleteExercise() }
             case .error:
                 Button("OK", role: .cancel) {}
@@ -461,10 +458,10 @@ struct ExerciseDetailView: View {
         }
     }
 
-    private func changeHomeVisibility(_ hidden: Bool) {
+    private func changeHomeVisibility(_ hidden: Bool, closeAfterSave: Bool = false) {
         do {
             try exercise.setHiddenFromHome(hidden, in: modelContext)
-            dismiss()
+            if closeAfterSave { dismiss() }
         } catch {
             activeAlert = .error(error.localizedDescription)
         }
@@ -494,7 +491,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.14.1"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.14.2"
     }
 
     var body: some View {
@@ -505,8 +502,8 @@ private struct HelpView: View {
                 }
                 Section("Übungen aus- und einblenden") {
                     Text("Auch bei „Übung löschen“ kannst du stattdessen „Nur auf Startseite ausblenden“ wählen. Diese Auswahl erhält alle Trainings. Nur „Übung und alle Trainings löschen“ entfernt die Übung samt Trainings und Standardsätzen dauerhaft.")
-                    Text("Öffne eine Zielkarte und wähle im Menü … „Auf Startseite ausblenden“. Übung, Ziel, Vorlagen und alle bisherigen Trainings bleiben erhalten. In der Tagesübersicht und in Exporten bleiben diese Trainings sichtbar.")
-                    Text("Über den Stift neben Übungen aktivierst du „Ausgeblendete Übungen anzeigen“. Öffne die gewünschte Karte und wähle im Menü … „Auf Startseite einblenden“. Die Einstellung pro Übung wird über iCloud abgeglichen.")
+                    Text("Öffne eine Zielkarte und schalte „Einblenden auf Startseite“ direkt über „Training erfassen“ aus. Übung, Ziel, Vorlagen und alle bisherigen Trainings bleiben erhalten. In der Tagesübersicht und in Exporten bleiben diese Trainings sichtbar.")
+                    Text("Über den Stift neben Übungen aktivierst du „Ausgeblendete Übungen anzeigen“. Öffne die gewünschte Karte und schalte „Einblenden auf Startseite“ wieder ein. Die Einstellung pro Übung wird über iCloud abgeglichen.")
                 }
                 Section("Übungen sortieren") {
                     Text("Tippe auf der Startseite neben „Übungen“ auf den Stift und dann auf „Übungen sortieren“. Ziehe die Übungen an den Griffen in die gewünschte Reihenfolge und tippe auf „Speichern“. Neue Übungen werden am Ende angefügt.")

@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.14.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.14.2**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (9) vorbereitet; Build 9 muss vor Upload noch frei sein. Intern 0.14.1. Keine Veröffentlichung durch diese Änderung.
+Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (10) vorbereitet; Build 10 muss vor Upload noch frei sein. Intern 0.14.2. Keine Veröffentlichung durch diese Änderung.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -430,3 +430,12 @@ ExerciseDetailView.DetailAlert.deleteExercise bietet Abbrechen, Nur auf Startsei
 Prüfung am Mac: Pull, ⌘ B, dann eine entbehrliche Testübung mit Trainings verwenden. Alle drei Auswahlwege prüfen: Abbrechen erhält Daten und Sichtbarkeit, Ausblenden erhält Trainings/Vorlagen und verbirgt die Karte, endgültiges Löschen entfernt Übung und Trainings nach der Wahl. Eine bereits ausgeblendete Übung über den Stift sichtbar machen und dieselbe Alternative prüfen; sie bleibt ausgeblendet. Diese UI-Prüfung ist hier ohne Xcode nicht ausgeführt. Vorhandene ExerciseVisibilityTests für den Datenerhalt bleiben gültig. Modelle und Schema sind gegenüber 0.14.0 unverändert; vor der ersten Veröffentlichung dieser Funktion muss dessen V3-Feld dennoch in Development initialisiert und nach Production übertragen werden.
 
 Nächster Upload vorbereitet: intern 0.14.1 / extern 1.0.0 (9); freie Buildnummer prüfen. Nach erfolgreichen Prüfungen v0.14.1 taggen und mit Include tags pushen.
+
+
+## Sichtbarkeitsschalter – 0.14.2 / 1.0.0 (10)
+
+Auf Wunsch von Florian steht Toggle „Einblenden auf Startseite“ unmittelbar über Training erfassen in ExerciseDetailView. Binding liest !isHiddenFromHome und speichert die Umkehr des Schalterwertes über den vorhandenen Save-/Rollback-Pfad. changeHomeVisibility schließt die Ansicht standardmäßig nicht mehr. Ausschließlich die Alternative Nur auf Startseite ausblenden in der Löschabfrage setzt closeAfterSave: true und hidden: true. Der vorige Sichtbarkeits-Menübutton und das redundante Statuslabel entfallen. Das Stift-Menü zum Anzeigen ausgeblendeter Karten und die Löschabfrage bleiben erhalten.
+
+Am Mac Pull → ⌘ B → ⌘ R. Schalter aus/ein testen, geöffnet bleibende Ansicht prüfen; danach zur Startseite zurück, Karte und unveränderte Trainings prüfen. Alle Karten ausblenden und über das Stift-Menü wiederfinden. Die bestehende iCloud-Synchronisierung des optionalen Felds und das V3-Schema bleiben gleich. Kein zusätzliches CloudKit-Schema gegenüber 0.14.0; dessen erstmaliges Development-/Production-Deployment bleibt erforderlich. Danach getesteten Stand mit v0.14.2 taggen/pushen und freie Buildnummer 10 prüfen, bevor 1.0.0 (10) hochgeladen wird.
+
+Statisch geprüft; kein Xcode/Apple-SDK verfügbar, daher UI-/Gerätetest ausstehend.
