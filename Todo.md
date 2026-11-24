@@ -4,9 +4,9 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
-### t24 – Zweisprachigkeit Deutsch und Englisch (Prio 3)
+### t24 – Zweisprachigkeit Deutsch und Englisch (Prio 9, zurückgestellt)
 
-- App-Oberfläche, Hilfe und Fehlermeldungen auf Deutsch und Englisch bereitstellen.
+- Auf Wunsch von Florian zurückgestellt. App-Oberfläche, Hilfe und Fehlermeldungen später auf Deutsch und Englisch bereitstellen.
 
 ### t26 – Ziele löschen und Trainings erhalten (Prio 3)
 
