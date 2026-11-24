@@ -1,1 +1,1 @@
-// TrainingDayNote is declared in TrainuvoSchemaV2, independently of exercises and entries.
+// TrainingDayNote is declared in TrainuvoSchemaV3, independently of exercises and entries.

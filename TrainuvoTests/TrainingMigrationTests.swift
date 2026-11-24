@@ -109,7 +109,7 @@ struct TrainingMigrationTests {
     }
 
     private func openCurrentStore(at url: URL) throws -> ModelContainer {
-        let schema = Schema(versionedSchema: TrainuvoSchemaV2.self)
+        let schema = Schema(versionedSchema: TrainuvoSchemaV3.self)
         return try ModelContainer(for: schema, migrationPlan: TrainuvoMigrationPlan.self, configurations: [
             ModelConfiguration(schema: schema, url: url, cloudKitDatabase: .none)
         ])
@@ -120,6 +120,7 @@ struct TrainingMigrationTests {
         let context = ModelContext(container)
         let exercises = try context.fetch(FetchDescriptor<Exercise>(sortBy: [SortDescriptor(\Exercise.sortOrder)]))
         #expect(exercises.map(\.id) == fixture.exerciseIDs)
+        #expect(exercises.allSatisfy { !$0.isHiddenFromHome })
         #expect(exercises.map(\.name) == ["Bestand 0", "Bestand 1", "Bestand 2"])
         #expect(exercises.map(\.sortOrder) == [5, 6, 7])
         #expect(exercises.map(\.activityType) == ExerciseType.allCases)
@@ -192,16 +193,17 @@ struct TrainingMigrationTests {
                 ModelConfiguration(schema: schema, url: url, cloudKitDatabase: .none)
             ])
             let context = ModelContext(container)
-            let exercise = Exercise(name: "Bereits V2", targetWeight: 100)
+            let exercise = TrainuvoSchemaV2.Exercise(name: "Bereits V2", targetWeight: 100)
             exercise.id = id
             context.insert(exercise)
-            context.insert(TrainingDayNote(date: Date(), text: "Notiz aus Build 4"))
+            context.insert(TrainuvoSchemaV2.TrainingDayNote(date: Date(), text: "Notiz aus Build 4"))
             try context.save()
         }
         try autoreleasepool {
             let container = try openCurrentStore(at: url)
             let context = ModelContext(container)
             #expect(try context.fetch(FetchDescriptor<Exercise>()).first?.id == id)
+            #expect(try context.fetch(FetchDescriptor<Exercise>()).first?.isHiddenFromHome == false)
             #expect(try context.fetch(FetchDescriptor<TrainingDayNote>()).first?.text == "Notiz aus Build 4")
         }
     }

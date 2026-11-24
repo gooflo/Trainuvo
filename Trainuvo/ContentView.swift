@@ -8,6 +8,7 @@ struct ContentView: View {
     @State private var noteDay: NoteDay?
     private struct NoteDay: Identifiable { let date: Date; var id: Date { date } }
     @State private var showingExercise = false
+    @State private var showingHiddenExercises = false
     @State private var showingHelp = false
     @State private var showingExerciseOrder = false
     @State private var showingSettings = false
@@ -23,6 +24,10 @@ struct ContentView: View {
         formatter.dateFormat = "EEEE, dd.MM.yyyy"
         return formatter
     }()
+
+    private var displayedExercises: [Exercise] {
+        exercises.filter { showingHiddenExercises || !$0.isHiddenFromHome }
+    }
 
     private var trainingDays: [TrainingDaySummary] {
         TrainingDaySummary.grouped(entries, notes: dayNotes)
@@ -53,14 +58,19 @@ struct ContentView: View {
                                     showingExerciseOrder = true
                                 }
                                 .disabled(exercises.count < 2)
+                                Toggle("Ausgeblendete Übungen anzeigen", isOn: $showingHiddenExercises)
                             } label: {
                                 Label("Übungen verwalten", systemImage: "pencil")
                                     .labelStyle(.iconOnly)
                                     .frame(width: 44, height: 44)
                             }
                         }
+                        if displayedExercises.isEmpty {
+                            Text("Alle Übungen sind ausgeblendet. Über den Stift kannst du ausgeblendete Übungen anzeigen.")
+                                .foregroundStyle(.secondary)
+                        }
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 280), spacing: 12)], spacing: 12) {
-                            ForEach(exercises, id: \.id) { exercise in
+                            ForEach(displayedExercises, id: \.id) { exercise in
                                 ZStack(alignment: .topTrailing) {
                                     NavigationLink {
                                         ExerciseDetailView(exercise: exercise)
@@ -347,6 +357,10 @@ struct ExerciseDetailView: View {
         List {
             Section {
                 LabeledContent("Übungstyp", value: exercise.activityType.title)
+                if exercise.isHiddenFromHome {
+                    Label("Auf Startseite ausgeblendet", systemImage: "eye.slash")
+                        .foregroundStyle(.secondary)
+                }
                 if exercise.activityType.usesWeights, let target = exercise.targetWeight {
                     LabeledContent("Zielgewicht", value: TrainingFormat.weight(target))
                 }
@@ -393,6 +407,9 @@ struct ExerciseDetailView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     Button("Übung bearbeiten", systemImage: "pencil") { editingExercise = true }
+                    Button(exercise.isHiddenFromHome ? "Auf Startseite einblenden" : "Auf Startseite ausblenden", systemImage: exercise.isHiddenFromHome ? "eye" : "eye.slash") {
+                        changeHomeVisibility()
+                    }
                     Button("Übung löschen", systemImage: "trash", role: .destructive) { activeAlert = .deleteExercise }
                 } label: {
                     Label("Übungsaktionen", systemImage: "ellipsis.circle")
@@ -443,6 +460,15 @@ struct ExerciseDetailView: View {
         }
     }
 
+    private func changeHomeVisibility() {
+        do {
+            try exercise.setHiddenFromHome(!exercise.isHiddenFromHome, in: modelContext)
+            dismiss()
+        } catch {
+            activeAlert = .error(error.localizedDescription)
+        }
+    }
+
     private func deleteExercise() {
         modelContext.delete(exercise)
         do {
@@ -467,7 +493,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.13.3"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.14.0"
     }
 
     var body: some View {
@@ -475,6 +501,10 @@ private struct HelpView: View {
             List {
                 Section("Trainuvo \(version)") {
                     Text("Lege über den Stift neben „Übungen“ eine Übung mit optionalem Zielgewicht an. Das Plus auf einer Zielkarte öffnet sofort die Trainingserfassung. Antippen der Karte öffnet den Verlauf. Einstellungen und Hilfe stehen oben rechts.")
+                }
+                Section("Übungen aus- und einblenden") {
+                    Text("Öffne eine Zielkarte und wähle im Menü … „Auf Startseite ausblenden“. Übung, Ziel, Vorlagen und alle bisherigen Trainings bleiben erhalten. In der Tagesübersicht und in Exporten bleiben diese Trainings sichtbar.")
+                    Text("Über den Stift neben Übungen aktivierst du „Ausgeblendete Übungen anzeigen“. Öffne die gewünschte Karte und wähle im Menü … „Auf Startseite einblenden“. Die Einstellung pro Übung wird über iCloud abgeglichen.")
                 }
                 Section("Übungen sortieren") {
                     Text("Tippe auf der Startseite neben „Übungen“ auf den Stift und dann auf „Übungen sortieren“. Ziehe die Übungen an den Griffen in die gewünschte Reihenfolge und tippe auf „Speichern“. Neue Übungen werden am Ende angefügt.")

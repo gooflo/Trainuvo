@@ -1,8 +1,8 @@
 import Foundation
 import SwiftData
 
-enum TrainuvoSchemaV2: VersionedSchema {
-    static var versionIdentifier: Schema.Version { .init(2, 0, 0) }
+enum TrainuvoSchemaV3: VersionedSchema {
+    static var versionIdentifier: Schema.Version { .init(3, 0, 0) }
     static var models: [any PersistentModel.Type] { [Item.self, Exercise.self, TrainingEntry.self, SetGroup.self, ExerciseSetTemplate.self, TrainingDayNote.self] }
 
     @Model
@@ -12,6 +12,14 @@ enum TrainuvoSchemaV2: VersionedSchema {
         var sortOrder: Int = 0
         var targetWeight: Double?
         var targetDescription: String?
+        var hiddenFromHome: Bool?
+
+        var isHiddenFromHome: Bool { hiddenFromHome ?? false }
+
+        func setHiddenFromHome(_ hidden: Bool, in context: ModelContext) throws {
+            hiddenFromHome = hidden
+            do { try context.save() } catch { context.rollback(); throw error }
+        }
         var activityTypeRawValue: String?
         @Relationship(deleteRule: .cascade, inverse: \TrainingEntry.exercise)
         var entries: [TrainingEntry]? = []
@@ -245,12 +253,12 @@ enum TrainuvoSchemaV2: VersionedSchema {
     }
 }
 
-typealias Item = TrainuvoSchemaV2.Item
-typealias Exercise = TrainuvoSchemaV2.Exercise
-typealias ExerciseSetTemplate = TrainuvoSchemaV2.ExerciseSetTemplate
-typealias TrainingEntry = TrainuvoSchemaV2.TrainingEntry
-typealias SetGroup = TrainuvoSchemaV2.SetGroup
-typealias TrainingDayNote = TrainuvoSchemaV2.TrainingDayNote
+typealias Item = TrainuvoSchemaV3.Item
+typealias Exercise = TrainuvoSchemaV3.Exercise
+typealias ExerciseSetTemplate = TrainuvoSchemaV3.ExerciseSetTemplate
+typealias TrainingEntry = TrainuvoSchemaV3.TrainingEntry
+typealias SetGroup = TrainuvoSchemaV3.SetGroup
+typealias TrainingDayNote = TrainuvoSchemaV3.TrainingDayNote
 
 enum TrainingFormat {
     static let prescriptions = ["1 × 3", "1 × 5", "3 × 5", "3 × 3", "5 × 3"]

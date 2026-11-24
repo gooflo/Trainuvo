@@ -34,7 +34,7 @@ struct StoreDiagnosticsTests {
         #expect(!report.contains("PRIVATE_TRAINING_CONTENT"))
         #expect(!report.contains(url.path))
         try autoreleasepool {
-            let schema = Schema(versionedSchema: TrainuvoSchemaV2.self)
+            let schema = Schema(versionedSchema: TrainuvoSchemaV3.self)
             let container = try ModelContainer(for: schema, migrationPlan: TrainuvoMigrationPlan.self, configurations: [
                 ModelConfiguration(schema: schema, url: url, cloudKitDatabase: .none)
             ])
@@ -47,9 +47,9 @@ struct StoreDiagnosticsTests {
     private func writeClosedFixture(at url: URL) throws {
         let model: NSManagedObjectModel?
         if #available(iOS 26, *) {
-            model = NSManagedObjectModel.makeManagedObjectModel(for: Schema(versionedSchema: TrainuvoSchemaV2.self))
+            model = NSManagedObjectModel.makeManagedObjectModel(for: Schema(versionedSchema: TrainuvoSchemaV3.self))
         } else {
-            model = NSManagedObjectModel.makeManagedObjectModel(for: TrainuvoSchemaV2.models)
+            model = NSManagedObjectModel.makeManagedObjectModel(for: TrainuvoSchemaV3.models)
         }
         let managedModel = try #require(model)
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: managedModel)

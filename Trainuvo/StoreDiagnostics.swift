@@ -12,7 +12,7 @@ enum StoreDiagnostics {
     // Diagnostic only: never instantiate a container, migrate, repair or write metadata here.
     static func report(error: Error, storeURL: URL) -> String {
         let bundle = Bundle.main
-        let version = bundle.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.13.3"
+        let version = bundle.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.14.0"
         let external = bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "?"
         let build = bundle.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "?"
         var lines = [
@@ -44,7 +44,8 @@ enum StoreDiagnostics {
             ("Vor Tageskommentaren (5 Modelle)", Schema(TrainuvoSchemaBeforeDayNotes.models), TrainuvoSchemaBeforeDayNotes.models),
             ("V1 (Build 3, unversioniert)", Schema(TrainuvoSchemaV1.models), TrainuvoSchemaV1.models),
             ("V1 (versioniert)", Schema(versionedSchema: TrainuvoSchemaV1.self), TrainuvoSchemaV1.models),
-            ("V2 (Build 4)", Schema(versionedSchema: TrainuvoSchemaV2.self), TrainuvoSchemaV2.models)
+            ("V2 (Build 4–7)", Schema(versionedSchema: TrainuvoSchemaV2.self), TrainuvoSchemaV2.models),
+            ("V3 (Sichtbarkeit)", Schema(versionedSchema: TrainuvoSchemaV3.self), TrainuvoSchemaV3.models)
         ]
         for (name, schema, types) in versions {
             lines += ["", name]

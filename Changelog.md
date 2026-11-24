@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.14.0 – Übungsziele aus- und einblenden
+
+- Übungskarten über … aus der Startseite ausblenden und wieder einblenden. Ziel, Übung, Vorlagen, Reihenfolge und Trainingseinträge behalten. Verlauf, Tagesübersicht und Exporte enthalten ausgeblendete Übungen weiterhin.
+- Im Stift-Menü ausgeblendete Übungen vorübergehend anzeigen; Hinweis bei vollständig ausgeblendeten Karten. Hilfe ergänzen.
+- Optionales Exercise.hiddenFromHome in neuem Schema V3 ergänzen. nil gilt als sichtbar. Ausgeliefertes V2 unverändert sichern; Lightweight V2→V3 an bestehenden historischen Migrationsplan anhängen.
+- Migrationstests für fünf/sechs Modelle und V2 auf aktuelles V3 erweitern; dateibasierte Aus-/Einblendtests für alle drei Übungstypen mit Daten-/ID-/Export-Erhalt ergänzen.
+- Intern 0.14.0 / extern 1.0.0 (8) vorbereiten. Build 8 vor Upload auf Verfügbarkeit prüfen.
+- Statisch geprüft; Xcode-Build/Tests, Update- und Zwei-Geräte-Test ausstehend. Vor TestFlight neues optionales CloudKit-Feld in Development initialisieren und nach Production deployen.
+
 ## 0.13.3 – Wochentag vor dem Trainingsdatum anzeigen
 
 - Tagesüberschriften der Trainings auf der Startseite als „Mittwoch, 18.11.2026“ anzeigen: deutscher ausgeschriebener Wochentag, zweistelliger Tag/Monat und vierstelliges Jahr. Gilt auch für Tage mit ausschließlich Tageskommentar.

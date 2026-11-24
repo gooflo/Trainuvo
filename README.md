@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.13.3 – Vorabversion**
+**Interner Entwicklungsstand: 0.14.0 – Vorabversion**
 
 ## Übungstypen
 
@@ -133,7 +133,7 @@ Der nach Tagen gruppierte Verlauf auf der Startseite trägt die Überschrift „
 
 Vor dem Teilen von Textdatei, Excel und JSON erscheint die Dateinamen-Eingabe analog Cashuvo. Standard ist Trainuvo_Export.txt, Trainuvo_Export.xlsx bzw. Trainuvo_Export.json. Der Name ist frei änderbar; die feste Dateiendung steht rechts daneben und wird automatisch ergänzt. Eine bereits eingegebene passende Endung wird nicht doppelt angehängt. Abbrechen verwirft den Dialog. Leere Namen, Pfadtrenner, Doppelpunkte und Steuerzeichen sind nicht erlaubt. Text kopieren benötigt keinen Dateinamen.
 
-Für den nächsten Upload vorbereitet: extern **1.0.0 (7)**, intern **0.13.3**. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
+Für den nächsten Upload vorbereitet: extern **1.0.0 (8)**, intern **0.14.0**. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
 
 
 ## iCloud ab 0.13.0
@@ -159,3 +159,12 @@ Die Diagnose vom iPhone zeigt einen älteren Store mit fünf Modellen ohne Train
 Der Migrationsplan erkennt ab 0.13.2 auch diesen Ausgangsstand und ergänzt zuerst Tageskommentare, bevor er auf das vorhandene CloudKit-kompatible V2 aktualisiert. Bestehende Sechs-Modell- und V2-Stores werden weiter unterstützt. Die App verwendet den bisherigen Store; kein Reset und kein Ersatzstore. Das aktuelle CloudKit-Schema bleibt identisch, daher kein erneutes Deployment erforderlich.
 
 Vorbereitet: intern **0.13.2**, extern **1.0.0 (6)**. Xcode-Build/Tests und Update auf dem betroffenen iPhone sind noch zu prüfen. Erst nach erfolgreichem Test verteilen; Build 6 vor Upload auf Verfügbarkeit prüfen. Die App auf dem iPhone nicht deinstallieren.
+
+
+## Übungen auf der Startseite ausblenden
+
+Öffne die Zielkarte einer Übung und wähle im Menü **… → Auf Startseite ausblenden**. Die Übung wird nicht gelöscht: Ziel, Standardsätze, Sortierung und Trainings bleiben erhalten. Die bisherigen Trainings sind weiter in der Tagesübersicht und in allen Exporten enthalten.
+
+Zum Wiederherstellen im **Stift-Menü neben Übungen → Ausgeblendete Übungen anzeigen** aktivieren. Die Karte öffnen und unter **… → Auf Startseite einblenden** wählen. Auch wenn alle Karten ausgeblendet sind, bleibt das Stift-Menü erreichbar. Die Sichtbarkeit pro Übung wird gespeichert und über iCloud synchronisiert; die Anzeige ausgeblendeter Karten ist eine vorübergehende Ansicht auf dem aktuellen Gerät.
+
+Intern 0.14.0 / extern 1.0.0 (8) vorbereitet. Vor TestFlight das um das optionale Sichtbarkeitsfeld erweiterte CloudKit-Schema in Development initialisieren, prüfen und nach Production übertragen. Details in DeveloperDocu.md.

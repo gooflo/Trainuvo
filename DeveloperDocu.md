@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.13.3**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.14.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (7) vorbereitet; Build 7 muss vor Upload noch frei sein. Intern 0.13.3. Keine Veröffentlichung durch diese Änderung.
+Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (8) vorbereitet; Build 8 muss vor Upload noch frei sein. Intern 0.14.0. Keine Veröffentlichung durch diese Änderung.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -406,3 +406,18 @@ Florian hat den erfolgreichen iPhone-Start mit TestFlight-Build 6 (0.13.2) best�
 ## Bestätigter iCloud-Test – 24.11.2026
 
 Florian hat nach dem erfolgreichen iPhone-Update mit Build 6 auch den iCloud-Abgleich zwischen iPhone und iPad durchgeführt und als funktionierend bestätigt. Damit ist der zuvor offene Zwei-Geräte-Abgleich laut Nutzer erfolgreich; t05 und der iPhone-Öffnungsbefund t38 sind entsprechend dokumentiert. Die genaue Buildkombination beim Sync-Test sowie einzelne Offline- und Löschszenarien wurden nicht gesondert genannt. Keine darüber hinausgehenden Tests als ausgeführt behaupten. Diese Aktualisierung dokumentiert ausschließlich den Teststand und ändert weder App-Version noch Buildnummer.
+
+
+## Sichtbarkeit von Übungszielen: 0.14.0 / 1.0.0 (8)
+
+t26 wird nach Florians Präzisierung als Aus-/Einblenden der Startkarten umgesetzt. V3.Exercise ergänzt nur hiddenFromHome: Bool?; nil gilt als false, also sichtbar. Alle anderen persistenten Deklarationen bleiben gleich. Das ausgelieferte V2 aus 0.13.0–0.13.3 steht unverändert in TrainuvoSchemaV2.swift; aktuelles V3 und Typaliase stehen weiterhin in TrainingModels.swift. SchemaMigrationPlan führt BeforeDayNotes → V1 → V2 → V3 mit Lightweight-Stufen. Alle alten Schemata unverändert lassen.
+
+Exercise.setHiddenFromHome speichert ausschließlich das Sichtbarkeitsfeld mit save/rollback. ContentView filtert nur die Karten über displayedExercises. @Query lädt weiterhin alle Übungen, Tagesübersicht und Exporte verwenden alle Einträge. Sortierung, Ziele, Vorlagen und Beziehungen bleiben erhalten. Das Detailmenü bietet Auf Startseite ausblenden/einblenden; nach erfolgreichem Save wird die Detailansicht geschlossen. Fehler bleiben sichtbar. Das Stift-Menü bietet einen lokalen @State-Schalter Ausgeblendete Übungen anzeigen, der bei einem neuen App-Start aus ist; bei vollständig verborgenen Karten gibt es einen Hinweis und das Stift-Menü bleibt erreichbar. Das persistente Flag selbst wird durch CloudKit mit synchronisiert. Die separate destruktive Aktion Übung und Trainings löschen bleibt ausdrücklich getrennt.
+
+ExerciseVisibilityTests legt für alle drei Typen synthetische Daten dateibasiert an, blendet aus, öffnet neu und prüft Ziel, Reihenfolge, IDs, Vorlagen, Gruppen, Bewertung/Trainingszuordnung, Tagesnotiz, Tagesübersicht und Export. Danach wieder einblenden und erneut öffnen. TrainingMigrationTests migriert die drei historischen Ausgangsvarianten nach V3 (sichtbar als Default) und öffnet einen echten V2-Store mit V2-Typen im erweiterten Plan. StoreDiagnosticsTests nutzt das aktuelle V3; Diagnose referenziert alle historischen Stände und V3.
+
+Am Mac: main pullen, ⌘ B und ⌘ U. In einer bestehenden Installation eine Übung ausblenden, Verlauf/Tagesübersicht/Export prüfen, Neustart und Wiedereinblenden testen. Alle Karten ausblenden und über Stift wiederfinden; iPhone/iPad-Abgleich des Flags prüfen. Der bestehende Store wird migriert, keine App-Deinstallation.
+
+**Vor TestFlight erneut das CloudKit-Schema aktualisieren:** In Signing & Capabilities unverändert den bisherigen Container verwenden. Debug-Startargument -initializeCloudKitSchema einmal aktivieren, ⌘ R, Meldung Development schema initialized prüfen, Argument entfernen. CloudKit Console → iCloud.com.vogtapps.Trainuvo → Development → Schema → CD_Exercise: neues Feld CD_hiddenFromHome prüfen. Nach Tests Deploy Schema Changes… nach Production. Erst danach getesteten Commit mit v0.14.0 taggen, Include tags pushen und 1.0.0 (8) archivieren/hochladen. Freie Buildnummer prüfen. Alte TestFlight-Builds verwenden V2 und zeigen weiterhin alle Karten, weil sie das Flag nicht kennen; den Sichtbarkeitsabgleich mit zwei aktuellen Builds prüfen.
+
+Prüfstand: Syntax, Versionierung, eingefrorenes V2 und Änderungen am Modell/Filter statisch geprüft. Kein Xcode/Apple-SDK vorhanden; neue Swift-Tests, reale Migration, UI und CloudKit-Deployment noch ausstehend.

@@ -1,1 +1,1 @@
-// Item is declared in TrainuvoSchemaV2; the released declaration is frozen in V1.
+// Item is declared in TrainuvoSchemaV3; the released declaration is frozen in V1.
