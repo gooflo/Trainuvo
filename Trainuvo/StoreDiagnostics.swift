@@ -28,11 +28,7 @@ enum StoreDiagnostics {
         var metadata: [String: Any]?
         if FileManager.default.fileExists(atPath: storeURL.path) {
             do {
-                metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(
-                    ofType: NSSQLiteStoreType,
-                    at: storeURL,
-                    options: [NSReadOnlyPersistentStoreOption: true]
-                )
+                metadata = try metadataFromTemporaryCopy(of: storeURL)
                 if let metadata {
                     lines += ["", "Gespeicherte Modellversionen: \(identifiers(metadata[NSStoreModelVersionIdentifiersKey]))"]
                     let checksum = metadata["NSStoreModelVersionChecksumKey"] as? String ?? "nicht verfügbar"
@@ -73,6 +69,30 @@ enum StoreDiagnostics {
             }
         }
         return lines.joined(separator: "\n")
+    }
+
+
+    private static func metadataFromTemporaryCopy(of storeURL: URL) throws -> [String: Any] {
+        let manager = FileManager.default
+        let directory = manager.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try manager.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? manager.removeItem(at: directory) }
+        let copyURL = directory.appendingPathComponent("diagnostic.store")
+
+        // Never pass the original URL to Core Data. Even metadata access can
+        // cause SQLite housekeeping/checkpointing. Include uncheckpointed data.
+        // Do not copy -shm; SQLite must rebuild its transient index in the copy.
+        for suffix in ["", "-wal", "-journal"] {
+            let source = URL(fileURLWithPath: storeURL.path + suffix)
+            if manager.fileExists(atPath: source.path) {
+                try manager.copyItem(at: source, to: URL(fileURLWithPath: copyURL.path + suffix))
+            }
+        }
+        return try NSPersistentStoreCoordinator.metadataForPersistentStore(
+            ofType: NSSQLiteStoreType,
+            at: copyURL,
+            options: [NSReadOnlyPersistentStoreOption: true]
+        )
     }
 
     private static func hashLines(_ hashes: [String: Data], label: String) -> [String] {

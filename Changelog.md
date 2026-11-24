@@ -2,6 +2,8 @@
 
 ## 0.13.1 – Öffnungsfehler auf dem iPhone diagnostizierbar machen
 
+- Nachbesserung vor Upload von Build 5: Metadaten nur aus einer temporären Kopie von Store/WAL/Journal lesen. SQLite öffnet bei der Diagnose nie den Originalpfad. Byte-Erhaltungsprüfung auf explizit geschlossene Testdatenbank und sämtliche Store-Dateien erweitern; temporäre Kopie anschließend entfernen.
+
 - Im Fehlerbildschirm Diagnose kopieren/teilen und aufklappbare technische Details ergänzen. Betriebssystem/App-Version, Fehlercodes und schreibgeschützt gelesene Modellhashes mit V1/V2 vergleichen; Trainingsinhalte, Accountkennungen, Store-UUID und Dateipfade aus dem Bericht weglassen.
 - iPhone-TestFlight-Fehler 134504 unter t38 als offen erfassen; keine bestätigte Fehlerbehebung. Erfolgreichen iPad-Update-Test sowie Schema-Deployment und Xcode-Tests laut Florian dokumentieren.
 - Datenmodelle, Migrationsplan und CloudKit-Schema bleiben unverändert. Kein automatischer Reset, kein Ausweichstore und kein Versuch, einen unbekannten Store ohne bekannten Migrationspfad zu öffnen.

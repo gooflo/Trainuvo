@@ -10,6 +10,7 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - iPad mit aktuellem iPadOS: Build 4 startet; zuvor gespeicherte Daten bleiben vollständig sichtbar. Xcode-/Unit-Tests laut Florian erfolgreich. Development-Schema initialisiert und nach Production deployed.
 - Ursache eingegrenzt: Der Migrationsmanager erkennt die Store-Modellversion auf dem iPhone nicht. Welche gespeicherten Hashes abweichen und warum, ist noch nicht bekannt. Kein Beleg für defekte Trainingsdaten oder ein fehlendes CloudKit-Deployment.
 - 0.13.1 / 1.0.0 (5): Kopier-/Teildiagnose am Fehlerbildschirm mit schreibgeschützter Metadatenprüfung und Vergleich der V1-/V2-Entitätshashes. Keine Änderung an Modellen, Migration oder CloudKit-Schema und keine automatische Wiederherstellung.
+- Nachbesserung vor Upload: Byte-Erhaltungstest der Diagnose fehlgeschlagen; Metadatenzugriff auf temporäre Store-/WAL-/Journal-Kopie umgestellt. Schutzprüfung bleibt bestehen, Fixture wird vor Vergleich explizit geschlossen. Erneute Xcode-Tests ausstehend.
 - Offen: Diagnosebuild in Xcode bauen/testen, auf dem iPhone ohne Deinstallation aktualisieren, Bericht auswerten und darauf basierend Korrektur implementieren. Danach Update-/Sync-Test auf beiden Geräten. Dieser Befund ist noch nicht behoben.
 
 ### t24 – Zweisprachigkeit Deutsch und Englisch (Prio 3)
