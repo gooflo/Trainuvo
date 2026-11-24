@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.14.2**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.14.3**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (10) vorbereitet; Build 10 muss vor Upload noch frei sein. Intern 0.14.2. Keine Veröffentlichung durch diese Änderung.
+Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (11) vorbereitet; Build 11 muss vor Upload noch frei sein. Intern 0.14.3. Keine Veröffentlichung durch diese Änderung.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -439,3 +439,12 @@ Auf Wunsch von Florian steht Toggle „Einblenden auf Startseite“ unmittelbar 
 Am Mac Pull → ⌘ B → ⌘ R. Schalter aus/ein testen, geöffnet bleibende Ansicht prüfen; danach zur Startseite zurück, Karte und unveränderte Trainings prüfen. Alle Karten ausblenden und über das Stift-Menü wiederfinden. Die bestehende iCloud-Synchronisierung des optionalen Felds und das V3-Schema bleiben gleich. Kein zusätzliches CloudKit-Schema gegenüber 0.14.0; dessen erstmaliges Development-/Production-Deployment bleibt erforderlich. Danach getesteten Stand mit v0.14.2 taggen/pushen und freie Buildnummer 10 prüfen, bevor 1.0.0 (10) hochgeladen wird.
 
 Statisch geprüft; kein Xcode/Apple-SDK verfügbar, daher UI-/Gerätetest ausstehend.
+
+
+## Kennzeichnung ausgeblendeter Karten – 0.14.3 / 1.0.0 (11)
+
+GoalCard zeigt bei exercise.isHiddenFromHome unter dem Namen eine kompakte Plakette mit Label Ausgeblendet und eye.slash sowie VoiceOver Auf Startseite ausgeblendet. Der sekundäre Text/Symbolstil und dezente Kapselhintergrund unterscheiden die Karten ohne ihre Trainingswerte abzublenden. Die Plakette liegt im bestehenden Titelbereich mit minHeight 44; reguläre Karten verändern sich nicht. Sichtbarkeit basiert auf dem gespeicherten Flag, nicht nur auf dem globalen Ansichtsschalter. Nach dauerhaftem Einblenden entfällt die Markierung.
+
+Prüfung auf dem Mac: Pull → ⌘ B → ⌘ R. Eine sichtbare und eine verborgene Übung vorhalten, im Stift-Menü ausgeblendete Übungen anzeigen: Nur die verborgene Karte muss die Plakette tragen. Wieder einblenden und Verschwinden der Plakette prüfen. Hell/Dunkel, lange Namen, große Schrift und VoiceOver prüfen. Statische Syntax-/Versionsprüfung durchgeführt; keine Xcode-/Geräteprüfung hier möglich.
+
+Version 0.14.3 / 1.0.0 (11) vorbereitet; Buildnummer vor Upload auf Verfügbarkeit prüfen. Nach Tests v0.14.3 taggen/pushen. Keine neue Modelländerung; erstmaliges V3-CloudKit-Deployment aus 0.14.0 bleibt Voraussetzung, falls noch nicht erfolgt.

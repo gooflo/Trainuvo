@@ -182,9 +182,20 @@ private struct GoalCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
-                Text(exercise.name)
-                    .font(.headline)
-                    .lineLimit(1)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(exercise.name)
+                        .font(.headline)
+                        .lineLimit(1)
+                    if exercise.isHiddenFromHome {
+                        Label("Ausgeblendet", systemImage: "eye.slash")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color.secondary.opacity(0.1), in: Capsule())
+                            .accessibilityLabel("Auf Startseite ausgeblendet")
+                    }
+                }
                 Spacer(minLength: 4)
                 if let progress = exercise.progress {
                     Text(progress, format: .percent.precision(.fractionLength(0)))
@@ -491,7 +502,7 @@ private struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var version: String {
-        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.14.2"
+        Bundle.main.object(forInfoDictionaryKey: "TrainuvoInternalVersion") as? String ?? "0.14.3"
     }
 
     var body: some View {
@@ -503,7 +514,7 @@ private struct HelpView: View {
                 Section("Übungen aus- und einblenden") {
                     Text("Auch bei „Übung löschen“ kannst du stattdessen „Nur auf Startseite ausblenden“ wählen. Diese Auswahl erhält alle Trainings. Nur „Übung und alle Trainings löschen“ entfernt die Übung samt Trainings und Standardsätzen dauerhaft.")
                     Text("Öffne eine Zielkarte und schalte „Einblenden auf Startseite“ direkt über „Training erfassen“ aus. Übung, Ziel, Vorlagen und alle bisherigen Trainings bleiben erhalten. In der Tagesübersicht und in Exporten bleiben diese Trainings sichtbar.")
-                    Text("Über den Stift neben Übungen aktivierst du „Ausgeblendete Übungen anzeigen“. Öffne die gewünschte Karte und schalte „Einblenden auf Startseite“ wieder ein. Die Einstellung pro Übung wird über iCloud abgeglichen.")
+                    Text("Über den Stift neben Übungen aktivierst du „Ausgeblendete Übungen anzeigen“. Zusätzlich angezeigte, ausgeblendete Karten tragen unter dem Namen die Kennzeichnung „Ausgeblendet“ mit durchgestrichenem Auge. Öffne die gewünschte Karte und schalte „Einblenden auf Startseite“ wieder ein. Die Einstellung pro Übung wird über iCloud abgeglichen.")
                 }
                 Section("Übungen sortieren") {
                     Text("Tippe auf der Startseite neben „Übungen“ auf den Stift und dann auf „Übungen sortieren“. Ziehe die Übungen an den Griffen in die gewünschte Reihenfolge und tippe auf „Speichern“. Neue Übungen werden am Ende angefügt.")

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.14.3 – Zusätzlich angezeigte ausgeblendete Karten kennzeichnen
+
+- Ausgeblendete Karten bei aktivierter Anzeige im Stift-Menü unter dem Übungsnamen mit „Ausgeblendet“ und eye.slash markieren. Regulär sichtbare Karten behalten ihre Darstellung; beim dauerhaften Einblenden entfällt die Kennzeichnung.
+- Kompakte Plakette innerhalb der bestehenden Titelzeile, mit Text/Symbol und VoiceOver-Beschriftung. Hilfe und Dokumentation angepasst.
+- Intern 0.14.3 / extern 1.0.0 (11) vorbereitet; freie Buildnummer vor Upload prüfen.
+- Statische Syntax-/Versionsprüfung durchgeführt; Xcode-Build und Sichtprüfung mit gemischten Karten, Hell/Dunkel und großer Schrift ausstehend. Keine Modell-/Schemaänderung gegenüber 0.14.0.
+
 ## 0.14.2 – Sichtbarkeit direkt per Schalter einstellen
 
 - In der Übungsansicht direkt über Training erfassen den Schalter „Einblenden auf Startseite“ anbieten. An = sichtbar, Aus = verborgen. Nach dem Umschalten bleibt die Ansicht geöffnet.
