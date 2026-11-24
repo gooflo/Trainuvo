@@ -1,4 +1,5 @@
 import Foundation
+import CoreData
 import SwiftData
 import Testing
 @testable import Trainuvo
@@ -14,17 +15,24 @@ struct TrainingMigrationTests {
         let date = Date(timeIntervalSince1970: 1_795_000_000)
     }
 
-    // false reproduces the unversioned Schema([...]) used by distributed builds.
-    // The second case also covers an explicitly versioned V1 store.
-    @Test(arguments: [false, true])
-    func migratesReleasedStoreWithoutLosingTraining(_ versioned: Bool) throws {
+    enum StoreSource: CaseIterable, Equatable, Sendable {
+        case beforeDayNotes, unversionedV1, versionedV1
+        var hasNotes: Bool { self != .beforeDayNotes }
+    }
+
+    // Exercise both unversioned released layouts and the explicitly versioned V1.
+    @Test(arguments: StoreSource.allCases)
+    func migratesReleasedStoreWithoutLosingTraining(_ source: StoreSource) throws {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
         let url = directory.appendingPathComponent("default.store")
         let fixture = Fixture()
-        try autoreleasepool { try writeReleasedStore(at: url, fixture: fixture, versioned: versioned) }
-        try autoreleasepool { try verifyMigrationAndDeleteTraining(at: url, fixture: fixture) }
+        try autoreleasepool { try writeReleasedStore(at: url, fixture: fixture, source: source) }
+        if source == .beforeDayNotes {
+            try autoreleasepool { try verifyReportedIPhoneFingerprint(at: url) }
+        }
+        try autoreleasepool { try verifyMigrationAndDeleteTraining(at: url, fixture: fixture, expectsNote: source.hasNotes) }
         try autoreleasepool {
             let container = try openCurrentStore(at: url)
             let context = ModelContext(container)
@@ -32,7 +40,12 @@ struct TrainingMigrationTests {
             #expect(try context.fetchCount(FetchDescriptor<ExerciseSetTemplate>()) == 3)
             #expect(try context.fetchCount(FetchDescriptor<TrainingEntry>()) == 2)
             #expect(try context.fetchCount(FetchDescriptor<SetGroup>()) == 2)
-            #expect(try context.fetch(FetchDescriptor<TrainingDayNote>()).first?.text == "Bestandskommentar")
+            if source.hasNotes {
+                #expect(try context.fetch(FetchDescriptor<TrainingDayNote>()).first?.text == "Bestandskommentar")
+            } else {
+                #expect(try context.fetchCount(FetchDescriptor<TrainingDayNote>()) == 0)
+                try TrainingDayNote.save(text: "Kommentar nach Update", date: fixture.date, in: context)
+            }
             let exercise = try #require(context.fetch(FetchDescriptor<Exercise>()).first { $0.id == fixture.exerciseIDs[0] })
             #expect(exercise.trainingEntries.isEmpty)
             let entry = TrainingEntry(date: fixture.date, exercise: exercise)
@@ -50,11 +63,18 @@ struct TrainingMigrationTests {
             let exercise = try #require(context.fetch(FetchDescriptor<Exercise>()).first { $0.id == fixture.exerciseIDs[0] })
             #expect(exercise.latestEntry?.workingWeight == 82)
             #expect(exercise.templates.map(\.id) == [fixture.templateIDs[0]])
+            let expectedComment = source.hasNotes ? "Bestandskommentar" : "Kommentar nach Update"
+            #expect(try context.fetch(FetchDescriptor<TrainingDayNote>()).first?.text == expectedComment)
         }
     }
 
-    private func writeReleasedStore(at url: URL, fixture: Fixture, versioned: Bool) throws {
-        let schema = versioned ? Schema(versionedSchema: TrainuvoSchemaV1.self) : Schema(TrainuvoSchemaV1.models)
+    private func writeReleasedStore(at url: URL, fixture: Fixture, source: StoreSource) throws {
+        let schema: Schema
+        switch source {
+        case .beforeDayNotes: schema = Schema(TrainuvoSchemaBeforeDayNotes.models)
+        case .unversionedV1: schema = Schema(TrainuvoSchemaV1.models)
+        case .versionedV1: schema = Schema(versionedSchema: TrainuvoSchemaV1.self)
+        }
         let container = try ModelContainer(for: schema, configurations: [
             ModelConfiguration(schema: schema, url: url, cloudKitDatabase: .none)
         ])
@@ -79,9 +99,11 @@ struct TrainingMigrationTests {
             context.insert(group)
             entry.groups.append(group)
         }
-        let note = TrainuvoSchemaV1.TrainingDayNote(date: fixture.date, text: "Bestandskommentar")
-        note.id = fixture.noteID
-        context.insert(note)
+        if source.hasNotes {
+            let note = TrainuvoSchemaV1.TrainingDayNote(date: fixture.date, text: "Bestandskommentar")
+            note.id = fixture.noteID
+            context.insert(note)
+        }
         context.insert(TrainuvoSchemaV1.Item(timestamp: fixture.date))
         try context.save()
     }
@@ -93,7 +115,7 @@ struct TrainingMigrationTests {
         ])
     }
 
-    private func verifyMigrationAndDeleteTraining(at url: URL, fixture: Fixture) throws {
+    private func verifyMigrationAndDeleteTraining(at url: URL, fixture: Fixture, expectsNote: Bool) throws {
         let container = try openCurrentStore(at: url)
         let context = ModelContext(container)
         let exercises = try context.fetch(FetchDescriptor<Exercise>(sortBy: [SortDescriptor(\Exercise.sortOrder)]))
@@ -124,16 +146,64 @@ struct TrainingMigrationTests {
             #expect(entry.setGroups.first?.weight == (exercise.activityType.usesWeights ? 80 : 0))
             #expect(entry.setGroups.first?.isWorking == exercise.activityType.usesSets)
         }
-        let note = try #require(context.fetch(FetchDescriptor<TrainingDayNote>()).first)
-        #expect(note.id == fixture.noteID)
-        #expect(note.dayKey == TrainingDayNote.key(for: fixture.date))
-        #expect(note.text == "Bestandskommentar")
+        if expectsNote {
+            let note = try #require(context.fetch(FetchDescriptor<TrainingDayNote>()).first)
+            #expect(note.id == fixture.noteID)
+            #expect(note.dayKey == TrainingDayNote.key(for: fixture.date))
+            #expect(note.text == "Bestandskommentar")
+        } else {
+            #expect(try context.fetchCount(FetchDescriptor<TrainingDayNote>()) == 0)
+        }
         #expect(try context.fetch(FetchDescriptor<Item>()).first?.timestamp == fixture.date)
         let entry = try #require(exercises.first?.latestEntry)
         try entry.deleteKeepingExercise(in: context)
         #expect(try context.fetchCount(FetchDescriptor<Exercise>()) == 3)
         #expect(try context.fetchCount(FetchDescriptor<ExerciseSetTemplate>()) == 3)
-        #expect(try context.fetchCount(FetchDescriptor<TrainingDayNote>()) == 1)
+        #expect(try context.fetchCount(FetchDescriptor<TrainingDayNote>()) == (expectsNote ? 1 : 0))
+    }
+
+
+    private func verifyReportedIPhoneFingerprint(at url: URL) throws {
+        // Public schema hashes only: no rows or user identifiers from the phone.
+        let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(
+            ofType: NSSQLiteStoreType, at: url, options: [NSReadOnlyPersistentStoreOption: true]
+        )
+        let stored = try #require(metadata[NSStoreModelVersionHashesKey] as? [String: Data])
+        let expected = [
+            "Exercise": "LJeo1gPrElRTBaKoreDtVQPItqvkvGMdv3pZ8FJJ46s=",
+            "ExerciseSetTemplate": "YIh3kqFYQ5m4oJgWEvCEOSbuAv7qTOXftFKKb6+hPIo=",
+            "Item": "tz+EqCETrYpwWl4jr1szrkJaRxICg51GevZadC+AOhk=",
+            "SetGroup": "CDNQvOu3SBwwFrc6C9hmhNjCKDvyca7PLj/nbPlyagI=",
+            "TrainingEntry": "VEHXiA+bwS0eCsbx0F9TI2TI+Yu9WqxvfFZpjuwLE4M="
+        ]
+        #expect(stored.mapValues { $0.base64EncodedString() } == expected)
+        #expect(metadata["NSStoreModelVersionChecksumKey"] as? String == "fUgx1q3CFT6KcSI2Oh1JRNA1XDK5EFVY+Gm0LIZ6zNg=")
+    }
+
+    @Test func anAlreadyMigratedV2StoreStillOpensWithExtendedPlan() throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appendingPathComponent("default.store")
+        let id = UUID()
+        try autoreleasepool {
+            let schema = Schema(versionedSchema: TrainuvoSchemaV2.self)
+            let container = try ModelContainer(for: schema, configurations: [
+                ModelConfiguration(schema: schema, url: url, cloudKitDatabase: .none)
+            ])
+            let context = ModelContext(container)
+            let exercise = Exercise(name: "Bereits V2", targetWeight: 100)
+            exercise.id = id
+            context.insert(exercise)
+            context.insert(TrainingDayNote(date: Date(), text: "Notiz aus Build 4"))
+            try context.save()
+        }
+        try autoreleasepool {
+            let container = try openCurrentStore(at: url)
+            let context = ModelContext(container)
+            #expect(try context.fetch(FetchDescriptor<Exercise>()).first?.id == id)
+            #expect(try context.fetch(FetchDescriptor<TrainingDayNote>()).first?.text == "Notiz aus Build 4")
+        }
     }
 
     @Test func missingCloudRelationshipsRemainSafeUntilImported() {

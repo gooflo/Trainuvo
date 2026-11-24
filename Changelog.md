@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.13.2 – Update älterer Stores ohne Tageskommentar-Modell ermöglichen
+
+- Ursache aus dem Diagnosebericht eingegrenzt: iPhone-Store enthält fünf bekannte Entitäten, aber kein TrainingDayNote. Die fehlende historische Modellmenge führte zu „Cannot use staged migration with an unknown model version“ (134504).
+- TrainuvoSchemaBeforeDayNotes mit den fünf unveränderten V1-Typen und zusätzlicher Lightweight-Stufe nach V1 ergänzen. Danach gilt die bestehende Migration nach V2. Eingefrorenes V1 und aktuelles V2 unverändert lassen.
+- Regressionstests für den gemeldeten Fünf-Modell-Fingerprint, alle drei Übungstypen, Erhalt von IDs/Zielen/Vorlagen/Gruppen/Bewertungen, Löschen des letzten Trainings, Wiederöffnen und nachträgliche Tagesnotizen ergänzen. Bestehende V1-Tests erhalten und V2-Wiederöffnung mit erweitertem Plan prüfen.
+- Diagnose zeigt zusätzlich die historische Fünf-Modell-Referenz. Kein Löschen von Stores, kein Ausweichen auf unbekannte Schemata. CloudKit-Produktionsschema unverändert.
+- Intern 0.13.2, extern 1.0.0 (6) vorbereitet. Build 5 ist laut Diagnose auf dem iPhone installiert; Build 6 vor Upload auf Verfügbarkeit prüfen.
+- Historische Quelldeklarationen gegen 0.10.2 sowie Swift-Syntax, Migrationsfolge und Versionskonsistenz statisch geprüft. Kein Apple-SDK vorhanden; Xcode-Build, neue Swift-Tests und betroffener iPhone-Update-/Production-Sync-Test stehen aus.
+
 ## 0.13.1 – Öffnungsfehler auf dem iPhone diagnostizierbar machen
 
 - Nachbesserung vor Upload von Build 5: Metadaten nur aus einer temporären Kopie von Store/WAL/Journal lesen. SQLite öffnet bei der Diagnose nie den Originalpfad. Byte-Erhaltungsprüfung auf explizit geschlossene Testdatenbank und sämtliche Store-Dateien erweitern; temporäre Kopie anschließend entfernen.

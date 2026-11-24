@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.13.1 – Vorabversion**
+**Interner Entwicklungsstand: 0.13.2 – Vorabversion**
 
 ## Übungstypen
 
@@ -133,7 +133,7 @@ Der nach Tagen gruppierte Verlauf auf der Startseite trägt die Überschrift „
 
 Vor dem Teilen von Textdatei, Excel und JSON erscheint die Dateinamen-Eingabe analog Cashuvo. Standard ist Trainuvo_Export.txt, Trainuvo_Export.xlsx bzw. Trainuvo_Export.json. Der Name ist frei änderbar; die feste Dateiendung steht rechts daneben und wird automatisch ergänzt. Eine bereits eingegebene passende Endung wird nicht doppelt angehängt. Abbrechen verwirft den Dialog. Leere Namen, Pfadtrenner, Doppelpunkte und Steuerzeichen sind nicht erlaubt. Text kopieren benötigt keinen Dateinamen.
 
-Für den nächsten Upload vorbereitet: extern **1.0.0 (5)**, intern **0.13.1**. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
+Für den nächsten Upload vorbereitet: extern **1.0.0 (6)**, intern **0.13.2**. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
 
 
 ## iCloud ab 0.13.0
@@ -145,8 +145,17 @@ Vor dem ersten Update vorhandene Daten als JSON exportieren und die bisherige Ap
 Die Apple-Einrichtung, der Migrationstest, der Zwei-Geräte-Test und die Freigabe des CloudKit-Schemas für TestFlight sind in [DeveloperDocu.md](DeveloperDocu.md) beschrieben. Diese Prüfungen sind vor der Verteilung noch auf dem Mac durchzuführen.
 
 
-## Aktueller Testbefund / Diagnosebuild 0.13.1
+## Diagnose mit Build 5 (0.13.1)
 
 Build 4 startet laut Florian auf dem iPad mit erhaltenen Bestandsdaten, auf dem iPhone (iOS 27.2.1) scheitert das Öffnen mit Core-Data-Code 134504: „Cannot use staged migration with an unknown model version“. Build 3 war nach seiner Erinnerung zuvor installiert. Automatisierte Tests und Development-Schema-Einrichtung sind erfolgreich; das Schema wurde nach Production übertragen. Der iPhone-Fehler und der Production-Sync-Test bleiben offen (t38).
 
 0.13.1 / 1.0.0 (5) ergänzt am Öffnungsfehler **Diagnose kopieren** und **Diagnose teilen**. Der Bericht enthält Versionen, Fehlercodes und gespeicherte/referenzierte Modellhashes, keine Trainingsinhalte oder Accountkennungen. Er liest Metadaten schreibgeschützt. Dies ist ein Diagnosebuild, noch keine bestätigte Reparatur. Auf dem betroffenen iPhone über Build 4 installieren, App nicht vorher löschen. Bei weiterem Fehler Diagnose kopieren und zur Analyse bereitstellen. Für Build 5 vor Upload die Verfügbarkeit in App Store Connect prüfen.
+
+
+## Korrektur des Update-Pfads in 0.13.2
+
+Die Diagnose vom iPhone zeigt einen älteren Store mit fünf Modellen ohne TrainingDayNote. Alle fünf Entitätshashes entsprechen den eingefrorenen alten Modellen; die fehlende Schema-Variante war die Ursache des Öffnungsfehlers 134504. Installierte Buildnummern allein bestimmen nicht den tatsächlich gespeicherten Modellstand.
+
+Der Migrationsplan erkennt ab 0.13.2 auch diesen Ausgangsstand und ergänzt zuerst Tageskommentare, bevor er auf das vorhandene CloudKit-kompatible V2 aktualisiert. Bestehende Sechs-Modell- und V2-Stores werden weiter unterstützt. Die App verwendet den bisherigen Store; kein Reset und kein Ersatzstore. Das aktuelle CloudKit-Schema bleibt identisch, daher kein erneutes Deployment erforderlich.
+
+Vorbereitet: intern **0.13.2**, extern **1.0.0 (6)**. Xcode-Build/Tests und Update auf dem betroffenen iPhone sind noch zu prüfen. Erst nach erfolgreichem Test verteilen; Build 6 vor Upload auf Verfügbarkeit prüfen. Die App auf dem iPhone nicht deinstallieren.

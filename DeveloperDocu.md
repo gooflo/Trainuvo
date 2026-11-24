@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.13.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.13.2**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (4) vorbereitet; Build 4 muss vor Upload noch frei sein. Intern 0.13.0. Keine Veröffentlichung durch diese Änderung.
+Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (6) vorbereitet; Build 6 muss vor Upload noch frei sein. Intern 0.13.2. Keine Veröffentlichung durch diese Änderung.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -63,7 +63,7 @@ TrainuvoSchemaV1 friert das Modell aus dem veröffentlichten Tag v0.12.0 ein. Di
 
 V2 macht ausschließlich die gespeicherten Listenbeziehungen Exercise.entries, Exercise.setTemplates und TrainingEntry.groups optional und ergänzt einen Default für Item.timestamp. Namen, IDs, inverse Beziehungen und Löschregeln bleiben erhalten. trainingEntries, templates und setGroups sind berechnete, beschreibbare Listen-Zugriffe mit leerer Liste für nil. CloudKit kann Beziehungen zeitversetzt liefern. Die Ansicht muss daher fehlende Zuordnungen und Gruppen vertragen. Alle erforderlichen Attribute haben Defaults, optionale Attribute bleiben optional; Unique-Constraints werden nicht verwendet.
 
-TrainuvoMigrationPlan enthält die leichtgewichtige V1→V2-Migration. Die App öffnet das versionierte Schema am bisherigen Standardpfad: kein eigener Containername, keine neue Store-URL und kein Reset. ModelConfiguration nutzt explizit .private("iCloud.com.vogtapps.Trainuvo"). Ein Fehler verhindert das Öffnen und zeigt eine Meldung, ohne den Store zu löschen oder einen leeren Ersatz anzulegen. Die Kompatibilität mit einer tatsächlich ausgelieferten Installation muss auf dem Mac geprüft werden.
+TrainuvoMigrationPlan enthält ab 0.13.2 die leichtgewichtige Folge TrainuvoSchemaBeforeDayNotes → V1 → V2; der zusätzliche Ausgangsstand hat noch kein TrainingDayNote. Die App öffnet das versionierte Schema am bisherigen Standardpfad: kein eigener Containername, keine neue Store-URL und kein Reset. ModelConfiguration nutzt explizit .private("iCloud.com.vogtapps.Trainuvo"). Ein Fehler verhindert das Öffnen und zeigt eine Meldung, ohne den Store zu löschen oder einen leeren Ersatz anzulegen. Die Kompatibilität mit einer tatsächlich ausgelieferten Installation muss auf dem Mac geprüft werden.
 
 TrainingMigrationTests erzeugt dateibasierte V1-Stores, einmal mit dem bisherigen unversionierten Schema und einmal mit VersionedSchema. Der Test migriert alle drei Übungstypen, IDs, Ziele, Sortierung, Vorlagen, Gruppen, Werte, Bewertung, Notiz und Item; danach löscht er das letzte Training der ersten Übung, öffnet erneut, legt ein Training an und prüft dessen erneutes Laden. Diese Tests sind hier mangels Xcode nicht ausgeführt. Zusätzlich bleibt ein realer Update-Test erforderlich; der Testnachbau ersetzt keinen Store aus einem alten App-Build.
 
@@ -377,3 +377,20 @@ Florians Xcode-Test schlug beim Bytevergleich der Store-Datei fehl. Der vorherig
 Die Diagnose kopiert jetzt den Store sowie vorhandene -wal/-journal-Dateien in ein temporäres Verzeichnis. Nur dessen URL wird an Core Data übergeben; -shm wird dort neu aufgebaut, statt aus dem Original kopiert. Nach dem Lesen wird die Kopie entfernt. Der Originalpfad wird nicht von einer Datenbank-API geöffnet, migriert oder repariert. Bei einem Kopier-/Lesefehler gibt es nur Fehlercodes; keinen direkten Ausweichzugriff auf den Originalstore. Die Kopie dient ausschließlich der Metadatenanalyse nach einem Öffnungsfehler, nicht als transaktionales Backup bei parallel aktiven Schreibern.
 
 Der Bytevergleich bleibt erhalten und prüft alle Dateien des Teststores. Die Fixture wird nun mit Core Data erzeugt, gespeichert und explizit vom Coordinator getrennt, damit SwiftData-Hintergrundabbau den Vergleich nicht verfälscht. Danach prüft ein SwiftData-Container weiterhin den Erhalt des synthetischen Datensatzes. Version 0.13.1 / Build 5 bleibt für diese noch nicht hochgeladene Diagnoserunde bestehen. Xcode-Build und Tests müssen erneut auf dem Mac laufen; t38 bleibt offen.
+
+
+## Fünf-Modell-Store migrieren: 0.13.2 / 1.0.0 (6)
+
+Der Diagnosebericht aus dem tatsächlich installierten Build 5 auf dem iPhone (iOS 27.2.1) liefert fünf Entitäten, ohne TrainingDayNote, mit Gesamt-Prüfsumme fUgx1q3CFT6KcSI2Oh1JRNA1XDK5EFVY+Gm0LIZ6zNg=. Exercise, ExerciseSetTemplate, Item, SetGroup und TrainingEntry stimmen in ihren Hashes exakt mit V1 überein. Der Store enthält damit das ältere Modell vor Tageskommentaren. Aus diesem Befund allein lässt sich nicht ableiten, welche App-Version zuletzt installiert oder geöffnet wurde; Florians Angabe zu Build 3 bleibt davon unberührt.
+
+TrainuvoSchemaBeforeDayNotes beschreibt diese historische Modellmenge (App-Stände 0.9.x–0.10.x). Es verwendet ausdrücklich die unveränderten fünf Typen aus TrainuvoSchemaV1; die Trainingsdeklarationen wurden gegen Commit 02fcc62076c893b781a5a9829aa8c6a7f532df1c (0.10.2) verglichen. Keine V2-Typen hineinmischen und weder diese Referenz noch V1 nachträglich ändern. Schema.Version 0.9.0 ordnet den historischen Stand vor V1 ein; sie ist nicht die externe App-Version. Die alten unversionierten Stores zeigen als Versionslabel 1.0.0. Für den passenden Migrationsstand sind Modellinhalt und Prüfsummen maßgeblich.
+
+TrainuvoMigrationPlan ordnet BeforeDayNotes, V1 und V2. Die erste Lightweight-Stufe ergänzt ausschließlich TrainingDayNote, zunächst ohne Datensätze; die zweite ist die vorhandene CloudKit-Kompatibilitätsmigration. Bestehende Sechs-Modell-V1-Stores starten an V1, vorhandene V2-Stores behalten ihr Modell. Der Standardpfad bleibt erhalten. Keine manuell gesetzten Store-Metadaten, keine automatisch entfernten oder umbenannten Datenbanken und kein Öffnen eines unbekannten Stores ohne passenden Migrationsstand.
+
+TrainingMigrationTests prüft jetzt drei Ausgangsvarianten: unversioniert mit fünf Modellen, unversioniert mit sechs Modellen und versioniertes V1. Vor der Fünf-Modell-Migration werden alle fünf Hashes und die Gesamt-Prüfsumme gegen den gemeldeten iPhone-Fingerprint geprüft. Die synthetischen Daten umfassen alle drei Übungstypen, UUIDs, Ziele, Reihenfolge, Vorlagen, Gruppen, Gewichte/freie Angaben, Bewertungen und Item. Beim alten Stand wird keine Notiz vorausgesetzt; nach der Migration wird eine neue Tagesnotiz gespeichert und erneut geladen. Vorhandene Notizen der Sechs-Modell-Varianten bleiben erhalten. Löschen des letzten Trainings erhält Übung/Vorlagen. Ein weiterer Test öffnet ein bestehendes V2 mit dem erweiterten Plan.
+
+Das aktuelle V2 und CloudKit-Schema werden nicht geändert; kein erneutes Development-/Production-Deployment nötig. Diagnose zeigt auch die Fünf-Modell-Referenz. Der temporäre Diagnose-Kopierpfad bleibt bestehen.
+
+Nächste Schritte am Mac: main pullen, ⌘ B und ⌘ U. Insbesondere alle Varianten von TrainingMigrationTests müssen bestehen. Danach den getesteten Stand mit v0.13.2 taggen/pushen; extern 1.0.0 (6) kontrollieren, Build 6 auf Verfügbarkeit prüfen und per TestFlight über Build 5 auf dem iPhone installieren. Die App nicht deinstallieren. Zuerst vollständige Übungen/Trainings/Vorlagen/Bewertungen prüfen, dann eine Tagesnotiz und ein Training anlegen, Neustart und Abgleich mit dem iPad testen. Bei erneutem Öffnungsfehler Diagnose kopieren. Kein veröffentlichter Tag wird verschoben.
+
+Prüfstand: Historische Deklarationen, Syntax, Modell-/Migrationsfolge und Versionsangaben statisch geprüft. Kein Xcode/Apple-SDK verfügbar, daher neue Swift-Tests und reales iPhone-Update noch nicht ausgeführt. t38 ist implementiert, aber noch nicht auf dem betroffenen Gerät abgenommen.

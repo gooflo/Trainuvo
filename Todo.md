@@ -4,15 +4,6 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
-### t38 – iPhone öffnet TestFlight-Build 4 nicht: unbekannte Modellversion (Prio 1)
-
-- iPhone mit iOS 27.2.1: NSCocoaErrorDomain 134504, Cannot use staged migration with an unknown model version. Build 3 laut Florian sehr wahrscheinlich zuvor installiert. Keine Daten löschen oder App deinstallieren.
-- iPad mit aktuellem iPadOS: Build 4 startet; zuvor gespeicherte Daten bleiben vollständig sichtbar. Xcode-/Unit-Tests laut Florian erfolgreich. Development-Schema initialisiert und nach Production deployed.
-- Ursache eingegrenzt: Der Migrationsmanager erkennt die Store-Modellversion auf dem iPhone nicht. Welche gespeicherten Hashes abweichen und warum, ist noch nicht bekannt. Kein Beleg für defekte Trainingsdaten oder ein fehlendes CloudKit-Deployment.
-- 0.13.1 / 1.0.0 (5): Kopier-/Teildiagnose am Fehlerbildschirm mit schreibgeschützter Metadatenprüfung und Vergleich der V1-/V2-Entitätshashes. Keine Änderung an Modellen, Migration oder CloudKit-Schema und keine automatische Wiederherstellung.
-- Nachbesserung vor Upload: Byte-Erhaltungstest der Diagnose fehlgeschlagen; Metadatenzugriff auf temporäre Store-/WAL-/Journal-Kopie umgestellt. Schutzprüfung bleibt bestehen, Fixture wird vor Vergleich explizit geschlossen. Erneute Xcode-Tests ausstehend.
-- Offen: Diagnosebuild in Xcode bauen/testen, auf dem iPhone ohne Deinstallation aktualisieren, Bericht auswerten und darauf basierend Korrektur implementieren. Danach Update-/Sync-Test auf beiden Geräten. Dieser Befund ist noch nicht behoben.
-
 ### t24 – Zweisprachigkeit Deutsch und Englisch (Prio 3)
 
 - App-Oberfläche, Hilfe und Fehlermeldungen auf Deutsch und Englisch bereitstellen.
@@ -22,6 +13,15 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Ziele entfernen können, wobei die zugehörigen Trainings erhalten bleiben.
 
 ## Done
+
+### t38 – Älteren Fünf-Modell-Store im Migrationsplan berücksichtigen (0.13.2)
+
+- iPhone unter iOS 27.2.1: Build 4/5 konnte den vorhandenen Store wegen 134504 nicht öffnen. iPad-Update mit bestehenden Daten funktioniert laut Florian.
+- Diagnose aus 1.0.0 (5) zeigt exakt die fünf alten Entitäten Exercise, ExerciseSetTemplate, Item, SetGroup, TrainingEntry; TrainingDayNote fehlt. Alle fünf Hashes stimmen mit den eingefrorenen alten Entitäten überein. Gesamt-Prüfsumme: fUgx1q3CFT6KcSI2Oh1JRNA1XDK5EFVY+Gm0LIZ6zNg=.
+- Historisches Schema vor Tageskommentaren ergänzen; Lightweight-Folge BeforeDayNotes → V1 → V2. V1/V2 nicht verändern, Store/IDs erhalten. Kein neues CloudKit-Schema.
+- Neue dateibasierte Tests bilden den exakten Fünf-Modell-Fingerprint nach und prüfen Migration, Daten-/Beziehungserhalt, neue Tagesnotiz und Wiederöffnen. Sechs-Modell-V1-Tests sowie aktualisiertes V2 weiter prüfen.
+- Diagnose und temporäre Kopie aus 0.13.1 bleiben verfügbar. Die nachgebesserten Diagnosetests wurden von Florian als erfolgreich bestätigt; neue Migrationstests sind davon nicht abgedeckt.
+- **Ausstehend:** Xcode-Build/⌘ U, TestFlight-Update auf dem betroffenen iPhone ohne Deinstallation und vollständiger Production-/Zwei-Geräte-Abgleich. Korrektur implementiert; reale Fehlerbehebung noch nicht bestätigt.
 
 ### t05 – Trainingsdaten per iCloud synchronisieren (0.13.0)
 
