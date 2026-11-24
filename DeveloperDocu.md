@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (11) vorbereitet; Build 11 muss vor Upload noch frei sein. Intern 0.14.3. Keine Veröffentlichung durch diese Änderung.
+Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (8) vorbereitet; Build 8 muss vor Upload noch frei sein. Intern 0.14.3. Keine Veröffentlichung durch diese Änderung.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -441,10 +441,15 @@ Am Mac Pull → ⌘ B → ⌘ R. Schalter aus/ein testen, geöffnet bleibende An
 Statisch geprüft; kein Xcode/Apple-SDK verfügbar, daher UI-/Gerätetest ausstehend.
 
 
-## Kennzeichnung ausgeblendeter Karten – 0.14.3 / 1.0.0 (11)
+## Kennzeichnung ausgeblendeter Karten – 0.14.3 / 1.0.0 (8)
 
 GoalCard zeigt bei exercise.isHiddenFromHome unter dem Namen eine kompakte Plakette mit Label Ausgeblendet und eye.slash sowie VoiceOver Auf Startseite ausgeblendet. Der sekundäre Text/Symbolstil und dezente Kapselhintergrund unterscheiden die Karten ohne ihre Trainingswerte abzublenden. Die Plakette liegt im bestehenden Titelbereich mit minHeight 44; reguläre Karten verändern sich nicht. Sichtbarkeit basiert auf dem gespeicherten Flag, nicht nur auf dem globalen Ansichtsschalter. Nach dauerhaftem Einblenden entfällt die Markierung.
 
 Prüfung auf dem Mac: Pull → ⌘ B → ⌘ R. Eine sichtbare und eine verborgene Übung vorhalten, im Stift-Menü ausgeblendete Übungen anzeigen: Nur die verborgene Karte muss die Plakette tragen. Wieder einblenden und Verschwinden der Plakette prüfen. Hell/Dunkel, lange Namen, große Schrift und VoiceOver prüfen. Statische Syntax-/Versionsprüfung durchgeführt; keine Xcode-/Geräteprüfung hier möglich.
 
-Version 0.14.3 / 1.0.0 (11) vorbereitet; Buildnummer vor Upload auf Verfügbarkeit prüfen. Nach Tests v0.14.3 taggen/pushen. Keine neue Modelländerung; erstmaliges V3-CloudKit-Deployment aus 0.14.0 bleibt Voraussetzung, falls noch nicht erfolgt.
+Version 0.14.3 / 1.0.0 (8) vorbereitet; Buildnummer vor Upload auf Verfügbarkeit prüfen. Nach Tests v0.14.3 taggen/pushen. Keine neue Modelländerung; erstmaliges V3-CloudKit-Deployment aus 0.14.0 bleibt Voraussetzung, falls noch nicht erfolgt.
+
+
+## Verbindliche Buildzuordnung – 24.11.2026
+
+Florian bestätigt Build 7 als letzte Veröffentlichung. Für die gesamte aktuelle Testrunde einschließlich der Zwischenstände 0.14.0–0.14.3 wird Build 8 verwendet; aktuell intern 0.14.3 / extern 1.0.0 (8). Frühere Erwähnungen der Builds 9–11 waren vorläufige Planungen, keine Upload-Bestätigungen, und sind überholt. Alle drei Targets sind auf Build 8 gesetzt. Interne Zwischenstände ohne Upload erfordern keine weitere Buildnummer. Keine Änderung an App-Code, Datenmodell oder Schema durch diese Korrektur.
