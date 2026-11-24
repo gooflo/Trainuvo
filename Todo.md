@@ -26,7 +26,7 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Historisches Schema vor Tageskommentaren ergänzen; Lightweight-Folge BeforeDayNotes → V1 → V2. V1/V2 nicht verändern, Store/IDs erhalten. Kein neues CloudKit-Schema.
 - Neue dateibasierte Tests bilden den exakten Fünf-Modell-Fingerprint nach und prüfen Migration, Daten-/Beziehungserhalt, neue Tagesnotiz und Wiederöffnen. Sechs-Modell-V1-Tests sowie aktualisiertes V2 weiter prüfen.
 - Diagnose und temporäre Kopie aus 0.13.1 bleiben verfügbar. Die nachgebesserten Diagnosetests wurden von Florian als erfolgreich bestätigt; neue Migrationstests sind davon nicht abgedeckt.
-- **Ausstehend:** Xcode-Build/⌘ U, TestFlight-Update auf dem betroffenen iPhone ohne Deinstallation und vollständiger Production-/Zwei-Geräte-Abgleich. Florian hat den erfolgreichen Start auf dem betroffenen iPhone mit Build 6 bestätigt; vollständiger Production-/Zwei-Geräte-Test bleibt offen.
+- Florian hat erfolgreichen Build/Deployment und iPhone-Start mit Build 6 bestätigt. Am 24.11.2026 wurde auch der iCloud-Abgleich zwischen iPhone und iPad als funktionierend bestätigt. Einzelne Offline-/Löschtests und neue Migrationstest-Ergebnisse wurden nicht separat protokolliert.
 
 ### t05 – Trainingsdaten per iCloud synchronisieren (0.13.0)
 
@@ -35,7 +35,7 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Accountstatus in Einstellungen, Hinweis zu zeitversetztem Abgleich und geräteübergreifenden Löschungen ergänzen.
 - Development-Schema nur im Debug-Build mit getrenntem temporären Store initialisieren. Entitlements und Hintergrundbenachrichtigungen vorbereiten.
 - Regressionstests für echte dateibasierte unversionierte und versionierte V1-Stores, Daten-/ID-Erhalt, erneutes Öffnen und Löschen des letzten Trainings ergänzt.
-- Stand 24.11.2026 laut Florian: Xcode-/Unit-Tests erfolgreich, Signierung/Container eingerichtet, Development-Schema initialisiert und nach Production deployed. Bestandsdaten auf dem Simulator und iPad sichtbar. **Offen:** iPhone-Öffnungsfehler t38 sowie Production-/Offline-/Zwei-Geräte-Test einschließlich Löschungen. Keine vollständige Sync-Abnahme.
+- Stand 24.11.2026 laut Florian: Xcode-/Unit-Tests erfolgreich, Signierung/Container eingerichtet, Development-Schema initialisiert und nach Production deployed. Bestandsdaten auf dem Simulator und iPad sichtbar. iPhone-Öffnungsfehler t38 mit Build 6 behoben und von Florian bestätigt. Der iCloud-Abgleich zwischen iPhone und iPad wurde am 24.11.2026 als funktionierend bestätigt. Offline-Nachholen und geräteübergreifende Löschungen wurden nicht separat als Einzelszenarien protokolliert.
 
 ### t37 – Dateinamen analog Cashuvo anpassen (0.12.0)
 

@@ -401,3 +401,8 @@ Prüfstand: Historische Deklarationen, Syntax, Modell-/Migrationsfolge und Versi
 ContentView formatiert ausschließlich die Tagesüberschriften der Startseite mit einem wiederverwendeten DateFormatter: de_DE, gregorianischer Kalender, autoupdatingCurrent-Zeitzone, EEEE, dd.MM.yyyy. Beispiel: Mittwoch, 18.11.2026. Auch reine Notiztage verwenden diese Überschrift. Die App-Hilfe beschreibt das Format. Xcode-Build und Sichtprüfung mit langen Wochentagen, großer Schrift, iPhone und iPad ausstehend; statische Format-/Quelltextprüfung durchgeführt.
 
 Florian hat den erfolgreichen iPhone-Start mit TestFlight-Build 6 (0.13.2) bestätigt. Kein bestätigter vollständiger Production-Sync-Test. Nächster Upload vorbereitet als 1.0.0 (7), intern 0.13.3; freien Buildwert prüfen. Vor Upload nach erfolgreichem Test v0.13.3 taggen und mit Include tags pushen.
+
+
+## Bestätigter iCloud-Test – 24.11.2026
+
+Florian hat nach dem erfolgreichen iPhone-Update mit Build 6 auch den iCloud-Abgleich zwischen iPhone und iPad durchgeführt und als funktionierend bestätigt. Damit ist der zuvor offene Zwei-Geräte-Abgleich laut Nutzer erfolgreich; t05 und der iPhone-Öffnungsbefund t38 sind entsprechend dokumentiert. Die genaue Buildkombination beim Sync-Test sowie einzelne Offline- und Löschszenarien wurden nicht gesondert genannt. Keine darüber hinausgehenden Tests als ausgeführt behaupten. Diese Aktualisierung dokumentiert ausschließlich den Teststand und ändert weder App-Version noch Buildnummer.
