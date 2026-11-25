@@ -4,6 +4,13 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
+### t40 – Einzelne Sätze während des Trainings abhaken (Priorität noch offen)
+
+- In der Trainingserfassung direkt in der Zeile einer Satzgruppe kleine, einzeln antippbare Checkboxen anzeigen: eine je Satz, unabhängig von der Wiederholungszahl.
+- Beispiele: 1 × 5 → eine Checkbox; 3 × 5 → drei Checkboxen; 5 × 5 und 5 × 3 → jeweils fünf Checkboxen.
+- Erledigte Sätze abhaken und bei Bedarf wieder abwählen können. So bleibt während des Trainings sichtbar, wie viele Sätze bereits geschafft sind; das Abhaken soll motivieren.
+- Kompakte Darstellung der Satzgruppen erhalten. Verhalten bei nicht eindeutig auswertbarem Freitext und dauerhafte Speicherung des Abhakstatus bei der Umsetzung festlegen.
+
 ### t24 – Zweisprachigkeit Deutsch und Englisch (Prio 9, zurückgestellt)
 
 - Auf Wunsch von Florian zurückgestellt. App-Oberfläche, Hilfe und Fehlermeldungen später auf Deutsch und Englisch bereitstellen.
