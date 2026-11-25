@@ -18,6 +18,8 @@
 
 - Nenne bei jeder abgeschlossenen Änderung in der Übergabe ausdrücklich die interne Projektversion und bei Apps mit separater externer Version auch die vorgesehene externe Version samt Buildnummer (z. B. intern `v1.7.2` → extern `1.0.1 (20)`). Kennzeichne die Buildnummer als geplant, solange der Upload nicht bestätigt ist; prüfe vor dem Upload, ob sie noch frei ist. Bei reinen Dokumentations- oder Website-Änderungen ohne Versionswechsel nenne den unveränderten Stand.
 
+- In der App-Hilfe müssen die interne Projektversion und die Buildnummer sichtbar sein. Beide Werte aus den Metadaten des installierten App-Bundles lesen (projektspezifischer Schlüssel für die interne Version und `CFBundleVersion`); keine unabhängig gepflegten oder hart codierten Versionswerte anzeigen. Bei Änderungen an Versionierung oder Hilfe die Anzeige gegen die Build-Konfiguration prüfen.
+
 ## Arbeit mit Git-Repositories
 
 - Prüfe vor Änderungen den vereinbarten Branch und den aktuellen Stand des Remotes. Prüfe bei Zugriff auf eine lokale Arbeitskopie auch deren Status und erhalte vorhandene Änderungen.

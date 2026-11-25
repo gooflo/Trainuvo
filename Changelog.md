@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.14.5 – Buildnummer in der Hilfe
+
+- Neben der internen Version auch die Buildnummer in der Hilfe anzeigen, z. B. Trainuvo 0.14.5 (Build 9). Beide Werte kommen aus dem installierten App-Bundle; hart codierten Versions-Fallback entfernt.
+- Allgemeine Vorgabe zur Anzeige von interner Version und Buildnummer auch im Cashuvo-Repository festgehalten; Cashuvos Hilfe zeigt beide Angaben bereits.
+- Intern 0.14.5; nächster Upload extern 1.0.0 (9) geplant, Buildnummer unverändert gegenüber 0.14.4. Verfügbarkeit vor Upload prüfen.
+- Quelltext und Versionskonsistenz statisch geprüft. Xcode-Build und Sichtprüfung der Hilfe ausstehend. Keine Änderung an Datenmodell oder CloudKit-Schema.
+
 ## 0.14.4 – Neutrale Kopierbestätigung
 
 - Nach „Text kopieren“ im Export „Text in die Zwischenablage kopiert“ anzeigen, ohne OneNote-Verweis. Exportinhalt und Kopierfunktion unverändert.

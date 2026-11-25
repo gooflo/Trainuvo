@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.14.4 – Vorabversion**
+**Interner Entwicklungsstand: 0.14.5 – Vorabversion**
 
 ## Übungstypen
 
@@ -39,6 +39,8 @@ Jeder Eintrag speichert seinen Typ. Beim Wechsel des Übungstyps bleiben bestehe
 Die App ist für iPhone und iPad ausgelegt. Das App-Target unterstützt iOS/iPadOS ab 17.6. Zum Entwickeln wird eine passende Xcode-Version auf dem Mac benötigt.
 
 ## Nutzung
+
+Die Hilfe unter **?** zeigt die interne Version und die Buildnummer der installierten App, beispielsweise **Trainuvo 0.14.5 (Build 9)**.
 
 Nach „Text kopieren“ bestätigt die App „Text in die Zwischenablage kopiert“.
 

@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.14.4**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.14.5**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version wird über die Build-Einstellung `INFOPLIST_KEY_TrainuvoInternalVersion` in die generierte Info.plist übernommen. Die Hilfe zeigt die interne Version. Für den nächsten Upload ist extern 1.0.0 (8) vorbereitet; Build 8 muss vor Upload noch frei sein. Intern 0.14.3. Keine Veröffentlichung durch diese Änderung.
+Die interne Version wird über INFOPLIST_KEY_TrainuvoInternalVersion in die generierte Info.plist übernommen. Die Hilfe liest TrainuvoInternalVersion und CFBundleVersion aus Bundle.main und zeigt beispielsweise Trainuvo 0.14.5 (Build 9). Fehlende Metadaten erscheinen als „–“ statt einer erfundenen Versionsnummer. Aktuell intern 0.14.5, nächster Upload extern 1.0.0 (9) geplant; Buildnummer vor Upload auf Verfügbarkeit prüfen.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -458,3 +458,8 @@ Florian bestätigt Build 7 als letzte Veröffentlichung. Für die gesamte aktuel
 ## Kopierbestätigung – 0.14.4
 
 TrainingExportView kopiert weiterhin preview unverändert nach UIPasteboard.general.string. Die Bestätigung lautet „Text in die Zwischenablage kopiert“, ohne Nennung einer Ziel-App. Intern 0.14.4, nächster Upload extern 1.0.0 (9) geplant; Verfügbarkeit vor Upload prüfen. Keine Änderung an Datenmodell, Exportformat oder Schema. Am Mac main pullen, ⌘ B, Export mit Trainings öffnen, Text kopieren antippen, Bestätigung prüfen und in eine beliebige Notiz einfügen. Xcode-/Geräteprüfung hier nicht möglich.
+
+
+## Versionsanzeige in der Hilfe – 0.14.5
+
+HelpView in ContentView.swift zeigt interne Version und Buildnummer aus dem installierten Bundle. Cashuvos Hilfe erfüllt die gemeinsame Regel bereits. Am Mac main pullen, ⌘ B und ⌘ R; ? öffnen und 0.14.5 (Build 9) mit den Target-Einstellungen vergleichen. Kein Xcode-/Gerätetest in dieser Umgebung möglich. Build 9 bleibt für den nächsten Upload geplant; keine Modell-/Schemaänderung.
