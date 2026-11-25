@@ -61,7 +61,7 @@ struct TrainingExportView: View {
                 Section {
                     Button("Text kopieren", systemImage: "doc.on.doc") {
                         UIPasteboard.general.string = preview
-                        message = "Text für OneNote kopiert."
+                        message = "Text in die Zwischenablage kopiert"
                     }
                     Button("Textdatei", systemImage: "doc.text") { export("txt") }
                     Button("Excel", systemImage: "tablecells") { export("xlsx") }

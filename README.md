@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.14.3 – Vorabversion**
+**Interner Entwicklungsstand: 0.14.4 – Vorabversion**
 
 ## Übungstypen
 
@@ -39,6 +39,8 @@ Jeder Eintrag speichert seinen Typ. Beim Wechsel des Übungstyps bleiben bestehe
 Die App ist für iPhone und iPad ausgelegt. Das App-Target unterstützt iOS/iPadOS ab 17.6. Zum Entwickeln wird eine passende Xcode-Version auf dem Mac benötigt.
 
 ## Nutzung
+
+Nach „Text kopieren“ bestätigt die App „Text in die Zwischenablage kopiert“.
 
 Über den **Stift neben Übungen → Übung anlegen** eine Übung mit optionalem Zielgewicht anlegen. Auf einer Zielkarte **+** antippen, um sofort ein neues Training zu öffnen. Bei Krafttraining erhält das erste kg-Feld automatisch den Fokus und die numerische Tastatur öffnet sich. Satzübungen fokussieren die rechte freie Angabe mit normaler Tastatur. Bei Andere wird das erste linke Feld fokussiert, bei nur links vorbelegter Vorlage das rechte Feld. **Fertig** schließt die Tastatur. Das Datum ist mit heute vorbelegt. Antippen der Karte öffnet den Übungsverlauf. Zahnrad und Hilfe stehen oben rechts.
 

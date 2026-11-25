@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.14.3**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.14.4**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -453,3 +453,8 @@ Version 0.14.3 / 1.0.0 (8) vorbereitet; Buildnummer vor Upload auf Verfügbarkei
 ## Verbindliche Buildzuordnung – 24.11.2026
 
 Florian bestätigt Build 7 als letzte Veröffentlichung. Für die gesamte aktuelle Testrunde einschließlich der Zwischenstände 0.14.0–0.14.3 wird Build 8 verwendet; aktuell intern 0.14.3 / extern 1.0.0 (8). Frühere Erwähnungen der Builds 9–11 waren vorläufige Planungen, keine Upload-Bestätigungen, und sind überholt. Alle drei Targets sind auf Build 8 gesetzt. Interne Zwischenstände ohne Upload erfordern keine weitere Buildnummer. Keine Änderung an App-Code, Datenmodell oder Schema durch diese Korrektur.
+
+
+## Kopierbestätigung – 0.14.4
+
+TrainingExportView kopiert weiterhin preview unverändert nach UIPasteboard.general.string. Die Bestätigung lautet „Text in die Zwischenablage kopiert“, ohne Nennung einer Ziel-App. Intern 0.14.4, nächster Upload extern 1.0.0 (9) geplant; Verfügbarkeit vor Upload prüfen. Keine Änderung an Datenmodell, Exportformat oder Schema. Am Mac main pullen, ⌘ B, Export mit Trainings öffnen, Text kopieren antippen, Bestätigung prüfen und in eine beliebige Notiz einfügen. Xcode-/Geräteprüfung hier nicht möglich.

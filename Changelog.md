@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.4 – Neutrale Kopierbestätigung
+
+- Nach „Text kopieren“ im Export „Text in die Zwischenablage kopiert“ anzeigen, ohne OneNote-Verweis. Exportinhalt und Kopierfunktion unverändert.
+- Intern 0.14.4; extern 1.0.0 (9) für den nächsten Upload geplant. Freie Buildnummer vor Upload prüfen.
+- Textänderung und Versionswerte statisch geprüft; Xcode-Build und Sichtprüfung der Kopierbestätigung auf dem Mac ausstehend. Keine Modell-/CloudKit-Änderung.
+
 ## 0.14.3 – Zusätzlich angezeigte ausgeblendete Karten kennzeichnen
 
 - Buildzuordnung auf ausdrücklichen Wunsch korrigiert: Letzte Veröffentlichung 1.0.0 (7), nächster Upload 1.0.0 (8), intern weiterhin 0.14.3. Die zwischenzeitlich vorgesehenen Builds 9–11 wurden nicht als veröffentlicht bestätigt.
