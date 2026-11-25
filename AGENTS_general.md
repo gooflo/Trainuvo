@@ -27,6 +27,9 @@
 
 - In der App-Hilfe müssen die interne Projektversion und die Buildnummer sichtbar sein. Beide Werte aus den Metadaten des installierten App-Bundles lesen (projektspezifischer Schlüssel für die interne Version und `CFBundleVersion`); keine unabhängig gepflegten oder hart codierten Versionswerte anzeigen. Bei Änderungen an Versionierung oder Hilfe die Anzeige gegen die Build-Konfiguration prüfen.
 
+- Die zuletzt öffentlich veröffentlichte App-Store-Version getrennt vom Entwicklungs- und TestFlight-Stand in `AppStoreRelease.md` dokumentieren: externe Version, Buildnummer, interne Version, Git-Tag bzw. Commit, Veröffentlichungsdatum und bestätigten Status. Vor der ersten öffentlichen Veröffentlichung ausdrücklich „noch keine öffentliche Version“ festhalten. Bei unbestätigter Verfügbarkeit den Stand als solchen kennzeichnen.
+- Für jede App-Store-Veröffentlichung die vollständigen Texte für „Neu in dieser Version“ auf Deutsch und Englisch erstellen. Maßgeblich ist die Differenz zur letzten öffentlich veröffentlichten Version (Git-Tag/Commit und Changelog), nicht zum letzten TestFlight-Build. Alle relevanten nutzersichtbaren Änderungen seitdem zusammenfassen, nach Fehlerbehebungen und neuen Funktionen gliedern und interne Zwischenstände weglassen. Den öffentlichen Referenzstand erst nach bestätigter Veröffentlichung aktualisieren.
+
 ## Arbeit mit Git-Repositories
 
 - Prüfe vor Änderungen den vereinbarten Branch und den aktuellen Stand des Remotes. Prüfe bei Zugriff auf eine lokale Arbeitskopie auch deren Status und erhalte vorhandene Änderungen.
