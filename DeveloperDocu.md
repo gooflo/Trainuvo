@@ -488,3 +488,8 @@ Neue TrainingSetProgressTests prüfen Parsergrenzen, dateibasierte V3→V4-Migra
 Am Mac: main pullen, ⌘ B und ⌘ U. Mit bestehender Installation für Krafttraining und Satzübung 1×5/3×5/5×5/5×3 prüfen. Vier Satzgruppen auf iPhone-15-Hochformat mit offener/geschlossener Tastatur und großer Schrift prüfen; Abhaken/Abwählen, Speichern, Abbrechen, erneut öffnen, neue Trainings ohne geerbte Häkchen sowie Freitext/Andere testen. JSON prüfen.
 
 Vor TestFlight zwingend neues CloudKit-Schema: Scheme Run Debug -initializeCloudKitSchema aktivieren, auf iCloud-angemeldetem Simulator starten, Development schema initialized bestätigen, Argument wieder deaktivieren. CloudKit Console iCloud.com.vogtapps.Trainuvo → Development → Schema → CD_SetGroup → CD_completedSetsRawValue prüfen. Deploy Schema Changes… → Production; dort Feld kontrollieren. Erst danach getesteten Commit mit v0.15.0 taggen/pushen, freien Buildwert 9 prüfen und 1.0.0 (9) hochladen. Auf beiden Geräten denselben aktuellen TestFlight-Build verwenden und Häkchen nach Speicherung/iCloud-Abgleich prüfen. Keine Deinstallation und kein Reset.
+
+
+## Abnahme der Checkboxen – 25.11.2026
+
+Florian bestätigt für die aktuelle Runde intern 0.15.0 / extern 1.0.0 (9) zunächst den erfolgreichen iPhone-Test und anschließend den erfolgreichen iPad-/Abgleichstest. t40 ist damit abgenommen. Die Schema-Initialisierung war nach Anmeldung des Simulators bei iCloud erfolgreich; der vorherige Initialisierungsfehler ist damit nicht als nachgewiesener Migrationsfehler zu behandeln. Einzelne automatisierte Testergebnisse, Offline-/Konfliktfälle und Bedienungshilfen wurden nicht separat bestätigt. Keine öffentliche App-Store-Verfügbarkeit ableiten. Reine Dokumentation, App-Version und Build unverändert.
