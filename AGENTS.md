@@ -13,6 +13,8 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 
 ## Versionierung und Veröffentlichung
 
+- Versionsanzeige in der Hilfe analog Cashuvo als eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version <extern> (<Build>), v<intern>. Alle Werte aus Bundle.main lesen.
+
 - Pflege die interne SemVer-Version in README und Changelog. `0.x.x` bezeichnet Vorstufen, `1.0.0` die erste nutzbare Version.
 - Führe die externe App-Store-Version und die Buildnummer separat. Stimme Änderungen der externen Version ab und ordne jeden hochgeladenen Build einem Commit oder Tag zu.
 - TestFlight und die öffentliche App-Store-Veröffentlichung separat abstimmen.
@@ -48,7 +50,7 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 ## TestFlight und Ankündigungen
 
 - Interne SemVer-Version, externe App-Version und Buildnummer getrennt führen. Während der Testphase die externe Version möglichst stabil halten; Änderungen vorher abstimmen. Die nächste Buildnummer muss in App Store Connect noch frei sein. Der Repositorywert allein beweist nicht, welche Builds schon hochgeladen wurden; Angaben von Florian zu belegten Builds berücksichtigen.
-- Versionsstand: 0.14.3 / extern 1.0.0 (8) war die letzte Veröffentlichungsrunde. Aktuell intern 0.15.0; nächster Upload extern 1.0.0 (9) geplant. Buildnummer vor Upload auf Verfügbarkeit prüfen. Frühere Planungen der Builds 9–11 für 0.14.0–0.14.3 sind überholt.
+- Versionsstand: 0.14.3 / extern 1.0.0 (8) war die letzte Veröffentlichungsrunde. Aktuell intern 0.15.1; nächster Upload extern 1.0.0 (9) geplant. Buildnummer vor Upload auf Verfügbarkeit prüfen. Frühere Planungen der Builds 9–11 für 0.14.0–0.14.3 sind überholt.
 - Wenn Florian „publishen“, „publizieren“, „veröffentlichen“ oder Ähnliches sagt, die kurze TestFlight-Checkliste und den vollständigen WhatsApp-Entwurf für den vorgesehenen Build in derselben Antwort ausgeben:
   1. Tag setzen und pushen.
   2. Archivieren und hochladen; externe Version und Build im Organizer prüfen. Automatische Buildnummernverwaltung für eine eindeutige Zuordnung abwählen, sofern angeboten.

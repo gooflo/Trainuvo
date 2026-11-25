@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.15.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.15.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.15.0) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion und CFBundleVersion aus Bundle.main und zeigt beide als eigene beschriftete Zeilen. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (9) geplant; Buildnummer vor Upload prüfen.
+Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.15.1) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0.0 (9), v0.15.1. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (9) geplant; Buildnummer vor Upload prüfen.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -468,3 +468,8 @@ HelpView in ContentView.swift zeigt interne Version und Buildnummer aus dem inst
 ## Expliziter Versionsschlüssel – 0.15.0
 
 Auf Florians Wunsch interne Version 0.15.0, Build unverändert 9 (extern 1.0.0, geplanter nächster Upload). Die vorherige INFOPLIST_KEY_TrainuvoInternalVersion-Einstellung durch TRAINUVO_INTERNAL_VERSION ersetzen und den benutzerdefinierten Schlüssel ausdrücklich in Trainuvo-Info.plist eintragen. Dadurch hängt die Aufnahme des Schlüssels nicht allein vom generierten Info.plist ab. HelpView zeigt Interne Version und Build als separate LabeledContent-Zeilen. Auf dem Mac pullen, ⌘ B/⌘ R und ? prüfen: 0.15.0 und 9. Keine Modell-/CloudKit-Änderung. Nur statische Prüfung hier; finales Bundle und Anzeige in Xcode prüfen.
+
+
+## Versionszeile analog Cashuvo – 0.15.1
+
+HelpView verwendet einen eigenen Section-Block mit Text in footnote/secondary. Der folgende Abschnitt Trainuvo enthält ausschließlich die Nutzungshinweise. Alle drei Versionswerte stammen aus Bundle.main. Auf dem Mac main pullen, ⌘ R, ? öffnen: eigene Versionszeile oberhalb der abgesetzten Hilfetexte prüfen. Intern 0.15.1, nächster Upload extern 1.0.0 (9) geplant. Kein Xcode-/Gerätetest in dieser Umgebung möglich.

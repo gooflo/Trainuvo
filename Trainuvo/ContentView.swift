@@ -509,12 +509,19 @@ private struct HelpView: View {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "–"
     }
 
+    private var externalVersion: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "–"
+    }
+
     var body: some View {
         NavigationStack {
             List {
+                Section {
+                    Text("Version \(externalVersion) (\(build)), v\(version)")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
                 Section("Trainuvo") {
-                    LabeledContent("Interne Version", value: version)
-                    LabeledContent("Build", value: build)
                     Text("Lege über den Stift neben „Übungen“ eine Übung mit optionalem Zielgewicht an. Das Plus auf einer Zielkarte öffnet sofort die Trainingserfassung. Antippen der Karte öffnet den Verlauf. Einstellungen und Hilfe stehen oben rechts.")
                 }
                 Section("Übungen aus- und einblenden") {

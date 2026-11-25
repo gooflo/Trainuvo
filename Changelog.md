@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.1 – Versionszeile analog Cashuvo
+
+- Externe Version, Buildnummer und interne Version als eine Textzeile „Version 1.0.0 (9), v0.15.1“ in einem eigenen Abschnitt oberhalb der übrigen Hilfe anzeigen; kleinere sekundäre Schrift wie bei Cashuvo.
+- Alle Werte weiterhin aus dem installierten App-Bundle lesen. Intern 0.15.1, extern 1.0.0 (9) unverändert für den nächsten Upload geplant.
+- Quelltext und Versionskonfiguration statisch geprüft. Xcode-Build und Sichtprüfung ausstehend. Keine Modell-/Schemaänderung.
+
 ## 0.15.0 – Interne Version zuverlässig in der Hilfe anzeigen
 
 - Interne Version auf ausdrücklichen Wunsch auf 0.15.0 setzen; extern 1.0.0 (9) bleibt für den nächsten Upload geplant.
