@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.14.5**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.15.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version wird über INFOPLIST_KEY_TrainuvoInternalVersion in die generierte Info.plist übernommen. Die Hilfe liest TrainuvoInternalVersion und CFBundleVersion aus Bundle.main und zeigt beispielsweise Trainuvo 0.14.5 (Build 9). Fehlende Metadaten erscheinen als „–“ statt einer erfundenen Versionsnummer. Aktuell intern 0.14.5, nächster Upload extern 1.0.0 (9) geplant; Buildnummer vor Upload auf Verfügbarkeit prüfen.
+Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.15.0) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion und CFBundleVersion aus Bundle.main und zeigt beide als eigene beschriftete Zeilen. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (9) geplant; Buildnummer vor Upload prüfen.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -463,3 +463,8 @@ TrainingExportView kopiert weiterhin preview unverändert nach UIPasteboard.gene
 ## Versionsanzeige in der Hilfe – 0.14.5
 
 HelpView in ContentView.swift zeigt interne Version und Buildnummer aus dem installierten Bundle. Cashuvos Hilfe erfüllt die gemeinsame Regel bereits. Am Mac main pullen, ⌘ B und ⌘ R; ? öffnen und 0.14.5 (Build 9) mit den Target-Einstellungen vergleichen. Kein Xcode-/Gerätetest in dieser Umgebung möglich. Build 9 bleibt für den nächsten Upload geplant; keine Modell-/Schemaänderung.
+
+
+## Expliziter Versionsschlüssel – 0.15.0
+
+Auf Florians Wunsch interne Version 0.15.0, Build unverändert 9 (extern 1.0.0, geplanter nächster Upload). Die vorherige INFOPLIST_KEY_TrainuvoInternalVersion-Einstellung durch TRAINUVO_INTERNAL_VERSION ersetzen und den benutzerdefinierten Schlüssel ausdrücklich in Trainuvo-Info.plist eintragen. Dadurch hängt die Aufnahme des Schlüssels nicht allein vom generierten Info.plist ab. HelpView zeigt Interne Version und Build als separate LabeledContent-Zeilen. Auf dem Mac pullen, ⌘ B/⌘ R und ? prüfen: 0.15.0 und 9. Keine Modell-/CloudKit-Änderung. Nur statische Prüfung hier; finales Bundle und Anzeige in Xcode prüfen.

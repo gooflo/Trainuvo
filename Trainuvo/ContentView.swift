@@ -512,7 +512,9 @@ private struct HelpView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section("Trainuvo \(version) (Build \(build))") {
+                Section("Trainuvo") {
+                    LabeledContent("Interne Version", value: version)
+                    LabeledContent("Build", value: build)
                     Text("Lege über den Stift neben „Übungen“ eine Übung mit optionalem Zielgewicht an. Das Plus auf einer Zielkarte öffnet sofort die Trainingserfassung. Antippen der Karte öffnet den Verlauf. Einstellungen und Hilfe stehen oben rechts.")
                 }
                 Section("Übungen aus- und einblenden") {

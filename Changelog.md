@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.15.0 – Interne Version zuverlässig in der Hilfe anzeigen
+
+- Interne Version auf ausdrücklichen Wunsch auf 0.15.0 setzen; extern 1.0.0 (9) bleibt für den nächsten Upload geplant.
+- Benutzerdefinierten Schlüssel TrainuvoInternalVersion ausdrücklich in Trainuvo-Info.plist eintragen und über die Build-Einstellung TRAINUVO_INTERNAL_VERSION befüllen. Bisherige alleinige INFOPLIST_KEY-Einstellung ersetzen.
+- In der Hilfe Interne Version und Build als eigene beschriftete Zeilen aus dem installierten Bundle anzeigen.
+- Metadaten-Verknüpfung und Versionsangaben statisch geprüft; Xcode-Build und Anzeigeprüfung auf dem Gerät ausstehend. Keine Modell-/Schemaänderung.
+
 ## 0.14.5 – Buildnummer in der Hilfe
 
 - Neben der internen Version auch die Buildnummer in der Hilfe anzeigen, z. B. Trainuvo 0.14.5 (Build 9). Beide Werte kommen aus dem installierten App-Bundle; hart codierten Versions-Fallback entfernt.
