@@ -8,6 +8,12 @@
 - Für Tests synthetische oder anonymisierte Daten verwenden. Zugangsdaten, echte Bankexporte und private Buchungsdaten aus dem Repository heraushalten.
 - Den betroffenen Ablauf gezielt prüfen. Bei der Übergabe festhalten, was getestet wurde und was noch offen ist.
 
+## Projektgrenzen im Chat
+
+- Jeder Projektchat ist einem bestimmten Projekt zugeordnet. Vor Änderungen prüfen, ob das betroffene Projekt zum aktuellen Chat gehört. Die bloße Erwähnung eines anderen Projekts oder ein Änderungsauftrag dafür hebt diese Grenze nicht automatisch auf.
+- Soll ein anderes Projekt geändert werden, vor jeder Bearbeitung ausdrücklich darauf hinweisen: „Das betrifft <anderes Projekt> statt <Projekt dieses Chats> und verstößt gegen unsere Regel zur Projekttrennung. Möchtest du für diesen konkreten Auftrag eine Ausnahme erlauben?“ Erst nach ausdrücklicher Zustimmung Änderungen vornehmen, committen oder pushen. Ohne Zustimmung den Wechsel in den zuständigen Projektchat vorschlagen.
+- Eine ausdrücklich erteilte Ausnahme gilt nur für die genannten Projekte und den konkreten Auftrag. Eine ausdrücklich genehmigte gemeinsame Regeländerung darf in allen benannten Repositories umgesetzt werden; daraus entsteht keine dauerhafte Freigabe für weitere projektfremde Änderungen.
+
 ## Versionierung
 
 - Verwende `MAJOR.MINOR.PATCH`, bei separater Buildnummer `MAJOR.MINOR.PATCH (BUILD)`.
