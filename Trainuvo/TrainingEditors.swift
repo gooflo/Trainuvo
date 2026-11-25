@@ -265,6 +265,7 @@ private struct SetGroupDraft: Identifiable {
     let id: UUID
     var prescription: String
     var weight: String
+    var completedSets: Set<Int> = []
 
     init(id: UUID = UUID(), prescription: String = "3 × 5", weight: String = "") {
         self.id = id
@@ -307,7 +308,9 @@ struct TrainingEditor: View {
         let selectedWorkingID: UUID?
         if let entry {
             initial = entry.sortedGroups.map {
-                SetGroupDraft(id: $0.id, prescription: $0.prescription, weight: type.usesWeights ? TrainingFormat.number($0.weight) : ($0.detailText ?? ""))
+                var draft = SetGroupDraft(id: $0.id, prescription: $0.prescription, weight: type.usesWeights ? TrainingFormat.number($0.weight) : ($0.detailText ?? ""))
+                draft.completedSets = $0.completedSets
+                return draft
             }
             selectedWorkingID = entry.sortedGroups.first(where: \.isWorking)?.id
         } else if !exercise.sortedSetTemplates.isEmpty {
@@ -351,7 +354,7 @@ struct TrainingEditor: View {
                                 } label: {
                                     Image(systemName: workingID == group.id ? "target" : "circle")
                                         .foregroundStyle(workingID == group.id ? Color.blue : Color.secondary)
-                                        .frame(width: 44, height: 44)
+                                        .frame(width: 28, height: 44)
                                 }
                                 .accessibilityLabel("Als \(activityType.workingTitle) wählen")
                                 .accessibilityValue(workingID == group.id ? "Ausgewählt" : "Nicht ausgewählt")
@@ -359,7 +362,7 @@ struct TrainingEditor: View {
                                 TextField("Sätze", text: $group.prescription)
                                     .focused($focusedField, equals: .prescription(group.id))
                                     .accessibilityLabel("Sätze und Wiederholungen")
-                                    .frame(minWidth: 60)
+                                    .frame(minWidth: 38)
 
                                 Menu {
                                     ForEach(TrainingFormat.prescriptions, id: \.self) { preset in
@@ -373,20 +376,25 @@ struct TrainingEditor: View {
                                     }
                                 } label: {
                                     Image(systemName: "chevron.down.circle")
-                                        .frame(width: 44, height: 44)
+                                        .frame(width: 28, height: 44)
                                 }
                                 .accessibilityLabel("Satzauswahl und Aktionen")
+
+                                SetCompletionButtons(prescription: group.prescription, completed: $group.completedSets)
 
                                 TextField(activityType.usesWeights ? "Gewicht" : "Angabe", text: $group.weight)
                                     .keyboardType(activityType.usesWeights ? .decimalPad : .default)
                                     .focused($focusedField, equals: .weight(group.id))
                                     .multilineTextAlignment(.trailing)
                                     .monospacedDigit()
-                                    .frame(minWidth: 60, idealWidth: 80, maxWidth: 100)
+                                    .frame(minWidth: 44, idealWidth: 52, maxWidth: 64)
                                     .accessibilityLabel(activityType.usesWeights ? "Gewicht in Kilogramm" : "Freie Angabe zur Satzgruppe")
                                 if activityType.usesWeights {
                                     Text("kg").foregroundStyle(.secondary)
                                 }
+                            }
+                            .onChange(of: group.prescription) { _, value in
+                                group.completedSets = TrainingSetProgress.valid(group.completedSets, for: value)
                             }
                             .buttonStyle(.borderless)
                             .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 12))
@@ -432,9 +440,9 @@ struct TrainingEditor: View {
                     Text(activityType.usesSets ? (activityType.usesWeights ? "Sätze und Gewichte" : "Sätze und Angaben") : "Trainingseinheiten")
                 } footer: {
                     if activityType.usesWeights {
-                        Text("Zielscheibe = Arbeitsgewicht. Satzauswahl und Entfernen über den Pfeil.")
+                        Text("Kästchen pro Satz abhaken. Zielscheibe = Arbeitsgewicht. Satzauswahl und Entfernen über den Pfeil.")
                     } else if activityType == .sets {
-                        Text("Rechts steht deine freie Angabe ohne feste Einheit. Zielscheibe = Arbeitsgruppe; Satzauswahl und Entfernen über den Pfeil.")
+                        Text("Kästchen pro Satz abhaken. Rechts steht deine freie Angabe ohne feste Einheit. Zielscheibe = Arbeitsgruppe; Satzauswahl und Entfernen über den Pfeil.")
                     } else {
                         Text("Zwei freie Angaben je Einheit, zum Beispiel links 200 W und rechts 30 min. Mindestens ein Feld pro Einheit ausfüllen.")
                     }
@@ -542,6 +550,7 @@ struct TrainingEditor: View {
                 isWorking: activityType.usesSets && draft.id == workingID,
                 detailText: activityType.usesWeights ? nil : draft.weight.trimmingCharacters(in: .whitespacesAndNewlines)
             )
+            group.completedSets = activityType.usesSets ? draft.completedSets : []
             modelContext.insert(group)
             training.setGroups.append(group)
         }

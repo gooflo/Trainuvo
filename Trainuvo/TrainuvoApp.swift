@@ -13,7 +13,7 @@ struct TrainuvoApp: App {
         do {
             storage = .success(try Self.makeModelContainer())
         } catch {
-            let schema = Schema(versionedSchema: TrainuvoSchemaV3.self)
+            let schema = Schema(versionedSchema: TrainuvoSchemaV4.self)
             let configuration = ModelConfiguration(schema: schema, cloudKitDatabase: .private("iCloud.com.vogtapps.Trainuvo"))
             storage = .failure(StoreOpenFailure(
                 message: error.localizedDescription,
@@ -35,12 +35,12 @@ struct TrainuvoApp: App {
     }
 
     private static func makeModelContainer() throws -> ModelContainer {
-        let schema = Schema(versionedSchema: TrainuvoSchemaV3.self)
+        let schema = Schema(versionedSchema: TrainuvoSchemaV4.self)
         let containerID = "iCloud.com.vogtapps.Trainuvo"
         #if DEBUG
         if ProcessInfo.processInfo.arguments.contains("-initializeCloudKitSchema") {
             try autoreleasepool {
-                try initializeCloudKitSchema(for: TrainuvoSchemaV3.models, containerID: containerID)
+                try initializeCloudKitSchema(for: TrainuvoSchemaV4.models, containerID: containerID)
             }
         }
         #endif

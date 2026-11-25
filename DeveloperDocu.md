@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.15.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.15.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -13,7 +13,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | Datei | Verantwortung |
 |---|---|
 | TrainuvoApp.swift | Persistenter SwiftData-/CloudKit-Container, Migrationsplan, Öffnungsfehler und isolierte Debug-Schema-Einrichtung |
-| TrainingModels.swift | VersionedSchema V2 mit allen sechs Modellen, aktuelle Typaliase und Berechnungen |
+| TrainingModels.swift | Aktuelles VersionedSchema V4 mit sechs Modellen, aktuelle Typaliase und Berechnungen |
 | TrainuvoSchemaV1.swift / TrainuvoMigrationPlan.swift | Unverändertes ausgeliefertes Modell und V1→V2-Migration |
 | CloudSyncInfoView.swift | iCloud-Accountstatus, Offline-/Sync-Hinweise |
 | ContentView.swift | Startseite, Zielkarten, gruppierte Trainingstage, Übungsdetail und Hilfe |
@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.15.1) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0.0 (9), v0.15.1. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (9) geplant; Buildnummer vor Upload prüfen.
+Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.15.0) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0.0 (9), v0.15.0. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (9) geplant; Buildnummer vor Upload prüfen.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -473,3 +473,18 @@ Auf Florians Wunsch interne Version 0.15.0, Build unverändert 9 (extern 1.0.0, 
 ## Versionszeile analog Cashuvo – 0.15.1
 
 HelpView verwendet einen eigenen Section-Block mit Text in footnote/secondary. Der folgende Abschnitt Trainuvo enthält ausschließlich die Nutzungshinweise. Alle drei Versionswerte stammen aus Bundle.main. Auf dem Mac main pullen, ⌘ R, ? öffnen: eigene Versionszeile oberhalb der abgesetzten Hilfetexte prüfen. Intern 0.15.1, nächster Upload extern 1.0.0 (9) geplant. Kein Xcode-/Gerätetest in dieser Umgebung möglich.
+
+
+## Satz-Checkboxen t40 – 0.15.0 / 1.0.0 (9) geplant
+
+Florian legt für diese gesamte Runde intern 0.15.0 fest; Zwischenstand 0.15.1 ist abgelöst, kein neues Tag durch den Assistenten. Die Hilfe bleibt eine eigene dezente Versionszeile analog Cashuvo.
+
+TrainuvoSchemaV3.swift friert das bisherige V3 unverändert ein. TrainingModels.swift enthält aktuelles V4, ergänzt ausschließlich optionales SetGroup.completedSetsRawValue und den berechneten Zugriff completedSets. Migrationsfolge BeforeDayNotes → V1 → V2 → V3 → V4 mit Lightweight-Stufen, bisheriger default.store bleibt erhalten. nil bedeutet keine Häkchen. Satznummern ab 1 werden sortiert kommasepariert gespeichert, ungültige Nummern beim Zugriff verworfen. Alle bisherigen Modelle unverändert lassen. App, Schema-Initialisierung, Diagnose und aktuelle Test-Fixtures verwenden V4; Diagnose behält V3-Referenz zusätzlich.
+
+TrainingSetProgress erkennt eindeutiges NxM mit x/×, Leerzeichen und positivem Wiederholungswert; Satzanzahl 1–100 schützt vor unbeschränkter UI-Erzeugung. Andere/Freitext ohne eindeutige Vorgabe zeigt keine Checkboxen. TrainingEditor hält Häkchen im lokalen SetGroupDraft, lädt sie ausschließlich bei Bearbeitung des konkreten Eintrags und schreibt sie erst über den bestehenden Save-/Rollback-Pfad. Neue Trainings aus Vorlagen oder vorherigem Training kopieren keine Häkchen. Abbrechen speichert nicht. Bei Änderung der Vorgabe nur weiterhin vorhandene Satznummern behalten. SetCompletionButtons zeigt bis fünf Kästchen in derselben Zeile; weitere horizontal scrollbar, mit VoiceOver-Satznummer/Status. Satzvorgabe, Gewichte und Zielfortschritt unverändert. JSON ergänzt das optionale Feld completedSets mit Satznummern ab 1 (additiv, schemaVersion weiterhin 2), Text und Excel unverändert.
+
+Neue TrainingSetProgressTests prüfen Parsergrenzen, dateibasierte V3→V4-Migration für beide Satztypen, erhaltene IDs/Beziehungen/Sichtbarkeit/Werte/Bewertung, initial leere Häkchen, Speichern/Wiederöffnen, einzelne Abwahl, Satzreduktion und JSON. Bestehende Migrations-/Sichtbarkeits-/Diagnosetests öffnen V4. Kein Xcode/Apple-SDK in dieser Umgebung; Tests hier nicht ausgeführt.
+
+Am Mac: main pullen, ⌘ B und ⌘ U. Mit bestehender Installation für Krafttraining und Satzübung 1×5/3×5/5×5/5×3 prüfen. Vier Satzgruppen auf iPhone-15-Hochformat mit offener/geschlossener Tastatur und großer Schrift prüfen; Abhaken/Abwählen, Speichern, Abbrechen, erneut öffnen, neue Trainings ohne geerbte Häkchen sowie Freitext/Andere testen. JSON prüfen.
+
+Vor TestFlight zwingend neues CloudKit-Schema: Scheme Run Debug -initializeCloudKitSchema aktivieren, auf iCloud-angemeldetem Simulator starten, Development schema initialized bestätigen, Argument wieder deaktivieren. CloudKit Console iCloud.com.vogtapps.Trainuvo → Development → Schema → CD_SetGroup → CD_completedSetsRawValue prüfen. Deploy Schema Changes… → Production; dort Feld kontrollieren. Erst danach getesteten Commit mit v0.15.0 taggen/pushen, freien Buildwert 9 prüfen und 1.0.0 (9) hochladen. Auf beiden Geräten denselben aktuellen TestFlight-Build verwenden und Häkchen nach Speicherung/iCloud-Abgleich prüfen. Keine Deinstallation und kein Reset.

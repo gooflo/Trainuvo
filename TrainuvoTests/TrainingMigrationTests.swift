@@ -109,7 +109,7 @@ struct TrainingMigrationTests {
     }
 
     private func openCurrentStore(at url: URL) throws -> ModelContainer {
-        let schema = Schema(versionedSchema: TrainuvoSchemaV3.self)
+        let schema = Schema(versionedSchema: TrainuvoSchemaV4.self)
         return try ModelContainer(for: schema, migrationPlan: TrainuvoMigrationPlan.self, configurations: [
             ModelConfiguration(schema: schema, url: url, cloudKitDatabase: .none)
         ])

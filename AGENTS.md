@@ -50,7 +50,7 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 ## TestFlight und Ankündigungen
 
 - Interne SemVer-Version, externe App-Version und Buildnummer getrennt führen. Während der Testphase die externe Version möglichst stabil halten; Änderungen vorher abstimmen. Die nächste Buildnummer muss in App Store Connect noch frei sein. Der Repositorywert allein beweist nicht, welche Builds schon hochgeladen wurden; Angaben von Florian zu belegten Builds berücksichtigen.
-- Versionsstand: 0.14.3 / extern 1.0.0 (8) war die letzte Veröffentlichungsrunde. Aktuell intern 0.15.1; nächster Upload extern 1.0.0 (9) geplant. Buildnummer vor Upload auf Verfügbarkeit prüfen. Frühere Planungen der Builds 9–11 für 0.14.0–0.14.3 sind überholt.
+- Versionsstand: 0.14.3 / extern 1.0.0 (8) war die letzte Veröffentlichungsrunde. Aktuell intern 0.15.0; nächster Upload extern 1.0.0 (9) geplant. Buildnummer vor Upload auf Verfügbarkeit prüfen. Frühere Planungen der Builds 9–11 für 0.14.0–0.14.3 sind überholt.
 - Wenn Florian „publishen“, „publizieren“, „veröffentlichen“ oder Ähnliches sagt, die kurze TestFlight-Checkliste und den vollständigen WhatsApp-Entwurf für den vorgesehenen Build in derselben Antwort ausgeben:
   1. Tag setzen und pushen.
   2. Archivieren und hochladen; externe Version und Build im Organizer prüfen. Automatische Buildnummernverwaltung für eine eindeutige Zuordnung abwählen, sofern angeboten.
@@ -64,8 +64,8 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 
 ## SwiftData und CloudKit
 
-- TrainuvoSchemaV1 entspricht dem ausgelieferten Modell aus v0.12.0 und 0.12.1 und bleibt unverändert. V2 aus 0.13.0–0.13.3 ist in TrainuvoSchemaV2.swift ebenfalls eingefroren. Aktuelles Modell ist V3; spätere Modelländerungen als neues VersionedSchema mit Migrationsplan und Bestandsdaten-Test umsetzen.
-- TrainuvoSchemaBeforeDayNotes sichert zusätzlich den historischen Fünf-Modell-Stand ohne TrainingDayNote. Bei Modelländerungen auch Installationen mit älteren Modellmengen testen; nicht nur den unmittelbar letzten App-Stand rekonstruieren. Migrationsfolge BeforeDayNotes → V1 → V2 → V3 erhalten.
+- TrainuvoSchemaV1 entspricht dem ausgelieferten Modell aus v0.12.0 und 0.12.1 und bleibt unverändert. V2 aus 0.13.0–0.13.3 ist in TrainuvoSchemaV2.swift ebenfalls eingefroren. V3 aus 0.14.x ist in TrainuvoSchemaV3.swift ebenfalls eingefroren. Aktuelles Modell ist V4; spätere Modelländerungen als neues VersionedSchema mit Migrationsplan und Bestandsdaten-Test umsetzen.
+- TrainuvoSchemaBeforeDayNotes sichert zusätzlich den historischen Fünf-Modell-Stand ohne TrainingDayNote. Bei Modelländerungen auch Installationen mit älteren Modellmengen testen; nicht nur den unmittelbar letzten App-Stand rekonstruieren. Migrationsfolge BeforeDayNotes → V1 → V2 → V3 → V4 erhalten.
 - Bestehenden default.store und gespeicherte IDs erhalten. Bei Container-/Migrationsfehlern Fehlermeldung anzeigen; kein automatisches Löschen oder Ersatz durch einen leeren Store.
 - Private CloudKit-Datenbank iCloud.com.vogtapps.Trainuvo verwenden. Kein gemeinsamer Familien-Datensatz. Beziehungen optional halten, Attribute optional oder mit Default; keine Unique-Constraints.
 - Development-Schema nur im Debug-Modus und in einem isolierten temporären Store initialisieren. Vor TestFlight das geprüfte Schema nach Production deployen.
@@ -79,3 +79,5 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 - Sichtbarkeit pro Übung über den Schalter Einblenden auf Startseite direkt über Training erfassen anbieten. Beim Umschalten bleibt die Detailansicht geöffnet. Das Stift-Menü kann ausgeblendete Karten zur Wiederherstellung anzeigen.
 
 - Bei Anzeige ausgeblendeter Startkarten diese mit eye.slash und Ausgeblendet kennzeichnen; regulär sichtbare Karten behalten ihre Darstellung. Die Kennzeichnung folgt dem gespeicherten Flag und entfällt nach dauerhaftem Einblenden.
+
+- t40: Satz-Checkboxen für Krafttraining/Satzübung, eine je Satz bei eindeutigem NxM (x/×), maximal 100 Sätze. SetGroup.completedSetsRawValue speichert optionale, kommaseparierte Satznummern ab 1, nil = keine Häkchen. Neue Trainings übernehmen keine Häkchen aus Vorlagen/letztem Training. Speichern/Abbrechen wie andere Trainingsfelder; Satzreduktion verwirft überzählige Häkchen. Vor TestFlight V4-Feld in Development initialisieren, prüfen und nach Production deployen.

@@ -4,18 +4,19 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
-### t40 – Einzelne Sätze während des Trainings abhaken (Priorität noch offen)
-
-- In der Trainingserfassung direkt in der Zeile einer Satzgruppe kleine, einzeln antippbare Checkboxen anzeigen: eine je Satz, unabhängig von der Wiederholungszahl.
-- Beispiele: 1 × 5 → eine Checkbox; 3 × 5 → drei Checkboxen; 5 × 5 und 5 × 3 → jeweils fünf Checkboxen.
-- Erledigte Sätze abhaken und bei Bedarf wieder abwählen können. So bleibt während des Trainings sichtbar, wie viele Sätze bereits geschafft sind; das Abhaken soll motivieren.
-- Kompakte Darstellung der Satzgruppen erhalten. Verhalten bei nicht eindeutig auswertbarem Freitext und dauerhafte Speicherung des Abhakstatus bei der Umsetzung festlegen.
-
 ### t24 – Zweisprachigkeit Deutsch und Englisch (Prio 9, zurückgestellt)
 
 - Auf Wunsch von Florian zurückgestellt. App-Oberfläche, Hilfe und Fehlermeldungen später auf Deutsch und Englisch bereitstellen.
 
 ## Done
+
+### t40 – Einzelne Sätze während des Trainings abhaken (0.15.0)
+
+- In Krafttraining und Satzübungen je Satz eine Checkbox direkt in der Erfassungszeile, unabhängig von den Wiederholungen: 1×5 → eine, 3×5 → drei, 5×5/5×3 → fünf. Abhaken und wieder abwählen; ab sechs Kästchen horizontal scrollen. Keine Kästchen für Andere oder nicht eindeutig auswertbaren Freitext.
+- Häkchen mit dem Training speichern und beim erneuten Bearbeiten übernehmen; neue Trainings aus Vorlagen oder letztem Training starten leer. Abbrechen verwirft Änderungen. Entfernte Satznummern beim Verkleinern der Vorgabe verwerfen. Gewicht, Satzvorgabe und Fortschrittsberechnung bleiben unverändert.
+- Optionales SetGroup.completedSetsRawValue in V4; V3 unverändert eingefroren, Lightweight V3→V4. Alte Trainings starten ohne Häkchen. Abhakstatus per iCloud synchronisieren und zusätzlich als completedSets (Satznummern ab 1) in JSON exportieren; Text/Excel unverändert.
+- Parser-, V3-Migrations-, Persistenz-/Wiederöffnungs- und JSON-Tests für Krafttraining/Satzübung ergänzt; vorhandene Migrationstests auf V4 erweitert. Statisch geprüft; Xcode-Build/⌘ U, kompakte Darstellung mit vier Gruppen/offener Tastatur, Speichern/Abbrechen, Wiederöffnen und Zwei-Geräte-Sync ausstehend.
+- Vor TestFlight: Development-Schema initialisieren, CD_SetGroup.CD_completedSetsRawValue prüfen, nach Production deployen und erst danach 1.0.0 (9) hochladen. Intern auf Florians Wunsch 0.15.0; Build 9 weiterhin geplant, Verfügbarkeit vor Upload prüfen.
 
 ### t26 – Übungsziele ausblenden und Trainings erhalten (0.14.0; ergänzt bis 0.14.3)
 

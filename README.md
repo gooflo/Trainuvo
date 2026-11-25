@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.15.1 – Vorabversion**
+**Interner Entwicklungsstand: 0.15.0 – Vorabversion**
 
 ## Übungstypen
 
@@ -40,7 +40,9 @@ Die App ist für iPhone und iPad ausgelegt. Das App-Target unterstützt iOS/iPad
 
 ## Nutzung
 
-Die Hilfe unter **?** zeigt externe Version, Buildnummer und interne Version als eine dezente Textzeile in einem eigenen Abschnitt: **Version 1.0.0 (9), v0.15.1**.
+Bei Krafttraining und Satzübungen kannst du in der Trainingserfassung einzelne Sätze direkt in der Zeile abhaken: 1×5 zeigt ein Kästchen, 3×5 drei und 5×5 oder 5×3 fünf. Erneutes Antippen entfernt das Häkchen. Speichern übernimmt den Status, Abbrechen verwirft Änderungen. Neue Trainings starten leer; alte Trainings werden nicht automatisch abgehakt. Bei mehr als fünf Sätzen seitlich durch die Kästchen scrollen. Freitext ohne eindeutige Sätze×Wiederholungen und Andere zeigen keine Checkboxen. Der Abhakstatus ändert keine Gewichte oder Fortschrittsberechnungen.
+
+Die Hilfe unter **?** zeigt externe Version, Buildnummer und interne Version als eine dezente Textzeile in einem eigenen Abschnitt: **Version 1.0.0 (9), v0.15.0**.
 
 Nach „Text kopieren“ bestätigt die App „Text in die Zwischenablage kopiert“.
 

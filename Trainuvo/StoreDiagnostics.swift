@@ -45,7 +45,8 @@ enum StoreDiagnostics {
             ("V1 (Build 3, unversioniert)", Schema(TrainuvoSchemaV1.models), TrainuvoSchemaV1.models),
             ("V1 (versioniert)", Schema(versionedSchema: TrainuvoSchemaV1.self), TrainuvoSchemaV1.models),
             ("V2 (Build 4–7)", Schema(versionedSchema: TrainuvoSchemaV2.self), TrainuvoSchemaV2.models),
-            ("V3 (Sichtbarkeit)", Schema(versionedSchema: TrainuvoSchemaV3.self), TrainuvoSchemaV3.models)
+            ("V3 (Sichtbarkeit)", Schema(versionedSchema: TrainuvoSchemaV3.self), TrainuvoSchemaV3.models),
+            ("V4 (Satz-Checkboxen)", Schema(versionedSchema: TrainuvoSchemaV4.self), TrainuvoSchemaV4.models)
         ]
         for (name, schema, types) in versions {
             lines += ["", name]

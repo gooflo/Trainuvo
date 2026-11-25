@@ -524,6 +524,10 @@ private struct HelpView: View {
                 Section("Trainuvo") {
                     Text("Lege über den Stift neben „Übungen“ eine Übung mit optionalem Zielgewicht an. Das Plus auf einer Zielkarte öffnet sofort die Trainingserfassung. Antippen der Karte öffnet den Verlauf. Einstellungen und Hilfe stehen oben rechts.")
                 }
+                Section("Sätze abhaken") {
+                    Text("Bei Krafttraining und Satzübungen findest du in der Trainingserfassung ein Kästchen je Satz direkt in der Zeile: eines bei 1 × 5, drei bei 3 × 5 und fünf bei 5 × 5 oder 5 × 3. Tippe zum Abhaken oder erneuten Freigeben. Bei mehr als fünf Sätzen kannst du die Kästchen seitlich scrollen.")
+                    Text("Speichern übernimmt die Häkchen mit dem Training; Abbrechen verwirft deine Änderungen. Neue Trainings starten ohne Häkchen. Vorhandene Trainings werden nicht automatisch als erledigt markiert. Bei Freitext ohne eindeutige Angabe Sätze × Wiederholungen und beim Typ Andere gibt es keine Kästchen. Der Abhakstatus ändert weder die Satzvorgabe noch die Gewichte oder den Zielfortschritt.")
+                }
                 Section("Übungen aus- und einblenden") {
                     Text("Auch bei „Übung löschen“ kannst du stattdessen „Nur auf Startseite ausblenden“ wählen. Diese Auswahl erhält alle Trainings. Nur „Übung und alle Trainings löschen“ entfernt die Übung samt Trainings und Standardsätzen dauerhaft.")
                     Text("Öffne eine Zielkarte und schalte „Einblenden auf Startseite“ direkt über „Training erfassen“ aus. Übung, Ziel, Vorlagen und alle bisherigen Trainings bleiben erhalten. In der Tagesübersicht und in Exporten bleiben diese Trainings sichtbar.")

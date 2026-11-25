@@ -1,17 +1,15 @@
 # Changelog
 
-## 0.15.1 – Versionszeile analog Cashuvo
+## 0.15.0 – Satz-Checkboxen und Versionsanzeige
 
-- Externe Version, Buildnummer und interne Version als eine Textzeile „Version 1.0.0 (9), v0.15.1“ in einem eigenen Abschnitt oberhalb der übrigen Hilfe anzeigen; kleinere sekundäre Schrift wie bei Cashuvo.
-- Alle Werte weiterhin aus dem installierten App-Bundle lesen. Intern 0.15.1, extern 1.0.0 (9) unverändert für den nächsten Upload geplant.
-- Quelltext und Versionskonfiguration statisch geprüft. Xcode-Build und Sichtprüfung ausstehend. Keine Modell-/Schemaänderung.
-
-## 0.15.0 – Interne Version zuverlässig in der Hilfe anzeigen
+- t40: Pro Satz eine Checkbox direkt in der Trainingszeile für Krafttraining/Satzübung. Häkchen einzeln setzen/entfernen, speichern und wieder laden; neue Trainings beginnen leer. Nicht eindeutiger Freitext und Andere ohne Kästchen. Kompakte Bedienung, mehr als fünf Checkboxen horizontal scrollbar.
+- Optionales SetGroup.completedSetsRawValue in V4, eingefrorenes V3 und Lightweight-Migration ergänzen. Bestandsdaten bleiben erhalten. JSON enthält zusätzlich completedSets als Satznummern ab 1; Text/Excel bleiben unverändert.
+- Versionszeile analog Cashuvo: Version 1.0.0 (9), v0.15.0, klein und sekundär in eigener Section oberhalb der übrigen Hilfe. Intern ausdrücklich weiterhin 0.15.0; Zwischenstand 0.15.1 für diese Runde abgelöst, Build 9 unverändert geplant.
+- Parser-, dateibasierte V3→V4-, Speicher-/Wiederöffnungs- und JSON-Tests ergänzt; bestehende Tests auf V4 erweitert. Quelltext/Konfiguration statisch geprüft, Xcode-Build/⌘ U und Geräte-/Sync-Prüfung ausstehend.
+- Vor TestFlight neues Feld CD_SetGroup.CD_completedSetsRawValue in Development initialisieren und prüfen, anschließend nach Production deployen. Dann freien Build 9 prüfen und verteilen.
 
 - Interne Version auf ausdrücklichen Wunsch auf 0.15.0 setzen; extern 1.0.0 (9) bleibt für den nächsten Upload geplant.
 - Benutzerdefinierten Schlüssel TrainuvoInternalVersion ausdrücklich in Trainuvo-Info.plist eintragen und über die Build-Einstellung TRAINUVO_INTERNAL_VERSION befüllen. Bisherige alleinige INFOPLIST_KEY-Einstellung ersetzen.
-- In der Hilfe Interne Version und Build als eigene beschriftete Zeilen aus dem installierten Bundle anzeigen.
-- Metadaten-Verknüpfung und Versionsangaben statisch geprüft; Xcode-Build und Anzeigeprüfung auf dem Gerät ausstehend. Keine Modell-/Schemaänderung.
 
 ## 0.14.5 – Buildnummer in der Hilfe
 

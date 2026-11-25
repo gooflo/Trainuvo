@@ -8,6 +8,7 @@ enum TrainingExport {
         let weight: Double?
         let detailText: String?
         let isWorking: Bool
+        let completedSets: [Int]?
     }
     struct Entry: Codable {
         let id: UUID
@@ -62,7 +63,8 @@ enum TrainingExport {
                   groups: entry.sortedGroups.map {
                       Group(id: $0.id, position: $0.position, prescription: $0.prescription,
                             weight: entry.activityType.usesWeights ? $0.weight : nil,
-                            detailText: $0.detailText, isWorking: $0.isWorking)
+                            detailText: $0.detailText, isWorking: $0.isWorking,
+                            completedSets: entry.activityType.usesSets ? $0.completedSets.sorted() : nil)
                   })
         }
     }

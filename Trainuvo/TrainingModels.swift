@@ -1,8 +1,8 @@
 import Foundation
 import SwiftData
 
-enum TrainuvoSchemaV3: VersionedSchema {
-    static var versionIdentifier: Schema.Version { .init(3, 0, 0) }
+enum TrainuvoSchemaV4: VersionedSchema {
+    static var versionIdentifier: Schema.Version { .init(4, 0, 0) }
     static var models: [any PersistentModel.Type] { [Item.self, Exercise.self, TrainingEntry.self, SetGroup.self, ExerciseSetTemplate.self, TrainingDayNote.self] }
 
     @Model
@@ -163,6 +163,19 @@ enum TrainuvoSchemaV3: VersionedSchema {
 
     @Model
     final class SetGroup {
+        var completedSetsRawValue: String?
+
+        var completedSets: Set<Int> {
+            get {
+                let indices = Set((completedSetsRawValue ?? "").split(separator: ",").compactMap { Int($0) })
+                return TrainingSetProgress.valid(indices, for: prescription)
+            }
+            set {
+                let indices = TrainingSetProgress.valid(newValue, for: prescription)
+                completedSetsRawValue = indices.isEmpty ? nil : indices.sorted().map { String($0) }.joined(separator: ",")
+            }
+        }
+
         var id: UUID = UUID()
         var position: Int = 0
         var prescription: String = ""
@@ -253,12 +266,12 @@ enum TrainuvoSchemaV3: VersionedSchema {
     }
 }
 
-typealias Item = TrainuvoSchemaV3.Item
-typealias Exercise = TrainuvoSchemaV3.Exercise
-typealias ExerciseSetTemplate = TrainuvoSchemaV3.ExerciseSetTemplate
-typealias TrainingEntry = TrainuvoSchemaV3.TrainingEntry
-typealias SetGroup = TrainuvoSchemaV3.SetGroup
-typealias TrainingDayNote = TrainuvoSchemaV3.TrainingDayNote
+typealias Item = TrainuvoSchemaV4.Item
+typealias Exercise = TrainuvoSchemaV4.Exercise
+typealias ExerciseSetTemplate = TrainuvoSchemaV4.ExerciseSetTemplate
+typealias TrainingEntry = TrainuvoSchemaV4.TrainingEntry
+typealias SetGroup = TrainuvoSchemaV4.SetGroup
+typealias TrainingDayNote = TrainuvoSchemaV4.TrainingDayNote
 
 enum TrainingFormat {
     static let prescriptions = ["1 × 3", "1 × 5", "3 × 5", "3 × 3", "5 × 3"]
