@@ -46,6 +46,13 @@
 - Pflege die Regeldateien im selben Arbeitsgang, wenn wir eine dauerhafte Regel neu vereinbaren oder ändern. Allgemeine Regeln gehören in `AGENTS_general.md`, projektspezifische Regeln in `AGENTS.md`.
 - Weise bei Änderungen am allgemeinen Teil darauf hin, dass andere Projekte die aktualisierte Datei übernehmen können. Einzelne Aufgaben und Testergebnisse gehören in den Changelog oder die Aufgabenliste.
 
+## App-Store-Veröffentlichung / EU-Händlerstatus (DSA)
+
+- Vor jeder öffentlichen App-Store-Veröffentlichung den DSA-Händlerstatus auf Konto- und App-Ebene prüfen und erforderliche Angaben/Verifizierung abschließen (App Store Connect: Geschäft/Business → Verträge → Compliance; zusätzlich App-Compliance der jeweiligen App). Die Freigabe „Bereit für Vertrieb“ allein bestätigt nicht die Länderverfügbarkeit. Unter Preise und Verfügbarkeit die tatsächliche Verfügbarkeit insbesondere in Deutschland und den vorgesehenen EU-Ländern prüfen.
+- Bei tatsächlich privaten, nicht geschäftlichen Hobbyprojekten kann der Nicht-Händlerstatus zutreffen. Kostenlosigkeit allein reicht nicht als Begründung. Vor einer Monetarisierung (auch freiwillige Unterstützungszahlungen, Werbung oder In-App-Käufe) die tatsächliche Einordnung, Händlerstatus, Steuer-/Gewerbefragen und rechtlichen Anbieter erneut klären; bei Unsicherheit fachlichen Rat einholen.
+- Falls der Vertrieb später über das Gewerbe der Ehefrau erfolgen soll, vorab die rechtlich und technisch passende Apple-Kontostruktur, Verträge und ggf. App-Transfer einschließlich CloudKit-Datenerhalt prüfen. Händlerangaben müssen zum tatsächlichen Anbieter passen; keine fremden Nachweise als eigene verwenden.
+- Bei Händlerstatus die öffentlich angezeigten Kontaktdaten und deren Nachweis prüfen; alternative Impressumsadresse nur bei zulässiger Nutzung und belegbarer Zuordnung. Aktuelle Apple-Vorgaben vor Umsetzung prüfen: https://developer.apple.com/help/app-store-connect/manage-compliance-information/manage-european-union-digital-services-act-trader-requirements/
+
 ## iCloud / CloudKit bei iOS-Apps
 
 - Bei jeder neuen iCloud-Anbindung die vollständige Einrichtung bis zur vorgesehenen Verteilung begleiten. Nach einem erfolgreichen Teilschritt den nächsten erforderlichen Schritt ausdrücklich nennen; nicht erst auf Nachfrage auf die Production-Freigabe hinweisen.
