@@ -95,11 +95,17 @@ struct ContentView: View {
                     }
                     if !trainingDays.isEmpty {
                         VStack(alignment: .leading, spacing: 8) {
-                            Divider()
+                            Rectangle()
+                                .fill(Color.secondary.opacity(0.6))
+                                .frame(height: 3)
+                                .accessibilityHidden(true)
                             Text("Trainings")
                                 .font(.title2.bold())
                                 .accessibilityAddTraits(.isHeader)
-                            Divider()
+                            Rectangle()
+                                .fill(Color.secondary.opacity(0.6))
+                                .frame(height: 3)
+                                .accessibilityHidden(true)
                         }
                         .padding(.vertical, 4)
                         LazyVStack(alignment: .leading, spacing: 16) {

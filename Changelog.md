@@ -2,6 +2,8 @@
 
 ## 0.16.0 – Kompaktere Übersicht und Trainingserfassung
 
+- Nachbesserung vor Abnahme: Trainingsüberschrift mit zwei 3 pt starken Linien statt dünner Divider abgrenzen, adaptiv sekundär eingefärbt. Intern 0.16.0 / geplant 1.0.0 (10) bleiben unverändert.
+
 - t41: Bewertungsüberschrift „Bewertung (sehr schwer ... sehr leicht)“, darunter nur fünf farbige Symbole ohne Einzelbeschriftungen. Auswahl/Entfernen und VoiceOver erhalten.
 - t42: Überschrift Trainings mit horizontalen Linien oben/unten deutlicher vom Übungsbereich absetzen.
 - t43: Datum unter Satzgruppen/Einheiten und Bewertung verschieben; Vorbelegung und Nachtragen unverändert.

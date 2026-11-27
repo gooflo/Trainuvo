@@ -504,3 +504,8 @@ TrainingEditor ordnet den bestehenden DatePicker nach der Satzgruppen-/Bewertung
 Abnahme am Mac: main pullen, ⌘ B/⌘ R. iPhone 15 mit vier Zielkarten, langen Namen, fehlendem Ziel/Training, >100 %, Satzübung/Andere und Ausgeblendet-Plakette prüfen; Plus und Kartenlink getrennt testen. iPad bisherige Details vergleichen. Übungsansicht Ziel/Erreicht/Prozent/Datum prüfen. Neues und altes Training: vier Gruppen mit Checkboxen, Tastatur, Bewertung aller fünf Werte/Entfernen, Datumsnachtrag und Speichern prüfen. Auch Hell/Dunkel, große Schrift und VoiceOver testen. Hier kein Xcode/Apple-SDK; nur statische Syntax-/Konfigurationsprüfung. Keine neuen Tests für reine Darstellungsänderungen. Modell V4/Store/Migration unverändert, daher kein neues Development-/Production-Schema nötig.
 
 Florian bestätigt Build 9 als bereits veröffentlichten TestFlight-Stand (intern 0.15.0). Nächster Upload ausdrücklich intern 0.16.0 / extern 1.0.0 (10), Verfügbarkeit vor Upload prüfen. Öffentlich im App Store weiterhin nicht bestätigt. Nach erfolgreicher Abnahme v0.16.0 taggen und mit Include tags pushen; veröffentlichte Tags erhalten.
+
+
+### Kräftigere Trennlinien vor Abnahme von 0.16.0
+
+Die beiden Divider an der Trainingsüberschrift durch dekorative Rechtecke mit 3 pt Höhe und Color.secondary.opacity(0.6) ersetzen. Hell-/Dunkeldarstellung folgt der Systemfarbe, Linien für VoiceOver verborgen. Version bleibt innerhalb der aktuellen Testrunde 0.16.0 / 1.0.0 (10) geplant. Am Mac pullen, ⌘ R und Startseite mit Trainings in Hell/Dunkel prüfen. Kein Xcode-/Gerätetest hier möglich; Änderung statisch geprüft.
