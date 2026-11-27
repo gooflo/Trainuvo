@@ -2,6 +2,8 @@
 
 ## 0.16.0 – Kompaktere Übersicht und Trainingserfassung
 
+- Übungsüberschrift samt Stift-Menü ebenfalls mit identischen 3-pt-Linien oberhalb/unterhalb einfassen; gleicher Farbton und Abstand wie bei Trainings. Version/Build bleiben innerhalb der aktuellen Runde unverändert.
+
 - Nachbesserung vor Abnahme: Trainingsüberschrift mit zwei 3 pt starken Linien statt dünner Divider abgrenzen, adaptiv sekundär eingefärbt. Intern 0.16.0 / geplant 1.0.0 (10) bleiben unverändert.
 
 - t41: Bewertungsüberschrift „Bewertung (sehr schwer ... sehr leicht)“, darunter nur fünf farbige Symbole ohne Einzelbeschriftungen. Auswahl/Entfernen und VoiceOver erhalten.

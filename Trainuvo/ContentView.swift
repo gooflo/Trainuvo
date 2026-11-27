@@ -48,24 +48,36 @@ struct ContentView: View {
                                 .buttonStyle(.borderedProminent)
                         }
                     } else {
-                        HStack(alignment: .firstTextBaseline) {
-                            Text("Übungen").font(.title2.bold())
-                            Spacer()
-                            Menu {
-                                Button("Übung anlegen", systemImage: "plus") {
-                                    showingExercise = true
+                        VStack(alignment: .leading, spacing: 8) {
+                            Rectangle()
+                                .fill(Color.secondary.opacity(0.6))
+                                .frame(height: 3)
+                                .accessibilityHidden(true)
+                            HStack(alignment: .firstTextBaseline) {
+                                Text("Übungen").font(.title2.bold())
+                                    .accessibilityAddTraits(.isHeader)
+                                Spacer()
+                                Menu {
+                                    Button("Übung anlegen", systemImage: "plus") {
+                                        showingExercise = true
+                                    }
+                                    Button("Übungen sortieren", systemImage: "arrow.up.arrow.down") {
+                                        showingExerciseOrder = true
+                                    }
+                                    .disabled(exercises.count < 2)
+                                    Toggle("Ausgeblendete Übungen anzeigen", isOn: $showingHiddenExercises)
+                                } label: {
+                                    Label("Übungen verwalten", systemImage: "pencil")
+                                        .labelStyle(.iconOnly)
+                                        .frame(width: 44, height: 44)
                                 }
-                                Button("Übungen sortieren", systemImage: "arrow.up.arrow.down") {
-                                    showingExerciseOrder = true
-                                }
-                                .disabled(exercises.count < 2)
-                                Toggle("Ausgeblendete Übungen anzeigen", isOn: $showingHiddenExercises)
-                            } label: {
-                                Label("Übungen verwalten", systemImage: "pencil")
-                                    .labelStyle(.iconOnly)
-                                    .frame(width: 44, height: 44)
                             }
+                            Rectangle()
+                                .fill(Color.secondary.opacity(0.6))
+                                .frame(height: 3)
+                                .accessibilityHidden(true)
                         }
+                        .padding(.vertical, 4)
                         if displayedExercises.isEmpty {
                             Text("Alle Übungen sind ausgeblendet. Über den Stift kannst du ausgeblendete Übungen anzeigen.")
                                 .foregroundStyle(.secondary)

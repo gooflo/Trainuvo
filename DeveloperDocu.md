@@ -509,3 +509,8 @@ Florian bestätigt Build 9 als bereits veröffentlichten TestFlight-Stand (inter
 ### Kräftigere Trennlinien vor Abnahme von 0.16.0
 
 Die beiden Divider an der Trainingsüberschrift durch dekorative Rechtecke mit 3 pt Höhe und Color.secondary.opacity(0.6) ersetzen. Hell-/Dunkeldarstellung folgt der Systemfarbe, Linien für VoiceOver verborgen. Version bleibt innerhalb der aktuellen Testrunde 0.16.0 / 1.0.0 (10) geplant. Am Mac pullen, ⌘ R und Startseite mit Trainings in Hell/Dunkel prüfen. Kein Xcode-/Gerätetest hier möglich; Änderung statisch geprüft.
+
+
+### Identische Linien für Übungen – 0.16.0
+
+Die vorhandene HStack aus Übungen und Stift-Menü in einen VStack mit denselben dekorativen Rechtecken wie Trainings setzen: 3 pt, Color.secondary.opacity(0.6), Abstand 8 pt, äußere vertikale Polsterung 4 pt. Aktionen unverändert, Überschrift für VoiceOver als Header. Pull/⌘ R: beide Überschriften in Hell/Dunkel vergleichen und Stift-Menü prüfen. Quelltext statisch geprüft, Xcode-/Sichtprüfung ausstehend. Intern 0.16.0, nächster Upload extern 1.0.0 (10) geplant.
