@@ -4,6 +4,14 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
+### t45 – Öffentliche App-Store-Veröffentlichung (Prio 3)
+
+- Erste öffentliche Veröffentlichung von Trainuvo vorbereiten und gemeinsam durchführen; separat von TestFlight.
+- App-Store-Texte, Screenshots, Support-/Datenschutzangaben, App-Informationen und erforderliche Compliance-Angaben vervollständigen. Händlerstatus und vorgesehene Länder einschließlich Deutschland vor Freigabe prüfen.
+- Getesteten Build auswählen, App Review und Veröffentlichung begleiten; tatsächliche öffentliche Verfügbarkeit anschließend kontrollieren.
+- Öffentlichen Versions-/Buildstand mit interner Version, Tag/Commit und Datum in AppStoreRelease.md dokumentieren. Bisher keine öffentliche Veröffentlichung bestätigt.
+- Dieser Eintrag ist eine Planungsaufgabe, noch kein Auftrag zum Einreichen oder Veröffentlichen.
+
 ### t24 – Zweisprachigkeit Deutsch und Englisch (Prio 9, zurückgestellt)
 
 - Auf Wunsch von Florian zurückgestellt. App-Oberfläche, Hilfe und Fehlermeldungen später auf Deutsch und Englisch bereitstellen.
