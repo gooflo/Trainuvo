@@ -524,3 +524,8 @@ ContentView setzt direkt nach navigationTitle("Trainuvo") navigationBarTitleDisp
 ### Finale Titel-/Linienkorrektur innerhalb 0.16.0
 
 Florian wünscht die bisherige große Schrift, nur zentriert. ContentView verwendet deshalb einen eigenen Text Trainuvo mit largeTitle.bold, voller Inhaltsbreite und zentrierter Ausrichtung oberhalb von Übungen. Native navigationTitle ist leer/inline, Toolbar-Aktionen bleiben oben rechts; große Schrift und VoiceOver-Header sind erhalten. Die nachträglich eingebauten Linien und die äußere Polsterung am Übungsheader entfernt; die originale HStack mit Stift-Menü bleibt. Die zwei 3-pt-Linien bei Trainings bleiben unverändert. Frühere Zwischenstände zur Inline-Versionsanzeige des Startseitentitels bzw. zu Übungslinien sind hiermit abgelöst. Pull/⌘ R und großen zentrierten Titel, Übungsheader ohne Linien und Trainingsheader mit Linien auf iPhone/iPad prüfen. Statisch geprüft; Xcode-/Sichtprüfung ausstehend. Version unverändert intern 0.16.0 / extern 1.0.0 (10) geplant.
+
+
+### Zentrierte Trainingsüberschrift – 0.16.0
+
+Text Trainings erhält volle Inhaltsbreite und zentrierte mehrzeilige Ausrichtung; die beiden 3-pt-Linien bleiben unverändert. Auf main pullen und mit ⌘ R die Startseite prüfen. Quelltext statisch geprüft; Xcode-/Sichtprüfung ausstehend. Intern 0.16.0 / extern 1.0.0 (10) weiterhin geplant.

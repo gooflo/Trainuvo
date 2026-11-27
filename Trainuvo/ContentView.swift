@@ -108,6 +108,8 @@ struct ContentView: View {
                                 .accessibilityHidden(true)
                             Text("Trainings")
                                 .font(.title2.bold())
+                                .frame(maxWidth: .infinity)
+                                .multilineTextAlignment(.center)
                                 .accessibilityAddTraits(.isHeader)
                             Rectangle()
                                 .fill(Color.secondary.opacity(0.6))
