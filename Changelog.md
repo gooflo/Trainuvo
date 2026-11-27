@@ -2,6 +2,8 @@
 
 ## 0.16.0 – Kompaktere Übersicht und Trainingserfassung
 
+- Erreicht in der Übungsansicht mit vollständiger Arbeitsgruppe anzeigen (z. B. 3 × 5 @ 100 kg, bei Satzübungen Sätze und freie rechte Angabe). Andere zeigt alle zuletzt erfassten Einheiten mit linker und rechter Angabe ebenfalls unter Erreicht. Datum jeweils darunter. Intern 0.16.0 / geplant 1.0.0 (10) unverändert.
+
 - In der Übungsansicht das Datum direkt unter dem erreichten Wert bei Erreicht anzeigen; Aktueller Fortschritt zeigt nur den Prozentwert. Auch Satzübungen ohne Prozentwert erhalten das Datum bei Erreicht. Version/Build unverändert.
 
 - Überschrift Trainings mittig zwischen den beiden kräftigen Trennlinien ausrichten. Version und geplanter Build unverändert.
