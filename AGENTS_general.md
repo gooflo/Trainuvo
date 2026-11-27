@@ -8,6 +8,12 @@
 - Für Tests synthetische oder anonymisierte Daten verwenden. Zugangsdaten, echte Bankexporte und private Buchungsdaten aus dem Repository heraushalten.
 - Den betroffenen Ablauf gezielt prüfen. Bei der Übergabe festhalten, was getestet wurde und was noch offen ist.
 
+## Chatlänge und Übergabe
+
+- Bei sehr umfangreichen Projektchats frühzeitig auf einen möglichen Chatwechsel hinweisen, insbesondere wenn der Gesprächskontext wiederholt zusammengefasst wird oder frühere Details nicht mehr zuverlässig verfügbar sind. Die verbleibende Chatkapazität ist nicht verlässlich messbar; keine genaue Restlänge oder garantierte Vorwarnung versprechen.
+- Möglichst nach einem abgeschlossenen Entwicklungsstand einen Wechsel in einen neuen Chat empfehlen. Vorher den aktuellen Projektstand im Repository dokumentieren.
+- Für den neuen Chat einen kopierfertigen Übergabeprompt erstellen: Projekt und Repository/Branch, relevante Regel- und Dokumentationsdateien, interner Versionsstand, externe Versionen und Builds, letzter Commit/Tag, offene Todos samt Prioritäten und Status, ausstehende Tests/Freigaben, wichtige Entscheidungen und nächster Schritt. Den neuen Chat anweisen, zuerst die aktuellen Repo-Regeln und den tatsächlichen Stand zu prüfen.
+
 ## Projektgrenzen im Chat
 
 - Jeder Projektchat ist einem bestimmten Projekt zugeordnet. Vor Änderungen prüfen, ob das betroffene Projekt zum aktuellen Chat gehört. Die bloße Erwähnung eines anderen Projekts oder ein Änderungsauftrag dafür hebt diese Grenze nicht automatisch auf.
