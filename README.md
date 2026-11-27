@@ -40,7 +40,7 @@ Die App ist für iPhone und iPad ausgelegt. Das App-Target unterstützt iOS/iPad
 
 ## Nutzung
 
-Seit 0.16.0 trennt die Startseite „Trainings“ durch horizontale Linien von den Übungen. Beim Erfassen steht das Datum unter Satzgruppen/Trainingseinheiten und Bewertung. Unter „Bewertung (sehr schwer ... sehr leicht)“ wählst du direkt eines der fünf farbigen Symbole. Ziel und erreichter Wert stehen in der Übungsansicht; das Datum des letzten Trainings wird beim Fortschritt bzw. separat angezeigt.
+Seit 0.16.0 trennt die Startseite „Trainings“ durch horizontale Linien von den Übungen. Beim Erfassen steht das Datum unter Satzgruppen/Trainingseinheiten und Bewertung. Unter „Bewertung (sehr schwer ... sehr leicht)“ wählst du direkt eines der fünf farbigen Symbole. Ziel und erreichter Wert stehen in der Übungsansicht; das Datum des letzten Trainings steht direkt beim erreichten Wert bzw. bei Andere separat.
 
 Bei Krafttraining und Satzübungen kannst du in der Trainingserfassung einzelne Sätze direkt in der Zeile abhaken: 1×5 zeigt ein Kästchen, 3×5 drei und 5×5 oder 5×3 fünf. Erneutes Antippen entfernt das Häkchen. Speichern übernimmt den Status, Abbrechen verwirft Änderungen. Neue Trainings starten leer; alte Trainings werden nicht automatisch abgehakt. Bei mehr als fünf Sätzen seitlich durch die Kästchen scrollen. Freitext ohne eindeutige Sätze×Wiederholungen und Andere zeigen keine Checkboxen. Der Abhakstatus ändert keine Gewichte oder Fortschrittsberechnungen.
 

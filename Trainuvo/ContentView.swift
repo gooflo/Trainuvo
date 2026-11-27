@@ -404,25 +404,25 @@ struct ExerciseDetailView: View {
                 }
                 if let progress = exercise.progress {
                     LabeledContent("Aktueller Fortschritt") {
-                        VStack(alignment: .trailing, spacing: 2) {
-                            Text(progress, format: .percent.precision(.fractionLength(0)))
-                            if let latest = exercise.latestEntryForCurrentType {
-                                Text(latest.date, format: .dateTime.day(.twoDigits).month(.twoDigits).year())
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                                    .accessibilityLabel("Stand des Fortschritts")
-                                    .accessibilityValue(latest.date.formatted(date: .long, time: .omitted))
-                            }
-                        }
+                        Text(progress, format: .percent.precision(.fractionLength(0)))
                     }
                 }
                 if let latest = exercise.latestEntryForCurrentType {
                     if exercise.activityType.usesSets, let working = latest.workingGroup {
-                        LabeledContent("Erreicht", value: working.valueText(for: exercise.activityType))
-                    } else if !exercise.activityType.usesSets {
-                        LabeledContent("Zuletzt", value: latest.freeTextSummary)
-                    }
-                    if exercise.progress == nil {
+                        LabeledContent("Erreicht") {
+                            VStack(alignment: .trailing, spacing: 2) {
+                                Text(working.valueText(for: exercise.activityType))
+                                Text(latest.date, format: .dateTime.day(.twoDigits).month(.twoDigits).year())
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                    .accessibilityLabel("Datum des erreichten Werts")
+                                    .accessibilityValue(latest.date.formatted(date: .long, time: .omitted))
+                            }
+                        }
+                    } else {
+                        if !exercise.activityType.usesSets {
+                            LabeledContent("Zuletzt", value: latest.freeTextSummary)
+                        }
                         LabeledContent("Letztes Training") {
                             Text(latest.date, format: .dateTime.day(.twoDigits).month(.twoDigits).year())
                         }
@@ -617,7 +617,7 @@ private struct HelpView: View {
                     Text("Tippe auf der Startseite auf eine Trainingszeile oder öffne im Übungsverlauf einen Eintrag. Unten findest du „Dieses Training löschen“. Bestätige die Löschung. Alternativ kannst du im Trainingsverlauf nach links wischen und „Training löschen“ wählen. Die Übung, ihre Standardsätze und andere Trainings bleiben erhalten, auch beim Löschen des letzten Trainings. Eine Übung löschst du über das separate Menü … und „Übung löschen“.")
                 }
                 Section("Fortschritt und Verlauf") {
-                    Text("Auf dem iPhone zeigen Übungskarten kompakt den Namen, beim Krafttraining mit Ziel und Training den Prozentwert und einen schmalen Fortschrittsbalken. Das Plus öffnet weiterhin direkt die Trainingserfassung. Ziel, erreichter Wert und Datum stehen in der Übungsansicht; das Datum des letzten Trainings steht beim aktuellen Fortschritt. Auf dem iPad bleiben die zusätzlichen Karteninfos sichtbar. Ein grünes Häkchen markiert erreichte Ziele.")
+                    Text("Auf dem iPhone zeigen Übungskarten kompakt den Namen, beim Krafttraining mit Ziel und Training den Prozentwert und einen schmalen Fortschrittsbalken. Das Plus öffnet weiterhin direkt die Trainingserfassung. Ziel, erreichter Wert und Datum stehen in der Übungsansicht; das Datum des letzten Trainings steht direkt bei „Erreicht“. Auf dem iPad bleiben die zusätzlichen Karteninfos sichtbar. Ein grünes Häkchen markiert erreichte Ziele.")
                     Text("Der Fortschritt ergibt sich aus dem Arbeitsgewicht des zeitlich letzten Trainings geteilt durch das aktuelle Zielgewicht. 60 kg bei einem Ziel von 100 kg ergeben 60 %. Bei gleichem Trainingsdatum gilt der zuletzt angelegte Eintrag.")
                     Text("Beim Erfassen ist heute vorausgewählt. Du kannst ältere Trainings nachtragen. Beim neuen Training werden die hinterlegten Standardsätze mit leeren Gewichtsfeldern übernommen. Ohne Standardsätze dient das letzte Training als Vorschlag. Tippe im Verlauf auf einen Eintrag zum Bearbeiten oder wische zum Löschen nach links.")
                 }

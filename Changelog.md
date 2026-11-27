@@ -2,6 +2,8 @@
 
 ## 0.16.0 – Kompaktere Übersicht und Trainingserfassung
 
+- In der Übungsansicht das Datum direkt unter dem erreichten Wert bei Erreicht anzeigen; Aktueller Fortschritt zeigt nur den Prozentwert. Auch Satzübungen ohne Prozentwert erhalten das Datum bei Erreicht. Version/Build unverändert.
+
 - Überschrift Trainings mittig zwischen den beiden kräftigen Trennlinien ausrichten. Version und geplanter Build unverändert.
 
 - Titelkorrektur nach Rückmeldung: Trainuvo wieder in großer fetter Schrift (largeTitle) und zentriert über dem Inhalt statt als kleiner Inline-Titel. Linien bei Übungen wieder entfernt; die beiden kräftigen Trainingslinien bleiben. Intern 0.16.0 / geplant 1.0.0 (10) unverändert.

@@ -529,3 +529,8 @@ Florian wünscht die bisherige große Schrift, nur zentriert. ContentView verwen
 ### Zentrierte Trainingsüberschrift – 0.16.0
 
 Text Trainings erhält volle Inhaltsbreite und zentrierte mehrzeilige Ausrichtung; die beiden 3-pt-Linien bleiben unverändert. Auf main pullen und mit ⌘ R die Startseite prüfen. Quelltext statisch geprüft; Xcode-/Sichtprüfung ausstehend. Intern 0.16.0 / extern 1.0.0 (10) weiterhin geplant.
+
+
+### Datum bei Erreicht – 0.16.0
+
+ExerciseDetailView zeigt das Datum von latestEntryForCurrentType direkt unter workingGroup.valueText bei Erreicht, auch für Satzübungen ohne Prozentfortschritt. Aktueller Fortschritt enthält ausschließlich den Prozentwert. Andere bzw. Einträge ohne Arbeitsgruppe behalten den separaten Wert Letztes Training. Frühere Platzierung des Datums beim Fortschritt abgelöst. Am Mac pullen, ⌘ R und Krafttraining/Satzübung/Andere prüfen. Quelltext statisch geprüft; Xcode-/Sichttest ausstehend. Intern 0.16.0 / extern 1.0.0 (10) geplant bleiben gleich.
