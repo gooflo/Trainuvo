@@ -4,6 +4,28 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
+### t41 – Bewertung kompakter beschriften (Priorität noch offen)
+
+- Überschrift „Bewertung (sehr schwer ... sehr leicht)“ verwenden.
+- Sichtbare Einzelbeschriftungen unter den Symbolen entfernen; --, -, o, +, ++, Farben und Auswahlmarkierung erhalten. Ausgeschriebene Bedeutung für VoiceOver beibehalten.
+
+### t42 – Überschrift Trainings auf der Startseite stärker absetzen (Priorität noch offen)
+
+- Den Übergang von Übungen zu Trainings optisch deutlicher machen.
+- Trennlinien oberhalb und unterhalb der Überschrift als Vorschlag prüfen. Mit „oben und unten“ sind vermutlich horizontale Linien gemeint; genaue Gestaltung bei der Umsetzung festlegen.
+
+### t43 – Trainingsdatum unter die Satzgruppen verschieben (Priorität noch offen)
+
+- Datum in der Trainingserfassung unterhalb der Satzgruppen bzw. Trainingseinheiten anordnen, da es selten geändert wird. Aktuelles Datum vorbelegt und Nachtragen/Bearbeiten weiter möglich.
+- Automatischen Eingabefokus sowie kompakte Erfassung mit Tastatur erhalten.
+
+### t44 – Übungskarten auf dem iPhone kompakter darstellen (Priorität noch offen, Gestaltung abstimmen)
+
+- Florian erwägt, Ziel, Erreicht und Datum auf der Startseite wegzulassen und diese Informationen erst beim Öffnen der Übung zu zeigen.
+- Vorschlag: auf dem iPhone Übungsname, Prozentwert und direktes Plus in einer Zeile, darunter ein schmaler Fortschrittsbalken; die bisherige Detailzeile entfällt. Erreichte Ziele und ausgeblendete Karten weiter erkennbar halten.
+- In der Übungsdetailansicht bei „Aktueller Fortschritt“ zusätzlich das Datum des zugrunde liegenden letzten Trainings zeigen; Ziel und erreichtes Arbeitsgewicht dort eindeutig verfügbar halten.
+- Für Satzübungen/Andere ohne numerischen Fortschritt eine kompakte Namenszeile mit Plus vorsehen. iPad-Darstellung separat prüfen; Entscheidung zur Gestaltung noch offen.
+
 ### t24 – Zweisprachigkeit Deutsch und Englisch (Prio 9, zurückgestellt)
 
 - Auf Wunsch von Florian zurückgestellt. App-Oberfläche, Hilfe und Fehlermeldungen später auf Deutsch und Englisch bereitstellen.
