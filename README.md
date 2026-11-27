@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.15.0 – Vorabversion**
+**Interner Entwicklungsstand: 0.16.0 – Vorabversion**
 
 ## Übungstypen
 
@@ -28,7 +28,7 @@ Jeder Eintrag speichert seinen Typ. Beim Wechsel des Übungstyps bleiben bestehe
 - Trainings pro Übung erfassen, nachtragen, bearbeiten und löschen.
 - Mehrere Satzgruppen mit unterschiedlichen Gewichten erfassen. Die Vorauswahl bietet 1 × 3, 1 × 5, 3 × 5, 3 × 3 und 5 × 3. Freitext ist möglich.
 - Bei Krafttraining und Satzübungen eine Arbeitsgruppe markieren. Bei allen drei Typen das gesamte Training optional bewerten.
-- Kompakte Zielkarten mit Zielgewicht, erreichtem Arbeitsgewicht und letztem Trainingsdatum in einer Zeile. Vier Übungsziele sollen bei Standardtextgröße auf einen iPhone-15-Bildschirm im Hochformat passen.
+- Kompakte iPhone-Übungskarten mit Name, Prozentwert, Plus und schmalem Fortschrittsbalken. Ziel, erreichter Wert und Datum stehen in der Übungsansicht; das iPad behält zusätzliche Karteninfos.
 - Startseite mit Zielfortschritt und nach Datum zusammengefassten Trainingstagen. Jede Trainingszeile zeigt nur die Arbeitsgruppe, zum Beispiel Kniebeuge 3 × 5 @ 60 kg.
 - Trainingsverlauf pro Übung. Neue Trainings übernehmen die Standardsätze mit leeren Gewichtsfeldern. Ohne Standardsätze dient das letzte Training als Vorschlag.
 - Einstellungen über das Zahnrad mit **Beispieldaten anlegen** und dem bestätigten **Alles löschen**.
@@ -40,9 +40,11 @@ Die App ist für iPhone und iPad ausgelegt. Das App-Target unterstützt iOS/iPad
 
 ## Nutzung
 
+Seit 0.16.0 trennt die Startseite „Trainings“ durch horizontale Linien von den Übungen. Beim Erfassen steht das Datum unter Satzgruppen/Trainingseinheiten und Bewertung. Unter „Bewertung (sehr schwer ... sehr leicht)“ wählst du direkt eines der fünf farbigen Symbole. Ziel und erreichter Wert stehen in der Übungsansicht; das Datum des letzten Trainings wird beim Fortschritt bzw. separat angezeigt.
+
 Bei Krafttraining und Satzübungen kannst du in der Trainingserfassung einzelne Sätze direkt in der Zeile abhaken: 1×5 zeigt ein Kästchen, 3×5 drei und 5×5 oder 5×3 fünf. Erneutes Antippen entfernt das Häkchen. Speichern übernimmt den Status, Abbrechen verwirft Änderungen. Neue Trainings starten leer; alte Trainings werden nicht automatisch abgehakt. Bei mehr als fünf Sätzen seitlich durch die Kästchen scrollen. Freitext ohne eindeutige Sätze×Wiederholungen und Andere zeigen keine Checkboxen. Der Abhakstatus ändert keine Gewichte oder Fortschrittsberechnungen.
 
-Die Hilfe unter **?** zeigt externe Version, Buildnummer und interne Version als eine dezente Textzeile in einem eigenen Abschnitt: **Version 1.0.0 (9), v0.15.0**.
+Die Hilfe unter **?** zeigt externe Version, Buildnummer und interne Version als eine dezente Textzeile in einem eigenen Abschnitt: **Version 1.0.0 (10), v0.16.0**.
 
 Nach „Text kopieren“ bestätigt die App „Text in die Zwischenablage kopiert“.
 
@@ -52,7 +54,7 @@ Beim Anlegen oder Bearbeiten einer Übung unter **Standardsätze in Trainingsrei
 
 Die Trainingserfassung zeigt jede Satzgruppe in einer kompakten Zeile mit Arbeitsgewicht-Markierung, Satztext, Satzauswahl und Gewicht in kg. Vier Gruppen sollen auf dem iPhone 15 im Hochformat bei Standardtextgröße gemeinsam sichtbar sein. Unter der Buttonleiste stehen „Training erfassen“ bzw. „Training bearbeiten“ und darunter der Übungsname als eigene Überschrift über dem Formular und bleibt beim Scrollen und bei geöffneter Tastatur sichtbar. Das Datum steht separat darunter. Über den Pfeil stehen Vorauswahlen und Entfernen bereit. Eine Gruppe kann auch durch Wischen nach links entfernt werden. Tippe auf Kreis bzw. Zielscheibe, um die Arbeitsgruppe zu wählen.
 
-Unter den Sätzen bzw. Trainingseinheiten lässt sich bei jedem Typ das gesamte Training optional bewerten. Fünf direkt antippbare Flächen zeigen Symbol und kurze Beschriftung. Schwere Bewertungen erscheinen rot, neutrale grau und leichte grün. Die ausgewählte Fläche erhält einen kräftigen Rahmen in ihrer Farbe und einen dezenten Hintergrund, die volle Bewertung steht darüber. Die Symbole bleiben zusätzlich zur Farbe erhalten. Über das X lässt sie sich entfernen. Im Verlauf und auf der Startseite steht das Symbol links vor den Sätzen der Arbeitsgruppe bzw. vor der ersten freien Einheit. Ein neues Training beginnt mit **Nicht bewertet**. Die Bewertung kann im Verlauf nachgetragen, geändert oder entfernt werden.
+Unter den Sätzen bzw. Trainingseinheiten lässt sich bei jedem Typ das gesamte Training optional bewerten. Fünf direkt antippbare Flächen zeigen nur das Symbol. Die Überschrift erklärt die Reihenfolge von sehr schwer bis sehr leicht. Schwere Bewertungen erscheinen rot, neutrale grau und leichte grün. Die ausgewählte Fläche erhält einen kräftigen Rahmen in ihrer Farbe und einen dezenten Hintergrund, VoiceOver nennt weiterhin die volle Bedeutung. Die Symbole bleiben zusätzlich zur Farbe erhalten. Über das X lässt sie sich entfernen. Im Verlauf und auf der Startseite steht das Symbol links vor den Sätzen der Arbeitsgruppe bzw. vor der ersten freien Einheit. Ein neues Training beginnt ohne ausgewählte Bewertung. Die Bewertung kann im Verlauf nachgetragen, geändert oder entfernt werden.
 
 | Bewertung | Symbol | Farbe |
 |---|---|---|

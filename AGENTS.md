@@ -50,7 +50,7 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 ## TestFlight und Ankündigungen
 
 - Interne SemVer-Version, externe App-Version und Buildnummer getrennt führen. Während der Testphase die externe Version möglichst stabil halten; Änderungen vorher abstimmen. Die nächste Buildnummer muss in App Store Connect noch frei sein. Der Repositorywert allein beweist nicht, welche Builds schon hochgeladen wurden; Angaben von Florian zu belegten Builds berücksichtigen.
-- Versionsstand: intern 0.15.0 / extern 1.0.0 (9), aktuelle Veröffentlichungsrunde mit von Florian am 25.11.2026 bestätigtem iPhone- und iPad-/Abgleichstest. Keine öffentliche App-Store-Veröffentlichung bestätigt. Für einen weiteren Upload die nächste freie Buildnummer prüfen und belegten Build 9 berücksichtigen. Frühere Planungen der Builds 9–11 für 0.14.0–0.14.3 sind überholt.
+- Versionsstand: intern 0.16.0 / extern 1.0.0 (10) als nächster Upload geplant, von Florian ausdrücklich festgelegt. Letzter bestätigter TestFlight-Stand intern 0.15.0 / extern 1.0.0 (9), laut Florian veröffentlicht und auf iPhone/iPad getestet. Keine öffentliche App-Store-Veröffentlichung bestätigt. Freie Buildnummer vor Upload prüfen.
 - Wenn Florian „publishen“, „publizieren“, „veröffentlichen“ oder Ähnliches sagt, die kurze TestFlight-Checkliste und den vollständigen WhatsApp-Entwurf für den vorgesehenen Build in derselben Antwort ausgeben:
   1. Tag setzen und pushen.
   2. Archivieren und hochladen; externe Version und Build im Organizer prüfen. Automatische Buildnummernverwaltung für eine eindeutige Zuordnung abwählen, sofern angeboten.
@@ -81,3 +81,5 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 - Bei Anzeige ausgeblendeter Startkarten diese mit eye.slash und Ausgeblendet kennzeichnen; regulär sichtbare Karten behalten ihre Darstellung. Die Kennzeichnung folgt dem gespeicherten Flag und entfällt nach dauerhaftem Einblenden.
 
 - t40: Satz-Checkboxen für Krafttraining/Satzübung, eine je Satz bei eindeutigem NxM (x/×), maximal 100 Sätze. SetGroup.completedSetsRawValue speichert optionale, kommaseparierte Satznummern ab 1, nil = keine Häkchen. Neue Trainings übernehmen keine Häkchen aus Vorlagen/letztem Training. Speichern/Abbrechen wie andere Trainingsfelder; Satzreduktion verwirft überzählige Häkchen. Vor TestFlight V4-Feld in Development initialisieren, prüfen und nach Production deployen.
+
+- Seit 0.16.0 iPhone-Karten kompakt mit Namen/Prozent/Plus/Balken, ohne Detailzeile; iPad behält Detailinfos. Ziel/erreichter Wert/letztes Datum müssen in der Übungsansicht verfügbar bleiben. Bewertung zeigt nur fünf farbige Symbole unter Bewertung (sehr schwer ... sehr leicht), VoiceOver behält die Bedeutung. Trainingsdatum unter Satzgruppen/Einheiten und Bewertung.

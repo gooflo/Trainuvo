@@ -342,10 +342,6 @@ struct TrainingEditor: View {
         NavigationStack {
             Form {
                 Section {
-                    DatePicker("Datum", selection: $date, in: ...Date(), displayedComponents: .date)
-                    .accessibilityLabel("Trainingsdatum für \(exercise.name)")
-                }
-                Section {
                     ForEach($groups) { $group in
                         if activityType.usesSets {
                             HStack(spacing: 4) {
@@ -446,6 +442,10 @@ struct TrainingEditor: View {
                     } else {
                         Text("Zwei freie Angaben je Einheit, zum Beispiel links 200 W und rechts 30 min. Mindestens ein Feld pro Einheit ausfüllen.")
                     }
+                }
+                Section {
+                    DatePicker("Datum", selection: $date, in: ...Date(), displayedComponents: .date)
+                    .accessibilityLabel("Trainingsdatum für \(exercise.name)")
                 }
                 if entry != nil {
                     Section {
@@ -569,7 +569,6 @@ struct TrainingEditor: View {
 private struct TrainingEffortSelector: View {
     @Binding var selection: TrainingEffort?
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    @ScaledMetric(relativeTo: .caption) private var labelHeight: CGFloat = 28
 
     private var columns: [GridItem] {
         Array(
@@ -581,14 +580,9 @@ private struct TrainingEffortSelector: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Training bewerten")
-                        .font(.subheadline.weight(.semibold))
-                    Text(selection?.title ?? "Nicht bewertet")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
+                Text("Bewertung (sehr schwer ... sehr leicht)")
+                    .font(.subheadline.weight(.semibold))
+                    .fixedSize(horizontal: false, vertical: true)
                 Spacer(minLength: 4)
                 Button("Bewertung entfernen", systemImage: "xmark.circle") {
                     selection = nil
@@ -603,15 +597,9 @@ private struct TrainingEffortSelector: View {
                     Button {
                         selection = value
                     } label: {
-                        VStack(spacing: 2) {
-                            Text(value.symbol)
-                                .font(.system(.title3, design: .monospaced).weight(.semibold))
-                            Text(value.title)
-                                .font(.caption)
-                                .multilineTextAlignment(.center)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .frame(minHeight: labelHeight)
-                        }
+                        Text(value.symbol)
+                            .font(.system(.title3, design: .monospaced).weight(.semibold))
+                            .frame(minHeight: 28)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 8)
                         .frame(maxWidth: .infinity)

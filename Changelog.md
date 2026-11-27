@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.16.0 – Kompaktere Übersicht und Trainingserfassung
+
+- t41: Bewertungsüberschrift „Bewertung (sehr schwer ... sehr leicht)“, darunter nur fünf farbige Symbole ohne Einzelbeschriftungen. Auswahl/Entfernen und VoiceOver erhalten.
+- t42: Überschrift Trainings mit horizontalen Linien oben/unten deutlicher vom Übungsbereich absetzen.
+- t43: Datum unter Satzgruppen/Einheiten und Bewertung verschieben; Vorbelegung und Nachtragen unverändert.
+- t44: Auf dem iPhone kompakte Übungskarten ohne Ziel-/Erreicht-/Datumszeile. Name, Prozentwert, Plus, Fortschrittsbalken und Statusmarkierungen erhalten. iPad behält Detailangaben. Übungsansicht ergänzt erreichten Wert und Datum des letzten Trainings beim Fortschritt.
+- Intern 0.16.0, extern 1.0.0 (10) geplant; Build 9 ist laut Florian bereits veröffentlicht. Alle Targets auf Build 10, Verfügbarkeit vor Upload prüfen.
+- Hilfe und Dokumentation angepasst. Statische Prüfung; Xcode-Build und Sichtprüfung auf iPhone/iPad mit offener Tastatur, langen Namen und großer Schrift ausstehend. Keine Modell-/Schemaänderung und kein erneutes CloudKit-Deployment erforderlich.
+
 ## 0.15.0 – Satz-Checkboxen und Versionsanzeige
 
 - t40: Pro Satz eine Checkbox direkt in der Trainingszeile für Krafttraining/Satzübung. Häkchen einzeln setzen/entfernen, speichern und wieder laden; neue Trainings beginnen leer. Nicht eindeutiger Freitext und Andere ohne Kästchen. Kompakte Bedienung, mehr als fünf Checkboxen horizontal scrollbar.

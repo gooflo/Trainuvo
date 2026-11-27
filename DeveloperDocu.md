@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.15.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.16.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.15.0) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0.0 (9), v0.15.0. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (9) geplant; Buildnummer vor Upload prüfen.
+Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.16.0) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0.0 (9), v0.15.0. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (9) geplant; Buildnummer vor Upload prüfen.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -493,3 +493,14 @@ Vor TestFlight zwingend neues CloudKit-Schema: Scheme Run Debug -initializeCloud
 ## Abnahme der Checkboxen – 25.11.2026
 
 Florian bestätigt für die aktuelle Runde intern 0.15.0 / extern 1.0.0 (9) zunächst den erfolgreichen iPhone-Test und anschließend den erfolgreichen iPad-/Abgleichstest. t40 ist damit abgenommen. Die Schema-Initialisierung war nach Anmeldung des Simulators bei iCloud erfolgreich; der vorherige Initialisierungsfehler ist damit nicht als nachgewiesener Migrationsfehler zu behandeln. Einzelne automatisierte Testergebnisse, Offline-/Konfliktfälle und Bedienungshilfen wurden nicht separat bestätigt. Keine öffentliche App-Store-Verfügbarkeit ableiten. Reine Dokumentation, App-Version und Build unverändert.
+
+
+## Kompaktere Oberfläche – 0.16.0 / 1.0.0 (10) geplant
+
+Trainingsüberschrift in ContentView mit Divider oben/unten. GoalCard prüft UIUserInterfaceIdiom.phone: auf iPhone nur Titel/Prozent/Status und Fortschrittsbalken mit reduzierter vertikaler Polsterung; Plus bleibt ein separater Button über der NavigationLink-Karte. iPad zeigt die bisherigen Details. ExerciseDetailView ergänzt Erreicht bzw. Zuletzt für den aktuellen Übungstyp und zeigt das Datum der latestEntryForCurrentType beim Aktuellen Fortschritt. Ohne Prozentwert eigener Datumswert. Datenabfragen, Sortierung und Zielformel bleiben unverändert.
+
+TrainingEditor ordnet den bestehenden DatePicker nach der Satzgruppen-/Bewertungs-Section an. Derselbe lokale Datumsentwurf, Validierung, Save-/Rollback und Fokus bleiben erhalten. TrainingEffortSelector behält die fünf Werte/Farben/VoiceOver-Labels und Auswahlrahmen, zeigt aber nur Symbole unter „Bewertung (sehr schwer ... sehr leicht)“. Große Bedienungshilfen-Schrift behält die Zweispalten-Variante.
+
+Abnahme am Mac: main pullen, ⌘ B/⌘ R. iPhone 15 mit vier Zielkarten, langen Namen, fehlendem Ziel/Training, >100 %, Satzübung/Andere und Ausgeblendet-Plakette prüfen; Plus und Kartenlink getrennt testen. iPad bisherige Details vergleichen. Übungsansicht Ziel/Erreicht/Prozent/Datum prüfen. Neues und altes Training: vier Gruppen mit Checkboxen, Tastatur, Bewertung aller fünf Werte/Entfernen, Datumsnachtrag und Speichern prüfen. Auch Hell/Dunkel, große Schrift und VoiceOver testen. Hier kein Xcode/Apple-SDK; nur statische Syntax-/Konfigurationsprüfung. Keine neuen Tests für reine Darstellungsänderungen. Modell V4/Store/Migration unverändert, daher kein neues Development-/Production-Schema nötig.
+
+Florian bestätigt Build 9 als bereits veröffentlichten TestFlight-Stand (intern 0.15.0). Nächster Upload ausdrücklich intern 0.16.0 / extern 1.0.0 (10), Verfügbarkeit vor Upload prüfen. Öffentlich im App Store weiterhin nicht bestätigt. Nach erfolgreicher Abnahme v0.16.0 taggen und mit Include tags pushen; veröffentlichte Tags erhalten.

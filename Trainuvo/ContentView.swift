@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import UIKit
 
 struct ContentView: View {
     @Query(sort: [SortDescriptor(\Exercise.sortOrder), SortDescriptor(\Exercise.name)]) private var exercises: [Exercise]
@@ -93,7 +94,14 @@ struct ContentView: View {
                         }
                     }
                     if !trainingDays.isEmpty {
-                        Text("Trainings").font(.title2.bold())
+                        VStack(alignment: .leading, spacing: 8) {
+                            Divider()
+                            Text("Trainings")
+                                .font(.title2.bold())
+                                .accessibilityAddTraits(.isHeader)
+                            Divider()
+                        }
+                        .padding(.vertical, 4)
                         LazyVStack(alignment: .leading, spacing: 16) {
                             ForEach(trainingDays) { day in
                                 VStack(alignment: .leading, spacing: 8) {
@@ -170,6 +178,7 @@ struct ContentView: View {
 
 private struct GoalCard: View {
     let exercise: Exercise
+    private var compact: Bool { UIDevice.current.userInterfaceIdiom == .phone }
 
     private var targetText: String {
         if exercise.activityType.usesWeights {
@@ -180,7 +189,7 @@ private struct GoalCard: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: compact ? 4 : 8) {
             HStack(spacing: 8) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(exercise.name)
@@ -219,44 +228,47 @@ private struct GoalCard: View {
                 ProgressView(value: min(progress, 1))
                     .tint(progress >= 1 ? .green : .blue)
             }
-            if exercise.activityType.usesSets {
-                HStack(spacing: 8) {
-                    Text("Ziel: \(targetText)")
-                    Text("Erreicht: \(exercise.latestEntryForCurrentType?.workingGroup?.valueText(for: exercise.activityType) ?? "–")")
-                    Spacer(minLength: 0)
-                    if let latest = exercise.latestEntryForCurrentType {
-                        Text(latest.date, format: .dateTime.day(.twoDigits).month(.twoDigits).year(.twoDigits))
-                            .accessibilityLabel("Letztes Training")
-                            .accessibilityValue(latest.date.formatted(date: .long, time: .omitted))
-                    } else {
-                        Text("–").accessibilityLabel("Noch kein Training")
-                    }
-                }
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.7)
-            } else {
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack {
-                        Text(exercise.activityType.title)
-                        Spacer()
+            if !compact {
+                if exercise.activityType.usesSets {
+                    HStack(spacing: 8) {
+                        Text("Ziel: \(targetText)")
+                        Text("Erreicht: \(exercise.latestEntryForCurrentType?.workingGroup?.valueText(for: exercise.activityType) ?? "–")")
+                        Spacer(minLength: 0)
                         if let latest = exercise.latestEntryForCurrentType {
-                            Text(latest.date, format: .dateTime.day().month().year(.twoDigits))
+                            Text(latest.date, format: .dateTime.day(.twoDigits).month(.twoDigits).year(.twoDigits))
+                                .accessibilityLabel("Letztes Training")
+                                .accessibilityValue(latest.date.formatted(date: .long, time: .omitted))
+                        } else {
+                            Text("–").accessibilityLabel("Noch kein Training")
                         }
                     }
-                    if let latest = exercise.latestEntryForCurrentType {
-                        Text(latest.freeTextSummary)
-                            .lineLimit(2)
-                    } else {
-                        Text("Noch kein Training")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+                } else {
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text(exercise.activityType.title)
+                            Spacer()
+                            if let latest = exercise.latestEntryForCurrentType {
+                                Text(latest.date, format: .dateTime.day().month().year(.twoDigits))
+                            }
+                        }
+                        if let latest = exercise.latestEntryForCurrentType {
+                            Text(latest.freeTextSummary)
+                                .lineLimit(2)
+                        } else {
+                            Text("Noch kein Training")
+                        }
                     }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
                 }
-                .font(.caption)
-                .foregroundStyle(.secondary)
             }
         }
-        .padding(12)
+        .padding(.horizontal, 12)
+        .padding(.vertical, compact ? 8 : 12)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.background, in: RoundedRectangle(cornerRadius: 16))
     }
@@ -376,7 +388,28 @@ struct ExerciseDetailView: View {
                 }
                 if let progress = exercise.progress {
                     LabeledContent("Aktueller Fortschritt") {
-                        Text(progress, format: .percent.precision(.fractionLength(0)))
+                        VStack(alignment: .trailing, spacing: 2) {
+                            Text(progress, format: .percent.precision(.fractionLength(0)))
+                            if let latest = exercise.latestEntryForCurrentType {
+                                Text(latest.date, format: .dateTime.day(.twoDigits).month(.twoDigits).year())
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                    .accessibilityLabel("Stand des Fortschritts")
+                                    .accessibilityValue(latest.date.formatted(date: .long, time: .omitted))
+                            }
+                        }
+                    }
+                }
+                if let latest = exercise.latestEntryForCurrentType {
+                    if exercise.activityType.usesSets, let working = latest.workingGroup {
+                        LabeledContent("Erreicht", value: working.valueText(for: exercise.activityType))
+                    } else if !exercise.activityType.usesSets {
+                        LabeledContent("Zuletzt", value: latest.freeTextSummary)
+                    }
+                    if exercise.progress == nil {
+                        LabeledContent("Letztes Training") {
+                            Text(latest.date, format: .dateTime.day(.twoDigits).month(.twoDigits).year())
+                        }
                     }
                 }
                 Toggle("Einblenden auf Startseite", isOn: Binding(
@@ -552,13 +585,13 @@ private struct HelpView: View {
                 Section("Sätze und Gewichte") {
                     Text("Oben in der Trainingserfassung steht der Übungsname als eigene Überschrift. Er bleibt auch beim Scrollen und bei geöffneter Tastatur sichtbar. Das Datum wählst du separat darunter.")
                     Text("Bei einem neuen Training wird das erste kg-Feld automatisch aktiviert. Die numerische Tastatur öffnet sich mit „Fertig“ zum Schließen. Bestehende Trainings öffnen sich zum Bearbeiten ohne automatischen Tastaturstart.")
-                    Text("Die Erfassung zeigt jede Satzgruppe in einer Zeile: Arbeitsgewicht-Markierung, Sätze, Satzauswahl und kg. Tippe auf die Zielscheibe bzw. den Kreis, um die Arbeitsgruppe zu wählen. Über den Pfeil kannst du die Vorauswahl öffnen oder eine Gruppe entfernen. Entfernen geht auch durch Wischen nach links.")
+                    Text("Das Datum steht unter den Satzgruppen bzw. Trainingseinheiten und der Bewertung. Es ist mit heute vorbelegt und kann zum Nachtragen geändert werden. Die Erfassung zeigt jede Satzgruppe in einer Zeile: Arbeitsgewicht-Markierung, Sätze, Satzauswahl und kg. Tippe auf die Zielscheibe bzw. den Kreis, um die Arbeitsgruppe zu wählen. Über den Pfeil kannst du die Vorauswahl öffnen oder eine Gruppe entfernen. Entfernen geht auch durch Wischen nach links.")
                     Text("Jede Satzgruppe enthält Sätze und Wiederholungen sowie ein Gewicht. Wähle 1 × 3, 1 × 5, 3 × 5, 3 × 3 oder 5 × 3 oder gib eigenen Text wie 1 × 5 oder 5/5/4 ein.")
                     Text("Erfasse zum Beispiel 1 × 5 mit 50 kg, 1 × 5 mit 70 kg und 3 × 5 mit 100 kg. Markiere genau eine Gruppe als Arbeitsgewicht. Sie bestimmt den Zielfortschritt. Im Verlauf steht das Zielscheiben-Symbol links neben dem Arbeitsgewicht. Die Gewichte sind rechtsbündig untereinander angeordnet.")
                 }
                 Section("Training bewerten") {
-                    Text("Bei jedem Übungstyp kannst du unter den Sätzen bzw. Trainingseinheiten die Bewertung direkt antippen: -- Sehr schwer, - Schwer, o Neutral, + Leicht oder ++ Sehr leicht. Schwere Bewertungen sind rot, neutrale grau und leichte grün. -- und ++ verwenden die dunklere Farbstufe. Die gewählte Fläche hat einen kräftigen Rahmen in ihrer Farbe und die volle Bedeutung steht darüber. Die Bewertung gilt für den gesamten Trainingseintrag. In Tagesübersicht und Verlauf steht das Symbol links vor den Sätzen der Arbeitsgruppe bzw. vor der ersten freien Trainingseinheit.")
-                    Text("Jedes neue Training beginnt mit „Nicht bewertet“. Beim Bearbeiten kannst du die Bewertung nachtragen oder ändern. Über das X neben der Bewertungsüberschrift entfernst du sie wieder.")
+                    Text("Bei jedem Übungstyp kannst du unter den Sätzen bzw. Trainingseinheiten die Bewertung direkt antippen: -- Sehr schwer, - Schwer, o Neutral, + Leicht oder ++ Sehr leicht. Schwere Bewertungen sind rot, neutrale grau und leichte grün. -- und ++ verwenden die dunklere Farbstufe. Unter „Bewertung (sehr schwer ... sehr leicht)“ stehen nur die fünf Symbole ohne Einzelbeschriftungen. Die gewählte Fläche hat einen kräftigen Rahmen in ihrer Farbe. VoiceOver nennt weiterhin die Bedeutung. Die Bewertung gilt für den gesamten Trainingseintrag. In Tagesübersicht und Verlauf steht das Symbol links vor den Sätzen der Arbeitsgruppe bzw. vor der ersten freien Trainingseinheit.")
+                    Text("Jedes neue Training beginnt ohne ausgewählte Bewertung. Beim Bearbeiten kannst du die Bewertung nachtragen oder ändern. Über das X neben der Bewertungsüberschrift entfernst du sie wieder.")
                 }
                 Section("Trainings") {
                     Text("Die Startseite fasst Trainings nach Kalendertag zusammen. Die Überschrift zeigt zuerst den Wochentag und danach das kurze Datum, zum Beispiel Mittwoch, 18.11.2026. Jede Zeile zeigt Übungsname, Sätze und Wiederholungen sowie das Arbeitsgewicht, zum Beispiel Kniebeuge 3 × 5 @ 60 kg. Eine Bewertung steht links vor den Sätzen. Aufwärmgruppen bleiben im Übungsdetail sichtbar.")
@@ -568,7 +601,7 @@ private struct HelpView: View {
                     Text("Tippe auf der Startseite auf eine Trainingszeile oder öffne im Übungsverlauf einen Eintrag. Unten findest du „Dieses Training löschen“. Bestätige die Löschung. Alternativ kannst du im Trainingsverlauf nach links wischen und „Training löschen“ wählen. Die Übung, ihre Standardsätze und andere Trainings bleiben erhalten, auch beim Löschen des letzten Trainings. Eine Übung löschst du über das separate Menü … und „Übung löschen“.")
                 }
                 Section("Fortschritt und Verlauf") {
-                    Text("Beim Krafttraining zeigen die Zielkarten Zielgewicht, erreichtes Arbeitsgewicht und Datum des letzten Trainings gemeinsam in einer Zeile. Prozentwert und Balken zeigen den Fortschritt. Ein grünes Häkchen markiert erreichte Ziele.")
+                    Text("Auf dem iPhone zeigen Übungskarten kompakt den Namen, beim Krafttraining mit Ziel und Training den Prozentwert und einen schmalen Fortschrittsbalken. Das Plus öffnet weiterhin direkt die Trainingserfassung. Ziel, erreichter Wert und Datum stehen in der Übungsansicht; das Datum des letzten Trainings steht beim aktuellen Fortschritt. Auf dem iPad bleiben die zusätzlichen Karteninfos sichtbar. Ein grünes Häkchen markiert erreichte Ziele.")
                     Text("Der Fortschritt ergibt sich aus dem Arbeitsgewicht des zeitlich letzten Trainings geteilt durch das aktuelle Zielgewicht. 60 kg bei einem Ziel von 100 kg ergeben 60 %. Bei gleichem Trainingsdatum gilt der zuletzt angelegte Eintrag.")
                     Text("Beim Erfassen ist heute vorausgewählt. Du kannst ältere Trainings nachtragen. Beim neuen Training werden die hinterlegten Standardsätze mit leeren Gewichtsfeldern übernommen. Ohne Standardsätze dient das letzte Training als Vorschlag. Tippe im Verlauf auf einen Eintrag zum Bearbeiten oder wische zum Löschen nach links.")
                 }
