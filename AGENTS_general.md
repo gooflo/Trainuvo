@@ -45,6 +45,11 @@
 - Erinnere mich vor einem Release daran, den vorgesehenen Commit zu taggen und das Tag zu pushen. Prüfe auf Wunsch, ob das Remote-Tag auf den richtigen Commit zeigt.
 - Nimm veröffentlichte Änderungen auf einem gemeinsamen Branch per Revert-Commit zurück. Force-Pushes und Änderungen an gepushten Tags vorher abstimmen. Veröffentlichungen nur auf ausdrücklichen Auftrag ausführen.
 
+## Übersetzungskataloge in Xcode
+
+- Pflege `Localizable.xcstrings` bei Textänderungen im vorhandenen Xcode-Format. Neue Schlüssel an der alphabetisch passenden Position einfügen, statt sie gesammelt am Dateianfang anzuhängen. Übersetzungen, Platzhalter und die Kennzeichnung manuell gepflegter Schlüssel erhalten.
+- Bei entfernten oder ersetzten Texten prüfen, ob der alte Schlüssel noch verwendet wird; nur nachweislich nicht mehr verwendete automatisch extrahierte Schlüssel entsprechend Xcodes `extractionState: stale` kennzeichnen. Dynamisch verwendete oder manuelle Schlüssel nicht irrtümlich als unbenutzt markieren. Vor dem Commit die vorhandenen Lokalisierungstests ausführen und nach Möglichkeit den Katalog gegen die Xcode-Extraktion prüfen. Automatische Änderungen nach einem Build vor dem Taggen auf inhaltliche Unterschiede prüfen.
+
 ## Dokumentation und Übergabe
 
 - Aktualisiere README und Changelog, wenn sich Bedienung, Einrichtung oder Verhalten ändern.
