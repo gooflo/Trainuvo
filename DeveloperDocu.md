@@ -519,3 +519,8 @@ Die vorhandene HStack aus Übungen und Stift-Menü in einen VStack mit denselben
 ### Zentrierter Startseitentitel – 0.16.0
 
 ContentView setzt direkt nach navigationTitle("Trainuvo") navigationBarTitleDisplayMode(.inline). Dadurch erscheint der Titel oben zentriert in der nativen Navigationsleiste statt als großer linksbündiger Titel. Toolbar-Aktionen bleiben erhalten. Statisch geprüft; am Mac main pullen, ⌘ R und Startseite auf iPhone/iPad prüfen. Kein Xcode-/Sichttest hier ausgeführt. Intern 0.16.0, extern 1.0.0 (10) weiterhin geplant.
+
+
+### Finale Titel-/Linienkorrektur innerhalb 0.16.0
+
+Florian wünscht die bisherige große Schrift, nur zentriert. ContentView verwendet deshalb einen eigenen Text Trainuvo mit largeTitle.bold, voller Inhaltsbreite und zentrierter Ausrichtung oberhalb von Übungen. Native navigationTitle ist leer/inline, Toolbar-Aktionen bleiben oben rechts; große Schrift und VoiceOver-Header sind erhalten. Die nachträglich eingebauten Linien und die äußere Polsterung am Übungsheader entfernt; die originale HStack mit Stift-Menü bleibt. Die zwei 3-pt-Linien bei Trainings bleiben unverändert. Frühere Zwischenstände zur Inline-Versionsanzeige des Startseitentitels bzw. zu Übungslinien sind hiermit abgelöst. Pull/⌘ R und großen zentrierten Titel, Übungsheader ohne Linien und Trainingsheader mit Linien auf iPhone/iPad prüfen. Statisch geprüft; Xcode-/Sichtprüfung ausstehend. Version unverändert intern 0.16.0 / extern 1.0.0 (10) geplant.

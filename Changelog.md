@@ -2,6 +2,8 @@
 
 ## 0.16.0 – Kompaktere Übersicht und Trainingserfassung
 
+- Titelkorrektur nach Rückmeldung: Trainuvo wieder in großer fetter Schrift (largeTitle) und zentriert über dem Inhalt statt als kleiner Inline-Titel. Linien bei Übungen wieder entfernt; die beiden kräftigen Trainingslinien bleiben. Intern 0.16.0 / geplant 1.0.0 (10) unverändert.
+
 - Startseitentitel Trainuvo als zentrierten Inline-Titel in der Navigationsleiste anzeigen. Bestehende Toolbar-Aktionen erhalten; intern 0.16.0 / geplant 1.0.0 (10) unverändert.
 
 - Übungsüberschrift samt Stift-Menü ebenfalls mit identischen 3-pt-Linien oberhalb/unterhalb einfassen; gleicher Farbton und Abstand wie bei Trainings. Version/Build bleiben innerhalb der aktuellen Runde unverändert.
