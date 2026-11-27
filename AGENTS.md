@@ -19,6 +19,10 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 - Führe die externe App-Store-Version und die Buildnummer separat. Stimme Änderungen der externen Version ab und ordne jeden hochgeladenen Build einem Commit oder Tag zu.
 - TestFlight und die öffentliche App-Store-Veröffentlichung separat abstimmen.
 
+## Bedienung und Sicherheitsabfragen
+
+- Bei Sicherheitsabfragen vor Export, Import, Löschen oder anderen folgenreichen Aktionen stets eine sichtbare, zweisprachige Abbrechen-/Cancel-Schaltfläche zusätzlich zur eigentlichen Aktion anbieten, auch auf dem iPad. Nicht allein auf Tippen außerhalb eines Popovers als Abbruch verlassen.
+
 ## Trainingsdaten
 
 - Erhalte vorhandene Trainingseinheiten, Übungen, Sätze und Ziele bei Updates. Prüfe Änderungen am SwiftData-Modell mit Daten aus einer älteren App-Version, sobald eine solche Version verteilt wurde.
