@@ -514,3 +514,8 @@ Die beiden Divider an der Trainingsüberschrift durch dekorative Rechtecke mit 3
 ### Identische Linien für Übungen – 0.16.0
 
 Die vorhandene HStack aus Übungen und Stift-Menü in einen VStack mit denselben dekorativen Rechtecken wie Trainings setzen: 3 pt, Color.secondary.opacity(0.6), Abstand 8 pt, äußere vertikale Polsterung 4 pt. Aktionen unverändert, Überschrift für VoiceOver als Header. Pull/⌘ R: beide Überschriften in Hell/Dunkel vergleichen und Stift-Menü prüfen. Quelltext statisch geprüft, Xcode-/Sichtprüfung ausstehend. Intern 0.16.0, nächster Upload extern 1.0.0 (10) geplant.
+
+
+### Zentrierter Startseitentitel – 0.16.0
+
+ContentView setzt direkt nach navigationTitle("Trainuvo") navigationBarTitleDisplayMode(.inline). Dadurch erscheint der Titel oben zentriert in der nativen Navigationsleiste statt als großer linksbündiger Titel. Toolbar-Aktionen bleiben erhalten. Statisch geprüft; am Mac main pullen, ⌘ R und Startseite auf iPhone/iPad prüfen. Kein Xcode-/Sichttest hier ausgeführt. Intern 0.16.0, extern 1.0.0 (10) weiterhin geplant.

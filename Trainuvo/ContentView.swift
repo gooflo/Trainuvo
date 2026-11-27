@@ -168,6 +168,7 @@ struct ContentView: View {
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle("Trainuvo")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button("Export", systemImage: "square.and.arrow.up") { showingExport = true }
