@@ -35,6 +35,7 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 
 - Führe Aufgaben und Testbefunde in [Todo.md](Todo.md). Vergib fortlaufende Kennungen wie `t01` und behalte sie bei.
 - Führe neue und zurückgestellte Einträge unter **Open**. Verschiebe umgesetzte Einträge mit der internen Trainuvo-Version nach **Done** und vermerke ausstehende Prüfungen beim Eintrag.
+- Jede Todo-Übersicht als kompakte Tabelle mit ID, Priorität, Beschreibung und Status (Validierung/Freigabe ausstehend, in Bearbeitung, noch zu bearbeiten oder zurückgestellt) ausgeben. Bei offenen Validierungen den konkret ausstehenden Test bzw. die Freigabe nennen; bei teilweise umgesetzten Todos auch noch nötige Arbeiten nennen. Nach Priorität sortieren.
 
 ## Dokumentation
 
