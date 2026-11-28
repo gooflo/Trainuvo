@@ -4,6 +4,13 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
+### t46 – Zielgewichte aus dem Körpergewicht berechnen (Priorität noch offen)
+
+- Idee gemeinsam ausarbeiten: anhand des eingegebenen Körpergewichts Zielgewichte für Kraftübungen vorschlagen. Noch keine Umsetzung beauftragt.
+- Erster Ansatz zur Diskussion: Körpergewicht hinterlegen, je Übung einen frei wählbaren Faktor verwenden (Zielgewicht = Körpergewicht × Faktor), Ergebnis anzeigen und nach Bestätigung als Ziel übernehmen.
+- Optional auf ein wählbares Gewichtsintervall runden; manuell eingetragene Ziele weiter ermöglichen und nicht ungefragt überschreiben.
+- Noch zu klären: Faktor selbst einstellen oder Vorlagen anbieten, welche Grundlagen solche Vorlagen hätten, Rundungsregel sowie einmalige Übernahme oder spätere Neuberechnung bei geändertem Körpergewicht.
+
 ### t45 – Öffentliche App-Store-Veröffentlichung (Prio 3)
 
 - Erste öffentliche Veröffentlichung von Trainuvo vorbereiten und gemeinsam durchführen; separat von TestFlight.
