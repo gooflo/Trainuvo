@@ -628,3 +628,8 @@ Am Mac main pullen, ⌘ B/⌘ R. Auf iPhone/iPad Startseite ohne Export-Symbol p
 ## SettingsView-Buildkorrektur – 0.19.2
 
 Der Screenshot zeigt Cannot convert value of type String to expected argument type () -> Content an Section("Import und Export") mit nachgestellter footer-Closure. Der Titel-Initializer unterstützt keinen Footer. Die Section verwendet nun content/header/footer mit explizitem Text-Header; übrige neue Sections geprüft. Apple-Referenz: https://developer.apple.com/documentation/swiftui/section/init(content:header:footer:). Reine Syntaxparser können eine solche falsche Overload-Wahl nicht erkennen, deshalb vorherige statische Syntaxprüfung nicht als erfolgreichen Xcode-Build werten. Kein Apple-SDK hier; am Mac main pullen, ⌘ B, Einstellungen und Import/Export öffnen. Intern 0.19.2, extern 1.0.0 (14) weiterhin vorbereitet, keine Schemaänderung. Nach erfolgreicher Abnahme vorgesehenes Tag v0.19.2 setzen/pushen; bestehende Tags erhalten.
+
+
+### Bestätigung der Buildkorrektur – 28.11.2026
+
+Florian bestätigt nach der Korrektur in 0.19.2 „gut, das funktioniert“. Den gemeldeten SettingsView-Buildfehler als behoben dokumentieren. Daraus keine vollständige CSV-/Roundtrip-/Sync-Abnahme und keinen Upload von Build 14 ableiten. Reine Statusdokumentation; intern 0.19.2 / extern 1.0.0 (14) vorbereitet, letzter bestätigter Upload 1.0.0 (13), intern 0.17.0. Öffentlich weiterhin keine Veröffentlichung bestätigt. Versionswerte und Tags unverändert.

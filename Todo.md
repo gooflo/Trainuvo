@@ -20,7 +20,7 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ### t49 – Gemeinsamer CSV-Import/-Export mit allen Satzgruppen (0.19.0; Bedienung 0.19.1, Buildkorrektur 0.19.2)
 
-- 0.19.2: Gemeldeten SettingsView-Buildfehler mit expliziter Section-Header-Closure korrigiert. Xcode-Build erneut prüfen; statische Syntaxprüfung ersetzt keine SwiftUI-Typprüfung.
+- 0.19.2: Gemeldeten SettingsView-Buildfehler mit expliziter Section-Header-Closure korrigiert. Florian bestätigt am 28.11.2026 anschließend „das funktioniert“; Buildfehler damit behoben. CSV-Roundtrip, vollständige Geräte-/Sync-Abnahme und Upload von Build 14 nicht separat bestätigt.
 - 0.19.1: Gesamtexport und CSV-Gesamtimport gemeinsam in Einstellungen unter Import und Export. Export-Symbol von Startseite entfernt, Einzelaktionen im Übungsmenü erhalten. Sichtprüfung beider Einstiege/Abbrechen und Zeitraum-/Dateinamenfluss auf iPhone/iPad ausstehend.
 
 - Acht Spalten mit Trainings-ID, Übung, Datum, Gruppennummer, Satzvorgabe, kg, Arbeitsmarkierung und Bewertung. Alle Gruppen einschließlich 0 kg, Nummerierung/Arbeitsmarkierung streng prüfen. Legacy-Format weiterhin lesbar.
