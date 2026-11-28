@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.17.0) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0.0 (9), v0.15.0. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (9) geplant; Buildnummer vor Upload prüfen.
+Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.17.0) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0 (12), v0.17.0. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0 (12) geplant; Buildnummer vor Upload prüfen.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -563,3 +563,12 @@ CloudSyncInfoView enthält nur noch den abgestimmten Hinweis: Deine Trainingsdat
 ### Abstand unter Einstellungen – 0.17.0
 
 Erste Form-Section in SettingsView erhält einen transparenten 16-pt-Header, für VoiceOver verborgen. Dadurch mehr Abstand zwischen Einstellungen-Titel und erstem Eintrag ohne zusätzliche sichtbare Zeile. Statisch geprüft; am Mac pullen, ⌘ R und Einstellungen auf iPhone/iPad öffnen. Xcode-/Sichtprüfung ausstehend. Intern 0.17.0 / extern 1.0.0 (11) geplant bleiben gleich.
+
+
+## Externe Version zweistellig – t47, 28.11.2026
+
+Florian bestätigt den erfolgreichen Upload von Build 11 unter 1.0.0 und beauftragt 1.0 (12). Intern bleibt für diese reine Formatumstellung 0.17.0. Alle drei Targets setzen MARKETING_VERSION auf 1.0 und CURRENT_PROJECT_VERSION auf 12. TRAINUVO_INTERNAL_VERSION bleibt 0.17.0. HelpView liest weiterhin ausschließlich Bundlewerte; keine Änderung am Swift-Code, Datenmodell V4 oder CloudKit-Schema.
+
+Am Mac main pullen, ⌘ B/⌘ R und Hilfe prüfen: Version 1.0 (12), v0.17.0. Anschließend Product → Archive; im Organizer vor dem Upload Version 1.0 und Build 12 prüfen, automatische Buildnummernverwaltung abwählen, sofern angeboten. Uploadvalidierung und tatsächliche Zuordnung in App Store Connect kontrollieren; eine etwaige Normalisierung der Versionsanzeige durch Apple nicht als geprüft voraussetzen. Bei Ablehnung die genaue Meldung auswerten, bestehende Uploads/Tags nicht verändern. TestFlight-Update über die vorhandene Installation und erhaltene Daten prüfen. Kein erneutes Schema-Deployment erforderlich.
+
+Statische Prüfung der Versionswerte und dynamischen Hilfe erfolgt; Xcode-/Archiv-/Uploadprüfung hier nicht möglich. Build 12 ist vorbereitet, noch nicht als hochgeladen oder für Tester verfügbar bestätigt. Öffentlich weiterhin keine Veröffentlichung bestätigt. Ein vorhandenes v0.17.0-Tag nicht verschieben; Build 12 über diesen neuen Commit zuordnen.

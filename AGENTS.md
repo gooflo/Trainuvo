@@ -16,7 +16,7 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 - Versionsanzeige in der Hilfe analog Cashuvo als eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version <extern> (<Build>), v<intern>. Alle Werte aus Bundle.main lesen.
 
 - Pflege die interne SemVer-Version in README und Changelog. `0.x.x` bezeichnet Vorstufen, `1.0.0` die erste nutzbare Version.
-- Führe die externe App-Store-Version und die Buildnummer separat. Stimme Änderungen der externen Version ab und ordne jeden hochgeladenen Build einem Commit oder Tag zu.
+- Projektspezifische Ausnahme zur allgemeinen Versionsregel: Externe App-Store-/TestFlight-Versionen verwenden zwei Komponenten (Major.Minor, z. B. 1.0, 1.1); interne SemVer bleibt dreiteilig. Die reine Formatumstellung für Build 12 behält intern 0.17.0. Führe die externe App-Store-Version und die Buildnummer separat. Stimme Änderungen der externen Version ab und ordne jeden hochgeladenen Build einem Commit oder Tag zu.
 - TestFlight und die öffentliche App-Store-Veröffentlichung separat abstimmen.
 
 ## Bedienung und Sicherheitsabfragen
@@ -55,7 +55,7 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 ## TestFlight und Ankündigungen
 
 - Interne SemVer-Version, externe App-Version und Buildnummer getrennt führen. Während der Testphase die externe Version möglichst stabil halten; Änderungen vorher abstimmen. Die nächste Buildnummer muss in App Store Connect noch frei sein. Der Repositorywert allein beweist nicht, welche Builds schon hochgeladen wurden; Angaben von Florian zu belegten Builds berücksichtigen.
-- Versionsstand: intern 0.17.0 / extern 1.0.0 (11) als nächster Upload geplant. Vorherige Runde intern 0.16.0 / extern 1.0.0 (10); Florian kündigte Taggen/Publizieren an, erfolgreiche Verfügbarkeit von Build 10 nicht separat bestätigt. Letzter ausdrücklich bestätigter TestFlight-Stand 0.15.0 / 1.0.0 (9). Keine öffentliche App-Store-Veröffentlichung bestätigt. Freie Buildnummer vor Upload prüfen.
+- Versionsstand: intern 0.17.0 / extern 1.0 (12) für den nächsten Upload vorbereitet. Florian bestätigt am 28.11.2026 den Upload von 1.0.0 (11), intern 0.17.0; Verfügbarkeit für die Testgruppe nicht separat bestätigt. Build 11 und bestehende Tags erhalten. Keine öffentliche App-Store-Veröffentlichung bestätigt. Build 12 vor Upload auf Verfügbarkeit prüfen.
 - Wenn Florian „publishen“, „publizieren“, „veröffentlichen“ oder Ähnliches sagt, die kurze TestFlight-Checkliste und den vollständigen WhatsApp-Entwurf für den vorgesehenen Build in derselben Antwort ausgeben:
   1. Tag setzen und pushen.
   2. Archivieren und hochladen; externe Version und Build im Organizer prüfen. Automatische Buildnummernverwaltung für eine eindeutige Zuordnung abwählen, sofern angeboten.
@@ -63,7 +63,7 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
   4. Zur Prüfung übermitteln, wenn die Schaltfläche angezeigt wird.
   5. Erst nach Verfügbarkeit für die Testgruppe in WhatsApp ankündigen.
 - Vor Upload an Tag und Push mit Include tags erinnern. Bereits veröffentlichte Tags nicht verschieben. Öffentliche App-Store-Veröffentlichung separat abstimmen.
-- WhatsApp-Entwurf analog Cashuvo: Überschrift exakt `✳️✳️✳️ NEUE VERSION ✳️✳️✳️`. Darunter externe Version samt Build, beispielsweise `Trainuvo 1.0.0 (3) ist jetzt in TestFlight verfügbar:`.
+- WhatsApp-Entwurf analog Cashuvo: Überschrift exakt `✳️✳️✳️ NEUE VERSION ✳️✳️✳️`. Darunter externe Version samt Build, beispielsweise `Trainuvo 1.0 (12) ist jetzt in TestFlight verfügbar:`.
 - Kurze Stichpunkte ausschließlich zu sichtbaren Änderungen gegenüber dem zuletzt verteilten Build. Verbindliche Reihenfolge für WhatsApp-Ankündigungen (TestFlight und App Store) und Versionshinweise: zuerst `Neue Funktionen`, danach `Fehlerbehebungen und kleine optische Änderungen`. Abschnitte ohne Einträge weglassen. Künftig immer mit dem exakten Satz „Viel Spaß beim Testen!“ abschließen. Die bisherige Schlussaufforderung zu Update, Rückmeldungen und Screenshots entfällt.
 - Verfügbarkeit nur behaupten, wenn der Build für die Testgruppe bereitsteht oder der Entwurf ausdrücklich für diesen Zeitpunkt gedacht ist. Keine Nachrichten ohne gesonderten Auftrag versenden.
 

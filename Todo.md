@@ -4,13 +4,6 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
-### t47 – Externe App-Version auf zwei Komponenten umstellen (Prio 3)
-
-- Externe App-Store-/TestFlight-Version künftig im Format Major.Minor führen, z. B. 1.0, 1.1, 1.2. Interne dreiteilige SemVer und eigenständige Buildnummer beibehalten.
-- Für die erste öffentliche Veröffentlichung 1.0 vorsehen; aktuelle Uploadrunde nicht nachträglich umbenennen.
-- Bei Umsetzung Projektkonfiguration, App Store Connect, Hilfe, Dokumentation und Ankündigungen konsistent anpassen; Zuordnung/Uploadvalidierung prüfen. Bereits hochgeladene Builds und veröffentlichte Tags erhalten.
-- Status: Noch zu bearbeiten. Nur Planung aufgenommen; aktuelle Versions-/Buildwerte unverändert.
-
 ### t45 – Öffentliche App-Store-Veröffentlichung (Prio 3)
 
 - Erste öffentliche Veröffentlichung von Trainuvo vorbereiten und gemeinsam durchführen; separat von TestFlight.
@@ -25,6 +18,13 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t47 – Externe App-Version auf zwei Komponenten umstellen (0.17.0; Prio 3)
+
+- Auf ausdrücklichen Auftrag extern 1.0 (12), intern unverändert 0.17.0. MARKETING_VERSION und CURRENT_PROJECT_VERSION in allen drei Targets angepasst.
+- Hilfe liest die Bundlewerte und zeigt automatisch „Version 1.0 (12), v0.17.0“. Regeln, Dokumentation und Ankündigungsbeispiel nachgezogen.
+- Florian bestätigt den Upload von Build 11 unter 1.0.0; dieser Build und vorhandene Tags bleiben erhalten.
+- Statisch geprüft; am Mac Build/Versionsanzeige und Archiv prüfen. Uploadvalidierung, Zuordnung in App Store Connect und Update über TestFlight noch ausstehend. Erst danach Formatumstellung vollständig abgenommen.
+
 ### t46 – Separater Zielgewichtsrechner (0.17.0)
 
 - Einstellungen → Zielgewichte berechnen: Körpergewicht in kg eingeben; Kniebeuge 100 %, Press 40 %, Kreuzheben 130 %, Bankdrücken 75 % direkt anzeigen.
@@ -32,7 +32,7 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Übungen und Zielgewichte ausschließlich manuell eintragen; keinerlei automatische Änderung bestehender Daten.
 - Abgestimmten Text zur Herkunft der Werte von Work it Training Hamburg und persönliche Empfehlung durch Florian, Entwickler von Trainuvo, unter den Ergebnissen anzeigen. Offizieller Link https://workittraining.de/.
 - Hilfe/Dokumentation sowie Tests für vier Faktoren, Dezimaleingaben und ungültige Werte ergänzt. Statische Prüfungen durchgeführt; Xcode-Build/⌘ U, Tastatur/Fertig, Ergebnisdarstellung und Link auf iPhone/iPad ausstehend.
-- Intern 0.17.0 / extern 1.0.0 (11) geplant. Kein neues Datenmodell/CloudKit-Schema. Nachbesserung: lokale Körpergewichtsspeicherung ergänzt; Wiederöffnen, App-Neustart und Löschen der Eingabe auf dem Gerät prüfen.
+- Build 11 (extern 1.0.0, intern 0.17.0) laut Florian hochgeladen; nächster Upload nach Formatumstellung extern 1.0 (12), intern 0.17.0. Kein neues Datenmodell/CloudKit-Schema. Nachbesserung: lokale Körpergewichtsspeicherung ergänzt; Wiederöffnen, App-Neustart und Löschen der Eingabe auf dem Gerät prüfen.
 
 ### t41 – Bewertung kompakter beschriften (0.16.0)
 

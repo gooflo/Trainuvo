@@ -2,6 +2,8 @@
 
 ## 0.17.0 – Zielgewichte anhand des Körpergewichts berechnen
 
+- t47: Nach bestätigtem Upload von 1.0.0 (11) auf ausdrücklichen Auftrag den nächsten Upload als 1.0 (12) vorbereiten. Externe Version künftig zweistellig; interne Version für diese Formatumstellung unverändert 0.17.0. Hilfe übernimmt die Bundlewerte. Build 11 und bestehende Tags erhalten; Archiv-/Uploadvalidierung und App-Store-Connect-Zuordnung noch zu prüfen.
+
 - Vor dem ersten Einstellungseintrag einen zusätzlichen 16-pt-Abstand einfügen. Versionen unverändert.
 
 - Nachbesserung auf ausdrücklichen Wunsch bei unveränderten Versionen: iCloud-Accountstatus und Prüfbutton aus den Einstellungen entfernen. Nur den kurzen Synchronisierungshinweis am Seitenende zeigen. Keine Änderung am eigentlichen Datenabgleich.
@@ -10,7 +12,7 @@
 
 - t46: Separaten Rechner über die Einstellungen ergänzen. Körpergewicht in kg eingeben; Kniebeuge 100 %, Press 40 %, Kreuzheben 130 %, Bankdrücken 75 % direkt anzeigen. Bis zu zwei Nachkommastellen, Dezimalkomma/-punkt und Fertig für die Tastatur.
 - Hinweis zur manuellen Anlage von Übungen/Zielgewichten sowie abgestimmte Herkunftsangabe und Florians persönliche Empfehlung mit Link zu Work it Training Hamburg. Keine Änderung bestehender Übungen. Das eingegebene Körpergewicht wird lokal auf dem Gerät gespeichert und beim nächsten Öffnen wieder angezeigt; keine iCloud-Synchronisierung.
-- Intern 0.17.0 / extern 1.0.0 (11) für nächsten Upload vorbereitet. Vorherige Runde 0.16.0 / 1.0.0 (10); Uploadstatus von Build 10 nicht separat bestätigt. Freie Buildnummer vor Upload prüfen.
+- Build 11 (intern 0.17.0 / extern 1.0.0) laut Florian hochgeladen; nächster Upload extern 1.0 (12), intern 0.17.0. Freie Buildnummer vor Upload prüfen.
 - Berechnungs-/Validierungstests ergänzt, Hilfe/Dokumentation aktualisiert. Swift-Syntax und Konfiguration statisch geprüft; Xcode-Build/Swift-Tests und iPhone-/iPad-Sichtprüfung ausstehend. Kein neues CloudKit-Schema.
 
 ## 0.16.0 – Kompaktere Übersicht und Trainingserfassung
