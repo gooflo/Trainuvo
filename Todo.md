@@ -4,6 +4,13 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
+### t47 – Externe App-Version auf zwei Komponenten umstellen (Prio 3)
+
+- Externe App-Store-/TestFlight-Version künftig im Format Major.Minor führen, z. B. 1.0, 1.1, 1.2. Interne dreiteilige SemVer und eigenständige Buildnummer beibehalten.
+- Für die erste öffentliche Veröffentlichung 1.0 vorsehen; aktuelle Uploadrunde nicht nachträglich umbenennen.
+- Bei Umsetzung Projektkonfiguration, App Store Connect, Hilfe, Dokumentation und Ankündigungen konsistent anpassen; Zuordnung/Uploadvalidierung prüfen. Bereits hochgeladene Builds und veröffentlichte Tags erhalten.
+- Status: Noch zu bearbeiten. Nur Planung aufgenommen; aktuelle Versions-/Buildwerte unverändert.
+
 ### t45 – Öffentliche App-Store-Veröffentlichung (Prio 3)
 
 - Erste öffentliche Veröffentlichung von Trainuvo vorbereiten und gemeinsam durchführen; separat von TestFlight.
