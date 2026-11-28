@@ -21,11 +21,11 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 ### t46 – Separater Zielgewichtsrechner (0.17.0)
 
 - Einstellungen → Zielgewichte berechnen: Körpergewicht in kg eingeben; Kniebeuge 100 %, Press 40 %, Kreuzheben 130 %, Bankdrücken 75 % direkt anzeigen.
-- Dezimalkomma/-punkt, positive endliche Eingaben; Anzeige mit maximal zwei Nachkommastellen ohne Rundung auf Hantelscheiben. Körpergewicht nur lokaler Seitenentwurf, keine dauerhafte Speicherung.
+- Dezimalkomma/-punkt, positive endliche Eingaben; Anzeige mit maximal zwei Nachkommastellen ohne Rundung auf Hantelscheiben. Körpergewicht als lokale Geräteeinstellung speichern und nach erneutem Öffnen bzw. App-Neustart vorbelegen; keine iCloud-Synchronisierung.
 - Übungen und Zielgewichte ausschließlich manuell eintragen; keinerlei automatische Änderung bestehender Daten.
 - Abgestimmten Text zur Herkunft der Werte von Work it Training Hamburg und persönliche Empfehlung durch Florian, Entwickler von Trainuvo, unter den Ergebnissen anzeigen. Offizieller Link https://workittraining.de/.
 - Hilfe/Dokumentation sowie Tests für vier Faktoren, Dezimaleingaben und ungültige Werte ergänzt. Statische Prüfungen durchgeführt; Xcode-Build/⌘ U, Tastatur/Fertig, Ergebnisdarstellung und Link auf iPhone/iPad ausstehend.
-- Intern 0.17.0 / extern 1.0.0 (11) geplant. Kein neues Datenmodell/CloudKit-Schema.
+- Intern 0.17.0 / extern 1.0.0 (11) geplant. Kein neues Datenmodell/CloudKit-Schema. Nachbesserung: lokale Körpergewichtsspeicherung ergänzt; Wiederöffnen, App-Neustart und Löschen der Eingabe auf dem Gerät prüfen.
 
 ### t41 – Bewertung kompakter beschriften (0.16.0)
 

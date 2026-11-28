@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct BodyweightGoalCalculatorView: View {
-    @State private var bodyweight = ""
+    @AppStorage("bodyweightGoalCalculator.bodyweight") private var bodyweight = ""
     @FocusState private var inputFocused: Bool
 
     private var goals: [BodyweightGoalCalculator.Goal]? {

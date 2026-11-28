@@ -2,8 +2,10 @@
 
 ## 0.17.0 – Zielgewichte anhand des Körpergewichts berechnen
 
+- Nachbesserung vor Abnahme: Körpergewicht lokal per AppStorage merken, einschließlich Dezimaltrenner; Löschen der Eingabe entfernt die Vorbelegung. Version und geplanter Build bleiben 0.17.0 / 1.0.0 (11). Wiederöffnen und Neustart auf dem Gerät noch prüfen.
+
 - t46: Separaten Rechner über die Einstellungen ergänzen. Körpergewicht in kg eingeben; Kniebeuge 100 %, Press 40 %, Kreuzheben 130 %, Bankdrücken 75 % direkt anzeigen. Bis zu zwei Nachkommastellen, Dezimalkomma/-punkt und Fertig für die Tastatur.
-- Hinweis zur manuellen Anlage von Übungen/Zielgewichten sowie abgestimmte Herkunftsangabe und Florians persönliche Empfehlung mit Link zu Work it Training Hamburg. Keine Änderung bestehender Übungen und keine dauerhafte Körpergewichtsspeicherung.
+- Hinweis zur manuellen Anlage von Übungen/Zielgewichten sowie abgestimmte Herkunftsangabe und Florians persönliche Empfehlung mit Link zu Work it Training Hamburg. Keine Änderung bestehender Übungen. Das eingegebene Körpergewicht wird lokal auf dem Gerät gespeichert und beim nächsten Öffnen wieder angezeigt; keine iCloud-Synchronisierung.
 - Intern 0.17.0 / extern 1.0.0 (11) für nächsten Upload vorbereitet. Vorherige Runde 0.16.0 / 1.0.0 (10); Uploadstatus von Build 10 nicht separat bestätigt. Freie Buildnummer vor Upload prüfen.
 - Berechnungs-/Validierungstests ergänzt, Hilfe/Dokumentation aktualisiert. Swift-Syntax und Konfiguration statisch geprüft; Xcode-Build/Swift-Tests und iPhone-/iPad-Sichtprüfung ausstehend. Kein neues CloudKit-Schema.
 

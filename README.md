@@ -40,7 +40,7 @@ Die App ist für iPhone und iPad ausgelegt. Das App-Target unterstützt iOS/iPad
 
 ## Nutzung
 
-Unter **Einstellungen → Zielgewichte berechnen** gibst du dein Körpergewicht in kg ein. Der Rechner zeigt Kniebeuge 100 %, Press 40 %, Kreuzheben 130 % und Bankdrücken 75 % automatisch mit bis zu zwei Nachkommastellen. Komma und Punkt sind möglich; „Fertig“ schließt die Tastatur. Übungen und Zielgewichte trägst du selbst ein. Das Körpergewicht wird nicht dauerhaft gespeichert. Auf der Seite stehen der Hinweis zur Herkunft der Werte und Florians persönliche Empfehlung mit Link zu [Work it Training Hamburg](https://workittraining.de/).
+Unter **Einstellungen → Zielgewichte berechnen** gibst du dein Körpergewicht in kg ein. Der Rechner zeigt Kniebeuge 100 %, Press 40 %, Kreuzheben 130 % und Bankdrücken 75 % automatisch mit bis zu zwei Nachkommastellen. Komma und Punkt sind möglich; „Fertig“ schließt die Tastatur. Übungen und Zielgewichte trägst du selbst ein. Das eingegebene Körpergewicht wird lokal auf diesem Gerät gespeichert und beim nächsten Öffnen wieder vorbelegt; es wird nicht über iCloud synchronisiert. Auf der Seite stehen der Hinweis zur Herkunft der Werte und Florians persönliche Empfehlung mit Link zu [Work it Training Hamburg](https://workittraining.de/).
 
 Seit 0.16.0 trennt die Startseite „Trainings“ durch horizontale Linien von den Übungen. Beim Erfassen steht das Datum unter Satzgruppen/Trainingseinheiten und Bewertung. Unter „Bewertung (sehr schwer ... sehr leicht)“ wählst du direkt eines der fünf farbigen Symbole. Ziel und erreichter Wert stehen in der Übungsansicht; das Datum des letzten Trainings steht direkt beim erreichten Wert bzw. bei Andere separat.
 
