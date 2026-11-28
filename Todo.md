@@ -23,7 +23,7 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Auf ausdrücklichen Auftrag extern 1.0 (12), intern unverändert 0.17.0. MARKETING_VERSION und CURRENT_PROJECT_VERSION in allen drei Targets angepasst.
 - Hilfe liest die Bundlewerte und zeigt automatisch „Version 1.0 (12), v0.17.0“. Regeln, Dokumentation und Ankündigungsbeispiel nachgezogen.
 - Florian bestätigt den Upload von Build 11 unter 1.0.0; dieser Build und vorhandene Tags bleiben erhalten.
-- Statisch geprüft; am Mac Build/Versionsanzeige und Archiv prüfen. Uploadvalidierung, Zuordnung in App Store Connect und Update über TestFlight noch ausstehend. Erst danach Formatumstellung vollständig abgenommen.
+- Erledigt: Florian bestätigt am 28.11.2026 den erfolgreichen Upload von 1.0 (12) und schließt die Formatumstellung ab. Remote-Tag v0.17.0-build12 geprüft: zeigt auf ed96d47397ecd985ced9c3fd7143897df9605d16. Testgruppen-Verfügbarkeit und zusätzlicher TestFlight-Gerätetest damit nicht separat bestätigt.
 
 ### t46 – Separater Zielgewichtsrechner (0.17.0)
 

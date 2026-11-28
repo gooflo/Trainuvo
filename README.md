@@ -143,7 +143,7 @@ Der nach Tagen gruppierte Verlauf auf der Startseite trägt die Überschrift „
 
 Vor dem Teilen von Textdatei, Excel und JSON erscheint die Dateinamen-Eingabe analog Cashuvo. Standard ist Trainuvo_Export.txt, Trainuvo_Export.xlsx bzw. Trainuvo_Export.json. Der Name ist frei änderbar; die feste Dateiendung steht rechts daneben und wird automatisch ergänzt. Eine bereits eingegebene passende Endung wird nicht doppelt angehängt. Abbrechen verwirft den Dialog. Leere Namen, Pfadtrenner, Doppelpunkte und Steuerzeichen sind nicht erlaubt. Text kopieren benötigt keinen Dateinamen.
 
-Für den nächsten Upload vorbereitet: extern **1.0 (12)**, intern **0.17.0**. Externe Versionen verwenden künftig zwei Komponenten; intern bleibt SemVer dreiteilig. Build 11 wurde laut Florian bereits unter 1.0.0 hochgeladen und bleibt erhalten. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
+Erfolgreich hochgeladen (von Florian am 28.11.2026 bestätigt): extern **1.0 (12)**, intern **0.17.0**, Tag `v0.17.0-build12`. Externe Versionen verwenden künftig zwei Komponenten; intern bleibt SemVer dreiteilig. Build 11 wurde laut Florian bereits unter 1.0.0 hochgeladen und bleibt erhalten. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
 
 
 ## iCloud ab 0.13.0

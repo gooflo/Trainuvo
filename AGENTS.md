@@ -55,7 +55,7 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 ## TestFlight und Ankündigungen
 
 - Interne SemVer-Version, externe App-Version und Buildnummer getrennt führen. Während der Testphase die externe Version möglichst stabil halten; Änderungen vorher abstimmen. Die nächste Buildnummer muss in App Store Connect noch frei sein. Der Repositorywert allein beweist nicht, welche Builds schon hochgeladen wurden; Angaben von Florian zu belegten Builds berücksichtigen.
-- Versionsstand: intern 0.17.0 / extern 1.0 (12) für den nächsten Upload vorbereitet. Florian bestätigt am 28.11.2026 den Upload von 1.0.0 (11), intern 0.17.0; Verfügbarkeit für die Testgruppe nicht separat bestätigt. Build 11 und bestehende Tags erhalten. Keine öffentliche App-Store-Veröffentlichung bestätigt. Build 12 vor Upload auf Verfügbarkeit prüfen.
+- Versionsstand: intern 0.17.0 / extern 1.0 (12), erfolgreicher Upload und Abschluss von t47 am 28.11.2026 durch Florian bestätigt. Release-Tag v0.17.0-build12 zeigt auf ed96d47397ecd985ced9c3fd7143897df9605d16. Verfügbarkeit für die Testgruppe nicht separat bestätigt. Build 11 und bestehende Tags erhalten. Keine öffentliche App-Store-Veröffentlichung bestätigt. Für einen weiteren Upload Buildnummer mindestens 13 verwenden und Verfügbarkeit prüfen.
 - Wenn Florian „publishen“, „publizieren“, „veröffentlichen“ oder Ähnliches sagt, die kurze TestFlight-Checkliste und den vollständigen WhatsApp-Entwurf für den vorgesehenen Build in derselben Antwort ausgeben:
   1. Tag setzen und pushen.
   2. Archivieren und hochladen; externe Version und Build im Organizer prüfen. Automatische Buildnummernverwaltung für eine eindeutige Zuordnung abwählen, sofern angeboten.

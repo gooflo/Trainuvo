@@ -572,3 +572,8 @@ Florian bestätigt den erfolgreichen Upload von Build 11 unter 1.0.0 und beauftr
 Am Mac main pullen, ⌘ B/⌘ R und Hilfe prüfen: Version 1.0 (12), v0.17.0. Anschließend Product → Archive; im Organizer vor dem Upload Version 1.0 und Build 12 prüfen, automatische Buildnummernverwaltung abwählen, sofern angeboten. Uploadvalidierung und tatsächliche Zuordnung in App Store Connect kontrollieren; eine etwaige Normalisierung der Versionsanzeige durch Apple nicht als geprüft voraussetzen. Bei Ablehnung die genaue Meldung auswerten, bestehende Uploads/Tags nicht verändern. TestFlight-Update über die vorhandene Installation und erhaltene Daten prüfen. Kein erneutes Schema-Deployment erforderlich.
 
 Statische Prüfung der Versionswerte und dynamischen Hilfe erfolgt; Xcode-/Archiv-/Uploadprüfung hier nicht möglich. Build 12 ist vorbereitet, noch nicht als hochgeladen oder für Tester verfügbar bestätigt. Öffentlich weiterhin keine Veröffentlichung bestätigt. Ein vorhandenes v0.17.0-Tag nicht verschieben; Build 12 über diesen neuen Commit zuordnen.
+
+
+### Upload von Build 12 bestätigt – 28.11.2026
+
+Florian bestätigt den erfolgreichen Upload von extern 1.0 (12), intern 0.17.0, und schließt t47 ab. Remote-Tag v0.17.0-build12 wurde geprüft und zeigt auf Commit ed96d47397ecd985ced9c3fd7143897df9605d16. Vorherige Aussagen zu ausstehender Uploadvalidierung von Build 12 sind damit überholt. Testgruppen-Verfügbarkeit und ein zusätzlicher TestFlight-Gerätetest wurden nicht separat bestätigt; weiterhin keine öffentliche App-Store-Veröffentlichung. Reine Dokumentation, Versionswerte und Tags unverändert. Nächster neuer Upload benötigt mindestens Build 13.

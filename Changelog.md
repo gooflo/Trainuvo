@@ -2,6 +2,8 @@
 
 ## 0.17.0 – Zielgewichte anhand des Körpergewichts berechnen
 
+- 28.11.2026: Florian bestätigt erfolgreichen Upload von 1.0 (12) und Abschluss von t47. Release-Tag v0.17.0-build12 auf Commit ed96d47 geprüft. Reine Statusdokumentation, keine Änderung der Versionswerte.
+
 - t47: Nach bestätigtem Upload von 1.0.0 (11) auf ausdrücklichen Auftrag den nächsten Upload als 1.0 (12) vorbereiten. Externe Version künftig zweistellig; interne Version für diese Formatumstellung unverändert 0.17.0. Hilfe übernimmt die Bundlewerte. Build 11 und bestehende Tags erhalten; Archiv-/Uploadvalidierung und App-Store-Connect-Zuordnung noch zu prüfen.
 
 - Vor dem ersten Einstellungseintrag einen zusätzlichen 16-pt-Abstand einfügen. Versionen unverändert.
