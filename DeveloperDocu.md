@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.17.0) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0 (12), v0.17.0. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0 (12) geplant; Buildnummer vor Upload prüfen.
+Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.17.0) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0.0 (13), v0.17.0. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (13) geplant; Buildnummer vor Upload prüfen.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -577,3 +577,10 @@ Statische Prüfung der Versionswerte und dynamischen Hilfe erfolgt; Xcode-/Archi
 ### Upload von Build 12 bestätigt – 28.11.2026
 
 Florian bestätigt den erfolgreichen Upload von extern 1.0 (12), intern 0.17.0, und schließt t47 ab. Remote-Tag v0.17.0-build12 wurde geprüft und zeigt auf Commit ed96d47397ecd985ced9c3fd7143897df9605d16. Vorherige Aussagen zu ausstehender Uploadvalidierung von Build 12 sind damit überholt. Testgruppen-Verfügbarkeit und ein zusätzlicher TestFlight-Gerätetest wurden nicht separat bestätigt; weiterhin keine öffentliche App-Store-Veröffentlichung. Reine Dokumentation, Versionswerte und Tags unverändert. Nächster neuer Upload benötigt mindestens Build 13.
+
+
+## Rückkehr zur dreiteiligen externen Version – Build 13
+
+Florian nimmt die zweistellige Versionierung zurück. MARKETING_VERSION in allen drei Targets wieder 1.0.0, CURRENT_PROJECT_VERSION auf 13, da Build 12 bereits hochgeladen wurde. Intern bleibt diese reine Formatkorrektur bei 0.17.0. Die früheren Abschnitte zur zweistelligen Versionierung beschreiben ausschließlich den historischen Build 12 und sind als Vorgabe abgelöst. Keine Änderung an App-Funktionen, Modell V4 oder CloudKit-Schema.
+
+Statische Prüfung: alle drei Targets extern 1.0.0 / Build 13, interne App-Version 0.17.0; Hilfe übernimmt weiterhin die Bundlewerte. Am Mac main pullen, ⌘ B/⌘ R und „Version 1.0.0 (13), v0.17.0“ in der Hilfe prüfen. Vor Veröffentlichung diesen Commit mit einem neuen Tag v0.17.0-build13 kennzeichnen und das Tag pushen; bestehende Tags nicht verschieben. Product → Archive, im Organizer 1.0.0 (13) prüfen und automatische Buildnummernverwaltung abwählen, sofern angeboten. Freie Buildnummer und Uploadvalidierung in App Store Connect prüfen. Kein neues Schema-Deployment. Xcode-/Archiv-/Uploadprüfung hier nicht möglich; Build 13 noch nicht hochgeladen bestätigt. Öffentliche Veröffentlichung weiterhin nicht bestätigt.

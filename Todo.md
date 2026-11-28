@@ -18,12 +18,11 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
-### t47 – Externe App-Version auf zwei Komponenten umstellen (0.17.0; Prio 3)
+### t47 – Zweistellige externe Versionierung zurückgenommen (0.17.0; abgeschlossen)
 
-- Auf ausdrücklichen Auftrag extern 1.0 (12), intern unverändert 0.17.0. MARKETING_VERSION und CURRENT_PROJECT_VERSION in allen drei Targets angepasst.
-- Hilfe liest die Bundlewerte und zeigt automatisch „Version 1.0 (12), v0.17.0“. Regeln, Dokumentation und Ankündigungsbeispiel nachgezogen.
-- Florian bestätigt den Upload von Build 11 unter 1.0.0; dieser Build und vorhandene Tags bleiben erhalten.
-- Erledigt: Florian bestätigt am 28.11.2026 den erfolgreichen Upload von 1.0 (12) und schließt die Formatumstellung ab. Remote-Tag v0.17.0-build12 geprüft: zeigt auf ed96d47397ecd985ced9c3fd7143897df9605d16. Testgruppen-Verfügbarkeit und zusätzlicher TestFlight-Gerätetest damit nicht separat bestätigt.
+- Die Umstellung auf 1.0 (12) wurde hochgeladen und zunächst abgeschlossen; Tag v0.17.0-build12 zeigt auf ed96d47397ecd985ced9c3fd7143897df9605d16.
+- Auf Florians Wunsch wieder dreiteilige externe Versionierung verwenden: nächster Upload 1.0.0 (13), intern unverändert 0.17.0. Projektkonfiguration, Regeln und aktuelle Dokumentation angepasst. Keine weitere Umstellung auf zwei Komponenten geplant.
+- Build 12 und bestehende Tags bleiben erhalten. Statische Konfigurationsprüfung erfolgt; Xcode-Build, Hilfe, Archiv und Upload von Build 13 noch zu prüfen.
 
 ### t46 – Separater Zielgewichtsrechner (0.17.0)
 
@@ -32,7 +31,7 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Übungen und Zielgewichte ausschließlich manuell eintragen; keinerlei automatische Änderung bestehender Daten.
 - Abgestimmten Text zur Herkunft der Werte von Work it Training Hamburg und persönliche Empfehlung durch Florian, Entwickler von Trainuvo, unter den Ergebnissen anzeigen. Offizieller Link https://workittraining.de/.
 - Hilfe/Dokumentation sowie Tests für vier Faktoren, Dezimaleingaben und ungültige Werte ergänzt. Statische Prüfungen durchgeführt; Xcode-Build/⌘ U, Tastatur/Fertig, Ergebnisdarstellung und Link auf iPhone/iPad ausstehend.
-- Build 11 (extern 1.0.0, intern 0.17.0) laut Florian hochgeladen; nächster Upload nach Formatumstellung extern 1.0 (12), intern 0.17.0. Kein neues Datenmodell/CloudKit-Schema. Nachbesserung: lokale Körpergewichtsspeicherung ergänzt; Wiederöffnen, App-Neustart und Löschen der Eingabe auf dem Gerät prüfen.
+- Build 11 (extern 1.0.0, intern 0.17.0) laut Florian hochgeladen; Build 12 (1.0) ebenfalls hochgeladen, nächster Upload nach Rücknahme der Formatumstellung extern 1.0.0 (13), intern 0.17.0. Kein neues Datenmodell/CloudKit-Schema. Nachbesserung: lokale Körpergewichtsspeicherung ergänzt; Wiederöffnen, App-Neustart und Löschen der Eingabe auf dem Gerät prüfen.
 
 ### t41 – Bewertung kompakter beschriften (0.16.0)
 
