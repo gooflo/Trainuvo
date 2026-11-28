@@ -18,6 +18,14 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
+### t48 – CSV-Dateiimport pro bestehender Kraftübung (0.18.0)
+
+- Menü … → Trainings importieren: Dateiauswahl, Übungsname und Formatbeschreibung, Vorschau mit Zeilennummern. Format Datum;Sätze;Gewicht;Bewertung, ein Training/eine Arbeitsgruppe je Zeile.
+- Semikolon, UTF-8/UTF-16 mit BOM, Anführungszeichen/CRLF, Dezimalkomma/-punkt, optionale endgültige Bewertung --/-/o/+/++. Strikte Datenprüfung, 2 MB/10.000 Trainings. Dateifehler sperren den gesamten Import.
+- Identische Arbeitsgruppen samt Tag/Bewertung innerhalb Datei und Datenbestand überspringen. Abweichende Einträge am gleichen Tag nur nach expliziter Auswahl zusätzlich importieren. Bestätigung mit Abbrechen / Cancel; vor Save erneut prüfen. Isolierter Kontext/atomarer Save, kein Überschreiben und keine Modelländerung.
+- Tests für Parser, Duplikate, Konfliktfreigabe, wiederholten Import, erhaltene Ziele/Vorlagen/Notizen/andere Übungen und unabhängige ungespeicherte Änderungen ergänzt. Statisch geprüft; Xcode ⌘ B/⌘ U und Geräteprüfung inklusive Datei aus iCloud Drive, Vorschau/Abbrechen, Wiederholungsimport, Fehlerdatei und Zwei-Geräte-Abgleich ausstehend.
+- Intern 0.18.0 / extern 1.0.0 (14) geplant. Kein neues Schema. Diagramm und OneNote-Datenkonvertierung nicht Bestandteil dieser Umsetzung.
+
 ### t47 – Zweistellige externe Versionierung zurückgenommen (0.17.0; abgeschlossen)
 
 - Die Umstellung auf 1.0 (12) wurde hochgeladen und zunächst abgeschlossen; Tag v0.17.0-build12 zeigt auf ed96d47397ecd985ced9c3fd7143897df9605d16.

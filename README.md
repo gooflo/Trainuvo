@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.17.0 – Vorabversion**
+**Interner Entwicklungsstand: 0.18.0 – Vorabversion**
 
 ## Übungstypen
 
@@ -46,7 +46,7 @@ Seit 0.16.0 trennt die Startseite „Trainings“ durch horizontale Linien von d
 
 Bei Krafttraining und Satzübungen kannst du in der Trainingserfassung einzelne Sätze direkt in der Zeile abhaken: 1×5 zeigt ein Kästchen, 3×5 drei und 5×5 oder 5×3 fünf. Erneutes Antippen entfernt das Häkchen. Speichern übernimmt den Status, Abbrechen verwirft Änderungen. Neue Trainings starten leer; alte Trainings werden nicht automatisch abgehakt. Bei mehr als fünf Sätzen seitlich durch die Kästchen scrollen. Freitext ohne eindeutige Sätze×Wiederholungen und Andere zeigen keine Checkboxen. Der Abhakstatus ändert keine Gewichte oder Fortschrittsberechnungen.
 
-Die Hilfe unter **?** zeigt externe Version, Buildnummer und interne Version als eine dezente Textzeile in einem eigenen Abschnitt: **Version 1.0.0 (13), v0.17.0**.
+Die Hilfe unter **?** zeigt externe Version, Buildnummer und interne Version als eine dezente Textzeile in einem eigenen Abschnitt: **Version 1.0.0 (14), v0.18.0**.
 
 Nach „Text kopieren“ bestätigt die App „Text in die Zwischenablage kopiert“.
 
@@ -143,7 +143,7 @@ Der nach Tagen gruppierte Verlauf auf der Startseite trägt die Überschrift „
 
 Vor dem Teilen von Textdatei, Excel und JSON erscheint die Dateinamen-Eingabe analog Cashuvo. Standard ist Trainuvo_Export.txt, Trainuvo_Export.xlsx bzw. Trainuvo_Export.json. Der Name ist frei änderbar; die feste Dateiendung steht rechts daneben und wird automatisch ergänzt. Eine bereits eingegebene passende Endung wird nicht doppelt angehängt. Abbrechen verwirft den Dialog. Leere Namen, Pfadtrenner, Doppelpunkte und Steuerzeichen sind nicht erlaubt. Text kopieren benötigt keinen Dateinamen.
 
-Abgeschlossene Uploadrunde laut Florian (28.11.2026): extern **1.0.0 (13)**, intern **0.17.0**, Tag `v0.17.0-build13`. Externe und interne Versionen werden dreiteilig geführt. Vorheriger Upload: **1.0 (12)**, Tag `v0.17.0-build12`. Die zweistellige Versionierung wurde auf Florians Wunsch zurückgenommen; bestehende Builds und Tags bleiben erhalten. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
+Nächster Upload vorbereitet: extern **1.0.0 (14)**, intern **0.18.0**. Zuletzt abgeschlossene Uploadrunde laut Florian: **1.0.0 (13)**, intern **0.17.0**, Tag `v0.17.0-build13`. Externe und interne Versionen werden dreiteilig geführt. Vorheriger Upload: **1.0 (12)**, Tag `v0.17.0-build12`. Die zweistellige Versionierung wurde auf Florians Wunsch zurückgenommen; bestehende Builds und Tags bleiben erhalten. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
 
 
 ## iCloud ab 0.13.0
@@ -183,3 +183,20 @@ Intern 0.14.0 / extern 1.0.0 (8) vorbereitet. Vor TestFlight das um das optional
 Bei **… → Übung löschen** bietet die Abfrage jetzt drei Möglichkeiten: **Nur auf Startseite ausblenden**, **Übung und alle Trainings löschen** oder **Abbrechen**. Ausblenden erhält alle Daten, auch bei bereits ausgeblendeten Übungen. Intern 0.14.3 / extern 1.0.0 (8) vorbereitet; Buildnummer vor Upload auf Verfügbarkeit prüfen. Vor der ersten Verteilung der Ausblendfunktion weiterhin das V3-CloudKit-Feld nach Production deployen, wie oben beschrieben.
 
 Wenn du ausgeblendete Übungen über das Stift-Menü anzeigst, tragen nur diese Karten unter ihrem Namen die Kennzeichnung **Ausgeblendet** mit einem durchgestrichenen Auge. Regulär sichtbare Karten behalten ihre Darstellung. Beim dauerhaften Einblenden verschwindet die Kennzeichnung.
+
+
+## CSV-Import ab 0.18.0
+
+Eine vorhandene Kraftübung öffnen → Menü **… → Trainings importieren → CSV-Datei auswählen**. Die Datei gehört immer zur ausgewählten Übung; Namen müssen nicht übereinstimmen. Pro Zeile wird ein Training mit genau einer Arbeitsgruppe angelegt. Aufwärmgruppen, Ziele und Vorlagen werden nicht importiert oder geändert. Satzübungen und Andere sind für dieses kg-Format nicht vorgesehen.
+
+```csv
+Datum;Sätze;Gewicht;Bewertung
+18.11.2026;3x5;60;o
+13.11.2026;3x5;57,5;+
+```
+
+Semikolon, Datum TT.MM.JJJJ und Gewicht ohne kg; Dezimalkomma/-punkt erlaubt, 0–100000. Sätze dürfen Freitext enthalten; eindeutiges NxM mit x/X/× wird vereinheitlicht. Bewertung ist leer oder --, -, o, +, ++. OneNote-Zeichen vorher umwandeln (ok → o, ok+ → +, + → ++); die CSV enthält bereits die endgültigen Trainuvo-Symbole. UTF-8 (BOM optional) oder UTF-16 mit BOM; höchstens 2 MB/10.000 Trainings. Felder dürfen in Anführungszeichen stehen; innere Anführungszeichen verdoppeln. Ein Training pro physischer Zeile.
+
+Vorschau vor dem Speichern prüfen: identische Arbeitsgruppen (Tag, Sätze, Gewicht, Bewertung) werden übersprungen, auch innerhalb der Datei und bei vorhandenen Trainings mit zusätzlichen Aufwärmgruppen. Abweichende Einträge am selben Tag sind zunächst abgewählt und müssen als zusätzliche Trainings ausdrücklich ausgewählt werden. Unterschiedliche Bewertungen zählen als Abweichung. Bei Dateifehlern wird nichts importiert; Datei korrigieren und erneut wählen. **Importieren** mit zusätzlicher Bestätigung speichert die Auswahl, **Abbrechen / Cancel** verwirft sie. Kein Überschreiben vorhandener Daten. Historische Daten erhalten lokal 12 Uhr, da das Format keine Uhrzeit enthält. Bei Änderungen durch iCloud wird vor dem Speichern erneut geprüft. Ein neuer unbestätigter Konflikt verlangt eine neue Vorschau.
+
+[Examples/Trainuvo_Import_Beispiel.csv](Examples/Trainuvo_Import_Beispiel.csv) enthält ausschließlich fiktive Daten; zum Testen eine eigene Testübung verwenden. Dieser gezielte Import ist keine Wiederherstellung des JSON-Exports. Diagramme sind noch nicht Bestandteil von 0.18.0.

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.18.0 – CSV-Import pro Kraftübung
+
+- t48: Dateiauswahl im Übungsmenü, sichtbare Übungszuordnung, CSV-Formatbeschreibung und Vorschau mit Zeilennummern/Fehlermeldungen. Eine Arbeitsgruppe pro Training; Datum, Satzvorgabe, kg und optionale Bewertung.
+- Identische Einträge überspringen; mögliche Doppelimporte am selben Tag standardmäßig abwählen und nur ausdrücklich zusätzlich anlegen. Keine bestehenden Trainings, Ziele, Vorlagen oder Notizen überschreiben. Dateifehler blockieren die Übernahme; Speichern erst nach Bestätigung mit sichtbarem Abbrechen / Cancel.
+- Isolierter Kontext ohne Autosave, erneute Prüfung vor atomarem Save. BOM/UTF-8/UTF-16, Anführungszeichen, CRLF, Dezimalkomma/-punkt, Dateigrößen-/Zeilenlimits und strikte Datums-/Gewichts-/Bewertungsprüfung. Synthetische Beispieldatei und Parser-/Importtests ergänzt.
+- Intern 0.18.0, nächster Upload extern 1.0.0 (14); letzter bestätigter Upload 1.0.0 (13), intern 0.17.0. Keine Modell-/CloudKit-Änderung, kein Schema-Deployment. Statische Syntax-/Konfigurationsprüfung; Xcode-Build, Swift-Tests und Geräteabnahme ausstehend. Kein Diagramm in dieser Runde.
+
 ## 0.17.0 – Zielgewichte anhand des Körpergewichts berechnen
 
 - 28.11.2026: Abschluss der Tag-/Uploadrunde für 1.0.0 (13) durch Florian bestätigt. Remote-Tag v0.17.0-build13 auf Commit 26780ad geprüft. Reine Statusdokumentation, Versionswerte unverändert. Testgruppen- und öffentliche Verfügbarkeit nicht daraus ableiten.

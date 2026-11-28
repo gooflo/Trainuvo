@@ -390,6 +390,7 @@ struct ExerciseDetailView: View {
     @State private var editingExercise = false
     @State private var addingTraining = false
     @State private var editingEntry: TrainingEntry?
+    @State private var importingTrainings = false
     @State private var activeAlert: DetailAlert?
 
     var body: some View {
@@ -462,6 +463,9 @@ struct ExerciseDetailView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     Button("Übung bearbeiten", systemImage: "pencil") { editingExercise = true }
+                    if exercise.activityType == .strength {
+                        Button("Trainings importieren", systemImage: "square.and.arrow.down") { importingTrainings = true }
+                    }
                     Button("Übung löschen", systemImage: "trash", role: .destructive) { activeAlert = .deleteExercise }
                 } label: {
                     Label("Übungsaktionen", systemImage: "ellipsis.circle")
@@ -469,6 +473,7 @@ struct ExerciseDetailView: View {
             }
         }
         .sheet(isPresented: $editingExercise) { ExerciseEditor(exercise: exercise) }
+        .sheet(isPresented: $importingTrainings) { TrainingCSVImportView(exercise: exercise) }
         .sheet(isPresented: $addingTraining) { TrainingEditor(exercise: exercise) }
         .sheet(item: $editingEntry) { entry in TrainingEditor(exercise: exercise, entry: entry) }
         .alert(activeAlert?.title ?? "", isPresented: Binding(
@@ -567,6 +572,10 @@ private struct HelpView: View {
                 }
                 Section("Trainuvo") {
                     Text("Lege über den Stift neben „Übungen“ eine Übung mit optionalem Zielgewicht an. Das Plus auf einer Zielkarte öffnet sofort die Trainingserfassung. Antippen der Karte öffnet den Verlauf. Einstellungen und Hilfe stehen oben rechts.")
+                }
+                Section("Trainings aus CSV importieren") {
+                    Text("Öffne eine Kraftübung und wähle im Menü … „Trainings importieren“. Wähle eine CSV-Datei mit der Kopfzeile Datum;Sätze;Gewicht;Bewertung. Beispiel: 18.11.2026;3x5;90;o. Jede Zeile wird ein Training mit einer Arbeitsgruppe, ohne Aufwärmgruppen. Das Gewicht steht ohne kg, mit Komma oder Punkt; die Bewertung ist leer oder --, -, o, +, ++.")
+                    Text("Prüfe vor dem Import die Vorschau. Identische Einträge werden übersprungen; abweichende Trainings am selben Tag musst du ausdrücklich auswählen. Bei Dateifehlern bleibt der Import gesperrt. Erst die bestätigte Aktion Importieren speichert. Vorhandene Trainings, Ziele und Vorlagen werden nicht überschrieben. Unterstützt werden UTF-8 und UTF-16 mit BOM, höchstens 2 MB und 10.000 Trainings pro Datei. Der Import ist keine Wiederherstellung des JSON-Exports.")
                 }
                 Section("Sätze abhaken") {
                     Text("Bei Krafttraining und Satzübungen findest du in der Trainingserfassung ein Kästchen je Satz direkt in der Zeile: eines bei 1 × 5, drei bei 3 × 5 und fünf bei 5 × 5 oder 5 × 3. Tippe zum Abhaken oder erneuten Freigeben. Bei mehr als fünf Sätzen kannst du die Kästchen seitlich scrollen.")
