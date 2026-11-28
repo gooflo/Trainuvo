@@ -391,6 +391,7 @@ struct ExerciseDetailView: View {
     @State private var addingTraining = false
     @State private var editingEntry: TrainingEntry?
     @State private var importingTrainings = false
+    @State private var exportingTrainings = false
     @State private var activeAlert: DetailAlert?
 
     var body: some View {
@@ -465,6 +466,7 @@ struct ExerciseDetailView: View {
                     Button("Übung bearbeiten", systemImage: "pencil") { editingExercise = true }
                     if exercise.activityType == .strength {
                         Button("Trainings importieren", systemImage: "square.and.arrow.down") { importingTrainings = true }
+                        Button("Trainings exportieren", systemImage: "square.and.arrow.up") { exportingTrainings = true }
                     }
                     Button("Übung löschen", systemImage: "trash", role: .destructive) { activeAlert = .deleteExercise }
                 } label: {
@@ -474,6 +476,7 @@ struct ExerciseDetailView: View {
         }
         .sheet(isPresented: $editingExercise) { ExerciseEditor(exercise: exercise) }
         .sheet(isPresented: $importingTrainings) { TrainingCSVImportView(exercise: exercise) }
+        .sheet(isPresented: $exportingTrainings) { TrainingExportView(exercise: exercise) }
         .sheet(isPresented: $addingTraining) { TrainingEditor(exercise: exercise) }
         .sheet(item: $editingEntry) { entry in TrainingEditor(exercise: exercise, entry: entry) }
         .alert(activeAlert?.title ?? "", isPresented: Binding(
@@ -573,9 +576,11 @@ private struct HelpView: View {
                 Section("Trainuvo") {
                     Text("Lege über den Stift neben „Übungen“ eine Übung mit optionalem Zielgewicht an. Das Plus auf einer Zielkarte öffnet sofort die Trainingserfassung. Antippen der Karte öffnet den Verlauf. Einstellungen und Hilfe stehen oben rechts.")
                 }
-                Section("Trainings aus CSV importieren") {
-                    Text("Öffne eine Kraftübung und wähle im Menü … „Trainings importieren“. Wähle eine CSV-Datei mit der Kopfzeile Datum;Sätze;Gewicht;Bewertung. Beispiel: 18.11.2026;3x5;90;o. Jede Zeile wird ein Training mit einer Arbeitsgruppe, ohne Aufwärmgruppen. Das Gewicht steht ohne kg, mit Komma oder Punkt; die Bewertung ist leer oder --, -, o, +, ++.")
-                    Text("Prüfe vor dem Import die Vorschau. Identische Einträge werden übersprungen; abweichende Trainings am selben Tag musst du ausdrücklich auswählen. Bei Dateifehlern bleibt der Import gesperrt. Erst die bestätigte Aktion Importieren speichert. Vorhandene Trainings, Ziele und Vorlagen werden nicht überschrieben. Unterstützt werden UTF-8 und UTF-16 mit BOM, höchstens 2 MB und 10.000 Trainings pro Datei. Der Import ist keine Wiederherstellung des JSON-Exports.")
+                Section("CSV-Import und -Export") {
+                    Text("Exportiere alle Kraftübungen über das Teilen-Symbol auf der Startseite oder nur eine Übung über deren Menü … → Trainings exportieren. Wähle Monat oder Von–Bis und CSV (Krafttraining). Der Dateiname ist änderbar, Standard Trainuvo_Export.csv.")
+                    Text("Das gemeinsame Format lautet Training-ID;Übung;Datum;Satzgruppe;Sätze;Gewicht;Arbeitsgruppe;Bewertung. Eine Zeile je Satzgruppe, gleiche ID für ein Training. Aufwärmgruppen einschließlich 0 kg, Reihenfolge, Arbeitsgruppe und Bewertung bleiben erhalten. Datum TT.MM.JJJJ; Nummerierung ab 1, genau eine Arbeitsgruppe mit ja, sonst nein. Gewicht ohne kg, Dezimalkomma/-punkt; Bewertung leer oder --, -, o, +, ++.")
+                    Text("Importiere eine Übung über deren Menü … → Trainings importieren oder mehrere Übungen in Einstellungen → Trainings aus CSV importieren. Prüfe Übungszuordnung und Vorschau. Neue Übungen werden nur nach entsprechender Auswahl angelegt, ohne Ziele und Vorlagen. Abweichende Namen beim Einzelimport müssen bestätigt werden. Das alte Vier-Spalten-Format bleibt lesbar; dort ist jede Zeile eine Arbeitsgruppe.")
+                    Text("Identische Trainings werden übersprungen; Abweichungen musst du ausdrücklich als zusätzliche Trainings auswählen. Bei Dateifehlern wird nichts importiert. Erst der bestätigte Import speichert, Abbrechen / Cancel verwirft die Vorschau. Vorhandene Daten werden nicht überschrieben. UTF-8 oder UTF-16 mit BOM; maximal 2 MB und 10.000 Satzgruppen. CSV enthält keine Ziele, Vorlagen, Satzhäkchen, Tagesnotizen oder Uhrzeiten und ist kein vollständiges Backup. Importierte Trainings erhalten am jeweiligen Tag lokal 12 Uhr.")
                 }
                 Section("Sätze abhaken") {
                     Text("Bei Krafttraining und Satzübungen findest du in der Trainingserfassung ein Kästchen je Satz direkt in der Zeile: eines bei 1 × 5, drei bei 3 × 5 und fünf bei 5 × 5 oder 5 × 3. Tippe zum Abhaken oder erneuten Freigeben. Bei mehr als fünf Sätzen kannst du die Kästchen seitlich scrollen.")
@@ -632,9 +637,9 @@ private struct HelpView: View {
                     Text("Über das Zahnrad öffnest du die Einstellungen. „Beispieldaten anlegen“ ergänzt Press, Kniebeuge, Bankdrücken und Kreuzheben mit Standardsätzen und je einem Training vom 14. und 17.11.2026. Am 14.11. liegen die Arbeitsgewichte jeweils 2 kg niedriger. Die jeweils letzte Gruppe ist das Arbeitsgewicht. Gleichnamige Übungen werden wiederverwendet und identische Beispieltrainings übersprungen.")
                     Text("„Alles löschen“ entfernt nach ausdrücklicher Bestätigung alle Übungen, Trainings, Standardsätze und Tageskommentare auf diesem Gerät und nach iCloud-Abgleich auf deinen weiteren Geräten.")
                 }
-                Section("Export für OneNote, JSON und Excel") {
+                Section("Export") {
                     Text("Über das Teilen-Symbol oben rechts öffnest du den Export. Wähle Monat und Jahr oder Von–Bis. Text kopieren übernimmt einen Absatz pro Trainingstag in die Zwischenablage, mit dem neuesten Tag zuerst und in deiner Übungsreihenfolge. Die Vorschau zeigt den kopierten Text. Bei Satztypen wird nur die Arbeitsgruppe ausgegeben, bei Andere alle Einheiten mit beiden Angaben. Bewertungen stehen als Zeichen vor den Angaben.")
-                    Text("Die Aktionen Text kopieren, Textdatei, Excel und JSON stehen gemeinsam unter Export. Bei Textdatei, Excel und JSON kannst du vor dem Teilen den Dateinamen ändern. Standard ist Trainuvo_Export mit passender Dateiendung. Über das Teilen-Menü kannst du die Datei auch in Dateien sichern. JSON und Excel enthalten auch Aufwärmsätze und alle freien Trainingseinheiten. Die Dateiendung wird automatisch ergänzt.")
+                    Text("Die Aktionen Text kopieren, Textdatei, Excel, CSV (Krafttraining) und JSON stehen gemeinsam unter Export. Bei allen Dateiformaten kannst du vor dem Teilen den Dateinamen ändern. Standard ist Trainuvo_Export mit passender Dateiendung. Über das Teilen-Menü kannst du die Datei auch in Dateien sichern. JSON und Excel enthalten auch Aufwärmsätze und alle freien Trainingseinheiten. Die Dateiendung wird automatisch ergänzt.")
                 }
                 Section("Kommentar zum Trainingstag") {
                     Text("Über das Notizsymbol neben dem Datum kannst du einen gemeinsamen Kommentar für alle Übungen dieses Tages erfassen oder bearbeiten. Er erscheint unter den Übungen. Abbrechen verwirft Änderungen. Löschen entfernt nur den Kommentar nach Bestätigung. Auch ohne verbleibende Trainings bleibt ein kommentierter Tag sichtbar. Die Exporte enthalten den Tageskommentar ebenfalls.")

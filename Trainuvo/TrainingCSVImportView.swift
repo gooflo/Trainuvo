@@ -5,141 +5,167 @@ import UniformTypeIdentifiers
 struct TrainingCSVImportView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    let exercise: Exercise
+    var exercise: Exercise? = nil
     @State private var choosingFile = false
     @State private var document: TrainingCSV.Document?
     @State private var preview: [TrainingCSVImport.PreviewRow] = []
+    @State private var destinations: [String: TrainingCSVImport.Destination] = [:]
+    @State private var options: [ExerciseOption] = []
     @State private var selected: Set<Int> = []
     @State private var fileName = ""
+    @State private var allowNameMismatch = false
     @State private var errorMessage: String?
     @State private var showingConfirmation = false
     @State private var summary: String?
 
+    private struct ExerciseOption: Identifiable { let id: UUID; let name: String; let label: String }
+    private var sourceNames: [String] { Array(Set(document?.trainings.map { $0.exerciseName ?? "" } ?? [])).sorted() }
+    private var multipleNamesInSingleImport: Bool { exercise != nil && sourceNames.count > 1 }
+    private var nameMismatch: Bool {
+        guard let exercise else { return false }
+        return sourceNames.contains { !$0.isEmpty && TrainingCSVImport.nameKey($0) != TrainingCSVImport.nameKey(exercise.name) }
+    }
     private var canImport: Bool {
-        document?.issues.isEmpty == true && !selected.isEmpty && exercise.activityType == .strength
+        document?.issues.isEmpty == true && !selected.isEmpty && !multipleNamesInSingleImport && (!nameMismatch || allowNameMismatch)
     }
 
     var body: some View {
         NavigationStack {
             List {
                 Section {
-                    LabeledContent("Übung", value: exercise.name)
-                    Text("Eine Zeile wird ein Training mit einer Arbeitsgruppe. Vorhandene Trainings, Ziele und Vorlagen bleiben erhalten.")
-                    Button("CSV-Datei auswählen", systemImage: "doc.badge.plus") { choosingFile = true }
-                        .disabled(summary != nil)
+                    if let exercise { LabeledContent("Zielübung", value: exercise.name) }
+                    else { Text("Kraftübungen aus einer gemeinsamen CSV importieren.") }
+                    Button("CSV-Datei auswählen", systemImage: "doc.badge.plus") { choosingFile = true }.disabled(summary != nil)
                     if !fileName.isEmpty { Text(fileName).font(.caption).foregroundStyle(.secondary) }
+                    Text("Vorhandene Trainings, Ziele und Vorlagen werden nicht überschrieben.").font(.caption)
                 }
                 if let summary {
-                    Section("Import abgeschlossen") {
-                        Text(summary)
-                        Button("Fertig") { dismiss() }
-                    }
+                    Section("Import abgeschlossen") { Text(summary); Button("Fertig") { dismiss() } }
                 } else {
                     Section("CSV-Format") {
-                        Text("Datum;Sätze;Gewicht;Bewertung\n18.11.2026;3x5;90;o\n13.11.2026;3x5;87,5;+")
-                            .font(.system(.caption, design: .monospaced)).textSelection(.enabled)
-                        Text("Semikolon als Trennzeichen, Datum TT.MM.JJJJ, Gewicht ohne kg, Dezimalkomma oder -punkt. Bewertung leer oder --, -, o, +, ++. Textkodierung UTF-8 oder UTF-16 mit BOM. Maximal 2 MB und 10.000 Trainings. Nur Krafttraining; eine Arbeitsgruppe pro Zeile.")
-                            .font(.caption).foregroundStyle(.secondary)
+                        Text(TrainingCSV.header).font(.system(.caption, design: .monospaced)).textSelection(.enabled)
+                        Text("Eine Zeile je Satzgruppe, gleiche Training-ID für zusammengehörige Gruppen. Nummerierung ab 1, genau eine Arbeitsgruppe mit ja; alle anderen nein. Name, Datum und Bewertung müssen je Training gleich sein. Aufwärmsätze einschließlich 0 kg bleiben erhalten.")
+                        Text("Datum TT.MM.JJJJ, Gewicht ohne kg mit Komma oder Punkt, Bewertung leer oder --, -, o, +, ++. UTF-8/UTF-16 mit BOM, maximal 2 MB und 10.000 Satzgruppen. Das bisherige Vier-Spalten-Format bleibt erlaubt; dort ist jede Zeile eine Arbeitsgruppe.").font(.caption).foregroundStyle(.secondary)
                     }
                     if let document {
+                        mappingSection
                         if !document.issues.isEmpty {
                             Section("Dateifehler – Import gesperrt") {
-                                Text("Korrigiere die Datei und wähle sie erneut aus. Es wurde nichts gespeichert.")
-                                ForEach(document.issues) { issue in
-                                    Text("Zeile \(issue.line): \(issue.message)").foregroundStyle(.red)
-                                }
+                                Text("Datei korrigieren und erneut auswählen. Es wurde nichts gespeichert.")
+                                ForEach(document.issues) { Text("Zeile \($0.line): \($0.message)").foregroundStyle(.red) }
                             }
                         }
                         Section {
-                            ForEach(preview) { item in previewRow(item) }
-                        } header: {
-                            Text("Vorschau: \(selected.count) ausgewählt, \(preview.filter { $0.status == .duplicate }.count) identisch")
-                        } footer: {
-                            Text("Identische Arbeitsgruppen am selben Tag einschließlich Bewertung werden übersprungen, auch innerhalb der Datei. Abweichende Trainings am selben Tag sind zunächst abgewählt. Wähle sie nur aus, wenn du ein zusätzliches Training anlegen möchtest. Es wird nichts überschrieben.")
-                        }
+                            ForEach(preview) { item in
+                                if item.status == .duplicate || item.status == .unassigned { rowLabel(item).foregroundStyle(.secondary) }
+                                else {
+                                    Toggle(isOn: Binding(get: { selected.contains(item.id) }, set: { value in
+                                        if value { selected.insert(item.id) } else { selected.remove(item.id) }
+                                    })) { rowLabel(item) }
+                                }
+                            }
+                        } header: { Text("Vorschau: \(selected.count) ausgewählt, \(preview.filter { $0.status == .duplicate }.count) identisch") } footer: { Text("Abweichende oder weitere Trainings am selben Tag sind zunächst abgewählt. Nur ausdrücklich ausgewählte Trainings werden zusätzlich angelegt. Bei gleicher ID und geändertem Inhalt wird niemals überschrieben. Die Prüfung berücksichtigt alle Satzgruppen, Reihenfolge, Arbeitsgruppe und Bewertung.") }
+                        Button("Vorschau aktualisieren", systemImage: "arrow.clockwise") { refresh() }
                     }
                 }
             }
             .navigationTitle("Trainings importieren")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(summary == nil ? "Abbrechen / Cancel" : "Schließen") { dismiss() }
-                }
+                ToolbarItem(placement: .cancellationAction) { Button(summary == nil ? "Abbrechen / Cancel" : "Schließen") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
-                    if summary == nil {
-                        Button("Importieren") { showingConfirmation = true }.disabled(!canImport)
-                    }
+                    if summary == nil { Button("Importieren") { showingConfirmation = true }.disabled(!canImport) }
                 }
             }
-            .fileImporter(isPresented: $choosingFile, allowedContentTypes: [.commaSeparatedText, .plainText]) { result in
-                load(result)
-            }
+            .fileImporter(isPresented: $choosingFile, allowedContentTypes: [.commaSeparatedText, .plainText]) { load($0) }
             .alert("Trainings importieren?", isPresented: $showingConfirmation) {
                 Button("Abbrechen / Cancel", role: .cancel) {}
                 Button("Importieren") { save() }
             } message: {
-                Text("\(selected.count) ausgewählte Trainings für „\(exercise.name)“ hinzufügen? Vorhandene Daten werden nicht überschrieben.")
+                Text("\(selected.count) ausgewählte Trainings mit allen Satzgruppen hinzufügen? Ausdrücklich ausgewählte neue Übungen werden dabei angelegt. Vorhandene Daten werden nicht überschrieben.")
             }
-            .alert("Import nicht möglich", isPresented: Binding(
-                get: { errorMessage != nil }, set: { if !$0 { errorMessage = nil } }
-            )) {
+            .alert("Import nicht möglich", isPresented: Binding(get: { errorMessage != nil }, set: { if !$0 { errorMessage = nil } })) {
                 Button("OK", role: .cancel) {}
             } message: { Text(errorMessage ?? "") }
         }
     }
 
-    @ViewBuilder private func previewRow(_ item: TrainingCSVImport.PreviewRow) -> some View {
-        let row = item.row
-        if item.status == .duplicate {
-            rowLabel(item).foregroundStyle(.secondary)
-        } else {
-            Toggle(isOn: Binding(
-                get: { selected.contains(row.id) },
-                set: { value in
-                    if value { selected.insert(row.id) } else { selected.remove(row.id) }
+    @ViewBuilder private var mappingSection: some View {
+        Section("Übungszuordnung") {
+            if let exercise {
+                if multipleNamesInSingleImport { Text("Die Datei enthält mehrere Übungen. Bitte den Gesamtimport in Einstellungen verwenden.").foregroundStyle(.red) }
+                else {
+                    Text("Alle Trainings werden „\(exercise.name)“ zugeordnet.")
+                    if nameMismatch {
+                        Text("Übungsname in der Datei: \(sourceNames.joined(separator: ", "))").foregroundStyle(.orange)
+                        Toggle("Abweichenden Namen bestätigen und dieser Übung zuordnen", isOn: $allowNameMismatch)
+                    }
                 }
-            )) { rowLabel(item) }
+            } else {
+                ForEach(sourceNames, id: \.self) { name in
+                    Picker(name.isEmpty ? "Ohne Übungsname (altes Format)" : name, selection: Binding(
+                        get: { destinations[name] ?? .unassigned },
+                        set: { destinations[name] = $0; refresh() }
+                    )) {
+                        Text("Bitte zuordnen").tag(TrainingCSVImport.Destination.unassigned)
+                        ForEach(options) { option in
+                            Text(option.label).tag(TrainingCSVImport.Destination.existing(option.id))
+                        }
+                        if !name.isEmpty && !options.contains(where: { TrainingCSVImport.nameKey($0.name) == TrainingCSVImport.nameKey(name) }) {
+                            Text("Neue Kraftübung „\(name)“ anlegen").tag(TrainingCSVImport.Destination.create(name))
+                        }
+                    }
+                }
+                Text("Neue Übungen werden nur bei entsprechender Auswahl und bestätigtem Import angelegt, ohne Ziel und Standardsätze.").font(.caption)
+            }
         }
     }
 
     private func rowLabel(_ item: TrainingCSVImport.PreviewRow) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(item.row.date, format: .dateTime.day(.twoDigits).month(.twoDigits).year())
-                .font(.headline)
-            Text("\(item.row.prescription) @ \(TrainingFormat.weight(item.row.weight)) · \(item.row.effortSymbol ?? "ohne Bewertung")")
-            Text("Zeile \(item.row.line): \(item.status.title)")
-                .font(.caption).foregroundStyle(item.status == .conflict ? Color.orange : Color.secondary)
+            Text(item.training.date, format: .dateTime.day(.twoDigits).month(.twoDigits).year()).font(.headline)
+            if let name = item.training.exerciseName { Text(name).font(.subheadline) }
+            ForEach(Array(item.training.groups.enumerated()), id: \.offset) { index, group in
+                Text("\(index + 1). \(group.isWorking ? "◎ " : "")\(group.prescription) @ \(TrainingFormat.weight(group.weight))")
+            }
+            Text("Bewertung: \(item.training.effortSymbol ?? "ohne Bewertung")").font(.caption)
+            Text("Zeile \(item.id): \(item.status.title)").font(.caption)
+                .foregroundStyle(item.status == .conflict ? Color.orange : Color.secondary)
         }
     }
 
     private func load(_ result: Result<URL, Error>) {
-        document = nil; preview = []; selected = []; fileName = ""
+        document = nil; preview = []; destinations = [:]; selected = []; fileName = ""; allowNameMismatch = false
         do {
             let url = try result.get()
             let access = url.startAccessingSecurityScopedResource()
             defer { if access { url.stopAccessingSecurityScopedResource() } }
-            let size = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
-            guard size <= TrainingCSV.maximumBytes else {
-                throw TrainingCSV.CSVError.message("Die Datei ist zu groß. Erlaubt sind höchstens 2 MB.")
-            }
             let handle = try FileHandle(forReadingFrom: url)
             defer { try? handle.close() }
             let data = try handle.read(upToCount: TrainingCSV.maximumBytes + 1) ?? Data()
-            let parsed = try TrainingCSV.parse(TrainingCSV.decode(data))
-            let checkContext = ModelContext(modelContext.container)
-            let exerciseID = exercise.id
-            let descriptor = FetchDescriptor<Exercise>(predicate: #Predicate { $0.id == exerciseID })
-            guard let current = try checkContext.fetch(descriptor).first, current.activityType == .strength else {
-                throw TrainingCSV.CSVError.message("Die Kraftübung ist nicht mehr verfügbar.")
-            }
-            preview = TrainingCSVImport.preview(parsed.rows, entries: current.trainingEntries)
-            selected = Set(preview.filter { $0.status == .new }.map(\.id))
-            document = parsed
+            document = try TrainingCSV.parse(TrainingCSV.decode(data))
             fileName = url.lastPathComponent
-        } catch {
-            if (error as NSError).code != NSUserCancelledError { errorMessage = error.localizedDescription }
-        }
+            refresh(initial: true)
+        } catch { if (error as NSError).code != NSUserCancelledError { errorMessage = error.localizedDescription } }
+    }
+
+    private func refresh(initial: Bool = false) {
+        guard let document else { return }
+        do {
+            let context = ModelContext(modelContext.container)
+            let exercises = try context.fetch(FetchDescriptor<Exercise>())
+            let sorted = exercises.filter { $0.activityType == .strength }.sorted {
+                $0.name == $1.name ? $0.id.uuidString < $1.id.uuidString : $0.name < $1.name
+            }
+            options = sorted.enumerated().map { index, value in
+                let duplicated = sorted.filter { $0.name == value.name }.count > 1
+                let label = duplicated ? "\(value.name) (\(index + 1))" : value.name
+                return ExerciseOption(id: value.id, name: value.name, label: label)
+            }
+            if initial { destinations = TrainingCSVImport.initialDestinations(document, exercises: exercises, fixedExerciseID: exercise?.id) }
+            preview = TrainingCSVImport.preview(document, destinations: destinations, exercises: exercises)
+            selected = Set(preview.filter { $0.status == .new }.map(\.id))
+        } catch { errorMessage = error.localizedDescription }
     }
 
     private func save() {
@@ -147,8 +173,9 @@ struct TrainingCSVImportView: View {
         do {
             let approved = Set(preview.filter { $0.status == .conflict && selected.contains($0.id) }.map(\.id))
             let result = try TrainingCSVImport.save(document, selected: selected, approvedConflicts: approved,
-                                                    exerciseID: exercise.id, container: modelContext.container)
-            summary = "\(result.imported) Trainings importiert. \(result.duplicates) identische Einträge übersprungen. \(result.omitted) Einträge nicht ausgewählt."
+                destinations: destinations, fixedExerciseID: exercise?.id, allowNameMismatch: allowNameMismatch,
+                container: modelContext.container)
+            summary = "\(result.imported) Trainings importiert, \(result.exercisesCreated) Übungen angelegt. \(result.duplicates) identisch, \(result.omitted) nicht ausgewählt."
             selected = []
         } catch { errorMessage = error.localizedDescription }
     }

@@ -3,6 +3,7 @@ import SwiftData
 import UIKit
 
 struct TrainingExportView: View {
+    var exercise: Exercise? = nil
     @Environment(\.dismiss) private var dismiss
     @Environment(\.locale) private var locale
     @Query private var entries: [TrainingEntry]
@@ -26,14 +27,19 @@ struct TrainingExportView: View {
         return calendar.date(byAdding: .day, value: -1,
                              to: calendar.date(byAdding: .month, value: 1, to: start) ?? start) ?? start
     }
-    private var selected: [TrainingEntry] { TrainingExport.selected(entries, from: start, to: end, calendar: calendar) }
-    private var selectedNotes: [TrainingDayNote] { TrainingExport.selectedNotes(notes, from: start, to: end, calendar: calendar) }
+    private var selected: [TrainingEntry] {
+        TrainingExport.selected(entries.filter { exercise == nil || $0.exercise?.id == exercise?.id }, from: start, to: end, calendar: calendar)
+    }
+    private var selectedNotes: [TrainingDayNote] {
+        exercise == nil ? TrainingExport.selectedNotes(notes, from: start, to: end, calendar: calendar) : []
+    }
     private var preview: String { TrainingExport.text(selected, notes: selectedNotes, calendar: calendar) }
     private var canExport: Bool { start <= end && (!selected.isEmpty || !selectedNotes.isEmpty) }
 
     var body: some View {
         NavigationStack {
             Form {
+                if let exercise { Section { LabeledContent("Übung", value: exercise.name) } }
                 Section("Zeitraum") {
                     Picker("Zeitraum", selection: $mode) {
                         Text("Monat").tag(PeriodMode.month)
@@ -65,6 +71,8 @@ struct TrainingExportView: View {
                     }
                     Button("Textdatei", systemImage: "doc.text") { export("txt") }
                     Button("Excel", systemImage: "tablecells") { export("xlsx") }
+                    Button("CSV (Krafttraining)", systemImage: "tablecells") { export("csv") }
+                        .disabled(!selected.contains { $0.activityType == .strength })
                     Button("JSON", systemImage: "curlybraces") { export("json") }
                 } header: {
                     Text("Export")
@@ -104,7 +112,10 @@ struct TrainingExportView: View {
                 url = try TrainingExportExcel.create(entries: selected, notes: selectedNotes, from: start, to: end)
             } else {
                 url = try TrainingExport.fileURL(from: start, to: end, extension: suffix)
-                let data = suffix == "json" ? try TrainingExport.json(selected, notes: selectedNotes, from: start, to: end) : Data(preview.utf8)
+                let data: Data
+                if suffix == "csv" { data = Data(("\u{FEFF}" + (try TrainingCSVExport.text(selected, calendar: calendar))).utf8) }
+                else if suffix == "json" { data = try TrainingExport.json(selected, notes: selectedNotes, from: start, to: end) }
+                else { data = Data(preview.utf8) }
                 try data.write(to: url, options: .atomic)
             }
             exportFile = ExportFile(url: url)

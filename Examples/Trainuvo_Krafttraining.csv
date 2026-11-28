@@ -1,0 +1,6 @@
+Training-ID;Übung;Datum;Satzgruppe;Sätze;Gewicht;Arbeitsgruppe;Bewertung
+training-001;CSV-Test Kniebeuge;18.11.2026;1;1x5;0;nein;o
+training-001;CSV-Test Kniebeuge;18.11.2026;2;1x5;52;nein;o
+training-001;CSV-Test Kniebeuge;18.11.2026;3;3x5;90;ja;o
+training-002;CSV-Test Press;18.11.2026;1;1x5;40;nein;+
+training-002;CSV-Test Press;18.11.2026;2;1x5;52;ja;+

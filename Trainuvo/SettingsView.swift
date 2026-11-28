@@ -5,6 +5,7 @@ struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @State private var activeAlert: SettingsAlert?
+    @State private var importingTrainings = false
 
     var body: some View {
         NavigationStack {
@@ -19,6 +20,11 @@ struct SettingsView: View {
                     Color.clear
                         .frame(height: 16)
                         .accessibilityHidden(true)
+                }
+                Section {
+                    Button("Trainings aus CSV importieren", systemImage: "square.and.arrow.down") { importingTrainings = true }
+                } footer: {
+                    Text("Mehrere Kraftübungen mit allen Satzgruppen importieren. Die Zuordnung und neue Übungen bestätigst du in der Vorschau.")
                 }
                 Section {
                     Button("Beispieldaten anlegen", systemImage: "dumbbell") { createExamples() }
@@ -37,6 +43,7 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Einstellungen")
+            .sheet(isPresented: $importingTrainings) { TrainingCSVImportView() }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Fertig") { dismiss() }

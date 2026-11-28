@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.19.0 – Gemeinsamer CSV-Import und -Export
+
+- t49: Einheitliches Acht-Spalten-Format für einzelne und mehrere Kraftübungen. Training-ID verbindet alle Satzgruppen; Aufwärmsätze einschließlich 0 kg, Reihenfolge, Arbeitsgruppe und Bewertung bleiben erhalten.
+- CSV auf bestehender Exportseite mit Monat/Von–Bis und editierbarem Dateinamen; zusätzlicher Exportzugang in der Übungsansicht. Gesamtimport in Einstellungen mit sichtbarer Übungszuordnung, expliziter Anlage neuer Kraftübungen und Namensprüfung beim Einzelimport.
+- Vollständige Trainings statt nur Arbeitsgruppe vergleichen; exportierte UUIDs bei neuen Trainings erhalten, legitime weitere Trainings separat prüfbar. Keine Überschreibungen bei ID-/Inhaltskonflikten. Legacy-Vierspaltenformat bleibt lesbar.
+- CSV-Parser mit mehrzeiligen zitierten Feldern, strikter Trainings-/Gruppenvalidierung und 2 MB/10.000-Gruppen-Limit; UTF-8-BOM beim Export. Synthetische Mehrübungsdatei und Roundtrip-/Konflikt-/Zuordnungstests ergänzt.
+- Intern 0.19.0; extern 1.0.0 (14) bleibt vorgesehen, da kein Upload von Build 14 bestätigt ist. Letzter bestätigter Upload 1.0.0 (13), intern 0.17.0. Kein neues Modell/CloudKit-Schema. Statische Prüfungen, Xcode-/Geräteabnahme ausstehend. CSV umfasst keine Ziele, Vorlagen, Kommentare, Satzhäkchen oder Uhrzeiten.
+
+
 ## 0.18.0 – CSV-Import pro Kraftübung
 
 - t48: Dateiauswahl im Übungsmenü, sichtbare Übungszuordnung, CSV-Formatbeschreibung und Vorschau mit Zeilennummern/Fehlermeldungen. Eine Arbeitsgruppe pro Training; Datum, Satzvorgabe, kg und optionale Bewertung.
