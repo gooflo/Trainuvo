@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.19.2 – Buildfehler im Einstellungsabschnitt korrigieren
+
+- Section mit Titel und Footer in SettingsView über explizite content/header/footer-Closures aufbauen. Die Kombination Section("Import und Export") mit zusätzlichem footer verwendet keinen passenden SwiftUI-Initializer und verhinderte den Build.
+- Übrige neue Import-/Exportabschnitte auf dieselbe Initializer-Kombination geprüft; kein weiterer Treffer. Statische Syntax-/Konfigurationsprüfung erfolgt, Xcode-Build hier nicht möglich.
+- Intern 0.19.2 / extern 1.0.0 (14) vorbereitet; Build unverändert. Letzter bestätigter Upload 1.0.0 (13), intern 0.17.0. Keine Datenmodell-/Schemaänderung.
+
 ## 0.19.1 – Import und Export in den Einstellungen
 
 - Gesamtexport in Einstellungen unter Import und Export direkt beim CSV-Import anbieten. Teilen-Symbol, Exportzustand und Export-Sheet von der Startseite entfernen. Einzelaktionen im Übungsmenü und bisherige Exportformate/Zeiträume/Dateinamen bleiben erhalten.

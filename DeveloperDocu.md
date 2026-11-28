@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.19.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.19.2**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.19.1) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0.0 (14), v0.19.1. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (14) geplant; Buildnummer vor Upload prüfen.
+Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.19.2) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0.0 (14), v0.19.2. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (14) geplant; Buildnummer vor Upload prüfen.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -623,3 +623,8 @@ Abnahme am Mac: main pullen, ⌘ B/⌘ U. Examples/Trainuvo_Krafttraining.csv ü
 SettingsView ergänzt exportingTrainings und öffnet TrainingExportView als Sheet. Die Section Import und Export enthält Trainings exportieren und Trainings aus CSV importieren. ContentView entfernt showingExport, den Toolbar-Button und das zugehörige Sheet; Zahnrad und Hilfe bleiben. ExerciseDetailView behält eigene Import-/Export-Sheets mit Übungsfilter. Formatlogik, Speicherung und Dateiauswahl unverändert; V4/CloudKit ohne Änderung. Die früheren Hinweise auf das Startseiten-Teilen-Symbol sind abgelöst; aktueller Einstieg für alle Formate: Einstellungen → Trainings exportieren.
 
 Am Mac main pullen, ⌘ B/⌘ R. Auf iPhone/iPad Startseite ohne Export-Symbol prüfen; Zahnrad → Import und Export: Export öffnen, Zeitraum wählen, jedes Format und Dateiname/Abbrechen prüfen; CSV-Import öffnen/abbrechen und Vorschau prüfen. Einzelübung → …: beide Aktionen weiter verfügbar. Statische Syntax-/Verdrahtungs-/Versionsprüfung; hier kein Xcode-/Sichttest möglich. Intern 0.19.1, geplant 1.0.0 (14), letzter bestätigter Upload 1.0.0 (13), intern 0.17.0. Keine öffentliche App-Store-Veröffentlichung bestätigt. Vor Release v0.19.1 taggen/pushen und freie Buildnummer prüfen. Build 14 unverändert, da kein Upload bestätigt.
+
+
+## SettingsView-Buildkorrektur – 0.19.2
+
+Der Screenshot zeigt Cannot convert value of type String to expected argument type () -> Content an Section("Import und Export") mit nachgestellter footer-Closure. Der Titel-Initializer unterstützt keinen Footer. Die Section verwendet nun content/header/footer mit explizitem Text-Header; übrige neue Sections geprüft. Apple-Referenz: https://developer.apple.com/documentation/swiftui/section/init(content:header:footer:). Reine Syntaxparser können eine solche falsche Overload-Wahl nicht erkennen, deshalb vorherige statische Syntaxprüfung nicht als erfolgreichen Xcode-Build werten. Kein Apple-SDK hier; am Mac main pullen, ⌘ B, Einstellungen und Import/Export öffnen. Intern 0.19.2, extern 1.0.0 (14) weiterhin vorbereitet, keine Schemaänderung. Nach erfolgreicher Abnahme vorgesehenes Tag v0.19.2 setzen/pushen; bestehende Tags erhalten.

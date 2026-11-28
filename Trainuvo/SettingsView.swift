@@ -22,9 +22,11 @@ struct SettingsView: View {
                         .frame(height: 16)
                         .accessibilityHidden(true)
                 }
-                Section("Import und Export") {
+                Section {
                     Button("Trainings exportieren", systemImage: "square.and.arrow.up") { exportingTrainings = true }
                     Button("Trainings aus CSV importieren", systemImage: "square.and.arrow.down") { importingTrainings = true }
+                } header: {
+                    Text("Import und Export")
                 } footer: {
                     Text("Trainings als Text, Excel, CSV oder JSON exportieren. Der CSV-Import übernimmt mehrere Kraftübungen mit allen Satzgruppen; die Zuordnung und neue Übungen bestätigst du in der Vorschau.")
                 }

@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.19.1 – Vorabversion**
+**Interner Entwicklungsstand: 0.19.2 – Vorabversion**
 
 ## Übungstypen
 
@@ -46,7 +46,7 @@ Seit 0.16.0 trennt die Startseite „Trainings“ durch horizontale Linien von d
 
 Bei Krafttraining und Satzübungen kannst du in der Trainingserfassung einzelne Sätze direkt in der Zeile abhaken: 1×5 zeigt ein Kästchen, 3×5 drei und 5×5 oder 5×3 fünf. Erneutes Antippen entfernt das Häkchen. Speichern übernimmt den Status, Abbrechen verwirft Änderungen. Neue Trainings starten leer; alte Trainings werden nicht automatisch abgehakt. Bei mehr als fünf Sätzen seitlich durch die Kästchen scrollen. Freitext ohne eindeutige Sätze×Wiederholungen und Andere zeigen keine Checkboxen. Der Abhakstatus ändert keine Gewichte oder Fortschrittsberechnungen.
 
-Die Hilfe unter **?** zeigt externe Version, Buildnummer und interne Version als eine dezente Textzeile in einem eigenen Abschnitt: **Version 1.0.0 (14), v0.19.1**.
+Die Hilfe unter **?** zeigt externe Version, Buildnummer und interne Version als eine dezente Textzeile in einem eigenen Abschnitt: **Version 1.0.0 (14), v0.19.2**.
 
 Nach „Text kopieren“ bestätigt die App „Text in die Zwischenablage kopiert“.
 
@@ -143,7 +143,7 @@ Der nach Tagen gruppierte Verlauf auf der Startseite trägt die Überschrift „
 
 Vor dem Teilen von Textdatei, Excel und JSON erscheint die Dateinamen-Eingabe analog Cashuvo. Standard ist Trainuvo_Export.txt, Trainuvo_Export.xlsx bzw. Trainuvo_Export.json. Der Name ist frei änderbar; die feste Dateiendung steht rechts daneben und wird automatisch ergänzt. Eine bereits eingegebene passende Endung wird nicht doppelt angehängt. Abbrechen verwirft den Dialog. Leere Namen, Pfadtrenner, Doppelpunkte und Steuerzeichen sind nicht erlaubt. Text kopieren benötigt keinen Dateinamen.
 
-Nächster Upload vorbereitet: extern **1.0.0 (14)**, intern **0.19.1**. Zuletzt abgeschlossene Uploadrunde laut Florian: **1.0.0 (13)**, intern **0.17.0**, Tag `v0.17.0-build13`. Externe und interne Versionen werden dreiteilig geführt. Vorheriger Upload: **1.0 (12)**, Tag `v0.17.0-build12`. Die zweistellige Versionierung wurde auf Florians Wunsch zurückgenommen; bestehende Builds und Tags bleiben erhalten. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
+Nächster Upload vorbereitet: extern **1.0.0 (14)**, intern **0.19.2**. Zuletzt abgeschlossene Uploadrunde laut Florian: **1.0.0 (13)**, intern **0.17.0**, Tag `v0.17.0-build13`. Externe und interne Versionen werden dreiteilig geführt. Vorheriger Upload: **1.0 (12)**, Tag `v0.17.0-build12`. Die zweistellige Versionierung wurde auf Florians Wunsch zurückgenommen; bestehende Builds und Tags bleiben erhalten. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
 
 
 ## iCloud ab 0.13.0
