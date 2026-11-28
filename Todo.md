@@ -4,16 +4,6 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
-### t46 – Separater Zielgewichtsrechner (Priorität noch offen)
-
-- Abgestimmtes Konzept: Einstellungen → „Zielgewichte berechnen“ öffnet eine eigene Seite. Körpergewicht in kg eingeben und die vier Ergebnisse automatisch darunter anzeigen.
-- Von Florian vorgegebene Faktoren: Kniebeuge 100 %, Press 40 %, Kreuzheben 130 %, Bankdrücken 75 % des Körpergewichts.
-- Ergebnisse ungerundet mit maximal zwei Nachkommastellen anzeigen. Übungen und Zielgewichte werden ausschließlich manuell angelegt/eingetragen; keine Übernahmefunktion und keine automatische Änderung bestehender Übungen/Ziele.
-- Kurzer Hinweis: „Lege die Übungen selbst an und übernimm die gewünschten Zielgewichte.“
-- Gewünschter Verweis unter den Ergebnissen: Work it Training Hamburg, offizielle Website https://workittraining.de/ (am 28.11.2026 aufgerufen und geprüft). Vorschlag für Linktext: „Mehr zum Krafttraining: Work it Training Hamburg“.
-- Die Faktoren wurden von Florian vorgegeben; die verlinkte Startseite wurde nicht als Beleg für genau diese Prozentsätze bestätigt. Keine Partnerschaft oder Empfehlung der App durch Work it Training behaupten.
-- Umsetzung noch offen; zunächst Konzept und Link festgehalten.
-
 ### t45 – Öffentliche App-Store-Veröffentlichung (Prio 3)
 
 - Erste öffentliche Veröffentlichung von Trainuvo vorbereiten und gemeinsam durchführen; separat von TestFlight.
@@ -27,6 +17,15 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 - Auf Wunsch von Florian zurückgestellt. App-Oberfläche, Hilfe und Fehlermeldungen später auf Deutsch und Englisch bereitstellen.
 
 ## Done
+
+### t46 – Separater Zielgewichtsrechner (0.17.0)
+
+- Einstellungen → Zielgewichte berechnen: Körpergewicht in kg eingeben; Kniebeuge 100 %, Press 40 %, Kreuzheben 130 %, Bankdrücken 75 % direkt anzeigen.
+- Dezimalkomma/-punkt, positive endliche Eingaben; Anzeige mit maximal zwei Nachkommastellen ohne Rundung auf Hantelscheiben. Körpergewicht nur lokaler Seitenentwurf, keine dauerhafte Speicherung.
+- Übungen und Zielgewichte ausschließlich manuell eintragen; keinerlei automatische Änderung bestehender Daten.
+- Abgestimmten Text zur Herkunft der Werte von Work it Training Hamburg und persönliche Empfehlung durch Florian, Entwickler von Trainuvo, unter den Ergebnissen anzeigen. Offizieller Link https://workittraining.de/.
+- Hilfe/Dokumentation sowie Tests für vier Faktoren, Dezimaleingaben und ungültige Werte ergänzt. Statische Prüfungen durchgeführt; Xcode-Build/⌘ U, Tastatur/Fertig, Ergebnisdarstellung und Link auf iPhone/iPad ausstehend.
+- Intern 0.17.0 / extern 1.0.0 (11) geplant. Kein neues Datenmodell/CloudKit-Schema.
 
 ### t41 – Bewertung kompakter beschriften (0.16.0)
 

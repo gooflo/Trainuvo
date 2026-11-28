@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.16.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.17.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.16.0) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0.0 (9), v0.15.0. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (9) geplant; Buildnummer vor Upload prüfen.
+Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.17.0) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0.0 (9), v0.15.0. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (9) geplant; Buildnummer vor Upload prüfen.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -539,3 +539,12 @@ ExerciseDetailView zeigt das Datum von latestEntryForCurrentType direkt unter wo
 ### Vollständige Angaben bei Erreicht – 0.16.0
 
 ExerciseDetailView verwendet für Satztypen latestEntryForCurrentType.workingGroup.summary(for:) statt valueText(for:), damit die Satzvorgabe neben dem Arbeitsgewicht bzw. der freien rechten Angabe sichtbar ist. Bei Andere verwendet dieselbe Zeile Erreicht die freeTextSummary mit allen Einheiten einschließlich linker und rechter Angaben. Das Datum steht bei allen Typen darunter. Lange Angaben dürfen umbrechen. Fehlende Arbeitsgruppe zeigt „–“ mit letztem Trainingsdatum. Modell, Export und Zielformel unverändert. Pull/⌘ R: Krafttraining 3×5 @ 100 kg, Satzübung 3×5 @ ohne Band und Andere 200 W – 30 min sowie mehrere freie Einheiten prüfen. Quelltext statisch geprüft; Xcode-/Sichttest ausstehend. Intern 0.16.0 / extern 1.0.0 (10) weiterhin geplant.
+
+
+## Zielgewichtsrechner t46 – 0.17.0 / 1.0.0 (11) geplant
+
+SettingsView führt per NavigationLink zur BodyweightGoalCalculatorView. Nur lokales @State für die Eingabe, kein SwiftData/Account-/CloudKit-Schreibzugriff. BodyweightGoalCalculator verwendet TrainingFormat.parseWeight, fordert einen positiven endlichen Wert und berechnet die von Florian vorgegebenen Faktoren (100/40/130/75 %). TrainingFormat.number zeigt bis zwei Nachkommastellen; keine Rundung auf Hantelscheiben. Leere Eingabe zeigt Platzhalter, ungültige Eingabe keine alten Ergebnisse plus Hinweis; numerische Tastatur mit Fertig. Die Liste aktualisiert sich automatisch.
+
+Herkunftsangabe und persönliche Empfehlung entsprechen Florians Freigabe: Die verwendeten Zielwerte stammen von Work it Training Hamburg; Empfehlung von Florian, Entwickler von Trainuvo. Link https://workittraining.de/. Die Prozentsätze stammen aus der Vorgabe im Projektchat; die externe Startseite wurde nicht als unabhängiger Beleg der konkreten Faktoren verifiziert. Keine Partnerschaft oder App-Empfehlung durch Work it behaupten. Übungen und Ziele trägt der Nutzer selbst ein.
+
+BodyweightGoalCalculatorTests prüfen 80 kg → 80/32/104/60 kg, Komma/Punkt mit 82,5 kg und ungerundeten Zwischenergebnissen sowie leere/negative/null/nicht endliche/überhöhte Eingaben. Auf dem Mac main pullen, ⌘ B und ⌘ U; Einstellungen → Zielgewichte berechnen auf iPhone/iPad öffnen. 80 und 82,5 testen, Eingabe löschen/ungültig machen, Fertig und externen Link prüfen. Vorhandene Übungen/Ziele bleiben unverändert. Kein Apple-SDK hier verfügbar, deshalb Xcode-Tests und Gerätetest ausstehend. Datenmodell V4 unverändert; kein neues Schema-Deployment. Intern 0.17.0 / extern 1.0.0 (11) geplant, Build vor Upload prüfen.

@@ -11,6 +11,13 @@ struct SettingsView: View {
             Form {
                 CloudSyncInfoView()
                 Section {
+                    NavigationLink {
+                        BodyweightGoalCalculatorView()
+                    } label: {
+                        Label("Zielgewichte berechnen", systemImage: "calculator")
+                    }
+                }
+                Section {
                     Button("Beispieldaten anlegen", systemImage: "dumbbell") { createExamples() }
                 } footer: {
                     Text("Vier Übungen mit Standardsätzen und Trainings vom 14. und 17.11.2026. Gleichnamige Übungen werden wiederverwendet, fehlende Beispieltrainings ergänzt.")

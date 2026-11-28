@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.16.0 – Vorabversion**
+**Interner Entwicklungsstand: 0.17.0 – Vorabversion**
 
 ## Übungstypen
 
@@ -40,11 +40,13 @@ Die App ist für iPhone und iPad ausgelegt. Das App-Target unterstützt iOS/iPad
 
 ## Nutzung
 
+Unter **Einstellungen → Zielgewichte berechnen** gibst du dein Körpergewicht in kg ein. Der Rechner zeigt Kniebeuge 100 %, Press 40 %, Kreuzheben 130 % und Bankdrücken 75 % automatisch mit bis zu zwei Nachkommastellen. Komma und Punkt sind möglich; „Fertig“ schließt die Tastatur. Übungen und Zielgewichte trägst du selbst ein. Das Körpergewicht wird nicht dauerhaft gespeichert. Auf der Seite stehen der Hinweis zur Herkunft der Werte und Florians persönliche Empfehlung mit Link zu [Work it Training Hamburg](https://workittraining.de/).
+
 Seit 0.16.0 trennt die Startseite „Trainings“ durch horizontale Linien von den Übungen. Beim Erfassen steht das Datum unter Satzgruppen/Trainingseinheiten und Bewertung. Unter „Bewertung (sehr schwer ... sehr leicht)“ wählst du direkt eines der fünf farbigen Symbole. Ziel und erreichter Wert stehen in der Übungsansicht; das Datum des letzten Trainings steht direkt beim erreichten Wert bzw. bei Andere separat.
 
 Bei Krafttraining und Satzübungen kannst du in der Trainingserfassung einzelne Sätze direkt in der Zeile abhaken: 1×5 zeigt ein Kästchen, 3×5 drei und 5×5 oder 5×3 fünf. Erneutes Antippen entfernt das Häkchen. Speichern übernimmt den Status, Abbrechen verwirft Änderungen. Neue Trainings starten leer; alte Trainings werden nicht automatisch abgehakt. Bei mehr als fünf Sätzen seitlich durch die Kästchen scrollen. Freitext ohne eindeutige Sätze×Wiederholungen und Andere zeigen keine Checkboxen. Der Abhakstatus ändert keine Gewichte oder Fortschrittsberechnungen.
 
-Die Hilfe unter **?** zeigt externe Version, Buildnummer und interne Version als eine dezente Textzeile in einem eigenen Abschnitt: **Version 1.0.0 (10), v0.16.0**.
+Die Hilfe unter **?** zeigt externe Version, Buildnummer und interne Version als eine dezente Textzeile in einem eigenen Abschnitt: **Version 1.0.0 (11), v0.17.0**.
 
 Nach „Text kopieren“ bestätigt die App „Text in die Zwischenablage kopiert“.
 

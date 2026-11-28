@@ -55,7 +55,7 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 ## TestFlight und Ankündigungen
 
 - Interne SemVer-Version, externe App-Version und Buildnummer getrennt führen. Während der Testphase die externe Version möglichst stabil halten; Änderungen vorher abstimmen. Die nächste Buildnummer muss in App Store Connect noch frei sein. Der Repositorywert allein beweist nicht, welche Builds schon hochgeladen wurden; Angaben von Florian zu belegten Builds berücksichtigen.
-- Versionsstand: intern 0.16.0 / extern 1.0.0 (10) als nächster Upload geplant, von Florian ausdrücklich festgelegt. Letzter bestätigter TestFlight-Stand intern 0.15.0 / extern 1.0.0 (9), laut Florian veröffentlicht und auf iPhone/iPad getestet. Keine öffentliche App-Store-Veröffentlichung bestätigt. Freie Buildnummer vor Upload prüfen.
+- Versionsstand: intern 0.17.0 / extern 1.0.0 (11) als nächster Upload geplant. Vorherige Runde intern 0.16.0 / extern 1.0.0 (10); Florian kündigte Taggen/Publizieren an, erfolgreiche Verfügbarkeit von Build 10 nicht separat bestätigt. Letzter ausdrücklich bestätigter TestFlight-Stand 0.15.0 / 1.0.0 (9). Keine öffentliche App-Store-Veröffentlichung bestätigt. Freie Buildnummer vor Upload prüfen.
 - Wenn Florian „publishen“, „publizieren“, „veröffentlichen“ oder Ähnliches sagt, die kurze TestFlight-Checkliste und den vollständigen WhatsApp-Entwurf für den vorgesehenen Build in derselben Antwort ausgeben:
   1. Tag setzen und pushen.
   2. Archivieren und hochladen; externe Version und Build im Organizer prüfen. Automatische Buildnummernverwaltung für eine eindeutige Zuordnung abwählen, sofern angeboten.
@@ -88,3 +88,5 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
 - t40: Satz-Checkboxen für Krafttraining/Satzübung, eine je Satz bei eindeutigem NxM (x/×), maximal 100 Sätze. SetGroup.completedSetsRawValue speichert optionale, kommaseparierte Satznummern ab 1, nil = keine Häkchen. Neue Trainings übernehmen keine Häkchen aus Vorlagen/letztem Training. Speichern/Abbrechen wie andere Trainingsfelder; Satzreduktion verwirft überzählige Häkchen. Vor TestFlight V4-Feld in Development initialisieren, prüfen und nach Production deployen.
 
 - Seit 0.16.0 iPhone-Karten kompakt mit Namen/Prozent/Plus/Balken, ohne Detailzeile; iPad behält Detailinfos. Ziel/erreichter Wert/letztes Datum müssen in der Übungsansicht verfügbar bleiben. Bewertung zeigt nur fünf farbige Symbole unter Bewertung (sehr schwer ... sehr leicht), VoiceOver behält die Bedeutung. Trainingsdatum unter Satzgruppen/Einheiten und Bewertung.
+
+- Zielgewichtsrechner in Einstellungen separat halten: Körpergewicht nur lokal im Seitenentwurf, Faktoren Kniebeuge 100 %, Press 40 %, Kreuzheben 130 %, Bankdrücken 75 %. Ergebnisse anzeigen, keine Übungen/Ziele automatisch anlegen oder ändern. Abgestimmte Herkunftsangabe und persönliche Empfehlung durch Florian mit Link https://workittraining.de/ erhalten.
