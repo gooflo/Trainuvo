@@ -4,16 +4,15 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Open
 
-### t46 – Zielgewichte aus dem Körpergewicht berechnen (Priorität noch offen)
+### t46 – Separater Zielgewichtsrechner (Priorität noch offen)
 
-- Anhand des eingegebenen Körpergewichts Zielgewichte für Kraftübungen berechnen. Von Florian vorgegebene Faktoren:
-  - Kniebeuge: 100 % (Körpergewicht × 1,00).
-  - Press: 40 % (Körpergewicht × 0,40).
-  - Kreuzheben: 130 % (Körpergewicht × 1,30).
-  - Bankdrücken: 75 % (Körpergewicht × 0,75).
-- Die Faktoren sind die gewünschte App-Berechnung, keine recherchierten allgemeinen Trainingsstandards. Noch keine Umsetzung beauftragt.
-- Ergebnis anzeigen und nach Bestätigung als Ziel übernehmen; manuell eingetragene Ziele weiter ermöglichen und nicht ungefragt überschreiben.
-- Noch zu klären: Rundungsregel, Zuordnung zu bestehenden bzw. eigenen Übungen, ob Faktoren editierbar sein sollen sowie einmalige Übernahme oder spätere Neuberechnung bei geändertem Körpergewicht.
+- Abgestimmtes Konzept: Einstellungen → „Zielgewichte berechnen“ öffnet eine eigene Seite. Körpergewicht in kg eingeben und die vier Ergebnisse automatisch darunter anzeigen.
+- Von Florian vorgegebene Faktoren: Kniebeuge 100 %, Press 40 %, Kreuzheben 130 %, Bankdrücken 75 % des Körpergewichts.
+- Ergebnisse ungerundet mit maximal zwei Nachkommastellen anzeigen. Übungen und Zielgewichte werden ausschließlich manuell angelegt/eingetragen; keine Übernahmefunktion und keine automatische Änderung bestehender Übungen/Ziele.
+- Kurzer Hinweis: „Lege die Übungen selbst an und übernimm die gewünschten Zielgewichte.“
+- Gewünschter Verweis unter den Ergebnissen: Work it Training Hamburg, offizielle Website https://workittraining.de/ (am 28.11.2026 aufgerufen und geprüft). Vorschlag für Linktext: „Mehr zum Krafttraining: Work it Training Hamburg“.
+- Die Faktoren wurden von Florian vorgegeben; die verlinkte Startseite wurde nicht als Beleg für genau diese Prozentsätze bestätigt. Keine Partnerschaft oder Empfehlung der App durch Work it Training behaupten.
+- Umsetzung noch offen; zunächst Konzept und Link festgehalten.
 
 ### t45 – Öffentliche App-Store-Veröffentlichung (Prio 3)
 
