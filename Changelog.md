@@ -2,6 +2,8 @@
 
 ## 0.17.0 – Zielgewichte anhand des Körpergewichts berechnen
 
+- 28.11.2026: Abschluss der Tag-/Uploadrunde für 1.0.0 (13) durch Florian bestätigt. Remote-Tag v0.17.0-build13 auf Commit 26780ad geprüft. Reine Statusdokumentation, Versionswerte unverändert. Testgruppen- und öffentliche Verfügbarkeit nicht daraus ableiten.
+
 - Zweistellige externe Versionierung auf Florians Wunsch zurücknehmen: nächster Upload wieder 1.0.0, Build 13 (Build 12 bereits hochgeladen). Intern bleibt 0.17.0. Regeln, aktuelle Versionsanzeige-Beispiele und t47 aktualisiert; bestehende Builds und Tags erhalten. Historische Angaben zu Build 12 bleiben dokumentiert. Xcode-/Archiv-/Uploadprüfung noch ausstehend.
 
 - 28.11.2026: Florian bestätigt erfolgreichen Upload von 1.0 (12) und Abschluss von t47. Release-Tag v0.17.0-build12 auf Commit ed96d47 geprüft. Reine Statusdokumentation, keine Änderung der Versionswerte.
