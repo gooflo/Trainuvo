@@ -15,6 +15,10 @@ struct SettingsView: View {
                     } label: {
                         Label("Zielgewichte berechnen", systemImage: "calculator")
                     }
+                } header: {
+                    Color.clear
+                        .frame(height: 16)
+                        .accessibilityHidden(true)
                 }
                 Section {
                     Button("Beispieldaten anlegen", systemImage: "dumbbell") { createExamples() }

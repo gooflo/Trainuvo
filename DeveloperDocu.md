@@ -558,3 +558,8 @@ BodyweightGoalCalculatorView bindet das Textfeld direkt an @AppStorage("bodyweig
 ### Vereinfachter iCloud-Hinweis – 0.17.0, Versionen unverändert
 
 CloudSyncInfoView enthält nur noch den abgestimmten Hinweis: Deine Trainingsdaten werden über iCloud mit deinen Geräten desselben Apple-Accounts synchronisiert. Die Komponente steht im Footer der letzten Einstellungs-Section nach der Löschwarnung und damit am Ende der Seite. CKContainer.accountStatus(), Statuszustand, Tasks/ScenePhase-Beobachtung und der Prüfbutton entfallen. Der eigentliche SwiftData-/CloudKit-Abgleich bleibt unverändert; kein Schema-Deployment. App-Hilfe/README nachgezogen. Am Mac main pullen, ⌘ R, Einstellungen bis unten prüfen: kein Status/Prüfbutton, Hinweis als letzter Text. Statisch geprüft, Xcode-/Sichtprüfung ausstehend. Intern 0.17.0 / extern 1.0.0 (11) unverändert geplant.
+
+
+### Abstand unter Einstellungen – 0.17.0
+
+Erste Form-Section in SettingsView erhält einen transparenten 16-pt-Header, für VoiceOver verborgen. Dadurch mehr Abstand zwischen Einstellungen-Titel und erstem Eintrag ohne zusätzliche sichtbare Zeile. Statisch geprüft; am Mac pullen, ⌘ R und Einstellungen auf iPhone/iPad öffnen. Xcode-/Sichtprüfung ausstehend. Intern 0.17.0 / extern 1.0.0 (11) geplant bleiben gleich.
