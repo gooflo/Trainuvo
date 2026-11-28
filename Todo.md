@@ -6,10 +6,14 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ### t46 – Zielgewichte aus dem Körpergewicht berechnen (Priorität noch offen)
 
-- Idee gemeinsam ausarbeiten: anhand des eingegebenen Körpergewichts Zielgewichte für Kraftübungen vorschlagen. Noch keine Umsetzung beauftragt.
-- Erster Ansatz zur Diskussion: Körpergewicht hinterlegen, je Übung einen frei wählbaren Faktor verwenden (Zielgewicht = Körpergewicht × Faktor), Ergebnis anzeigen und nach Bestätigung als Ziel übernehmen.
-- Optional auf ein wählbares Gewichtsintervall runden; manuell eingetragene Ziele weiter ermöglichen und nicht ungefragt überschreiben.
-- Noch zu klären: Faktor selbst einstellen oder Vorlagen anbieten, welche Grundlagen solche Vorlagen hätten, Rundungsregel sowie einmalige Übernahme oder spätere Neuberechnung bei geändertem Körpergewicht.
+- Anhand des eingegebenen Körpergewichts Zielgewichte für Kraftübungen berechnen. Von Florian vorgegebene Faktoren:
+  - Kniebeuge: 100 % (Körpergewicht × 1,00).
+  - Press: 40 % (Körpergewicht × 0,40).
+  - Kreuzheben: 130 % (Körpergewicht × 1,30).
+  - Bankdrücken: 75 % (Körpergewicht × 0,75).
+- Die Faktoren sind die gewünschte App-Berechnung, keine recherchierten allgemeinen Trainingsstandards. Noch keine Umsetzung beauftragt.
+- Ergebnis anzeigen und nach Bestätigung als Ziel übernehmen; manuell eingetragene Ziele weiter ermöglichen und nicht ungefragt überschreiben.
+- Noch zu klären: Rundungsregel, Zuordnung zu bestehenden bzw. eigenen Übungen, ob Faktoren editierbar sein sollen sowie einmalige Übernahme oder spätere Neuberechnung bei geändertem Körpergewicht.
 
 ### t45 – Öffentliche App-Store-Veröffentlichung (Prio 3)
 
