@@ -2,7 +2,7 @@
 
 Trainuvo dokumentiert Krafttraining, Satzübungen und weitere Aktivitäten. Beim Krafttraining zeigt die App den Fortschritt gegenüber persönlichen Zielgewichten.
 
-**Interner Entwicklungsstand: 0.19.0 – Vorabversion**
+**Interner Entwicklungsstand: 0.19.1 – Vorabversion**
 
 ## Übungstypen
 
@@ -46,7 +46,7 @@ Seit 0.16.0 trennt die Startseite „Trainings“ durch horizontale Linien von d
 
 Bei Krafttraining und Satzübungen kannst du in der Trainingserfassung einzelne Sätze direkt in der Zeile abhaken: 1×5 zeigt ein Kästchen, 3×5 drei und 5×5 oder 5×3 fünf. Erneutes Antippen entfernt das Häkchen. Speichern übernimmt den Status, Abbrechen verwirft Änderungen. Neue Trainings starten leer; alte Trainings werden nicht automatisch abgehakt. Bei mehr als fünf Sätzen seitlich durch die Kästchen scrollen. Freitext ohne eindeutige Sätze×Wiederholungen und Andere zeigen keine Checkboxen. Der Abhakstatus ändert keine Gewichte oder Fortschrittsberechnungen.
 
-Die Hilfe unter **?** zeigt externe Version, Buildnummer und interne Version als eine dezente Textzeile in einem eigenen Abschnitt: **Version 1.0.0 (14), v0.19.0**.
+Die Hilfe unter **?** zeigt externe Version, Buildnummer und interne Version als eine dezente Textzeile in einem eigenen Abschnitt: **Version 1.0.0 (14), v0.19.1**.
 
 Nach „Text kopieren“ bestätigt die App „Text in die Zwischenablage kopiert“.
 
@@ -117,7 +117,7 @@ Gleichnamige Übungen werden wiederverwendet. Vorhandene Ziele und vorhandene St
 
 ## Export
 
-Über das Teilen-Symbol oben rechts den Export öffnen. Die Auswahl „Monat“ mit Monat/Jahr oder „Von–Bis“ entspricht Cashuvo. Beide Randtage sind vollständig enthalten. Ohne passende Einträge bzw. bei ungültigem Zeitraum sind Exporte deaktiviert.
+Unter **Einstellungen → Trainings exportieren** den Export öffnen. Die Auswahl „Monat“ mit Monat/Jahr oder „Von–Bis“ entspricht Cashuvo. Beide Randtage sind vollständig enthalten. Ohne passende Einträge bzw. bei ungültigem Zeitraum sind Exporte deaktiviert.
 
 „Text kopieren“ überträgt die Vorschau direkt für OneNote. Ein Absatz pro Trainingstag, neueste Tage zuerst, Übungen in der gespeicherten Reihenfolge. Krafttraining und Satzübung zeigen nur die Arbeitsgruppe; Andere zeigt alle Einheiten mit „links / rechts“, mehrere Einheiten mit Semikolon. Bewertungen stehen als Zeichen davor. Zeilenumbrüche innerhalb freier Angaben werden für diesen kompakten Export zu Leerzeichen. Mehrere Einträge derselben Übung bleiben erhalten.
 
@@ -143,7 +143,7 @@ Der nach Tagen gruppierte Verlauf auf der Startseite trägt die Überschrift „
 
 Vor dem Teilen von Textdatei, Excel und JSON erscheint die Dateinamen-Eingabe analog Cashuvo. Standard ist Trainuvo_Export.txt, Trainuvo_Export.xlsx bzw. Trainuvo_Export.json. Der Name ist frei änderbar; die feste Dateiendung steht rechts daneben und wird automatisch ergänzt. Eine bereits eingegebene passende Endung wird nicht doppelt angehängt. Abbrechen verwirft den Dialog. Leere Namen, Pfadtrenner, Doppelpunkte und Steuerzeichen sind nicht erlaubt. Text kopieren benötigt keinen Dateinamen.
 
-Nächster Upload vorbereitet: extern **1.0.0 (14)**, intern **0.19.0**. Zuletzt abgeschlossene Uploadrunde laut Florian: **1.0.0 (13)**, intern **0.17.0**, Tag `v0.17.0-build13`. Externe und interne Versionen werden dreiteilig geführt. Vorheriger Upload: **1.0 (12)**, Tag `v0.17.0-build12`. Die zweistellige Versionierung wurde auf Florians Wunsch zurückgenommen; bestehende Builds und Tags bleiben erhalten. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
+Nächster Upload vorbereitet: extern **1.0.0 (14)**, intern **0.19.1**. Zuletzt abgeschlossene Uploadrunde laut Florian: **1.0.0 (13)**, intern **0.17.0**, Tag `v0.17.0-build13`. Externe und interne Versionen werden dreiteilig geführt. Vorheriger Upload: **1.0 (12)**, Tag `v0.17.0-build12`. Die zweistellige Versionierung wurde auf Florians Wunsch zurückgenommen; bestehende Builds und Tags bleiben erhalten. Export-Compliance: App Uses Non-Exempt Encryption = NO. Archivierung und Upload erfolgen auf dem Mac.
 
 
 ## iCloud ab 0.13.0
@@ -187,7 +187,7 @@ Wenn du ausgeblendete Übungen über das Stift-Menü anzeigst, tragen nur diese 
 
 ## CSV-Import und -Export ab 0.19.0
 
-**Gesamtexport:** Teilen-Symbol auf der Startseite → Zeitraum wählen → CSV (Krafttraining). **Einzelexport:** Kraftübung → … → Trainings exportieren → Zeitraum → CSV (Krafttraining). Standardname Trainuvo_Export.csv, vor dem Teilen änderbar. Andere Exportformate bleiben verfügbar. CSV enthält ausschließlich Krafttraining, auch bei ausgeblendeten Übungen; neueste Tage zuerst, Übungsreihenfolge wie auf der Startseite. Alle Satzgruppen einschließlich 0 kg werden ausgegeben.
+**Gesamtexport:** Einstellungen → Trainings exportieren → Zeitraum wählen → CSV (Krafttraining). **Einzelexport:** Kraftübung → … → Trainings exportieren → Zeitraum → CSV (Krafttraining). Standardname Trainuvo_Export.csv, vor dem Teilen änderbar. Andere Exportformate bleiben verfügbar. CSV enthält ausschließlich Krafttraining, auch bei ausgeblendeten Übungen; neueste Tage zuerst, Übungsreihenfolge wie auf der Startseite. Alle Satzgruppen einschließlich 0 kg werden ausgegeben.
 
 **Gesamtimport:** Einstellungen → Trainings aus CSV importieren. **Einzelimport:** Kraftübung → … → Trainings importieren. Gemeinsames Format, eine Zeile pro Satzgruppe:
 

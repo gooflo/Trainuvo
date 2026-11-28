@@ -18,13 +18,15 @@ Neue und zurückgestellte Einträge stehen unter **Open**. Umgesetzte Einträge 
 
 ## Done
 
-### t49 – Gemeinsamer CSV-Import/-Export mit allen Satzgruppen (0.19.0)
+### t49 – Gemeinsamer CSV-Import/-Export mit allen Satzgruppen (0.19.0; Bedienung ergänzt in 0.19.1)
+
+- 0.19.1: Gesamtexport und CSV-Gesamtimport gemeinsam in Einstellungen unter Import und Export. Export-Symbol von Startseite entfernt, Einzelaktionen im Übungsmenü erhalten. Sichtprüfung beider Einstiege/Abbrechen und Zeitraum-/Dateinamenfluss auf iPhone/iPad ausstehend.
 
 - Acht Spalten mit Trainings-ID, Übung, Datum, Gruppennummer, Satzvorgabe, kg, Arbeitsmarkierung und Bewertung. Alle Gruppen einschließlich 0 kg, Nummerierung/Arbeitsmarkierung streng prüfen. Legacy-Format weiterhin lesbar.
 - Export für alle Kraftübungen auf Exportseite und je Übung über Menü, inklusive Zeitraum/Dateinamenwahl. Gesamtimport in Einstellungen mit Namenszuordnung und expliziter Neuanlage; Einzelimport mit Namensabweichungsbestätigung und Mehrübungsdatei-Sperre.
 - Vollständige Trainings vergleichen, UUIDs erhalten, erneuten Import überspringen, zusätzliche/abweichende Trainings nur ausdrücklich ergänzen. Isolierter atomarer Save, erneute Prüfung, niemals überschreiben.
 - Tests für Legacy/Quotes/Mehrzeilen/0 kg, ungültige Gruppierung, Mehrübungs-Roundtrip einschließlich zwei identischer Trainings mit unterschiedlichen UUIDs, erneuten Import, geänderte Aufwärmgruppen/ID-Konflikte, Namenszuordnung, Datenerhalt ergänzt. Statische Syntax-/Versionsprüfung; Xcode ⌘ B/⌘ U und iPhone-/iPad-Geräteabnahme ausstehend (Dateiwahl, Abbrechen, Namenszuordnung/Neuanlage, Zeitraum/Dateiname, Roundtrip und Zwei-Geräte-Abgleich).
-- Intern 0.19.0 / extern 1.0.0 (14) geplant. Modell V4 unverändert, kein Schema-Deployment. Graphen weiterhin nicht umgesetzt.
+- Intern 0.19.1 / extern 1.0.0 (14) geplant. Modell V4 unverändert, kein Schema-Deployment. Graphen weiterhin nicht umgesetzt.
 
 ### t48 – CSV-Dateiimport pro bestehender Kraftübung (0.18.0)
 

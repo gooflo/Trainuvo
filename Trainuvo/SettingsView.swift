@@ -6,6 +6,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var activeAlert: SettingsAlert?
     @State private var importingTrainings = false
+    @State private var exportingTrainings = false
 
     var body: some View {
         NavigationStack {
@@ -21,10 +22,11 @@ struct SettingsView: View {
                         .frame(height: 16)
                         .accessibilityHidden(true)
                 }
-                Section {
+                Section("Import und Export") {
+                    Button("Trainings exportieren", systemImage: "square.and.arrow.up") { exportingTrainings = true }
                     Button("Trainings aus CSV importieren", systemImage: "square.and.arrow.down") { importingTrainings = true }
                 } footer: {
-                    Text("Mehrere Kraftübungen mit allen Satzgruppen importieren. Die Zuordnung und neue Übungen bestätigst du in der Vorschau.")
+                    Text("Trainings als Text, Excel, CSV oder JSON exportieren. Der CSV-Import übernimmt mehrere Kraftübungen mit allen Satzgruppen; die Zuordnung und neue Übungen bestätigst du in der Vorschau.")
                 }
                 Section {
                     Button("Beispieldaten anlegen", systemImage: "dumbbell") { createExamples() }
@@ -44,6 +46,7 @@ struct SettingsView: View {
             }
             .navigationTitle("Einstellungen")
             .sheet(isPresented: $importingTrainings) { TrainingCSVImportView() }
+            .sheet(isPresented: $exportingTrainings) { TrainingExportView() }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Fertig") { dismiss() }

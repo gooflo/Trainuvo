@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.19.1 – Import und Export in den Einstellungen
+
+- Gesamtexport in Einstellungen unter Import und Export direkt beim CSV-Import anbieten. Teilen-Symbol, Exportzustand und Export-Sheet von der Startseite entfernen. Einzelaktionen im Übungsmenü und bisherige Exportformate/Zeiträume/Dateinamen bleiben erhalten.
+- Hilfe und Dokumentation aktualisiert. Intern 0.19.1, extern 1.0.0 (14) weiterhin vorbereitet; letzter bestätigter Upload 1.0.0 (13), intern 0.17.0. Statisch geprüft, Xcode-/Sichtprüfung ausstehend. Keine Modell-/Schemaänderung.
+
 ## 0.19.0 – Gemeinsamer CSV-Import und -Export
 
 - t49: Einheitliches Acht-Spalten-Format für einzelne und mehrere Kraftübungen. Training-ID verbindet alle Satzgruppen; Aufwärmsätze einschließlich 0 kg, Reihenfolge, Arbeitsgruppe und Bewertung bleiben erhalten.

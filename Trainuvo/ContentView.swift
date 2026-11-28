@@ -13,7 +13,6 @@ struct ContentView: View {
     @State private var showingHelp = false
     @State private var showingExerciseOrder = false
     @State private var showingSettings = false
-    @State private var showingExport = false
     @State private var editingTraining: TrainingEntry?
     @State private var quickTrainingExercise: Exercise?
 
@@ -168,7 +167,6 @@ struct ContentView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button("Export", systemImage: "square.and.arrow.up") { showingExport = true }
                     Button("Einstellungen", systemImage: "gearshape") { showingSettings = true }
                     Button("Hilfe", systemImage: "questionmark.circle") { showingHelp = true }
                 }
@@ -176,7 +174,6 @@ struct ContentView: View {
             .sheet(isPresented: $showingExercise) { ExerciseEditor() }
             .sheet(item: $noteDay) { day in TrainingDayNoteEditor(date: day.date) }
             .sheet(isPresented: $showingHelp) { HelpView() }
-            .sheet(isPresented: $showingExport) { TrainingExportView() }
             .sheet(isPresented: $showingSettings) { SettingsView() }
             .sheet(item: $quickTrainingExercise) { exercise in
                 TrainingEditor(exercise: exercise)
@@ -577,7 +574,7 @@ private struct HelpView: View {
                     Text("Lege über den Stift neben „Übungen“ eine Übung mit optionalem Zielgewicht an. Das Plus auf einer Zielkarte öffnet sofort die Trainingserfassung. Antippen der Karte öffnet den Verlauf. Einstellungen und Hilfe stehen oben rechts.")
                 }
                 Section("CSV-Import und -Export") {
-                    Text("Exportiere alle Kraftübungen über das Teilen-Symbol auf der Startseite oder nur eine Übung über deren Menü … → Trainings exportieren. Wähle Monat oder Von–Bis und CSV (Krafttraining). Der Dateiname ist änderbar, Standard Trainuvo_Export.csv.")
+                    Text("Exportiere alle Kraftübungen über Einstellungen → Trainings exportieren oder nur eine Übung über deren Menü … → Trainings exportieren. Wähle Monat oder Von–Bis und CSV (Krafttraining). Der Dateiname ist änderbar, Standard Trainuvo_Export.csv.")
                     Text("Das gemeinsame Format lautet Training-ID;Übung;Datum;Satzgruppe;Sätze;Gewicht;Arbeitsgruppe;Bewertung. Eine Zeile je Satzgruppe, gleiche ID für ein Training. Aufwärmgruppen einschließlich 0 kg, Reihenfolge, Arbeitsgruppe und Bewertung bleiben erhalten. Datum TT.MM.JJJJ; Nummerierung ab 1, genau eine Arbeitsgruppe mit ja, sonst nein. Gewicht ohne kg, Dezimalkomma/-punkt; Bewertung leer oder --, -, o, +, ++.")
                     Text("Importiere eine Übung über deren Menü … → Trainings importieren oder mehrere Übungen in Einstellungen → Trainings aus CSV importieren. Prüfe Übungszuordnung und Vorschau. Neue Übungen werden nur nach entsprechender Auswahl angelegt, ohne Ziele und Vorlagen. Abweichende Namen beim Einzelimport müssen bestätigt werden. Das alte Vier-Spalten-Format bleibt lesbar; dort ist jede Zeile eine Arbeitsgruppe.")
                     Text("Identische Trainings werden übersprungen; Abweichungen musst du ausdrücklich als zusätzliche Trainings auswählen. Bei Dateifehlern wird nichts importiert. Erst der bestätigte Import speichert, Abbrechen / Cancel verwirft die Vorschau. Vorhandene Daten werden nicht überschrieben. UTF-8 oder UTF-16 mit BOM; maximal 2 MB und 10.000 Satzgruppen. CSV enthält keine Ziele, Vorlagen, Satzhäkchen, Tagesnotizen oder Uhrzeiten und ist kein vollständiges Backup. Importierte Trainings erhalten am jeweiligen Tag lokal 12 Uhr.")
@@ -638,7 +635,7 @@ private struct HelpView: View {
                     Text("„Alles löschen“ entfernt nach ausdrücklicher Bestätigung alle Übungen, Trainings, Standardsätze und Tageskommentare auf diesem Gerät und nach iCloud-Abgleich auf deinen weiteren Geräten.")
                 }
                 Section("Export") {
-                    Text("Über das Teilen-Symbol oben rechts öffnest du den Export. Wähle Monat und Jahr oder Von–Bis. Text kopieren übernimmt einen Absatz pro Trainingstag in die Zwischenablage, mit dem neuesten Tag zuerst und in deiner Übungsreihenfolge. Die Vorschau zeigt den kopierten Text. Bei Satztypen wird nur die Arbeitsgruppe ausgegeben, bei Andere alle Einheiten mit beiden Angaben. Bewertungen stehen als Zeichen vor den Angaben.")
+                    Text("Unter Einstellungen → Trainings exportieren öffnest du den Export. Wähle Monat und Jahr oder Von–Bis. Text kopieren übernimmt einen Absatz pro Trainingstag in die Zwischenablage, mit dem neuesten Tag zuerst und in deiner Übungsreihenfolge. Die Vorschau zeigt den kopierten Text. Bei Satztypen wird nur die Arbeitsgruppe ausgegeben, bei Andere alle Einheiten mit beiden Angaben. Bewertungen stehen als Zeichen vor den Angaben.")
                     Text("Die Aktionen Text kopieren, Textdatei, Excel, CSV (Krafttraining) und JSON stehen gemeinsam unter Export. Bei allen Dateiformaten kannst du vor dem Teilen den Dateinamen ändern. Standard ist Trainuvo_Export mit passender Dateiendung. Über das Teilen-Menü kannst du die Datei auch in Dateien sichern. JSON und Excel enthalten auch Aufwärmsätze und alle freien Trainingseinheiten. Die Dateiendung wird automatisch ergänzt.")
                 }
                 Section("Kommentar zum Trainingstag") {

@@ -1,6 +1,6 @@
 # Trainuvo – Entwicklerdokumentation
 
-Interne Version **0.19.0**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
+Interne Version **0.19.1**. Dauerhafte Regeln stehen in [AGENTS.md](AGENTS.md) und [AGENTS_general.md](AGENTS_general.md).
 
 ## Einrichtung und Build
 
@@ -23,7 +23,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainingEditors.swift | Eingabeentwürfe, Validierung und explizites Speichern |
 | Item.swift / TrainingDayNote.swift | Verweise auf die in TrainingModels.swift versionierten Modelle |
 
-Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.19.0) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0.0 (14), v0.19.0. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (14) geplant; Buildnummer vor Upload prüfen.
+Die interne Version ist in der Build-Einstellung TRAINUVO_INTERNAL_VERSION (aktuell 0.19.1) hinterlegt. Trainuvo-Info.plist enthält ausdrücklich TrainuvoInternalVersion mit $(TRAINUVO_INTERNAL_VERSION); Xcode expandiert den Wert beim Build. Die Hilfe liest TrainuvoInternalVersion, CFBundleShortVersionString und CFBundleVersion aus Bundle.main. Wie Cashuvo zeigt sie eine dezente Textzeile in einem eigenen Abschnitt oberhalb der übrigen Hilfe: Version 1.0.0 (14), v0.19.1. Fehlende Metadaten erscheinen als „–“. Nächster Upload extern 1.0.0 (14) geplant; Buildnummer vor Upload prüfen.
 
 ## Übungstypen und Einheiten in 0.9.0
 
@@ -616,3 +616,10 @@ Nur Gruppen, Gewichte, Datum, Arbeitsmarkierung, Name, Kennung und Bewertung im 
 Tests TrainingCSVImportTests ersetzen den engeren t48-Vertrag: Legacy und vollständige Gruppen/0 kg, Quotes/Mehrzeilen/UTF-16, Gruppierungs-/Datums-/Zahlfehler, kleine Gewichte, Mehrübungs-Export→Import→Wiederholungsimport samt IDs/Arbeitsmarkierung/Bewertungen, echte gleiche Trainings mit unterschiedlichen UUIDs, geänderte Aufwärmsätze/ID-Konflikt ohne Überschreiben, Namensabweichung/Zuordnung und Erhalt ungespeicherter fremder Änderungen/Ziele/Vorlagen/Notizen. Nur statische Swift-Syntax-/Konfigurationsprüfung hier; Apple-SDK und Xcode fehlen, automatisierte Tests nicht ausgeführt.
 
 Abnahme am Mac: main pullen, ⌘ B/⌘ U. Examples/Trainuvo_Krafttraining.csv über Dateien/iCloud Drive in Einstellungen → Trainings aus CSV importieren wählen. Zwei unbekannte Testübungen zunächst unzugeordnet; Neuanlage explizit wählen, Preview aller fünf Gruppen einschließlich 0 kg prüfen. Abbrechen darf nichts anlegen. Erneut wählen/zuordnen/importieren: zwei neue Übungen/zwei Trainings ohne Ziele/Vorlagen. Gesamt- und Einzelexport mit Monat/Von–Bis, CSV, Dateiname bearbeiten/Abbrechen/Teilen prüfen. Export erneut importieren: vorhandene UUIDs identisch, keine Duplikate. Anderes Aufwärmgewicht oder andere Bewertung bei bestehender ID muss Konflikt sein, erst nach Auswahl zusätzlich gespeichert, Original unverändert. Mehrere Trainings gleicher Übung am selben Tag und gleiche Werte mit unterschiedlichen IDs testen. Einzelimport abweichender Name benötigt Toggle, Mehrübungsdatei gesperrt. Legacy-Datei bleibt lesbar. Fehlerdateien (Position doppelt/Lücke, keine/zwei Arbeitsgruppen, verschiedene Daten/Bewertungen je ID, ungültiger kg-Wert) müssen gesamten Import sperren. iPhone/iPad, große Schrift, Dateiwahl abbrechen und Sync derselben Buildversion auf zwei Geräten prüfen. Hilfe muss Version 1.0.0 (14), v0.19.0 zeigen. Nach Abnahme v0.19.0 taggen/pushen, freie Buildnummer vor Upload prüfen; kein Schema-Deployment.
+
+
+## Import-/Export-Einstiege – 0.19.1
+
+SettingsView ergänzt exportingTrainings und öffnet TrainingExportView als Sheet. Die Section Import und Export enthält Trainings exportieren und Trainings aus CSV importieren. ContentView entfernt showingExport, den Toolbar-Button und das zugehörige Sheet; Zahnrad und Hilfe bleiben. ExerciseDetailView behält eigene Import-/Export-Sheets mit Übungsfilter. Formatlogik, Speicherung und Dateiauswahl unverändert; V4/CloudKit ohne Änderung. Die früheren Hinweise auf das Startseiten-Teilen-Symbol sind abgelöst; aktueller Einstieg für alle Formate: Einstellungen → Trainings exportieren.
+
+Am Mac main pullen, ⌘ B/⌘ R. Auf iPhone/iPad Startseite ohne Export-Symbol prüfen; Zahnrad → Import und Export: Export öffnen, Zeitraum wählen, jedes Format und Dateiname/Abbrechen prüfen; CSV-Import öffnen/abbrechen und Vorschau prüfen. Einzelübung → …: beide Aktionen weiter verfügbar. Statische Syntax-/Verdrahtungs-/Versionsprüfung; hier kein Xcode-/Sichttest möglich. Intern 0.19.1, geplant 1.0.0 (14), letzter bestätigter Upload 1.0.0 (13), intern 0.17.0. Keine öffentliche App-Store-Veröffentlichung bestätigt. Vor Release v0.19.1 taggen/pushen und freie Buildnummer prüfen. Build 14 unverändert, da kein Upload bestätigt.

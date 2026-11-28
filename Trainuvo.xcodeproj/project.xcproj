@@ -46,7 +46,7 @@
         "ENABLE_PREVIEWS": "YES",
         "GENERATE_INFOPLIST_FILE": "YES",
         "INFOPLIST_KEY_ITSAppUsesNonExemptEncryption": "NO",
-        "TRAINUVO_INTERNAL_VERSION": "0.19.0",
+        "TRAINUVO_INTERNAL_VERSION": "0.19.1",
         "INFOPLIST_KEY_UIApplicationSceneManifest_Generation": "YES",
         "INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents": "YES",
         "INFOPLIST_KEY_UILaunchScreen_Generation": "YES",

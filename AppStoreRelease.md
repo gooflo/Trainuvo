@@ -7,7 +7,7 @@
 
 ## Aktuelle TestFlight-Versionszuordnung
 
-- Nächster Upload vorbereitet: extern 1.0.0 (14), intern 0.19.0 (gemeinsamer CSV-Import/-Export). Noch nicht hochgeladen oder für Tester freigegeben.
+- Nächster Upload vorbereitet: extern 1.0.0 (14), intern 0.19.1 (gemeinsamer CSV-Import/-Export in Einstellungen). Noch nicht hochgeladen oder für Tester freigegeben.
 
 - Aktueller Stand: extern 1.0.0 (13), intern 0.17.0. Florian bestätigt am 28.11.2026 den Abschluss der Tag-/Uploadrunde. Remote-Tag v0.17.0-build13 / Commit 26780ada897bc29c3cd0f452ca02fe573281e7d0 geprüft. Wieder dreiteilige externe Versionierung. Testgruppen-Verfügbarkeit nicht separat bestätigt.
 
