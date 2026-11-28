@@ -2,6 +2,8 @@
 
 ## 0.17.0 – Zielgewichte anhand des Körpergewichts berechnen
 
+- Nachbesserung auf ausdrücklichen Wunsch bei unveränderten Versionen: iCloud-Accountstatus und Prüfbutton aus den Einstellungen entfernen. Nur den kurzen Synchronisierungshinweis am Seitenende zeigen. Keine Änderung am eigentlichen Datenabgleich.
+
 - Nachbesserung vor Abnahme: Körpergewicht lokal per AppStorage merken, einschließlich Dezimaltrenner; Löschen der Eingabe entfernt die Vorbelegung. Version und geplanter Build bleiben 0.17.0 / 1.0.0 (11). Wiederöffnen und Neustart auf dem Gerät noch prüfen.
 
 - t46: Separaten Rechner über die Einstellungen ergänzen. Körpergewicht in kg eingeben; Kniebeuge 100 %, Press 40 %, Kreuzheben 130 %, Bankdrücken 75 % direkt anzeigen. Bis zu zwei Nachkommastellen, Dezimalkomma/-punkt und Fertig für die Tastatur.

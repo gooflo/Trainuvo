@@ -15,7 +15,7 @@ Das vorhandene Projekt nutzt das Xcode-27.2-Format `project.xcproj` und Ordner m
 | TrainuvoApp.swift | Persistenter SwiftData-/CloudKit-Container, Migrationsplan, Öffnungsfehler und isolierte Debug-Schema-Einrichtung |
 | TrainingModels.swift | Aktuelles VersionedSchema V4 mit sechs Modellen, aktuelle Typaliase und Berechnungen |
 | TrainuvoSchemaV1.swift / TrainuvoMigrationPlan.swift | Unverändertes ausgeliefertes Modell und V1→V2-Migration |
-| CloudSyncInfoView.swift | iCloud-Accountstatus, Offline-/Sync-Hinweise |
+| CloudSyncInfoView.swift | Statischer iCloud-Hinweis am Ende der Einstellungen, ohne Accountabfrage |
 | ContentView.swift | Startseite, Zielkarten, gruppierte Trainingstage, Übungsdetail und Hilfe |
 | SettingsView.swift | Einstellungsseite, Bestätigung für Alles löschen und Import-Rückmeldung |
 | TrainingDataOperations.swift | Beispieldatenimport und vollständiges Löschen mit gemeinsamem Save/Rollback |
@@ -342,7 +342,7 @@ Vorbereitet: intern **0.13.0**, extern weiterhin **1.0.0**, Build **4**. Build 4
 - Tageskommentar auf A anlegen, auf B bearbeiten. Einen notiz-only Tag prüfen; Export TXT/JSON/XLSX muss dieselben Daten zeigen. Gleichzeitig offline angelegte Notizen desselben Tages bleiben zusammen sichtbar; beim Bearbeiten werden sie zu einem Text konsolidiert.
 - A offline setzen, ein Training anlegen und bestehendes ändern. Nach Wiederverbindung auf B kontrollieren. Bei gleichzeitigen Änderungen desselben Datensatzes gelten die Konfliktregeln des Apple-Abgleichs; keine eigene Versionshistorie oder feldweise manuelle Konfliktauflösung.
 - Auf B das letzte Training einer Übung löschen. Auf A muss das Training verschwinden; Übung, Ziel, Sortierung, Vorlagen und Tagesnotiz bleiben erhalten. Eine Notiz löschen und den Erhalt der Trainings prüfen. „Alles löschen“ nur mit entbehrlichen Testdaten testen, weil die Löschung synchronisiert wird.
-- Geräte ohne iCloud-Anmeldung müssen weiter lokal arbeiten können; Accountstatus zeigt die fehlende Anmeldung. Nach Wiederanmeldung den Nachholabgleich prüfen. Ein Accountstatus „Angemeldet“ belegt lediglich die Verfügbarkeit des Accounts, keinen abgeschlossenen Upload/Download.
+- Geräte ohne iCloud-Anmeldung müssen weiter lokal arbeiten können; die iCloud-Anmeldung in den Systemeinstellungen prüfen. Nach Wiederanmeldung den Nachholabgleich prüfen. Ein Accountstatus „Angemeldet“ belegt lediglich die Verfügbarkeit des Accounts, keinen abgeschlossenen Upload/Download.
 
 Unabhängig auf mehreren Geräten bereits angelegte, gleichnamige Übungen werden nicht anhand ihres Namens dedupliziert. Sync führt die Datensätze zusammen, erfindet aber keine gemeinsame Identität. Beispieldaten nicht gleichzeitig offline auf beiden Geräten erzeugen. Keine automatische Löschung anhand von Namen ergänzen.
 
@@ -553,3 +553,8 @@ BodyweightGoalCalculatorTests prüfen 80 kg → 80/32/104/60 kg, Komma/Punkt mit
 ### Körpergewicht merken – Nachbesserung innerhalb 0.17.0
 
 BodyweightGoalCalculatorView bindet das Textfeld direkt an @AppStorage("bodyweightGoalCalculator.bodyweight"). Dadurch bleiben Eingabetext und Dezimaltrenner nach Verlassen der Seite sowie App-Neustart erhalten. Leeren des Feldes speichert die leere Eingabe; Validierung/Berechnung unverändert. Die Einstellung bleibt gerätelokal und wird nicht über CloudKit synchronisiert. Hilfe, README und t46 angepasst. Prüfung am Mac: main pullen, ⌘ R, 82,5 eingeben, Seite verlassen/erneut öffnen und App vollständig schließen/starten; Eingabe und Ergebnisse müssen erhalten sein. Anschließend Eingabe leeren und erneut öffnen. Quelltext statisch geprüft; Xcode-/Gerätetest ausstehend. Kein neues Schema, intern 0.17.0 / extern 1.0.0 (11) weiterhin geplant.
+
+
+### Vereinfachter iCloud-Hinweis – 0.17.0, Versionen unverändert
+
+CloudSyncInfoView enthält nur noch den abgestimmten Hinweis: Deine Trainingsdaten werden über iCloud mit deinen Geräten desselben Apple-Accounts synchronisiert. Die Komponente steht im Footer der letzten Einstellungs-Section nach der Löschwarnung und damit am Ende der Seite. CKContainer.accountStatus(), Statuszustand, Tasks/ScenePhase-Beobachtung und der Prüfbutton entfallen. Der eigentliche SwiftData-/CloudKit-Abgleich bleibt unverändert; kein Schema-Deployment. App-Hilfe/README nachgezogen. Am Mac main pullen, ⌘ R, Einstellungen bis unten prüfen: kein Status/Prüfbutton, Hinweis als letzter Text. Statisch geprüft, Xcode-/Sichtprüfung ausstehend. Intern 0.17.0 / extern 1.0.0 (11) unverändert geplant.

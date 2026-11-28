@@ -9,7 +9,6 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
-                CloudSyncInfoView()
                 Section {
                     NavigationLink {
                         BodyweightGoalCalculatorView()
@@ -27,7 +26,10 @@ struct SettingsView: View {
                         activeAlert = .confirmDelete
                     }
                 } footer: {
-                    Text("Löscht alle Übungen, Trainings, Standardsätze und Tageskommentare auf diesem Gerät und nach iCloud-Abgleich auf deinen anderen Geräten nach Bestätigung.")
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Löscht alle Übungen, Trainings, Standardsätze und Tageskommentare auf diesem Gerät und nach iCloud-Abgleich auf deinen anderen Geräten nach Bestätigung.")
+                        CloudSyncInfoView()
+                    }
                 }
             }
             .navigationTitle("Einstellungen")

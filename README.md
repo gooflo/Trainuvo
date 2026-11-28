@@ -148,7 +148,7 @@ Für den nächsten Upload vorbereitet: extern **1.0.0 (8)**, intern **0.14.3**. 
 
 ## iCloud ab 0.13.0
 
-Der Abgleich verwendet die private CloudKit-Datenbank des angemeldeten Apple-Accounts. Jeder Tester behält seine eigenen Daten; eine gemeinsame Familien-Datenbank ist nicht vorgesehen. Auf allen eigenen Geräten müssen derselbe Apple-Account und iCloud für Trainuvo aktiviert sein. Unter Einstellungen → Synchronisierung zeigt die App den Accountstatus. „Angemeldet“ bestätigt keinen bereits abgeschlossenen Datenabgleich.
+Der Abgleich verwendet die private CloudKit-Datenbank des angemeldeten Apple-Accounts. Jeder Tester behält seine eigenen Daten; eine gemeinsame Familien-Datenbank ist nicht vorgesehen. Auf allen eigenen Geräten müssen derselbe Apple-Account und iCloud für Trainuvo aktiviert sein. Am Ende der Einstellungen steht ein kurzer Hinweis zur iCloud-Synchronisierung; eine Accountstatusanzeige wird nicht angeboten.
 
 Vor dem ersten Update vorhandene Daten als JSON exportieren und die bisherige App installiert lassen. Der Export ist eine zusätzliche Sicherung zum Nachschlagen, noch kein Import. Der Update-Pfad behält den bisherigen Store bei und migriert auf ein versioniertes, CloudKit-kompatibles Modell. Bei einem Öffnungsfehler wird der Store nicht zurückgesetzt. Bereits unabhängig auf mehreren Geräten angelegte Übungen werden zusammengeführt, jedoch nicht anhand gleicher Namen zu einem Objekt verschmolzen; dadurch können gleichnamige Übungen erscheinen.
 

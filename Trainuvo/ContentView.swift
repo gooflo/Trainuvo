@@ -631,7 +631,7 @@ private struct HelpView: View {
                     Text("Über das Notizsymbol neben dem Datum kannst du einen gemeinsamen Kommentar für alle Übungen dieses Tages erfassen oder bearbeiten. Er erscheint unter den Übungen. Abbrechen verwirft Änderungen. Löschen entfernt nur den Kommentar nach Bestätigung. Auch ohne verbleibende Trainings bleibt ein kommentierter Tag sichtbar. Die Exporte enthalten den Tageskommentar ebenfalls.")
                 }
                 Section("Datenspeicherung") {
-                    Text("Deine Daten werden lokal gespeichert und über iCloud privat mit deinen Geräten desselben Apple-Accounts synchronisiert. Ohne Internet kannst du weiterarbeiten. Der Abgleich erfolgt zeitversetzt. In den Einstellungen kannst du den iCloud-Accountstatus prüfen. Das ist keine Bestätigung, dass bereits alle Daten übertragen sind.")
+                    Text("Deine Daten werden lokal gespeichert und über iCloud privat mit deinen Geräten desselben Apple-Accounts synchronisiert. Ohne Internet kannst du weiterarbeiten. Der Abgleich erfolgt zeitversetzt. Am Ende der Einstellungen findest du einen kurzen Hinweis zur iCloud-Synchronisierung.")
                 }
             }
             .navigationTitle("Hilfe")
