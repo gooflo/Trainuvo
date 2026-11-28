@@ -64,7 +64,7 @@ Lies vor der Arbeit an diesem Repository auch [AGENTS_general.md](AGENTS_general
   5. Erst nach Verfügbarkeit für die Testgruppe in WhatsApp ankündigen.
 - Vor Upload an Tag und Push mit Include tags erinnern. Bereits veröffentlichte Tags nicht verschieben. Öffentliche App-Store-Veröffentlichung separat abstimmen.
 - WhatsApp-Entwurf analog Cashuvo: Überschrift exakt `✳️✳️✳️ NEUE VERSION ✳️✳️✳️`. Darunter externe Version samt Build, beispielsweise `Trainuvo 1.0.0 (3) ist jetzt in TestFlight verfügbar:`.
-- Kurze Stichpunkte ausschließlich zu sichtbaren Änderungen gegenüber dem zuletzt verteilten Build. Abschnitte `Fehlerbehebungen und kleine optische Änderungen` sowie `Neue Funktionen`; Neue Funktionen bei Releases ohne neue Funktionen weglassen. Künftig immer mit dem exakten Satz „Viel Spaß beim Testen!“ abschließen. Die bisherige Schlussaufforderung zu Update, Rückmeldungen und Screenshots entfällt.
+- Kurze Stichpunkte ausschließlich zu sichtbaren Änderungen gegenüber dem zuletzt verteilten Build. Verbindliche Reihenfolge für WhatsApp-Ankündigungen (TestFlight und App Store) und Versionshinweise: zuerst `Neue Funktionen`, danach `Fehlerbehebungen und kleine optische Änderungen`. Abschnitte ohne Einträge weglassen. Künftig immer mit dem exakten Satz „Viel Spaß beim Testen!“ abschließen. Die bisherige Schlussaufforderung zu Update, Rückmeldungen und Screenshots entfällt.
 - Verfügbarkeit nur behaupten, wenn der Build für die Testgruppe bereitsteht oder der Entwurf ausdrücklich für diesen Zeitpunkt gedacht ist. Keine Nachrichten ohne gesonderten Auftrag versenden.
 
 ## SwiftData und CloudKit
